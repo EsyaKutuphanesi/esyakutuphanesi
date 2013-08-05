@@ -1,0 +1,9 @@
+{% extends 'admin/layout.html' %}
+
+{% block body %}
+    <ul>
+        {%  for object in objects %}
+            {{ object }}
+        {% endfor %}
+    </ul>
+{% endblock %}

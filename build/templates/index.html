@@ -7,3 +7,13 @@
 {% else %}
     <a href='/login'>login</a>
 {% endif %}
+
+<p>
+    <ul>
+
+        {%  for object in objects %}
+            <li>{{ object }}</li>
+        {% endfor %}
+
+    </ul>
+</p>
