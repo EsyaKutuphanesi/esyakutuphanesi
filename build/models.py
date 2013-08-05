@@ -18,10 +18,6 @@ users_things = db.Table('users_things',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
         db.Column('thing_id', db.Integer(), db.ForeignKey('thing.id')))
 
-friendship = db.Table('friendship',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')))
-
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
@@ -71,18 +67,6 @@ class Object(db.Model):
 
     def __repr__(self):
         return "%s's %s" % (self.owner, self.thing)
-
-
-class Friends(db.Model):
-    __tablename__ = 'friends'
-    id = db.Column(db.Integer, primary_key=True)
-    friend1ID = db.Column(db.Integer, db.ForeignKey('user.id') )
-    friend2ID = db.Column(db.Integer, db.ForeignKey('user.id') )
-    status = db.Column(db.Integer)
-
-    # Relationships
-    friend1 = db.relationship(User)
-    friend2 = db.relationship(User)
 
 users = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, users)
