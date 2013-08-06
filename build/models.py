@@ -27,6 +27,9 @@ class Role(db.Model, RoleMixin):
     def __repr__(self):
         return self.name
 
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'user', self.id)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -40,6 +43,10 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return self.name
 
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'user', self.id)
+
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -48,6 +55,9 @@ class Category(db.Model):
     def __repr__(self):
         return self.name
 
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'user', self.id)
 
 class Thing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -57,16 +67,24 @@ class Thing(db.Model):
     def __repr__(self):
         return self.name
 
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'user', self.id)
+
 
 class Object(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    owner = db.relationship(User, backref='objects')
+    owner = db.relationship('User', backref='objects')
     thing_id = db.Column(db.Integer, db.ForeignKey('thing.id'))
-    thing = db.relationship(Thing, backref='objects')
+    thing = db.relationship('Thing', backref='objects')
 
     def __repr__(self):
         return "%s's %s" % (self.owner, self.thing)
+
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'user', self.id)
 
 users = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, users)

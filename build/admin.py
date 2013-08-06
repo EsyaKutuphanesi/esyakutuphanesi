@@ -12,10 +12,18 @@ class AdminIndexView(AdminIndexView):
 
     @expose('/')
     def index(self):
-        objects = Object.query.all()
-        return self.render('admin/index.html', objects=objects)
+        objects = Object.query.order_by(Object.id.desc()).limit(5)
+        users = User.query.order_by(User.id.desc()).limit(5)
+        categories = Category.query.order_by(Category.id.desc()).limit(5)
+        things = Thing.query.order_by(Thing.id.desc()).limit(5)
+        return self.render('admin/index.html',
+                           objects=objects,
+                           users=users,
+                           categories=categories,
+                           things=things
+                           )
 
-admin = Admin(app, app.config['NAME'], index_view=AdminIndexView())
+admin = Admin(app, app.config['NAME'], url=app.config['ADMIN_URL'], index_view=AdminIndexView())
 
 admin.register(User, session=db.session)
 admin.register(Role, session=db.session)

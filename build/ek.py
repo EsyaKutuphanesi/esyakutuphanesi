@@ -6,6 +6,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sql'
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'dsaojfldckl;rfpodsewkfodlscx;lk'
 app.config['NAME'] = 'Esya Kutuphanesi'
+app.config['ADMIN_URL'] = '/admin'
 db = SQLAlchemy(app)
 
 
