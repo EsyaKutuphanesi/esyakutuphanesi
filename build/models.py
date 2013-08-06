@@ -29,7 +29,7 @@ class Role(db.Model, RoleMixin):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'user', self.id)
+        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'role', self.id)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -57,7 +57,7 @@ class Category(db.Model):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'user', self.id)
+        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'category', self.id)
 
 class Thing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -69,7 +69,7 @@ class Thing(db.Model):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'user', self.id)
+        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'thing', self.id)
 
 
 class Object(db.Model):
@@ -84,7 +84,7 @@ class Object(db.Model):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'user', self.id)
+        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'object', self.id)
 
 users = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, users)

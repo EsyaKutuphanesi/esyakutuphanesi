@@ -2,7 +2,7 @@
 
 {% block body %}
 <p>
-    <h2>Objects</h2>
+    <h2>Last Objects</h2>
     <ul>
         {%  for object in objects %}
             <li><a href="{{ object.admin_url }}">{{ object }}</a></li>
@@ -10,7 +10,7 @@
     </ul>
 </p>
 <p>
-    <h2>Users</h2>
+    <h2>Last Users</h2>
     <ul>
 
         {%  for user in users %}
@@ -20,7 +20,7 @@
     </ul>
 </p>
 <p>
-    <h2>Categories</h2>
+    <h2>Last Categories</h2>
     <ul>
 
         {%  for category in categories %}
@@ -30,7 +30,7 @@
     </ul>
 </p>
 <p>
-    <h2>Things</h2>
+    <h2>Last Things</h2>
     <ul>
 
         {%  for thing in things %}
