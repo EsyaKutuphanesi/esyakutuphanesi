@@ -7,6 +7,14 @@ app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'dsaojfldckl;rfpodsewkfodlscx;lk'
 app.config['NAME'] = 'Esya Kutuphanesi'
 app.config['ADMIN_URL'] = '/admin'
+
+RESPONSE_CHOICES = {
+    0: 'not responded',
+    1: 'accepted',
+    2: 'said maybe',
+}
+
+
 db = SQLAlchemy(app)
 
 

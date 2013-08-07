@@ -10,6 +10,23 @@
     </ul>
 </p>
 <p>
+    <h2>Last Requests</h2>
+    <ul>
+        {%  for request in requests %}
+            <li><a href="{{ request.admin_url }}">{{ request }}</a></li>
+        {% endfor %}
+    </ul>
+</p>
+<p>
+    <h2>Last Responses</h2>
+    <ul>
+        {%  for response in responses %}
+            <li><a href="{{ response.admin_url }}">{{ response }}</a></li>
+        {% endfor %}
+    </ul>
+</p>
+
+<p>
     <h2>Last Users</h2>
     <ul>
 
