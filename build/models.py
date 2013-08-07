@@ -29,12 +29,13 @@ class Role(db.Model, RoleMixin):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'role', self.id)
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'role', self.id)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
     name = db.Column(db.String(255), nullable=False)
+    nickname = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
@@ -45,7 +46,11 @@ class User(db.Model, UserMixin):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'user', self.id)
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'user', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s" % ('profiles', self.nick)
 
 
 class Category(db.Model):
@@ -57,7 +62,12 @@ class Category(db.Model):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'category', self.id)
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'category', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s" % ('categories', self.name)
+
 
 class Thing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -69,7 +79,11 @@ class Thing(db.Model):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'thing', self.id)
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'thing', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s" % ('things', self.name)
 
 
 class Object(db.Model):
@@ -84,7 +98,12 @@ class Object(db.Model):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" %(app.config['ADMIN_URL'], 'object', self.id)
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'object', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s/%s/%s" % ('profiles', self.owner.nickname, 'objects', self.id)
+
 
 users = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, users)
