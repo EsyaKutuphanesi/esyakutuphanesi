@@ -48,7 +48,7 @@ class User(db.Model, UserMixin):
     registered_at = db.Column(db.DateTime, default=datetime.now)
 
     @property
-    def logged_in(self):
+    def is_logged_in(self):
         return False if self.is_anonymous() else True
 
     def __repr__(self):

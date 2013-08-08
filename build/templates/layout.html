@@ -12,7 +12,7 @@
 	        <a href='/admin/'>admin</a>
 	      {% endif %}
 	
-	      {% if user.logged_in %}
+	      {% if user.is_logged_in %}
 	        <a href="/logout">logout</a>
 	      {% else %}
 	        <a href='/login'>login</a>
