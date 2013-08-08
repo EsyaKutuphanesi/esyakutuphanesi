@@ -3,7 +3,7 @@ from flask.ext.login import current_user
 
 from ek import app
 
-from models import User, Role, Category, Thing, Object, Response, Request
+from models import User, Category, Thing, Object, Response, Request
 
 @app.route('/')
 def home():
@@ -12,13 +12,8 @@ def home():
     responses = Response.query.all()
     requests = Request.query.all()
 
-    if current_user.is_anonymous():
-        user = None
-    else:
-        user = current_user
-
     return render_template('index.html',
-                           user=user,
+                           user=current_user,
                            objects=objects,
                            users=users,
                            responses=responses,
@@ -27,10 +22,6 @@ def home():
     
 @app.route('/search/<type>')
 def search(type):
-    if current_user.is_anonymous():
-        user = None
-    else:
-        user = current_user
     #type='category'
     types = {
              'category':Category.query.order_by(Category.id.desc()).limit,
@@ -42,51 +33,42 @@ def search(type):
         f = types[type]
         list = f(5)
         return render_template('list.html',
-                               user=user,
+                               user=current_user,
                                list=list,
                                type=type)
     else:
         return render_template('404.html',
-                               user=user)  
+                               user=current_user)
 
 @app.route('/categories/<category_name>')
 @app.route('/things/<thing_name>')
 def categories(category_name=None,thing_name=None):
-    if current_user.is_anonymous():
-        user = None
-    else:
-        user = current_user
-        
     if category_name:
         category = Category.query.filter(Category.name==category_name).first()
         return render_template('category.html',
-                               user=user,
+                               user=current_user,
                                category=category,
                                thing=None)
     elif thing_name:
         thing = Thing.query.filter(Thing.name==thing_name).first()
         return render_template('category.html',
-                               user=user,
+                               user=current_user,
                                category=None,
                                thing=thing)
     else:
         return render_template('404.html',
-                               user=user)
+                               user=current_user)
     
-@app.route('/profiles/<user_name>')
-def profiles(user_name=None):
-    if current_user.is_anonymous():
-        user = None
-    else:
-        user = current_user
-    if user_name:
-        profile = User.query.filter(User.name == user_name).first()
+@app.route('/profiles/<username>')
+def profiles(username=None):
+    if username:
+        profile = User.query.filter(User.nickname == username).first()
         return render_template('profile.html',
-                               user=user,
+                               user=current_user,
                                profile=profile)
     else:
         return render_template('404.html',
-                               user=user)
-        
-            
+                               user=current_user)
+
+
 

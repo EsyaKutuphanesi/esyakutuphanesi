@@ -47,6 +47,10 @@ class User(db.Model, UserMixin):
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
     registered_at = db.Column(db.DateTime, default=datetime.now)
 
+    @property
+    def logged_in(self):
+        return False if self.is_anonymous() else True
+
     def __repr__(self):
         return self.name
 
