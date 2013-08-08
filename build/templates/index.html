@@ -1,50 +1,43 @@
-{%  if 'admin' in user.roles %}
-    <a href='/admin/'>admin</a>
-{% endif %}
-
-{% if user %}
-    <a href="/logout">logout</a>
-{% else %}
-    <a href='/login'>login</a>
-{% endif %}
-
-<p><h2>Last Users</h2>
-    <ul>
-
-        {% for user in users %}
-            <li><a href='{{ user.url }}'>{{ user }}</a></li>
-        {% endfor %}
-
-    </ul>
-</p>
-
-<p><h2>Last Objects</h2>
-    <ul>
-
-        {% for object in objects %}
-            <li><a href='{{ object.url }}'>{{ object }}</a></li>
-        {% endfor %}
-
-    </ul>
-</p>
-
-<p><h2>Last Requests</h2>
-    <ul>
-
-        {% for request in requests %}
-            <li><a href='{{ request.url }}'>{{ request }}</a></li>
-        {% endfor %}
-
-    </ul>
-</p>
-
-<p><h2>Last Responses</h2>
-    <ul>
-
-        {% for response in responses %}
-            <li><a href='{{ response.url }}'>{{ response }}</a></li>
-        {% endfor %}
-
-    </ul>
-</p>
+{% extends "layout.html" %}
+{% block content %}
+	<p><h2>Last Users</h2>
+	    <ul>
+	
+	        {% for user in users %}
+	            <li><a href='{{ user.url }}'>{{ user }}</a></li>
+	        {% endfor %}
+	
+	    </ul>
+	</p>
+	
+	<p><h2>Last Objects</h2>
+	    <ul>
+	
+	        {% for object in objects %}
+	            <li><a href='{{ object.url }}'>{{ object }}</a></li>
+	        {% endfor %}
+	
+	    </ul>
+	</p>
+	
+	<p><h2>Last Requests</h2>
+	    <ul>
+	
+	        {% for request in requests %}
+	            <li><a href='{{ request.url }}'>{{ request }}</a></li>
+	        {% endfor %}
+	
+	    </ul>
+	</p>
+	
+	<p><h2>Last Responses</h2>
+	    <ul>
+	
+	        {% for response in responses %}
+	            <li><a href='{{ response.url }}'>{{ response }}</a></li>
+	        {% endfor %}
+	
+	    </ul>
+	</p>
+{% endblock %}
 
