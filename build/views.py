@@ -2,16 +2,16 @@ from flask import render_template, flash
 from flask.ext.login import current_user
 from sqlalchemy.orm.exc import NoResultFound
 
-from ek import app,db
+from ek import app, db
 
 from models import User, Category, Thing, Object, Response, Request
 
 @app.route('/')
 def home():
-    objects = Object.query.all()
-    users = User.query.all()
-    responses = Response.query.all()
-    requests = Request.query.all()
+    objects = Object.query.order_by(Object.id.desc()).limit(5)
+    users = User.query.order_by(User.id.desc()).limit(5)
+    responses = Response.query.order_by(Response.id.desc()).limit(5)
+    requests = Request.query.order_by(Request.id.desc()).limit(5)
 
     return render_template('index.html',
                            user=current_user,
