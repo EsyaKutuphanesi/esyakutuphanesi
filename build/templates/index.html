@@ -1,12 +1,31 @@
 {% extends "layout.html" %}
 {% block content %}
+
+    {% if user.is_logged_in %}
+        <p><h2>Waiting Requests</h2>
+            <ul>
+
+            {% for request in waiting_requests %}
+                <li>
+                    {{ request.by }} requested your {{ request.object.thing }}
+                <a href='/my_requests/{{ request.id }}/accepted'>accept</a>
+                <a href='/my_requests/{{ request.id }}/rejected'>reject</a>
+                <a href='/my_requests/{{ request.id }}/said maybe'>maybe</a>
+
+                </li>
+            {% endfor %}
+
+            </ul>
+        </p>
+    {% endif %}
+
 	<p><h2>Last Users</h2>
 	    <ul>
-	
+
 	        {% for user in users %}
 	            <li><a href='{{ user.url }}'>{{ user }}</a></li>
 	        {% endfor %}
-	
+
 	    </ul>
 	</p>
 	
