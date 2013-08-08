@@ -12,6 +12,7 @@ RESPONSE_CHOICES = {
     0: 'not responded',
     1: 'accepted',
     2: 'said maybe',
+    3: 'rejected',
 }
 
 
