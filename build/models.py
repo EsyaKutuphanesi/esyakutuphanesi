@@ -60,7 +60,7 @@ class User(db.Model, UserMixin):
 
     @property
     def url(self):
-        return "%s/%s" % ('profiles', self.nickname)
+        return "%s/%s/" % ('profiles', self.nickname)
 
 
 class Category(db.Model):
@@ -76,7 +76,7 @@ class Category(db.Model):
 
     @property
     def url(self):
-        return "%s/%s" % ('categories', self.name)
+        return "%s/%s/" % ('categories', self.name)
 
 
 class Thing(db.Model):
@@ -93,7 +93,7 @@ class Thing(db.Model):
 
     @property
     def url(self):
-        return "%s/%s" % ('things', self.name)
+        return "%s/%s/" % ('things', self.name)
 
 
 class Object(db.Model):
@@ -113,7 +113,7 @@ class Object(db.Model):
 
     @property
     def url(self):
-        return "%s/%s/%s/%s" % ('profiles', self.owner.nickname, 'objects', self.id)
+        return "%s/%s/%s/%s/" % ('profiles', self.owner.nickname, 'objects', self.id)
 
 
 class Request(db.Model):
@@ -133,7 +133,7 @@ class Request(db.Model):
 
     @property
     def url(self):
-        return "%s/%s/%s/%s" % ('profiles', self.owner.nickname, 'requests', self.id)
+        return "%s/%s/%s/%s/" % ('profiles', self.owner.nickname, 'requests', self.id)
 
 
 class Response(db.Model):
@@ -152,7 +152,7 @@ class Response(db.Model):
 
     @property
     def url(self):
-        return "%s/%s/%s/%s" % ('profiles', self.owner.nickname, 'responses', self.id)
+        return "%s/%s/%s/%s/" % ('profiles', self.owner.nickname, 'responses', self.id)
 
 users = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, users)

@@ -1,7 +1,8 @@
-from flask import render_template
+from flask import render_template, flash
 from flask.ext.login import current_user
+from sqlalchemy.orm.exc import NoResultFound
 
-from ek import app
+from ek import app,db
 
 from models import User, Category, Thing, Object, Response, Request
 
@@ -20,7 +21,7 @@ def home():
                            requests=requests,
                            )
     
-@app.route('/search/<type>')
+@app.route('/search/<type>/')
 def search(type):
     #type='category'
     types = {
@@ -40,8 +41,8 @@ def search(type):
         return render_template('404.html',
                                user=current_user)
 
-@app.route('/categories/<category_name>')
-@app.route('/things/<thing_name>')
+@app.route('/categories/<category_name>/')
+@app.route('/things/<thing_name>/')
 def categories(category_name=None,thing_name=None):
     if category_name:
         category = Category.query.filter(Category.name==category_name).first()
@@ -59,7 +60,7 @@ def categories(category_name=None,thing_name=None):
         return render_template('404.html',
                                user=current_user)
     
-@app.route('/profiles/<username>')
+@app.route('/profiles/<username>/')
 def profiles(username=None):
     if username:
         profile = User.query.filter(User.nickname == username).first()
@@ -72,3 +73,29 @@ def profiles(username=None):
 
 
 
+@app.route('/profiles/<username>/objects/<object_id>/')
+def show_object(username, object_id):
+    try:
+        object = Object.query.filter(Object.id==object_id).one()
+    except NoResultFound:
+        return render_template('404.html',
+                               user=current_user)
+
+    return render_template('object.html',
+                           object=object,
+                           user=current_user,
+                           owner_nick=username,
+                           )
+
+@app.route('/profiles/<username>/objects/<object_id>/request/')
+def add_request(username, object_id):
+    object = Object.query.filter(Object.id==object_id).one()
+    request = Request(by=current_user, object=object )
+    db.session.add(request)
+    db.session.commit()
+    flash('Requested object')
+    return render_template('object.html',
+                           object=object,
+                           user=current_user,
+                           owner_nick=username,
+                           )
