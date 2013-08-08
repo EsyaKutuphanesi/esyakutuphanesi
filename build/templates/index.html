@@ -8,6 +8,16 @@
     <a href='/login'>login</a>
 {% endif %}
 
+<p><h2>Last Users</h2>
+    <ul>
+
+        {% for user in users %}
+            <li><a href='{{ user.url }}'>{{ user }}</a></li>
+        {% endfor %}
+
+    </ul>
+</p>
+
 <p><h2>Last Objects</h2>
     <ul>
 

@@ -56,7 +56,7 @@ class User(db.Model, UserMixin):
 
     @property
     def url(self):
-        return "%s/%s" % ('profiles', self.nick)
+        return "%s/%s" % ('profiles', self.nickname)
 
 
 class Category(db.Model):
