@@ -125,7 +125,7 @@ class Request(db.Model):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'object', self.id)
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'request', self.id)
 
     @property
     def url(self):
@@ -144,7 +144,7 @@ class Response(db.Model):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'object', self.id)
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'response', self.id)
 
     @property
     def url(self):
