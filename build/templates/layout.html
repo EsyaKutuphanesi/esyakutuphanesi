@@ -22,8 +22,20 @@
 	      <a href="/search/category">Category Search</a>
 	      <a href="/search/thing">Thing Search</a>
 	      <a href="/search/user">User Search</a>
+
       {% endblock %}
-      </div>
+    </div>
+    <div id='messages'>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
     <div id="content">{% block content %}{% endblock %}</div>
     <div id="footer">
       {% block footer %}

@@ -93,7 +93,7 @@ def add_request(username, object_id):
     request = Request(by=current_user, object=object )
     db.session.add(request)
     db.session.commit()
-    flash('Requested object')
+    flash('Requested object', 'info')
     return render_template('object.html',
                            object=object,
                            user=current_user,
