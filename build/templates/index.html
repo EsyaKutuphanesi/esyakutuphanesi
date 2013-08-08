@@ -2,21 +2,23 @@
 {% block content %}
 
     {% if user.is_logged_in %}
-        <p><h2>Waiting Requests</h2>
-            <ul>
+        {% if waiting_requests %}
+            <p><h2>Waiting Requests</h2>
+                <ul>
 
-            {% for request in waiting_requests %}
-                <li>
-                    {{ request.by }} requested your {{ request.object.thing }}
-                <a href='/my_requests/{{ request.id }}/accepted'>accept</a>
-                <a href='/my_requests/{{ request.id }}/rejected'>reject</a>
-                <a href='/my_requests/{{ request.id }}/said maybe'>maybe</a>
+                {% for request in waiting_requests %}
+                    <li>
+                        {{ request.by }} requested your {{ request.object.thing }}
+                    <a href='/my_requests/{{ request.id }}/accepted'>accept</a>
+                    <a href='/my_requests/{{ request.id }}/rejected'>reject</a>
+                    <a href='/my_requests/{{ request.id }}/said maybe'>maybe</a>
 
-                </li>
-            {% endfor %}
+                    </li>
+                {% endfor %}
 
-            </ul>
-        </p>
+                </ul>
+            </p>
+        {% endif %}
     {% endif %}
 
 	<p><h2>Last Users</h2>
