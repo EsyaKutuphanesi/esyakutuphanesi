@@ -12,10 +12,11 @@ def home():
     users = User.query.order_by(User.id.desc()).limit(5)
     responses = Response.query.order_by(Response.id.desc()).limit(5)
     requests = Request.query.order_by(Request.id.desc()).limit(5)
-    if current_user.is_logged_in:
-        waiting_requests = Request.query.join(Object).filter(Object.owner==current_user, Request.responses == None)
-    else:
+    if current_user.is_anonymous():
         waiting_requests = None
+    else:
+        waiting_requests = Request.query.join(Object).filter(Object.owner==current_user, Request.responses == None)
+
     return render_template('index.html',
                            user=current_user,
                            objects=objects,
