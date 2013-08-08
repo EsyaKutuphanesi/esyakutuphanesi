@@ -1,8 +1,8 @@
-from flask import render_template, flash
+from flask import render_template, flash, redirect
 from flask.ext.login import current_user
 from sqlalchemy.orm.exc import NoResultFound
 
-from ek import app, db
+from ek import app, db, RESPONSE_CHOICES
 
 from models import User, Category, Thing, Object, Response, Request
 
@@ -91,7 +91,9 @@ def show_object(username, object_id):
 def add_request(username, object_id):
     object = Object.query.filter(Object.id==object_id).one()
     request = Request(by=current_user, object=object )
+    response = Request(request=request, response=0)
     db.session.add(request)
+    db.session.add(response)
     db.session.commit()
     flash('Requested object', 'info')
     return render_template('object.html',
@@ -99,3 +101,22 @@ def add_request(username, object_id):
                            user=current_user,
                            owner_nick=username,
                            )
+
+@app.route('/my_requests/')
+def my_requests():
+    requests = Request.query.join(Object).join(Response).filter(Object.owner==current_user, Response.response==0)
+    return render_template('my_requests.html',
+                           requests=requests,
+                           user=current_user)
+
+@app.route('/my_requests/<request_id>/<response>')
+def respond_to_request(request_id, response):
+    request = Request.query.filter(Request.id==request_id).one()
+    response = Response.query.filter(request==request, response==0).one()
+    response.response = filter(lambda x: RESPONSE_CHOICES[x]==response, RESPONSE_CHOICES)[0]
+    db.session.add(response)
+    db.session.commit()
+
+    flash("%s %s's request" %(response, request.by),'info')
+
+    return redirect('/my_requests')

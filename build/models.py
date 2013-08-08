@@ -141,7 +141,7 @@ class Response(db.Model):
     request_id = db.Column(db.Integer, db.ForeignKey('request.id'))
     request = db.relationship('Request', backref=db.backref('responses', lazy='dynamic'))
     date = db.Column(db.DateTime, default=datetime.now)
-    response = db.Column(db.Integer, primary_key=False)
+    response = db.Column(db.Integer, primary_key=False, default=0)
 
     def __repr__(self):
         return "%s %s %s's %s request." % (self.request.object.owner, RESPONSE_CHOICES[self.response], self.request.by, self.request.object.thing)

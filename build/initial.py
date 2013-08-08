@@ -1,5 +1,5 @@
 from ek import db
-from models import users, Role
+from models import users, Role, Category, Thing, User, Object
 
 roles = {'admin': 'admin',
          'member': 'member',
@@ -12,6 +12,17 @@ users_list = [
     {'email': 'ayse@esyakutuphanesi.com', 'password': 'ekek', 'name': 'ayse', 'roles': [roles['admin']], 'nickname':'ayse'},
     ]
 
+categories = ['sports', 'music instruments']
+
+things = {
+    'tandem bike': ['sports'],
+    'didgeridoo': ['music instruments'],
+    }
+
+objects = {
+    'yigit': ['tandem bike'],
+    'umutcan': ['didgeridoo'],
+    }
 
 db.create_all()
 
@@ -35,4 +46,27 @@ for user in users_list:
 
     db.session.add(new_user)
 
+db.session.commit()
+
+
+for category in categories:
+    new_category = Category(name=category)
+    db.session.add(new_category)
+
+db.session.commit()
+
+for thing in things:
+    new_thing = Thing(name=thing)
+    for category in things[thing]:
+        new_category = Category.query.filter(Category.name==category).one()
+        new_thing.categories.append(new_category)
+    db.session.add(new_thing)
+db.session.commit()
+
+for user in objects:
+    owner = User.query.filter(User.nickname==user).one()
+    for object in objects[user]:
+        thing = Thing.query.filter(Thing.name==object).one()
+        new_object = Object(owner=owner, thing=thing)
+    db.session.add(new_object)
 db.session.commit()
