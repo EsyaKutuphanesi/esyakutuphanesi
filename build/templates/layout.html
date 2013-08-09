@@ -4,7 +4,12 @@
     {% block head %}
     <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='css/ek.css')}}">
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-1.10.2.min.js') }}" ></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.js') }}" ></script>
     <title>{% block title %}{% endblock %}</title>
+    <script>
+    	$('.dropdown-toggle').dropdown();
+    </script>
     {% endblock %}
   </head>
   <body>
@@ -22,19 +27,12 @@
         <div class="nav-collapse collapse">
           <ul class="nav navbar-nav">
 	      	<li><a href="/">Home</a></li>
-	      	<li><a href="/search/category">Category Search</a></li>
-	      	<li><a href="/search/thing">Thing Search</a></li>
-	      	<li><a href="/search/user">User Search</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li class="nav-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
+		      	<li><a href="/search/category">Category Search</a></li>
+		      	<li><a href="/search/thing">Thing Search</a></li>
+		      	<li><a href="/search/user">User Search</a></li>
               </ul>
             </li>
           </ul>
@@ -52,20 +50,6 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
-	      <br/>
-<<<<<<< HEAD
-
-      {% endblock %}
-      </div>
-    <div id="contanier"><div id="jumbotron">{% block content %}{% endblock %}</div></div>
-=======
-	      <a href="/">Home</a>
-	      <a href="/search/category">Category Search</a>
-	      <a href="/search/thing">Thing Search</a>
-	      <a href="/search/user">User Search</a>
-          <a href="/my_requests">My Requests</a>
-
       {% endblock %}
     </div>
     <div id='messages'>
@@ -79,8 +63,7 @@
           {% endif %}
         {% endwith %}
     </div>
-    <div id="content">{% block content %}{% endblock %}</div>
->>>>>>> f23bfead5942bc2a5d9907a8bd30d496cd7b24a7
+    <div id="contanier"><div id="jumbotron">{% block content %}{% endblock %}</div></div>
     <div id="footer">
       {% block footer %}
       &copy; Copyright 2013 by Eşya Kütüphanesi</a>.
