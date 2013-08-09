@@ -25,26 +25,26 @@ def home():
                            requests=requests,
                            )
     
-@app.route('/search/<type>')
-def search(type):
+@app.route('/search/<context>')
+def search(context):
     if current_user.is_anonymous():
         user = None
     else:
         user = current_user
     #type='category'
-    types = {
-             'category':Category.query.order_by(Category.id.desc()).limit,
+    contexts = {
+             'category':Category,
              'thing':Thing.query.order_by(Thing.id.desc()).limit,
              'user':User.query.order_by(User.id.desc()).limit,
              'Object':Object.query.order_by(Object.id.desc()).limit,
              }
-    if type in types:
-        f = types[type]
-        list = f(5)
+    if context in contexts:
+        f = contexts[context]
+        result = f.query.order_by(Category.id.desc()).limit(5)
         return render_template('list.html',
                                user=user,
-                               list=list,
-                               type=type)
+                               result=result,
+                               context=context)
     else:
         return render_template('404.html',
                                user=user)  
