@@ -27,8 +27,8 @@ def home():
                            )
     
 
-@app.route('/search/<type>/')
-def search(type):
+@app.route('/search/<context>/')
+def search(context):
     contexts = {
              'category':Category,
              'thing':Thing,
@@ -37,9 +37,9 @@ def search(type):
              }
     if context in contexts:
         f = contexts[context]
-        result = f.query.order_by(Category.id.desc()).limit(5)
+        result = f.query.order_by(f.id.desc()).limit(5)
         return render_template('list.html',
-                               user=user,
+                               user=current_user,
                                result=result,
                                context=context)
     else:
