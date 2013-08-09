@@ -2,29 +2,62 @@
 <html>
   <head>
     {% block head %}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/ek.css')}}">
     <title>{% block title %}{% endblock %}</title>
     {% endblock %}
   </head>
   <body>
     <div id="header">
       {% block header %}
-	      {%  if 'admin' in user.roles %}
-	        <a href='/admin/'>admin</a>
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-fixed-top">
+      <div class="container">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Eşya Kütüphanesi</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav navbar-nav">
+	      	<li><a href="/">Home</a></li>
+	      	<li><a href="/search/category">Category Search</a></li>
+	      	<li><a href="/search/thing">Thing Search</a></li>
+	      	<li><a href="/search/user">User Search</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="nav-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+          {%  if 'admin' in user.roles %}
+	        <li><a href='/admin/'>admin</a></li>
 	      {% endif %}
 	
 	      {% if user %}
-	        <a href="/logout">logout</a>
+	        <li><a href="/logout">logout</a></li>
 	      {% else %}
-	        <a href='/login'>login</a>
+	        <li><a href='/login'>login</a></li>
 	      {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
 	      <br/>
-	      <a href="/">Home</a>
-	      <a href="/search/category">Category Search</a>
-	      <a href="/search/thing">Thing Search</a>
-	      <a href="/search/user">User Search</a>
+
       {% endblock %}
       </div>
-    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="contanier"><div id="jumbotron">{% block content %}{% endblock %}</div></div>
     <div id="footer">
       {% block footer %}
       &copy; Copyright 2013 by Eşya Kütüphanesi</a>.
