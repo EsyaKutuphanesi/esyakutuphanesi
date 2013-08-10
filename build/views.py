@@ -1,13 +1,16 @@
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, request
 from flask.ext.login import current_user
 from sqlalchemy.orm.exc import NoResultFound
 
 from ek import app, db, RESPONSE_CHOICES
 
+from forms import SearchForm,CategoryForm
+
 from models import User, Category, Thing, Object, Response, Request
 
 @app.route('/')
 def home():
+    form = SearchForm()
     objects = Object.query.order_by(Object.id.desc()).limit(5)
     users = User.query.order_by(User.id.desc()).limit(5)
     responses = Response.query.order_by(Response.id.desc()).limit(5)
@@ -24,24 +27,42 @@ def home():
                            responses=responses,
                            requests=requests,
                            waiting_requests=waiting_requests,
+                           form=form
                            )
     
 
-@app.route('/search/<context>/')
-def search(context):
+@app.route('/search/<context>/',methods = ['GET'])
+@app.route('/search',methods = ['POST'])
+def search(context=None):
+    search_key = None
+    form=None
+    if context is None:
+        context = request.form["context"]
+        search_key = request.form["search_key"]    
     contexts = {
              'category':Category,
              'thing':Thing,
              'user':User,
              'Object':Object,
              }
+    print context
     if context in contexts:
         f = contexts[context]
-        result = f.query.order_by(f.id.desc()).limit(5)
+        if search_key:
+            result = f.query.filter(f.name.like('%'+search_key+'%')).order_by(f.id.desc()).limit(5)
+        else:
+            if 'filter' in request.args:
+                search_key = request.args.get('filter')
+                cat_list = request.args.get('filter').split(',')
+                result = f.query.filter(f.id.in_(cat_list)).order_by(f.id.desc()).limit(5)
+            else:
+                result = f.query.order_by(f.id.desc()).all()
         return render_template('list.html',
                                user=current_user,
                                result=result,
-                               context=context)
+                               context=context,
+                               search_key=search_key,
+                               form=form)
     else:
         return render_template('404.html',
                                user=current_user)

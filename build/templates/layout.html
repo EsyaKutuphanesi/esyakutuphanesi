@@ -16,7 +16,7 @@
     <div id="header">
       {% block header %}
     <!-- Fixed navbar -->
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <a class="navbar-brand" href="/">Eşya Kütüphanesi</a>
         <div class="nav-collapse collapse">
@@ -58,11 +58,17 @@
           {% endif %}
         {% endwith %}
     </div>
-    <div id="contanier"><div id="jumbotron">{% block content %}{% endblock %}</div></div>
-    <div id="footer">
-      {% block footer %}
-      &copy; Copyright 2013 by Eşya Kütüphanesi</a>.
-      {% endblock %}
+    <div id="contanier">
+    	{% block content %}{% endblock %}
+    	<hr>
+    	<footer>
+	    	<div class="row-fluid">
+		      	{% block footer %}
+		      	&copy; Copyright 2013 by Eşya Kütüphanesi</a>.
+		      	{% endblock %}
+	     	</div>
+    	</footer>
     </div>
+
   </body>
 </html>
