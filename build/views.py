@@ -1,12 +1,13 @@
 from flask import render_template, flash, redirect, request
-from flask.ext.login import current_user
+from flask.ext.login import current_user, login_user
 from sqlalchemy.orm.exc import NoResultFound
 
 from ek import app, db, RESPONSE_CHOICES
 
-from forms import SearchForm,CategoryForm
+from forms import SearchForm,CategoryForm,RegistrationForm
 
-from models import User, Category, Thing, Object, Response, Request
+from models import users, User, Category, Thing, Object, Response, Request, Role
+from flask_login import current_user
 
 @app.route('/')
 def home():
@@ -143,3 +144,25 @@ def respond_to_request(request_id, response):
     flash("%s %s's request" %(response, request.by),'info')
 
     return redirect('/my_requests')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if not current_user.is_anonymous():
+        return redirect('/')
+    form = RegistrationForm(request.form)
+    if request.method == 'POST' and form.validate_on_submit():
+        new_user = users.create_user(email=form.email.data,
+                                     password=form.password.data,
+                                     name=form.name.data,
+                                     nickname=form.nickname.data,
+                                    )
+        role_db = Role.query.filter_by(name='member').first()
+        new_user.roles.append(role_db)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Thanks for registering')
+        login_user(new_user)
+        return redirect('/')
+    return render_template('register.html',
+                           form=form,
+                           user=current_user)

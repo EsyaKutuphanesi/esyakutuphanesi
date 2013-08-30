@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% from "_formhelpers.html" import render_field %}
+{% block content %}
+<div class="row-fluid">
+	<div class="col-lg-2"></div>
+	<div class="col-lg-8">
+		<table></table>
+		<form action="{{url_for('register')}}" method="post" name="register">
+		{{ form.hidden_tag() }}
+			<table>
+		        	<tr>
+		        		<td>Email</td><td>{{ render_field(form.email)}}</td>
+		        	</tr>
+		        	<tr>
+		        		<td>Name</td><td>{{render_field(form.name)}}</td>
+		        	</tr>
+		        	<tr>
+		        		<td>Nickname</td><td>{{render_field(form.nickname)}}</td>
+		        	</tr>
+		        	<tr>
+		        		<td>Password</td><td>{{render_field(form.password)}}</td>
+		        	</tr>
+		        	<tr>
+		        		<td>Re-Type Password</td><td>{{render_field(form.confirm)}}</td>
+		        	</tr>
+					<tr>
+		        		<td></td><td>{{render_field(form.accept_tos)}}I have read and accept the terms</td>	
+		        	</tr>
+		        	<tr>
+		        		<td></td><td><button class="btn btn-default" type="submit">Register</button></td>	
+		        	</tr>
+			</table>
+		</form>
+	</div>
+	<div class="col-lg-2"></div>
+</div>
+{% endblock %}
+
