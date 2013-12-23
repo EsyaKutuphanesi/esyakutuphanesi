@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form, TextField, BooleanField, SelectField, widgets, SelectMultipleField, PasswordField
-from flask.ext.wtf import Required,validators
+from flask.ext.wtf import Required,validators,HiddenField
 from models import User
 
 class SearchForm(Form):
@@ -54,6 +54,52 @@ class RegistrationForm(Form):
         user = User.query.filter_by(
             nickname=self.nickname.data).first()
         if user:
+            self.nickname.errors.append('This nickname is already taken')
+            return False
+        
+        return True
+    
+class EditUserForm(Form):
+    userid = HiddenField('userid');
+    name = TextField('Name', [
+        validators.Length(min=4, max=25),
+        validators.Required()
+    ])
+    nickname = TextField('Nickname', [
+        validators.Length(min=4, max=25),
+        validators.Required()
+    ])
+    email = TextField('Email Address', [
+        validators.Length(min=6, max=35),
+        validators.Required()
+    ])
+    password = PasswordField('New Password', [
+        validators.EqualTo('confirm', message='Passwords must match')
+    ])
+    confirm = PasswordField('Repeat Password')
+    
+    def fill_form(self, user):
+        self.name.data = user.name
+        self.nickname.data = user.nickname
+        self.email.data = user.email
+        self.userid.data = user.id
+    
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        user = User.query.filter_by(
+            email=self.email.data).first()
+        print self.userid.data
+        print user.id
+        if user and user.id <> int(self.userid.data):
+            self.email.errors.append('There is already a user registered with this email')
+            return False
+        
+        user = User.query.filter_by(
+            nickname=self.nickname.data).first()
+        if user and user.id <> int(self.userid.data):
             self.nickname.errors.append('This nickname is already taken')
             return False
         

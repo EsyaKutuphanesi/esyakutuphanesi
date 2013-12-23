@@ -4,7 +4,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from ek import app, db, RESPONSE_CHOICES
 
-from forms import SearchForm,CategoryForm,RegistrationForm
+from forms import SearchForm, CategoryForm, RegistrationForm, EditUserForm
 
 from models import users, User, Category, Thing, Object, Response, Request, Role
 from flask_login import current_user
@@ -164,5 +164,24 @@ def register():
         login_user(new_user)
         return redirect('/')
     return render_template('register.html',
+                           form=form,
+                           user=current_user)
+    
+@app.route('/account', methods=['GET', 'POST'])
+def account():
+    print current_user.is_anonymous()
+    if current_user.is_anonymous():
+        return redirect('/')
+    form = EditUserForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        if current_user.id == int(form.userid.data):
+            User.query.filter(User.id == current_user.id).update({
+                                  User.name: form.name.data,
+                                  User.email: form.email.data,
+                                  User.nickname: form.nickname.data})
+            db.session.commit()
+            
+    form.fill_form(current_user)
+    return render_template('account.html',
                            form=form,
                            user=current_user)
