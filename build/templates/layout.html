@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/ek.css')}}">
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-1.10.2.min.js') }}" ></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.js') }}" ></script>
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div id="header">
+          {% block header %}
+          {% endblock %}
+
+    </div>
+    <div class="contanier">
+        <div class="row">
+    	{% block content %}{% endblock %}
+    	</div>
+
+    </div>
+    <div id="footer" class="container">
+
+	    	<div class="row">
+     <div class="col-md-4"></div>
+    <div class="col-md-4">
+		      	{% block footer %}
+		      	&copy; Copyright 2013 by Eşya Kütüphanesi</a>.
+		      	{% endblock %}
+            </div>
+    <div class="col-md-4"></div>
+	     	</div>
+    </div>
+  </body>
+</html>
