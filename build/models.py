@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask.ext.security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Security
+from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Security
 
 from ek import app, db
 
@@ -48,4 +48,3 @@ class User(db.Model, UserMixin):
         return "%s/%s/" % ('profiles', self.nickname)
 
 users = SQLAlchemyUserDatastore(db, User, Role)
-security = Security(app, users)

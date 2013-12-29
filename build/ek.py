@@ -1,5 +1,7 @@
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
+from flask_security import Security
+from flask_mail import Mail
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sql'
@@ -8,6 +10,11 @@ app.config['SECRET_KEY'] = 'dsaojfldckl;rfpodsewkfodlscx;lk'
 app.config['NAME'] = 'Esya Kutuphanesi'
 app.config['ADMIN_URL'] = '/admin'
 app.config['SECURITY_REGISTERABLE'] = True
+app.config['MAIL_SERVER'] = 'localhost'
+app.config['MAIL_PORT'] = 25
+#app.config['MAIL_USE_SSL'] = True
+#app.config['MAIL_USERNAME'] = 'username'
+#app.config['MAIL_PASSWORD'] = 'password'
 
 db = SQLAlchemy(app)
 
@@ -16,4 +23,7 @@ if __name__ == '__main__':
     from models import *
     from views import *
     from admin import *
+    from forms import *
+    security = Security(app, users, register_form=ExtendedRegisterForm)
+    mail = Mail(app)
     app.run(host='0.0.0.0')

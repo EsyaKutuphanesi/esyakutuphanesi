@@ -1,5 +1,5 @@
-from flask.ext.login import current_user
-from flask.ext.superadmin import Admin, AdminIndexView, expose
+from flask_login import current_user
+from flask_superadmin import Admin, AdminIndexView, expose
 
 from ek import app, db
 from models import User, Role
