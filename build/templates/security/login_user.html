@@ -1,0 +1,19 @@
+{% extends "security/header.html" %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% include "security/_messages.html" %}
+{%block title%}Esya Kutuphanesi{%endblock%}
+{% block content %}
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <h1>Login-Custom</h1>
+        <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+          {{ login_user_form.hidden_tag() }}
+          {{ render_field_with_errors(login_user_form.email) }}
+          {{ render_field_with_errors(login_user_form.password) }}
+          {{ render_field_with_errors(login_user_form.remember) }}
+          {{ render_field(login_user_form.next) }}
+          {{ render_field(login_user_form.submit) }}
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+{% endblock %}

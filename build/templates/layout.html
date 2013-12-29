@@ -13,7 +13,6 @@
     <div id="header">
           {% block header %}
           {% endblock %}
-
     </div>
     <div class="contanier">
         <div class="row">
@@ -22,16 +21,15 @@
 
     </div>
     <div id="footer" class="container">
-
-	    	<div class="row">
-     <div class="col-md-4"></div>
-    <div class="col-md-4">
-		      	{% block footer %}
-		      	&copy; Copyright 2013 by Eşya Kütüphanesi</a>.
-		      	{% endblock %}
-            </div>
-    <div class="col-md-4"></div>
-	     	</div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                {% block footer %}
+                &copy; Copyright 2013 by Eşya Kütüphanesi.
+                {% endblock %}
+             </div>
+            <div class="col-md-4"></div>
+        </div>
     </div>
   </body>
 </html>

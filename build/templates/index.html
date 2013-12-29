@@ -1,9 +1,12 @@
-{% extends "layout.html" %}
+{% extends "header.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
     <div class="col-md-4"></div>
     <div class="col-md-4">
         <h1>Esya Kutuphanesi 2.0</h1>
+        {%if user.is_authenticated()%}
+        <h2>Welcome</h2>
+       {%endif%}
     </div>
     <div class="col-md-4"></div>
 {% endblock %}

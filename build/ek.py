@@ -7,6 +7,7 @@ app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'dsaojfldckl;rfpodsewkfodlscx;lk'
 app.config['NAME'] = 'Esya Kutuphanesi'
 app.config['ADMIN_URL'] = '/admin'
+app.config['SECURITY_REGISTERABLE'] = True
 
 db = SQLAlchemy(app)
 
