@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(255), nullable=False)
     nickname = db.Column(db.String(255), unique=True, nullable=False)
     phone_number = db.Column(db.String(255))
+    about = db.Column(db.String(1000))
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
@@ -46,5 +47,12 @@ class User(db.Model, UserMixin):
     @property
     def url(self):
         return "%s/%s/" % ('profiles', self.nickname)
+
+class Address(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    lat = db.Column(db.Integer, nullable=False)
+    lng = db.Column(db.Integer, nullable=False)
+    detail = db.Column(db.String(255), nullable=False)
+    user = db.relationship('User', backref=db.backref('addresses', lazy='dynamic'))
 
 users = SQLAlchemyUserDatastore(db, User, Role)

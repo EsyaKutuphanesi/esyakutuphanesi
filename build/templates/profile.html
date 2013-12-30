@@ -1,0 +1,21 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% include "security/_messages.html" %}
+{% extends "header.html" %}
+{%block title%}Esya Kutuphanesi{%endblock%}
+{% block content %}
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <h1>Profil</h1>
+        <form action="{{ url_for('profile') }}" method="POST" name="edit_user_form">
+          {{ form.hidden_tag() }}
+          {{ render_field_with_errors(form.name) }}
+          {{ render_field_with_errors(form.nickname) }}
+          {{ render_field_with_errors(form.email) }}
+          {{ render_field_with_errors(form.phone_number) }}
+          {{ render_field_with_errors(form.about) }}
+          {{ render_field(form.submit) }}
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+{% endblock %}
+
