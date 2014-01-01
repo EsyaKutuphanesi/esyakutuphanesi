@@ -1,5 +1,6 @@
+# coding=utf-8
 from ek import db
-from models import users, Role, User
+from models import users, Role, User, Address
 
 roles = {'admin': 'admin',
          'member': 'member',
@@ -12,6 +13,12 @@ users_list = [
     {'email': 'ayse@esyakutuphanesi.com', 'password': 'ekek', 'name': 'ayse', 'roles': [roles['admin']], 'nickname':'ayse'},
     ]
 
+adress_list = [
+    {'lat':'40.996427', 'lng':'29.033614','user':['umutcan']}
+]
+addresses = {
+    'umutcan':[{'lat':'40.996427', 'lng':'29.033614','name':'acibadem','detail':'omer cemalbey sokak istanbul'}]
+}
 db.create_all()
 
 for role_name in roles.values():
@@ -36,3 +43,13 @@ for user in users_list:
 
 db.session.commit()
 
+for user in addresses:
+    owner = User.query.filter(User.nickname==user).one()
+    for address in addresses[user]:
+        new_address = Address(user=owner,
+                              lat=address.get('lat'),
+                              lng=address.get('lng'),
+                              detail=unicode(address.get('detail')),
+                              name=address.get('name'))
+    db.session.add(new_address)
+db.session.commit()

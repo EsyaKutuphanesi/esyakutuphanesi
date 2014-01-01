@@ -5,22 +5,26 @@ from forms import ExtendedRegisterForm, EditUserForm
 from ek import app, db
 
 
-from models import users, User, Role
+from models import users, User, Role, Address
 
 @app.route('/')
 def home():
     return render_template("index.html",user=current_user)
-"""
-@app.route('/logme',methods=["GET", "POST"])
-def logme():
-    form = LoginForm()
-    if form.validate_on_submit():
-        # login and validate the user...
-        login_user(user)
-        flash("Logged in successfully.")
-        return redirect(request.args.get("next") or url_for("/"))
-    return render_template("login.html", form=form)
-"""
+
+@login_required
+@app.route('/new_address',methods=["GET", "POST"])
+def new_address():
+    if request.method == 'POST':
+        print unicode(request.form)
+        new_address = Address(user=current_user,
+                              lat=request.form.get('lat'),
+                              lng=request.form.get('lng'),
+                              detail=unicode(request.form.get('address')),
+                              name=request.form.get('address_name'))
+        db.session.add(new_address)
+        db.session.commit()
+    return render_template("map.html", user=current_user)
+
 @login_required
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():

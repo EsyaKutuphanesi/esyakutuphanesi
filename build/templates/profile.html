@@ -3,8 +3,39 @@
 {% extends "header.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
+   <style>
+      #map-canvas {
+        height: 300px;
+        width: 400px;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script>
+        var myLatlng = new google.maps.LatLng(40.996427,29.033614);
+        var mapOptions = {
+            zoom: 14,
+            center: myLatlng
+        }
+        var map;
+        var markers = [];
+        function loadMap() {
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions)
+        }
+        //google.maps.event.addDomListener(window, 'load', initialize);
+        function addMarker(lat,lng,title){
+          var location = new google.maps.LatLng(lat,lng);
+          var marker = new google.maps.Marker({
+              position: location,
+              map: map,
+              title: title
+          });
+          markers.push(marker)
+        }
+    </script>
+
+    <div class="col-md-2"></div>
+    <div class="col-md-5">
         <h1>Profil</h1>
         <form action="{{ url_for('profile') }}" method="POST" name="edit_user_form">
           {{ form.hidden_tag() }}
@@ -15,7 +46,21 @@
           {{ render_field_with_errors(form.about) }}
           {{ render_field(form.submit) }}
         </form>
+
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-5">
+                <h1>Adreslerim</h1>
+        <p><a href="/new_address">Adres Ekle</a></p>
+        <div id="map-canvas" ></div>
+         <script>
+            loadMap();
+        </script>
+        {%for address in user.addresses%}
+        <script>
+            addMarker({{address.lat}},{{address.lng}},'{{address.name}}');
+        </script>
+
+        {%endfor%}
+    </div>
 {% endblock %}
 

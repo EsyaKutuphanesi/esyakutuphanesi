@@ -50,9 +50,24 @@ class User(db.Model, UserMixin):
 
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    lat = db.Column(db.Integer, nullable=False)
-    lng = db.Column(db.Integer, nullable=False)
+    lat = db.Column(db.Float, nullable=False)
+    lng = db.Column(db.Float, nullable=False)
     detail = db.Column(db.String(255), nullable=False)
-    user = db.relationship('User', backref=db.backref('addresses', lazy='dynamic'))
+    name = db.Column(db.String(255), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref="addresses")
+    detail = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+
+    def __repr__(self):
+        return '%s[%s]' % (self.name,self.user.nickname)
+
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'address', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s/" % ('addresses', self.id)
 
 users = SQLAlchemyUserDatastore(db, User, Role)
