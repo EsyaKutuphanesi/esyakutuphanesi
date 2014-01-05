@@ -1,13 +1,32 @@
 {% extends "header.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        <h1>Esya Kutuphanesi 2.0</h1>
-        {%if user.is_authenticated()%}
-        <h2>Welcome</h2>
-       {%endif%}
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h1>Esya Kutuphanesi 2.0</h1>
+            {%if user.is_authenticated()%}
+                <h2>Welcome</h2>
+            {%endif%}
+        </div>
+        <div class="col-md-4"></div>
     </div>
-    <div class="col-md-4"></div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h3>Son Paylaşılanlar:</h3>
+            {% for obj in last_objects%}
+                <div class="col-md-4">
+                    <div class="row">
+                      {{obj}}
+                    </div>
+                    <div class="row">
+                      {{obj.detail}}
+                    </div>
+                </div>
+            {%endfor%}
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 {% endblock %}
 

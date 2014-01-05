@@ -1,7 +1,7 @@
 # coding=utf-8
 from flask_security.forms import RegisterForm
 from flask_wtf import Form, TextField,Required, HiddenField, PasswordField,validators, SubmitField
-from flask_wtf import TextAreaField
+from flask_wtf import TextAreaField, SelectField
 
 from models import User
 
@@ -65,3 +65,28 @@ class EditUserForm(Form):
             return False
 
         return True
+
+class EditObjectForm(Form):
+    objectid = HiddenField('objectid');
+    title = TextField('Esya Tanimi', [
+        validators.Length(min=4, max=255),
+        validators.Required()
+    ])
+    detail = TextAreaField('Detaylar', [
+        validators.Length(min=0, max=1000),
+    ])
+    address = SelectField('Adress', coerce=int)
+    submit = SubmitField("Kaydet")
+
+    def fill_form(self, object):
+        self.title.data = object.title
+        self.detail.data = object.detail
+        self.objectid.data = object.id
+
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        return True
+    

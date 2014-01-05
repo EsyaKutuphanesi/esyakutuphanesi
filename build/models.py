@@ -70,4 +70,26 @@ class Address(db.Model):
     def url(self):
         return "%s/%s/" % ('addresses', self.id)
 
+
+class Object(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    detail = db.Column(db.String(1000))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner = db.relationship('User', backref='objects')
+    address_id = db.Column(db.Integer, db.ForeignKey('address.id'))
+    address = db.relationship('Address', backref='objects')
+    date = db.Column(db.DateTime, default=datetime.now)
+
+    def __repr__(self):
+        return "%s's %s" % (self.owner, self.title)
+
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'object', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s/%s/%s/" % ('profiles', self.owner.nickname, 'objects', self.id)
+
 users = SQLAlchemyUserDatastore(db, User, Role)

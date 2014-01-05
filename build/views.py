@@ -1,15 +1,16 @@
 from flask import render_template, flash, redirect, request
 from flask_login import current_user, login_required
 from sqlalchemy.orm.exc import NoResultFound
-from forms import ExtendedRegisterForm, EditUserForm
+from forms import *
 from ek import app, db
 
 
-from models import users, User, Role, Address
+from models import users, User, Role, Address, Object
 
 @app.route('/')
 def home():
-    return render_template("index.html",user=current_user)
+    last_objects = Object.query.order_by(Object.id.desc()).limit(5)
+    return render_template("index.html",user=current_user,last_objects=last_objects)
 
 @login_required
 @app.route('/new_address',methods=["GET", "POST"])
@@ -24,6 +25,28 @@ def new_address():
         db.session.add(new_address)
         db.session.commit()
     return render_template("map.html", user=current_user)
+
+@login_required
+@app.route('/new_object',methods=["GET", "POST"])
+def new_object():
+    form = EditObjectForm()
+    if current_user.addresses:
+        address_choices = [(address.id,address.name)for address in current_user.addresses]
+    else:
+        address_choices = [('none','None')]
+    form.address.choices = address_choices
+    if request.method == 'POST' and form.validate_on_submit():
+        print unicode(request.form)
+        address = Address.query.filter(Address.id == form.address.data, Address.user_id==current_user.id).first()
+        print address
+        new_object = Object(title=form.title.data,
+                            detail=form.detail.data,
+                            address=address,
+                            owner=current_user)
+        print new_object
+        db.session.add(new_object)
+        db.session.commit()
+    return render_template("new_object.html", user=current_user, form=form)
 
 @login_required
 @app.route('/profile', methods=['GET', 'POST'])

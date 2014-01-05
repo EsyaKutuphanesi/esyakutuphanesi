@@ -1,6 +1,6 @@
 # coding=utf-8
 from ek import db
-from models import users, Role, User, Address
+from models import users, Role, User, Address, Object
 
 roles = {'admin': 'admin',
          'member': 'member',

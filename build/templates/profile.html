@@ -49,16 +49,19 @@
 
     </div>
     <div class="col-md-5">
-                <h1>Adreslerim</h1>
+         <h1>Adreslerim</h1>
+
         <p><a href="/new_address">Adres Ekle</a></p>
-        <div id="map-canvas" ></div>
-         <script>
-            loadMap();
-        </script>
         {%for address in user.addresses%}
-        <script>
-            addMarker({{address.lat}},{{address.lng}},'{{address.name}}');
-        </script>
+        <p>{{address.name}}</p>
+
+        {%endfor%}
+
+         <h1>Eşyalarım</h1>
+
+        <p><a href="/new_object">Eşya Ekle</a></p>
+        {%for object in user.objects%}
+        <p>{{object}}</p>
 
         {%endfor%}
     </div>
