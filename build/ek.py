@@ -2,7 +2,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security
 from flask_mail import Mail
+import os.path
 
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+PROFILE_PHOTO_PREFIX = 'profile_'
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sql'
 app.config['DEBUG'] = True
@@ -12,6 +15,7 @@ app.config['ADMIN_URL'] = '/admin'
 app.config['SECURITY_REGISTERABLE'] = True
 app.config['MAIL_SERVER'] = 'localhost'
 app.config['MAIL_PORT'] = 25
+app.config['UPLOADS_FOLDER'] = os.path.realpath('.') + '/build/photos'
 #app.config['MAIL_USE_SSL'] = True
 #app.config['MAIL_USERNAME'] = 'username'
 #app.config['MAIL_PASSWORD'] = 'password'

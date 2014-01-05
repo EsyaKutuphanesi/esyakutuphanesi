@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(255), nullable=False)
     nickname = db.Column(db.String(255), unique=True, nullable=False)
     phone_number = db.Column(db.String(255))
+    photo = db.Column(db.String(255))
     about = db.Column(db.String(1000))
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
@@ -71,14 +72,14 @@ class Address(db.Model):
         return "%s/%s/" % ('addresses', self.id)
 
 
-class Object(db.Model):
+class Stuff(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     detail = db.Column(db.String(1000))
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    owner = db.relationship('User', backref='objects')
+    owner = db.relationship('User', backref='stuff_list')
     address_id = db.Column(db.Integer, db.ForeignKey('address.id'))
-    address = db.relationship('Address', backref='objects')
+    stuff_address = db.relationship('Address', backref='stuff_list')
     date = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
@@ -86,10 +87,23 @@ class Object(db.Model):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'object', self.id)
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'stuff', self.id)
 
     @property
     def url(self):
-        return "%s/%s/%s/%s/" % ('profiles', self.owner.nickname, 'objects', self.id)
+        return "%s/%s/%s/%s/" % ('profiles', self.owner.nickname, 'stuff', self.id)
 
+class Photo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(255), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner = db.relationship('User', backref='photos')
+
+class ObjectPhoto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(255), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    owner = db.relationship('User', backref='object_photos')
+    stuff_id = db.Column(db.Integer, db.ForeignKey('stuff.id'))
+    stuff = db.relationship('Stuff', backref='photos')
 users = SQLAlchemyUserDatastore(db, User, Role)

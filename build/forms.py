@@ -1,7 +1,7 @@
 # coding=utf-8
 from flask_security.forms import RegisterForm
 from flask_wtf import Form, TextField,Required, HiddenField, PasswordField,validators, SubmitField
-from flask_wtf import TextAreaField, SelectField
+from flask_wtf import TextAreaField, SelectField, FileField
 
 from models import User
 
@@ -12,6 +12,7 @@ class ExtendedRegisterForm(RegisterForm):
 
 class EditUserForm(Form):
     userid = HiddenField('userid');
+    photo = FileField(u'Resim Yükle')
     name = TextField('Isminiz', [
         validators.Length(min=4, max=25),
         validators.Required()
@@ -27,18 +28,19 @@ class EditUserForm(Form):
     phone_number = TextField('Telefonunuz', [
         validators.Length(min=0, max=35),
     ])
-    about = TextAreaField('Hakkinizda', [
+    about = TextAreaField(u'Hakkınızda', [
         validators.Length(min=0, max=1000),
     ])
-    password = PasswordField('New Password', [
+    password = PasswordField(u'Yeni Şifre', [
         validators.EqualTo('confirm', message='Passwords must match')
     ])
-    confirm = PasswordField('Repeat Password')
+    confirm = PasswordField(u'Şifreyi Onayla')
 
     submit = SubmitField("Kaydet")
 
     def fill_form(self, user):
         self.name.data = user.name
+
         self.nickname.data = user.nickname
         self.email.data = user.email
         self.userid.data = user.id
@@ -66,8 +68,8 @@ class EditUserForm(Form):
 
         return True
 
-class EditObjectForm(Form):
-    objectid = HiddenField('objectid');
+class EditStuffForm(Form):
+    stuffid = HiddenField('stuffid');
     title = TextField('Esya Tanimi', [
         validators.Length(min=4, max=255),
         validators.Required()
@@ -78,10 +80,11 @@ class EditObjectForm(Form):
     address = SelectField('Adress', coerce=int)
     submit = SubmitField("Kaydet")
 
-    def fill_form(self, object):
-        self.title.data = object.title
-        self.detail.data = object.detail
-        self.objectid.data = object.id
+    def fill_form(self, stuff):
+        self.title.data = stuff.title
+        self.detail.data = stuff.detail
+        self.stuffid.data = stuff.id
+        self.address.data = stuff.address_id
 
     def validate(self):
         rv = Form.validate(self)
@@ -89,4 +92,3 @@ class EditObjectForm(Form):
             return False
 
         return True
-    

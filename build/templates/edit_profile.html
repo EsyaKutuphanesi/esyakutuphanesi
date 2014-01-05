@@ -37,8 +37,14 @@
     <div class="col-md-2"></div>
     <div class="col-md-5">
         <h1>Profil</h1>
-        <form action="{{ url_for('profile') }}" method="POST" name="edit_user_form">
+        {%if user.photos%}
+        <img width="150" height="200" src="/photos/{{user.photos[-1].filename}}" />
+        {%else%}
+        <img width="150" height="200" src="/photos/why-so-serious.jpg"/>
+        {%endif%}
+        <form action="{{ url_for('edit_profile') }}" method="POST" name="edit_user_form" enctype="multipart/form-data">
           {{ form.hidden_tag() }}
+          {{ render_field_with_errors(form.photo) }}
           {{ render_field_with_errors(form.name) }}
           {{ render_field_with_errors(form.nickname) }}
           {{ render_field_with_errors(form.email) }}
@@ -59,9 +65,9 @@
 
          <h1>Eşyalarım</h1>
 
-        <p><a href="/new_object">Eşya Ekle</a></p>
-        {%for object in user.objects%}
-        <p>{{object}}</p>
+        <p><a href="/new_stuff">Eşya Ekle</a></p>
+        {%for stuff in user.stuff_list%}
+        <p><a href="/edit_stuff/{{stuff.id}}">{{stuff}}</a></p>
 
         {%endfor%}
     </div>

@@ -2,7 +2,7 @@ from flask_login import current_user
 from flask_superadmin import Admin, AdminIndexView, expose
 
 from ek import app, db
-from models import User, Role, Address, Object
+from models import User, Role, Address, Stuff
 
 
 class AdminIndexView(AdminIndexView):
@@ -23,5 +23,5 @@ admin = Admin(app, app.config['NAME'], url=app.config['ADMIN_URL'], index_view=A
 admin.register(User, session=db.session)
 admin.register(Role, session=db.session)
 admin.register(Address, session=db.session)
-admin.register(Object, session=db.session)
+admin.register(Stuff, session=db.session)
 

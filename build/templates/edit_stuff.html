@@ -5,8 +5,8 @@
 {% block content %}
     <div class="col-md-2"></div>
     <div class="col-md-5">
-        <h1>Profil</h1>
-        <form action="{{ url_for('new_object') }}" method="POST" name="edit_object_form">
+        <h1>Eşya Sayfası</h1>
+        <form action="{{ form_action }}" method="POST" name="edit_stuff_form">
           {{ form.hidden_tag() }}
           {{ render_field_with_errors(form.title) }}
           {{ render_field_with_errors(form.detail) }}
