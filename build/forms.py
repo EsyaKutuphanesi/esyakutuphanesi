@@ -70,6 +70,7 @@ class EditUserForm(Form):
 
 class EditStuffForm(Form):
     stuffid = HiddenField('stuffid');
+    photo = FileField(u'Resim Yükle')
     title = TextField('Esya Tanimi', [
         validators.Length(min=4, max=255),
         validators.Required()
@@ -79,8 +80,11 @@ class EditStuffForm(Form):
     ])
     address = SelectField('Adress', coerce=int)
     submit = SubmitField("Kaydet")
-
+    tags = TextField(u'Etiketler',[
+        validators.Length(min=0, max=255)
+    ])
     def fill_form(self, stuff):
+        self.tags.data=''
         self.title.data = stuff.title
         self.detail.data = stuff.detail
         self.stuffid.data = stuff.id
@@ -92,3 +96,13 @@ class EditStuffForm(Form):
             return False
 
         return True
+
+class SeachForm(Form):
+    stuff = TextField(u'Ne Arıyorsun?', [
+        validators.Length(min=0, max=255)
+    ])
+
+    address = TextField(u'Nerede Arıyorsun?', [
+        validators.Length(min=0, max=255)
+    ])
+    submit = SubmitField("Ara")

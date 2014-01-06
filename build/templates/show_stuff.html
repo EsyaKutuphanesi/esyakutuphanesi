@@ -1,0 +1,28 @@
+{% extends "header.html" %}
+{%block title%}Esya Kutuphanesi{%endblock%}
+{% block content %}
+    <div class="col-md-2"></div>
+    <div class="col-md-5">
+        <h1>{{stuff.title}}</h1>
+        {%for tag in stuff.tags%}
+            <div class="btn btn-default">{{tag}}</div>
+        {%endfor%}
+        <div class="tumbnail">
+            <p>{{stuff.detail}}</p>
+        </div>
+        </form>
+
+    </div>
+    <div class="col-md-5">
+        {%if stuff%}
+        <div class="row">
+            {%for photo in stuff.photos%}
+                <div class="col-md-6">
+                    <img class="img-responsive" src="/photos/{{photo.filename}}" />
+                </div>
+            {%endfor%}
+         </div>
+        {%endif%}
+    </div>
+{% endblock %}
+

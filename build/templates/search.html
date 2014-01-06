@@ -8,11 +8,6 @@
             <h1>Esya Kutuphanesi 2.0</h1>
             {%if user.is_authenticated()%}
                 <h2>Welcome</h2>
-            <form action="{{url_for('search')}}" method="get">
-                {{ render_field_with_errors(form.stuff) }}
-                {{ render_field_with_errors(form.address) }}
-                {{ render_field(form.submit) }}
-            </form>
             {%endif%}
         </div>
         <div class="col-md-4"></div>
@@ -24,7 +19,7 @@
             {% for obj in last_objects%}
                 <div class="col-md-4">
                     <div class="row">
-                      <a href="{{obj.url}}"> {{obj}}</a>
+                      {{obj}}
                     </div>
                     <div class="row">
                       {{obj.detail}}

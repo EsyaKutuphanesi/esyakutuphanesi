@@ -91,7 +91,7 @@ class Stuff(db.Model):
 
     @property
     def url(self):
-        return "%s/%s/%s/%s/" % ('profiles', self.owner.nickname, 'stuff', self.id)
+        return "%s/%s" % ('show_stuff', self.id)
 
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -99,11 +99,20 @@ class Photo(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     owner = db.relationship('User', backref='photos')
 
-class ObjectPhoto(db.Model):
+class StuffPhoto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(255), nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     owner = db.relationship('User', backref='object_photos')
     stuff_id = db.Column(db.Integer, db.ForeignKey('stuff.id'))
     stuff = db.relationship('Stuff', backref='photos')
+
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False, unique=True)
+    stuff_id = db.Column(db.Integer, db.ForeignKey('stuff.id'))
+    stuff = db.relationship('Stuff', backref='tags')
+
+    def __repr__(self):
+        return "%s" % (self.name)
 users = SQLAlchemyUserDatastore(db, User, Role)

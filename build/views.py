@@ -3,13 +3,37 @@ from flask_login import current_user, login_required
 from sqlalchemy.orm.exc import NoResultFound
 from forms import *
 from ek import app, db, ALLOWED_EXTENSIONS
-from models import users, User, Role, Address, Stuff, Photo
+from models import users, User, Role, Address, Stuff, Photo, StuffPhoto, Tag
 import uuid
 import os.path
+
 @app.route('/')
 def home():
+    form = SeachForm()
     last_objects = Stuff.query.order_by(Stuff.id.desc()).limit(5)
-    return render_template("index.html",user=current_user,last_objects=last_objects)
+    return render_template("index.html",user=current_user,last_objects=last_objects,form=form)
+
+@app.route('/search',methods=["GET", "POST"])
+def search():
+    form = SeachForm()
+    last_objects = list()
+    print request
+    if request.method == 'POST':
+        last_objects = Stuff.query.join(Address).filter(Address.id== Stuff.address_id,
+                                                        Stuff.title.like('%'+form.stuff.data+'%'),
+                                                        Address.detail.like('%'+form.address.data+'%'))
+    return render_template("search.html",user=current_user,last_objects=last_objects,form=form)
+
+@app.route('/qsearch',methods=["GET", "POST"])
+def qsearch():
+    form = SeachForm()
+    last_objects = list()
+    print request
+    if request.method == 'POST':
+        last_objects = Stuff.query.join(Address).filter(Address.id== Stuff.address_id,
+                                                        Stuff.title.like('%'+form.stuff.data+'%'),
+                                                        Address.detail.like('%'+form.address.data+'%'))
+    return render_template("search.html",user=current_user,last_objects=last_objects,form=form)
 
 @login_required
 @app.route('/new_address',methods=["GET", "POST"])
@@ -36,21 +60,33 @@ def new_stuff():
     form.address.choices = address_choices
     if request.method == 'POST' and form.validate_on_submit():
         address = Address.query.filter(Address.id == form.address.data, Address.user_id==current_user.id).first()
+        tags = form.tags.data.split(',')
         new_stuff = Stuff(title=form.title.data,
                             detail=form.detail.data,
                             stuff_address=address,
                             owner=current_user)
-        print new_stuff
         db.session.add(new_stuff)
+        file = form.photo.file
+        if file:
+            file_ext = get_file_extension(file.filename)
+            generated_name = str(uuid.uuid1())+'.'+file_ext
+            filepath = os.path.join(app.config['UPLOADS_FOLDER'],generated_name)
+            file.save(filepath)
+            new_photo = StuffPhoto(owner=current_user,filename= generated_name,stuff=new_stuff)
+            db.session.add(new_photo)
+            db.session.commit()
+        for t in tags:
+            new_tag = Tag(stuff=new_stuff,name=t)
+            db.session.add(new_tag)
         db.session.commit()
         form.fill_form(new_stuff)
         return redirect('edit_profile')
-    return render_template("edit_stuff.html", user=current_user, form=form, action='Add')
+    return render_template("edit_stuff.html", user=current_user, form=form, action='Add',stuff=None)
 
 @login_required
 @app.route('/edit_stuff/<stuff_id>',methods=["GET", "POST"])
 def edit_stuff(stuff_id):
-
+    stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
     form = EditStuffForm()
     if current_user.addresses:
         address_choices = [(address.id,address.name)for address in current_user.addresses]
@@ -58,16 +94,35 @@ def edit_stuff(stuff_id):
         address_choices = [('none','None')]
     form.address.choices = address_choices
     if request.method == 'POST' and form.validate_on_submit():
-        stuff = Stuff.query.filter(Stuff.id == form.stuffid.data)
-        stuff.update({Stuff.title: form.title.data,
+        stuff_query = Stuff.query.filter(Stuff.id == form.stuffid.data)
+        file = form.photo.file
+        tags = form.tags.data.split(',')
+        if file:
+            file_ext = get_file_extension(file.filename)
+            generated_name = str(uuid.uuid1())+'.'+file_ext
+            filepath = os.path.join(app.config['UPLOADS_FOLDER'],generated_name)
+            file.save(filepath)
+            new_photo = StuffPhoto(owner=current_user,filename= generated_name,stuff=stuff)
+            db.session.add(new_photo)
+            db.session.commit()
+        stuff_query.update({Stuff.title: form.title.data,
                             Stuff.detail: form.detail.data,
                             Stuff.address_id: form.address.data
                             })
+        for t in tags:
+            if t > '':
+                new_tag = Tag(stuff=stuff,name=t)
+                db.session.add(new_tag)
         db.session.commit()
-    obj = Stuff.query.filter(Stuff.id == stuff_id).first()
-    if obj:
-        form.fill_form(obj)
-    return render_template("edit_stuff.html", user=current_user, form=form, action='Edit')
+    if stuff:
+        form.fill_form(stuff)
+    return render_template("edit_stuff.html", user=current_user, form=form, action='Edit',stuff=stuff)
+
+@login_required
+@app.route('/show_stuff/<stuff_id>',methods=["GET", "POST"])
+def show_stuff(stuff_id):
+    stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
+    return render_template("show_stuff.html", user=current_user,stuff=stuff)
 
 @login_required
 @app.route('/edit_profile', methods=['GET', 'POST'])
