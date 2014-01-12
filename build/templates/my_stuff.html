@@ -1,0 +1,58 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% include "security/_messages.html" %}
+{% extends "layout.html" %}
+{%block title%}Esya Kutuphanesi{%endblock%}
+{% block content %}
+   <style>
+      #map-canvas {
+        height: 300px;
+        width: 400px;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script>
+        var myLatlng = new google.maps.LatLng(40.996427,29.033614);
+        var mapOptions = {
+            zoom: 14,
+            center: myLatlng
+        }
+        var map;
+        var markers = [];
+        function loadMap() {
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions)
+        }
+        //google.maps.event.addDomListener(window, 'load', initialize);
+        function addMarker(lat,lng,title){
+          var location = new google.maps.LatLng(lat,lng);
+          var marker = new google.maps.Marker({
+              position: location,
+              map: map,
+              title: title
+          });
+          markers.push(marker)
+        }
+    </script>
+
+    <div class="col-md-2"></div>
+    <div class="col-md-5">
+
+         <h1>Eşyalarım</h1>
+
+        <p><a href="/new_stuff">Eşya Ekle</a></p>
+        {%for stuff in user.stuff_list%}
+        <div class="row">
+            <div class="col-md-6"><img class="img-responsive" src="/photos/{{stuff.photos[0].filename}}" /></div>
+            <div class="col-md-6">
+                <p><a href="{{stuff.edit_url}}">{{stuff}}</a></p>
+                <p>{{stuff.detail}}</p>
+            </div>
+
+        </div>
+
+        {%endfor%}
+    </div>
+    <div class="col-md-5">
+    </div>
+{% endblock %}
+
