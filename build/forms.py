@@ -2,6 +2,7 @@
 from flask_security.forms import RegisterForm
 from flask_wtf import Form, TextField,Required, HiddenField, PasswordField,validators, SubmitField
 from flask_wtf import TextAreaField, SelectField, FileField
+from flask.ext.wtf import ValidationError
 
 from models import User
 
@@ -78,7 +79,7 @@ class EditStuffForm(Form):
     detail = TextAreaField('Detaylar', [
         validators.Length(min=0, max=1000),
     ])
-    address = SelectField('Adress', coerce=int)
+    address = SelectField('Adress', coerce=int, validators=[validators.Required()])
     submit = SubmitField("Kaydet")
     tags = TextField(u'Etiketler',[
         validators.Length(min=0, max=255)

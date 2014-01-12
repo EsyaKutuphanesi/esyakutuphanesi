@@ -56,7 +56,7 @@ def new_stuff():
     if current_user.addresses:
         address_choices = [(address.id,address.name)for address in current_user.addresses]
     else:
-        address_choices = [('none','None')]
+        address_choices = []
     form.address.choices = address_choices
     if request.method == 'POST' and form.validate_on_submit():
         address = Address.query.filter(Address.id == form.address.data, Address.user_id==current_user.id).first()
