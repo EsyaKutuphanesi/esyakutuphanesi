@@ -63,13 +63,6 @@
 
         {%endfor%}
 
-         <h1>Eşyalarım</h1>
-
-        <p><a href="/new_stuff">Eşya Ekle</a></p>
-        {%for stuff in user.stuff_list%}
-        <p><a href="/edit_stuff/{{stuff.id}}">{{stuff}}</a></p>
-
-        {%endfor%}
     </div>
 {% endblock %}
 

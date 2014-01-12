@@ -83,11 +83,15 @@ class Stuff(db.Model):
     date = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
-        return "%s's %s" % (self.owner, self.title)
+        return "%s" % (self.title)
 
     @property
     def admin_url(self):
         return "%s/%s/%s" % (app.config['ADMIN_URL'], 'stuff', self.id)
+
+    @property
+    def edit_url(self):
+        return "%s/%s" % ('edit_stuff', self.id)
 
     @property
     def url(self):

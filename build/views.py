@@ -119,6 +119,12 @@ def edit_stuff(stuff_id):
     return render_template("edit_stuff.html", user=current_user, form=form, action='Edit',stuff=stuff)
 
 @login_required
+@app.route('/my_stuff',methods=["GET", "POST"])
+def my_stuff():
+    return render_template("my_stuff.html", user=current_user)
+
+
+@login_required
 @app.route('/show_stuff/<stuff_id>',methods=["GET", "POST"])
 def show_stuff(stuff_id):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
