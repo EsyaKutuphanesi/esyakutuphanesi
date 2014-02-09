@@ -1,3 +1,15 @@
+<script>
+     $(function(){
+        var htmlString = '';
+        $.getJSON('/get_categories','',function(j){
+            $.each(j, function(key,value){
+                console.log(value);
+                htmlString += "<li><a href='/category/"+value.name+"'>"+value.name+"</a></li>";
+            });
+             $("ul#categories").html(htmlString);
+        });
+    })
+</script>
 <nav class="navbar navbar-inverse" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
@@ -18,7 +30,7 @@
     <ul class="nav navbar-nav">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kategoriler <b class="caret"></b></a>
-        <ul class="dropdown-menu">
+        <ul id="categories" class="dropdown-menu">
           <li><a href="#">Doğa, Spor, Kamp</a></li>
           <li><a href="#">Bilgisayar ve Elektronik</a></li>
           <li><a href="#">Mutfak</a></li>

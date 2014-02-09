@@ -8,6 +8,15 @@ roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
         db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
+categories_types = db.Table('categories_types',
+        db.Column('category_id', db.Integer(), db.ForeignKey('category.id')),
+        db.Column('stufftype_id', db.Integer(), db.ForeignKey('stufftype.id')))
+"""
+stuff_type_stuff_list = db.Table('stuff_type_stuff_list',
+        db.Column('stuff_id', db.Integer(), db.ForeignKey('stuff.id')),
+        db.Column('stufftype_id', db.Integer(), db.ForeignKey('stufftype.id')))
+"""
+
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
@@ -81,7 +90,10 @@ class Stuff(db.Model):
     address_id = db.Column(db.Integer, db.ForeignKey('address.id'))
     stuff_address = db.relationship('Address', backref='stuff_list')
     date = db.Column(db.DateTime, default=datetime.now)
-
+    stuff_type = db.relationship('StuffType', backref='stuff_list')
+    type_id = db.Column(db.Integer, db.ForeignKey('stufftype.id'))
+    category = db.relationship('Category', backref='stuff_list')
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
     def __repr__(self):
         return "%s" % (self.title)
 
@@ -119,4 +131,38 @@ class Tag(db.Model):
 
     def __repr__(self):
         return "%s" % (self.name)
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), unique=True)
+
+    def __repr__(self):
+        return self.name
+
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'category', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s/" % ('category', self.name)
+
+
+class StuffType(db.Model):
+    __tablename__ = "stufftype"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), unique=True)
+    category_list = db.relationship('Category', secondary=categories_types, backref=db.backref('type_list', lazy='dynamic'))
+
+    def __repr__(self):
+        return self.name
+
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'thing', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s/" % ('stuff_type', self.name)
+
 users = SQLAlchemyUserDatastore(db, User, Role)

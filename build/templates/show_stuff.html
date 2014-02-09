@@ -7,6 +7,12 @@
         {%for tag in stuff.tags%}
             <div class="btn btn-default">{{tag}}</div>
         {%endfor%}
+        <div class="row">
+            <ol class="breadcrumb">
+                <li><a href="{{stuff.category.url}}">{{stuff.category}}</a></li>
+                <li><a href="{{stuff.stuff_type.url}}">{{stuff.stuff_type}}</a></li>
+            </ol>
+        </div>
         <div class="tumbnail">
             <p>{{stuff.detail}}</p>
         </div>

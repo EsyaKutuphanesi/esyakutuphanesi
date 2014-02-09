@@ -1,0 +1,129 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% extends "layout.html" %}
+{%block title%}Esya Kutuphanesi{%endblock%}
+{% block content %}
+    <script>
+        /*
+          TODO:  There is some errors in logic of the filter. Use onclick instead of of change
+        */
+        $(function(){
+            var firstLoad = true;
+            $("select#categories").change(function(e){
+                $.getJSON('/get_stuff_types/'+$(this).val(),'',function(j){
+                    {%if not params['stuff_type']%}
+                    stuff_type = document.getElementById('stuff_types');
+                    stuff_type.innerHTML = ''
+                    $.each(j, function(key,value){
+                        console.log(value);
+                        stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";
+                    });
+                    {%endif%}
+                    {%if params['stuff_type']%}
+                        if(firstLoad){
+                            firstLoad = false;
+                            console.log('{{params['stuff_type'].value}}')
+                            $("select#stuff_types").val('{{params['stuff_type'].value}}');
+                        }
+                    {%endif%}
+                });
+            });
+            $("select#stuff_types").change(function(e){
+                var htmlString = '';
+                $.getJSON('/get_categories/'+$(this).val(),'',function(j){
+                    {%if not params['category']%}
+                        $.each(j, function(key,value){
+                            console.log(value);
+                            htmlString += "<option value='"+value.id+"'>"+value.name+"</option>";
+                        });
+                        $("select#categories").html(htmlString);
+                    {%endif%}
+                    {%if params['category']%}
+                        if(firstLoad){
+                            firstLoad = false;
+                            console.log('{{params['category'].value}}')
+                            $("select#categories").val('{{params['category'].value}}');
+                        }
+                    {%endif%}
+                    // $("select#categories").trigger("change");
+                });
+            });
+            {%if params['category']%}
+
+                var htmlString = '';
+                $.getJSON('/get_categories','',function(j){
+                    $.each(j, function(key,value){
+                        console.log(value);
+                        htmlString += "<option value='"+value.id+"'>"+value.name+"</option>";
+                    });
+                     $("select#categories").html(htmlString);
+
+                     $("select#categories").val('{{params['category'].value}}');
+
+                     $("select#categories").trigger("change");
+                });
+            {%elif params['stuff_type']%}
+                $.getJSON('/get_stuff_types','',function(j){
+                    stuff_type = document.getElementById('stuff_types');
+                    stuff_type.innerHTML = ''
+                    $.each(j, function(key,value){
+                        console.log(value);
+                        stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";
+                    });
+                    $("select#stuff_types").val('{{params['stuff_type'].value}}');
+                    $("select#stuff_types").trigger("change");
+                });
+            {%endif%}
+            $("#list_btn").click(function(){
+                var category = $("select#categories option:selected").text();
+                var stuff_type = $("select#stuff_types option:selected").text();
+                var host = window.location.host;
+                window.location = "http://"+host+"/category/"+category+"/type/"+stuff_type;
+            })
+        })
+    </script>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h1>Esya Kutuphanesi 2.0</h1>
+            <div class="form-group">
+                <select id="categories">
+                </select>
+                <select id="stuff_types">
+                </select>
+                <button id="list_btn" class="btn">Listele</button>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <h3>Son Paylaşılanlar:</h3>
+            {% for stuff in stuff_list%}
+                <div class="col-md-4">
+                    <div class="row">
+                      <a href="{{stuff.url}}"> {{stuff}}</a>
+                    </div>
+                    <div class="row">
+                        <ol class="breadcrumb">
+                            <li><a href="/{{stuff.category.url}}">{{stuff.category}}</a></li>
+                            <li><a href="/{{stuff.stuff_type.url}}">{{stuff.stuff_type}}</a></li>
+                        </ol>
+                    </div>
+                    <div class="row">
+                        {%if stuff.photos%}
+                        <img class="img-responsive" src="/photos/{{stuff.photos[0].filename}}" />
+                        {%else%}
+                        <img class="img-responsive" src="/static/logosari1.png" />
+                        {%endif%}
+                    </div>
+                    <div class="row">
+                      {{stuff.detail}}
+                    </div>
+                </div>
+            {%endfor%}
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+{% endblock %}
+

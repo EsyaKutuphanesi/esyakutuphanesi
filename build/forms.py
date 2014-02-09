@@ -84,12 +84,16 @@ class EditStuffForm(Form):
     tags = TextField(u'Etiketler',[
         validators.Length(min=0, max=255)
     ])
+    category = SelectField('Kategori', coerce=int, validators=[validators.Required()])
+    stuff_type = SelectField(u'Eşya Türü', coerce=int, validators=[validators.Required()])
     def fill_form(self, stuff):
         self.tags.data=''
         self.title.data = stuff.title
         self.detail.data = stuff.detail
         self.stuffid.data = stuff.id
         self.address.data = stuff.address_id
+        self.stuff_type.data = stuff.type_id
+        self.category.data = stuff.category_id
 
     def validate(self):
         rv = Form.validate(self)

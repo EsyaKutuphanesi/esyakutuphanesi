@@ -3,11 +3,14 @@ from flask_login import current_user, login_required
 from sqlalchemy.orm.exc import NoResultFound
 from forms import *
 from ek import app, db, ALLOWED_EXTENSIONS
-from models import users, User, Role, Address, Stuff, Photo, StuffPhoto, Tag
+from models import users, User, Role, Address, Stuff, Photo, StuffPhoto, Tag, Category, StuffType
+
 import uuid
 import os.path
+import json
 
 @app.route('/')
+@app.route('/categories')
 def home():
     form = SeachForm()
     last_objects = Stuff.query.order_by(Stuff.id.desc()).limit(5)
@@ -58,29 +61,44 @@ def new_stuff():
     else:
         address_choices = []
     form.address.choices = address_choices
-    if request.method == 'POST' and form.validate_on_submit():
-        address = Address.query.filter(Address.id == form.address.data, Address.user_id==current_user.id).first()
-        tags = form.tags.data.split(',')
-        new_stuff = Stuff(title=form.title.data,
-                            detail=form.detail.data,
-                            stuff_address=address,
-                            owner=current_user)
-        db.session.add(new_stuff)
-        file = form.photo.file
-        if file:
-            file_ext = get_file_extension(file.filename)
-            generated_name = str(uuid.uuid1())+'.'+file_ext
-            filepath = os.path.join(app.config['UPLOADS_FOLDER'],generated_name)
-            file.save(filepath)
-            new_photo = StuffPhoto(owner=current_user,filename= generated_name,stuff=new_stuff)
-            db.session.add(new_photo)
+    categories  = Category.query.order_by(Category.name)
+    category_choices = [(category.id,category.name)for category in categories]
+    form.category.choices = category_choices
+    stuff_types = categories[0].type_list
+    stuff_type_choices = [(stuff_type.id, stuff_type.name)for stuff_type in stuff_types]
+    form.stuff_type.choices = stuff_type_choices
+    if request.method == 'POST':
+        category  = Category.query.filter(Category.id == form.category.data).first()
+        stuff_types = category.type_list
+        stuff_type_choices = [(stuff_type.id, stuff_type.name)for stuff_type in stuff_types]
+        form.stuff_type.choices = stuff_type_choices
+        if form.validate_on_submit():
+            address = Address.query.filter(Address.id == form.address.data, Address.user_id==current_user.id).first()
+            category = Category.query.filter(Category.id == form.category.data).first()
+            stuff_type = StuffType.query.filter(StuffType.id == form.stuff_type.data).first()
+            tags = form.tags.data.split(',')
+            new_stuff = Stuff(title=form.title.data,
+                                detail=form.detail.data,
+                                stuff_address=address,
+                                owner=current_user,
+                                category=category,
+                                stuff_type=stuff_type)
+            db.session.add(new_stuff)
+            file = form.photo.file
+            if file:
+                file_ext = get_file_extension(file.filename)
+                generated_name = str(uuid.uuid1())+'.'+file_ext
+                filepath = os.path.join(app.config['UPLOADS_FOLDER'],generated_name)
+                file.save(filepath)
+                new_photo = StuffPhoto(owner=current_user,filename= generated_name,stuff=new_stuff)
+                db.session.add(new_photo)
+                db.session.commit()
+            for t in tags:
+                new_tag = Tag(stuff=new_stuff,name=t)
+                db.session.add(new_tag)
             db.session.commit()
-        for t in tags:
-            new_tag = Tag(stuff=new_stuff,name=t)
-            db.session.add(new_tag)
-        db.session.commit()
-        form.fill_form(new_stuff)
-        return redirect('edit_profile')
+            form.fill_form(new_stuff)
+            return redirect('edit_profile')
     return render_template("edit_stuff.html", user=current_user, form=form, action='Add',stuff=None)
 
 @login_required
@@ -93,22 +111,36 @@ def edit_stuff(stuff_id):
     else:
         address_choices = [('none','None')]
     form.address.choices = address_choices
-    if request.method == 'POST' and form.validate_on_submit():
-        stuff_query = Stuff.query.filter(Stuff.id == form.stuffid.data)
-        file = form.photo.file
-        tags = form.tags.data.split(',')
-        if file:
-            file_ext = get_file_extension(file.filename)
-            generated_name = str(uuid.uuid1())+'.'+file_ext
-            filepath = os.path.join(app.config['UPLOADS_FOLDER'],generated_name)
-            file.save(filepath)
-            new_photo = StuffPhoto(owner=current_user,filename= generated_name,stuff=stuff)
-            db.session.add(new_photo)
-            db.session.commit()
-        stuff_query.update({Stuff.title: form.title.data,
-                            Stuff.detail: form.detail.data,
-                            Stuff.address_id: form.address.data
-                            })
+    categories  = Category.query.order_by(Category.name)
+    category_choices = [(category.id,category.name)for category in categories]
+    form.category.choices = category_choices
+    category  = Category.query.filter(Category.id == stuff.category_id).first()
+    stuff_types = category.type_list
+    stuff_type_choices = [(stuff_type.id, stuff_type.name)for stuff_type in stuff_types]
+    form.stuff_type.choices = stuff_type_choices
+    if request.method == 'POST':
+        category  = Category.query.filter(Category.id == form.category.data).first()
+        stuff_types = category.type_list
+        stuff_type_choices = [(stuff_type.id, stuff_type.name)for stuff_type in stuff_types]
+        form.stuff_type.choices = stuff_type_choices
+        if form.validate_on_submit():
+            stuff_query = Stuff.query.filter(Stuff.id == form.stuffid.data)
+            file = form.photo.file
+            tags = form.tags.data.split(',')
+            if file:
+                file_ext = get_file_extension(file.filename)
+                generated_name = str(uuid.uuid1())+'.'+file_ext
+                filepath = os.path.join(app.config['UPLOADS_FOLDER'],generated_name)
+                file.save(filepath)
+                new_photo = StuffPhoto(owner=current_user,filename= generated_name,stuff=stuff)
+                db.session.add(new_photo)
+                db.session.commit()
+            stuff_query.update({Stuff.title: form.title.data,
+                                Stuff.detail: form.detail.data,
+                                Stuff.address_id: form.address.data,
+                                Stuff.category_id: form.category.data,
+                                Stuff.type_id: form.stuff_type.data
+                                })
         for t in tags:
             if t > '':
                 new_tag = Tag(stuff=stuff,name=t)
@@ -123,6 +155,32 @@ def edit_stuff(stuff_id):
 def my_stuff():
     return render_template("my_stuff.html", user=current_user)
 
+
+@app.route('/get_stuff_types/<category_id>',methods=["GET", "POST"])
+@app.route('/get_stuff_types',methods=["GET", "POST"])
+def get_stuff_types(category_id=None):
+    if category_id:
+        category  = Category.query.filter(Category.id == category_id).first()
+        stuff_types = category.type_list
+    else:
+        stuff_types = StuffType.query.order_by(StuffType.name)
+
+    stuff_type_choices = [{"id":stuff_type.id, "name": stuff_type.name}for stuff_type in stuff_types]
+    stuff_type_choices_json = json.dumps(stuff_type_choices)
+    return stuff_type_choices_json
+
+@app.route('/get_categories',methods=["GET", "POST"])
+@app.route('/get_categories/<type_id>',methods=["GET", "POST"])
+def get_categories(type_id=None):
+    if type_id:
+        stuff_type = StuffType.query.filter(StuffType.id == type_id).first()
+        categories = stuff_type.category_list
+    else:
+        categories  = Category.query.order_by(Category.name)
+
+    category_list = [{"id":category.id, "name": category.name}for category in categories]
+    category_list_json = json.dumps(category_list)
+    return category_list_json
 
 @login_required
 @app.route('/show_stuff/<stuff_id>',methods=["GET", "POST"])
@@ -168,3 +226,59 @@ def photos_static(filename):
 def get_file_extension(filename):
     if '.' in filename:
         return filename.rsplit('.', 1)[1]
+
+@app.route('/category/<category_name>/',methods=["GET", "POST"])
+def category_view(category_name=None):
+    if category_name:
+        category = Category.query.filter(Category.name == category_name).first()
+        stuff_list = category.stuff_list
+    else:
+        stuff_list = Stuff.query.order_by(Stuff.id.desc()).limit(20)
+    params = {
+        'category': {
+            'type': 'category',
+            'value': category.id
+        }
+    }
+    return render_template("browse.html", user=current_user, stuff_list=stuff_list, params=params)
+
+@app.route('/stuff_type/<type_name>/',methods=["GET", "POST"])
+def stuff_type_view(type_name=None):
+    if type_name:
+        stuff_type = StuffType.query.filter(StuffType.name == type_name).first()
+        stuff_list = stuff_type.stuff_list
+    else:
+        stuff_list = Stuff.query.order_by(Stuff.id.desc()).limit(20)
+    params = {
+        'stuff_type': {
+            'type': 'stuff_type',
+            'value': stuff_type.id
+        },
+    }
+    return render_template("browse.html", user=current_user, stuff_list=stuff_list, params=params)
+
+@app.route('/category/<category_name>/type/<type_name>',methods=["GET", "POST"])
+def category_stuff_type_view(category_name, type_name):
+    if category_name and type_name:
+        stuff_type = StuffType.query.filter(StuffType.name == type_name).first()
+        category = Category.query.filter(Category.name == category_name).first()
+        stuff_list = Stuff.query.\
+            join(Category).\
+            join(StuffType).\
+            filter(StuffType.id == stuff_type.id).\
+            filter(Category.id == category.id).\
+            limit(5)
+    else:
+        stuff_list = Stuff.query.order_by(Stuff.id.desc()).limit(20)
+    params = {
+        'category': {
+            'type': 'category',
+            'value': category.id
+        },
+        'stuff_type': {
+            'type': 'stuff_type',
+            'value': stuff_type.id
+        },
+    }
+    return render_template("browse.html", user=current_user, stuff_list=stuff_list, params=params)
+

@@ -3,12 +3,28 @@
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
+    <script>
+        $(function(){
+            $("select#category").change(function(e){
+                $.getJSON('/get_stuff_types/'+$(this).val(),'',function(j){
+                    stuff_type = document.getElementById('stuff_type');
+                    stuff_type.innerHTML = ''
+                    $.each(j, function(key,value){
+                        console.log(value);
+                        stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";
+                    });
+                });
+            });
+        })
+    </script>
     <div class="col-md-2"></div>
     <div class="col-md-5">
         <h1>Eşya Sayfası</h1>
         <form action="{{ form_action }}" method="POST" name="edit_stuff_form" enctype="multipart/form-data">
           {{ form.hidden_tag() }}
           {{ render_field_with_errors(form.title) }}
+          {{ render_field_with_errors(form.category) }}
+          {{ render_field_with_errors(form.stuff_type) }}
           {{ render_field_with_errors(form.detail) }}
           {{ render_field_with_errors(form.address) }}
           {{ render_field_with_errors(form.photo) }}

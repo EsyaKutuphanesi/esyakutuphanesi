@@ -21,13 +21,26 @@
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <h3>Son Paylaşılanlar:</h3>
-            {% for obj in last_objects%}
+            {% for stuff in last_objects%}
                 <div class="col-md-4">
                     <div class="row">
-                      <a href="{{obj.url}}"> {{obj}}</a>
+                      <a href="{{stuff.url}}"> {{stuff}}</a>
                     </div>
                     <div class="row">
-                      {{obj.detail}}
+                        <ol class="breadcrumb">
+                            <li><a href="{{stuff.category.url}}">{{stuff.category}}</a></li>
+                            <li><a href="{{stuff.stuff_type.url}}">{{stuff.stuff_type}}</a></li>
+                        </ol>
+                    </div>
+                    <div class="row">
+                        {%if stuff.photos%}
+                        <img class="img-responsive" src="/photos/{{stuff.photos[0].filename}}" />
+                        {%else%}
+                        <img class="img-responsive" src="/static/logosari1.png" />
+                        {%endif%}
+                    </div>
+                    <div class="row">
+                      {{stuff.detail}}
                     </div>
                 </div>
             {%endfor%}
