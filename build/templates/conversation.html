@@ -1,0 +1,32 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_textarea_with_errors  %}
+{% include "security/_messages.html" %}
+{% extends "layout.html" %}
+{%block title%}Esya Kutuphanesi{%endblock%}
+{% block content %}
+    <div class="col-md-2"></div>
+    <div class="col-md-5">
+         <h1>{{conversation.title}}</h1>
+         <form action="/conversations/{{ conversation.id }}" method="post">
+             {{ form.hidden_tag() }}
+          <div class="form-group">
+            {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
+          </div>
+
+          <button type="submit" class="btn btn-default">{{ form.submit.label }} </button>
+        </form>
+
+        {% for message in conversation.messages | reverse %}
+            <div class="row">
+                <div class="col-md-4">
+                    {{ message.user.name }}
+                </div>
+                <div class="col-md-8">
+                    {{ message}}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="col-md-5">
+    </div>
+{% endblock %}
+
