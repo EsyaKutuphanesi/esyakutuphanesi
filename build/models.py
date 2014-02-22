@@ -8,6 +8,10 @@ roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
         db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
+conversation_users = db.Table('conversation_users',
+        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+        db.Column('conversation_id', db.Integer(), db.ForeignKey('conversation.id')))
+
 categories_types = db.Table('categories_types',
         db.Column('category_id', db.Integer(), db.ForeignKey('category.id')),
         db.Column('stufftype_id', db.Integer(), db.ForeignKey('stufftype.id')))
@@ -159,10 +163,69 @@ class StuffType(db.Model):
 
     @property
     def admin_url(self):
-        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'thing', self.id)
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'stufftype', self.id)
 
     @property
     def url(self):
         return "%s/%s/" % ('stuff_type', self.name)
+
+class Request(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    stuff_id = db.Column(db.Integer, db.ForeignKey('stuff.id'))
+    stuff = db.relationship('Stuff', backref='requests')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref='requests', foreign_keys=[user_id])
+    from_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    from_user = db.relationship('User', backref='incoming_requests', foreign_keys=[from_user_id])
+    status = db.Column(db.Integer,default=0)
+
+    def __repr__(self):
+        return self.name
+
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'request', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s/" % ('request', self.id)
+
+class Conversation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    users = db.relationship('User', secondary=conversation_users,
+                            backref=db.backref('conversations', lazy='dynamic'))
+    request_id = db.Column(db.Integer, db.ForeignKey('request.id'))
+    request = db.relationship('Request', backref='conversation')
+    title = db.Column(db.String(255))
+
+    def __repr__(self):
+        return self.name
+
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'conversation', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s/" % ('conversation', self.id)
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref='messages')
+    conversation_id = db.Column(db.Integer, db.ForeignKey('conversation.id'))
+    conversation = db.relationship('Conversation', backref='messages')
+    txt = db.Column(db.String(1000))
+
+    def __repr__(self):
+        return self.txt
+
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'conversation', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s/" % ('conversation', self.id)
 
 users = SQLAlchemyUserDatastore(db, User, Role)
