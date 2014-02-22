@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from sqlalchemy.orm.exc import NoResultFound
 from forms import *
 from ek import app, db, ALLOWED_EXTENSIONS
-from models import users, User, Role, Address, Stuff, Photo, StuffPhoto, Tag, Category, StuffType
+from models import *
 
 import uuid
 import os.path
@@ -148,7 +148,7 @@ def edit_stuff(stuff_id):
         db.session.commit()
     if stuff:
         form.fill_form(stuff)
-    return render_template("edit_stuff.html", user=current_user, form=form, action='Edit',stuff=stuff)
+    return render_template("edit_stuff.html", user=current_user, form=form, action='Edit', stuff=stuff)
 
 @login_required
 @app.route('/my_stuff',methods=["GET", "POST"])
@@ -282,3 +282,46 @@ def category_stuff_type_view(category_name, type_name):
     }
     return render_template("browse.html", user=current_user, stuff_list=stuff_list, params=params)
 
+@login_required
+@app.route('/my_messages',methods=["GET", "POST"])
+def my_messages():
+    return render_template("my_messages.html", user=current_user)
+
+@login_required
+@app.route('/conversations/<conversation_id>', methods=["GET", "POST"])
+def show_conversation(conversation_id):
+    conversation = Conversation.query.filter(Conversation.id == conversation_id).first()
+    if current_user not in conversation.users:
+        redirect('/my_messages')
+    print request.form
+    form = ConversationForm(request.form)
+    print form.message.data
+    if request.method == 'POST' and form.validate_on_submit():
+        print "OK"
+        new_message = Message(user=current_user,
+                              conversation=conversation,
+                              txt=form.message.data)
+        db.session.add(new_message)
+        db.session.commit()
+    return render_template("conversation.html", user=current_user, form=form, action='Edit', conversation=conversation)
+
+@login_required
+@app.route('/make_request/<stuff_id>', methods=["GET", "POST"])
+def make_request(stuff_id):
+    stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
+    new_request = Request(stuff_id=stuff_id,
+                          user_id=current_user.id,
+                          from_user_id=stuff.owner_id)
+    db.session.add(new_request)
+
+    new_conversation = Conversation(title='new conversation',
+                                    users=[current_user, stuff.owner],
+                                    request=new_request)
+
+    db.session.add(new_conversation)
+
+    new_message = Message(user=current_user,
+                          conversation=new_conversation,
+                          txt='Merhaba %s, %s esyasini istiyorum' % (stuff.owner.name, stuff.title))
+    db.session.commit()
+    return render_template("my_messages.html", user=current_user)

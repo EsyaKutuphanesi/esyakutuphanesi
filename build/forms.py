@@ -111,3 +111,19 @@ class SeachForm(Form):
         validators.Length(min=0, max=255)
     ])
     submit = SubmitField("Ara")
+
+class ConversationForm(Form):
+    message = TextAreaField(u'Mesaj Yaz', [
+        validators.Length(min=0, max=1000),
+        validators.Required()
+    ])
+
+    submit = SubmitField(u"Gönder")
+
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            print 'not OK'
+            return False
+
+        return True
