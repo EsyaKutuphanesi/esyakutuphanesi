@@ -37,7 +37,6 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
     name = db.Column(db.String(255), nullable=False)
-    nickname = db.Column(db.String(255), unique=True, nullable=False)
     phone_number = db.Column(db.String(255))
     photo = db.Column(db.String(255))
     about = db.Column(db.String(1000))
@@ -60,7 +59,7 @@ class User(db.Model, UserMixin):
 
     @property
     def url(self):
-        return "%s/%s/" % ('profiles', self.nickname)
+        return "%s/%s/" % ('profiles', self.name)
 
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -74,7 +73,7 @@ class Address(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
-        return '%s[%s]' % (self.name,self.user.nickname)
+        return '%s[%s]' % (self.name, self.user.name)
 
     @property
     def admin_url(self):
@@ -179,8 +178,6 @@ class Request(db.Model):
     from_user = db.relationship('User', backref='incoming_requests', foreign_keys=[from_user_id])
     status = db.Column(db.Integer,default=0)
 
-    def __repr__(self):
-        return self.name
 
     @property
     def admin_url(self):
@@ -197,9 +194,6 @@ class Conversation(db.Model):
     request_id = db.Column(db.Integer, db.ForeignKey('request.id'))
     request = db.relationship('Request', backref='conversation')
     title = db.Column(db.String(255))
-
-    def __repr__(self):
-        return self.name
 
     @property
     def admin_url(self):

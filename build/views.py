@@ -20,23 +20,12 @@ def home():
 def search():
     form = SeachForm()
     last_objects = list()
-    print request
-    if request.method == 'POST':
-        last_objects = Stuff.query.join(Address).filter(Address.id== Stuff.address_id,
-                                                        Stuff.title.like('%'+form.stuff.data+'%'),
-                                                        Address.detail.like('%'+form.address.data+'%'))
-    return render_template("search.html",user=current_user,last_objects=last_objects,form=form)
+    if request.method == 'GET':
+        last_objects = Stuff.query.join(Address).filter(Address.id==Stuff.address_id,
+                                                        Stuff.title.like('%'+unicode(request.args.get('stuff'))+'%'),
+                                                        Address.detail.like('%'+unicode(request.args.get('address'))+'%'))
 
-@app.route('/qsearch',methods=["GET", "POST"])
-def qsearch():
-    form = SeachForm()
-    last_objects = list()
-    print request
-    if request.method == 'POST':
-        last_objects = Stuff.query.join(Address).filter(Address.id== Stuff.address_id,
-                                                        Stuff.title.like('%'+form.stuff.data+'%'),
-                                                        Address.detail.like('%'+form.address.data+'%'))
-    return render_template("search.html",user=current_user,last_objects=last_objects,form=form)
+    return render_template("search.html", user=current_user, last_objects=last_objects, form=form)
 
 @login_required
 @app.route('/new_address',methods=["GET", "POST"])
@@ -201,15 +190,14 @@ def edit_profile():
             if file:
                 file_ext = get_file_extension(file.filename)
                 generated_name = str(uuid.uuid1())+'.'+file_ext
-                filepath = os.path.join(app.config['UPLOADS_FOLDER'],generated_name)
+                filepath = os.path.join(app.config['UPLOADS_FOLDER'], generated_name)
                 file.save(filepath)
-                new_photo = Photo(owner=current_user,filename= generated_name)
+                new_photo = Photo(owner=current_user, filename=generated_name)
                 db.session.add(new_photo)
                 db.session.commit()
             User.query.filter(User.id == current_user.id).update({
                                   User.name: form.name.data,
                                   User.email: form.email.data,
-                                  User.nickname: form.nickname.data,
                                   User.phone_number: form.phone_number.data,
                                   User.about: form.about.data})
             db.session.commit()

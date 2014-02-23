@@ -8,17 +8,12 @@ from models import User
 
 class ExtendedRegisterForm(RegisterForm):
     name = TextField('Ad Soyad', [Required()])
-    nickname = TextField('Takma Ad', [Required()])
 
 
 class EditUserForm(Form):
     userid = HiddenField('userid');
     photo = FileField(u'Resim Yükle')
     name = TextField('Isminiz', [
-        validators.Length(min=4, max=25),
-        validators.Required()
-    ])
-    nickname = TextField('Takma Isim', [
         validators.Length(min=4, max=25),
         validators.Required()
     ])
@@ -41,8 +36,6 @@ class EditUserForm(Form):
 
     def fill_form(self, user):
         self.name.data = user.name
-
-        self.nickname.data = user.nickname
         self.email.data = user.email
         self.userid.data = user.id
         self.phone_number.data = user.phone_number
@@ -62,7 +55,7 @@ class EditUserForm(Form):
             return False
 
         user = User.query.filter_by(
-            nickname=self.nickname.data).first()
+            nickname=self.email.data).first()
         if user and user.id <> int(self.userid.data):
             self.nickname.errors.append('This nickname is already taken')
             return False
