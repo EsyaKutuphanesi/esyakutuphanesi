@@ -7,17 +7,17 @@ roles = {'admin': 'admin',
          }
 
 users_list = [
-    {'email': 'yigiit@gmail.com', 'password': 'ekek', 'name': 'yigit', 'roles': [roles['admin']], 'nickname':'yigit'},
-    {'email': 'umutcanonal@gmail.com', 'password': 'ekek', 'name': 'umut', 'roles': [roles['admin']], 'nickname':'umutcan'},
-    {'email': 'aysu@esyakutuphanesi.com', 'password': 'ekek', 'name': 'aysu', 'roles': [roles['admin']], 'nickname':'aysu'},
-    {'email': 'ayse@esyakutuphanesi.com', 'password': 'ekek', 'name': 'ayse', 'roles': [roles['admin']], 'nickname':'ayse'},
+    {'email': 'yigiit@gmail.com', 'password': 'ekek', 'name': 'yigit', 'roles': [roles['admin']]},
+    {'email': 'umutcanonal@gmail.com', 'password': 'ekek', 'name': 'umut', 'roles': [roles['admin']]},
+    {'email': 'aysu@esyakutuphanesi.com', 'password': 'ekek', 'name': 'aysu', 'roles': [roles['admin']]},
+    {'email': 'ayse@esyakutuphanesi.com', 'password': 'ekek', 'name': 'ayse', 'roles': [roles['admin']]},
     ]
 
 adress_list = [
     {'lat':'40.996427', 'lng':'29.033614','user':['umutcan']}
 ]
 addresses = {
-    'umutcan':[{'lat':'40.996427', 'lng':'29.033614','name':'acibadem','detail':'omer cemalbey sokak istanbul'}]
+    'umutcan':[{'lat':'40.996427', 'lng':'29.033614','name':'acibadem','detail':u'acıbadem mh. ömer cemalbey sokak istanbul'}]
 }
 db.create_all()
 
