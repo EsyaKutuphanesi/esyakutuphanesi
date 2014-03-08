@@ -1,8 +1,9 @@
 # coding=utf-8
 from flask_security.forms import RegisterForm
-from flask_wtf import Form, TextField,Required, HiddenField, PasswordField,validators, SubmitField
-from flask_wtf import TextAreaField, SelectField, FileField
-from flask.ext.wtf import ValidationError
+from flask.ext.wtf import Form
+from wtforms import TextField, HiddenField, PasswordField, validators, SubmitField
+from wtforms import TextAreaField, SelectField, FileField
+from wtforms.validators import Required
 
 from models import User
 
@@ -52,12 +53,6 @@ class EditUserForm(Form):
         print user.id
         if user and user.id <> int(self.userid.data):
             self.email.errors.append('There is already a user registered with this email')
-            return False
-
-        user = User.query.filter_by(
-            nickname=self.email.data).first()
-        if user and user.id <> int(self.userid.data):
-            self.nickname.errors.append('This nickname is already taken')
             return False
 
         return True
