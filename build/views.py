@@ -1,9 +1,9 @@
 from flask import render_template, flash, redirect, request, send_from_directory
 from flask_login import current_user, login_required
-from sqlalchemy.orm.exc import NoResultFound
+
 from forms import *
-from ek import app, db, ALLOWED_EXTENSIONS
 from models import *
+from oauth_handler import *
 
 import uuid
 import os.path
@@ -186,7 +186,7 @@ def edit_profile():
     form = EditUserForm()
     if request.method == 'POST' and form.validate_on_submit():
         if current_user.id == int(form.userid.data):
-            file = form.photo.file
+            file = form.photo.data
             if file:
                 file_ext = get_file_extension(file.filename)
                 generated_name = str(uuid.uuid1())+'.'+file_ext

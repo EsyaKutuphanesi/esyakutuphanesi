@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from flask_security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Security
-
+from flask.ext.security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Security
+from flask.ext.social import Social
+from flask.ext.social.datastore import SQLAlchemyConnectionDatastore
 from ek import app, db
 
 roles_users = db.Table('roles_users',
@@ -222,4 +223,19 @@ class Message(db.Model):
     def url(self):
         return "%s/%s/" % ('conversation', self.id)
 
+class Connection(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    provider_id = db.Column(db.String(255))
+    provider_user_id = db.Column(db.String(255))
+    access_token = db.Column(db.String(255))
+    secret = db.Column(db.String(255))
+    display_name = db.Column(db.String(255))
+    full_name = db.Column(db.String(255))
+    profile_url = db.Column(db.String(512))
+    image_url = db.Column(db.String(512))
+    rank = db.Column(db.Integer)
+    user = db.relationship('User', backref='social_connections')
+
 users = SQLAlchemyUserDatastore(db, User, Role)
+# social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))

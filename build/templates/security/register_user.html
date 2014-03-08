@@ -1,5 +1,5 @@
 {% extends "security/header.html" %}
-{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "security/_macros.html" import render_field_with_errors, render_field, social_login %}
 {% include "security/_messages.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
@@ -16,6 +16,9 @@
           {% endif %}
           {{ render_field(register_user_form.submit) }}
         </form>
+        <div class="span4 col3">
+            {{ social_login('facebook', 'Facebook' )}}
+        </div>
     </div>
     <div class="col-md-4"></div>
 {% endblock %}
