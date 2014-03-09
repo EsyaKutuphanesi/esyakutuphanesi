@@ -1,6 +1,7 @@
 # coding=utf-8
 from ek import db
-from models import users, Role, User, Address, Stuff, Conversation, Message, Request, Connection
+from models import users, Role, User,Address, Stuff,\
+    Conversation, Message, Request, Connection, Category, StuffType
 db.drop_all()
 roles = {'admin': 'admin',
          'member': 'member',
@@ -62,4 +63,26 @@ for email in addresses:
                               name=address.get('name'))
     db.session.add(new_address)
 """
+db.session.commit()
+
+categories = [u'Elektronik ve Bilgisayar', u'Spor ve Dış Aktiviteler',
+              u'Kitap', u'Müzik']
+stuff_types =  {
+    u'Elektronik ve Bilgisayar': [u'Tablet', u'HDD',
+                                  u'DVD Oynatıcı', u'Taşınabilir DVD Yazıcı'],
+    u'Spor ve Dış Aktiviteler': [u'Bisiklet' ,u'Koşu Bandı',
+                                 u'Bisiklet Kaskı', u'Oksijen Tüpü'],
+    u'Kitap': [u'Sosyoloji/Felsefe', u'Tarih/Araştırma',
+               u'Roman/Öykü', u'Teknik Kitaplar'],
+    u'Müzik': [u'CD',u'Taş Plak',u'Kaset',u'Gitar',u'Flüt',u'Ney']
+}
+
+for category in categories:
+    new_category = Category(name=category)
+    db.session.add(new_category)
+    for stuff_type in stuff_types[category]:
+        new_type = StuffType(name=stuff_type)
+        db.session.add(new_type)
+        new_category.type_list.append(new_type)
+
 db.session.commit()
