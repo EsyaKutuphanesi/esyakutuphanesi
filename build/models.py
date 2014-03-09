@@ -1,8 +1,6 @@
 from datetime import datetime
 
 from flask.ext.security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Security
-from flask.ext.social import Social
-from flask.ext.social.datastore import SQLAlchemyConnectionDatastore
 from ek import app, db
 
 roles_users = db.Table('roles_users',
