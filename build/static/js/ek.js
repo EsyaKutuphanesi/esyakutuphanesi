@@ -10,10 +10,16 @@ $(document).ready(function(){
     $('#search').click(function(e){
         e.preventDefault();
         GMaps.geocode({
-            address: $('#address_src').val().trim(),
+            address: $('#address').val().trim(),
             callback: function(results, status){
                 if(status=='OK'){
+                  console.log(results);
                   var latlng = results[0].geometry.location;
+                  addr_components = results[0].address_components;
+                  adrStr = parseAddress(addr_components);
+                  $('#address').val(adrStr);
+                  $('#lat').val(latlng.lat());
+                  $('#lng').val(latlng.lng());
                   map.setCenter(latlng.lat(), latlng.lng());
                   map.addMarker({
                     lat: latlng.lat(),
@@ -24,14 +30,18 @@ $(document).ready(function(){
         });
     });
 
-    $('#address_src').keypress(function(e){
+    $('#address').keypress(function(e){
         if(e.which == 13) {
             e.preventDefault();
             GMaps.geocode({
-                address: $('#address_src').val().trim(),
+                address: $('#address').val().trim(),
                 callback: function(results, status){
                     if(status=='OK'){
                       var latlng = results[0].geometry.location;
+                      adrStr = parseAddress(results[0].addr_components);
+                      $('#address').val(adrStr);
+                      $('#lat').val(latLng.lat());
+                      $('#lng').val(latLng.lng());
                       map.setCenter(latlng.lat(), latlng.lng());
                       map.addMarker({
                         lat: latlng.lat(),
@@ -58,7 +68,7 @@ $(document).ready(function(){
                     if(status=='OK'){
                         addr_components = results[0].address_components;
                         console.log(addr_components);
-                        adrStr = parseAddress(results[0].addr_components);
+                        adrStr = parseAddress(addr_components);
                         $('#address').val(adrStr);
                         $('#lat').val(e.latLng.lat());
                         $('#lng').val(e.latLng.lng());
@@ -80,7 +90,7 @@ $(document).ready(function(){
 
 function parseAddress(address_components){
     var address_str = '';
-    addr_components.forEach(function(item){
+    address_components.forEach(function(item){
 
         item.types.forEach(function(type){
             if(checkType(type)){

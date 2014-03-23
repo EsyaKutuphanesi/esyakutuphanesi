@@ -1,7 +1,7 @@
 import uuid
 import json
 
-from flask import render_template, send_from_directory
+from flask import render_template, send_from_directory, flash
 from flask_login import current_user, login_required
 from forms import *
 from oauth_handler import *
@@ -45,6 +45,8 @@ def new_address():
                           name=request.form.get('address_name'))
         db.session.add(address)
         db.session.commit()
+        flash(u"Adresiniz kaydedildi")
+        return redirect(url_for("edit_profile"))
     return render_template("map.html", user=current_user)
 
 

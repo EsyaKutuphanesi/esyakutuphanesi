@@ -15,21 +15,20 @@ function send(){
 <div class="col-md-8">
     <h1>Yeni Address </h1>
     <div class="row">
-        <div class="col-md-11">
-          <form method="post" id="geocoding_form" action="/new_address">
-            <label for="address">Adres İsmi:</label>
-            <input type="text" id="address_name" name="address_name" />
-            <label for="address">Address:</label>
-            <input type="text" id="address" name="address" diasble/>
-            <input type="hidden" id="lat" name="lat"/>
-            <input type="hidden" id="lng" name="lng"/>
-            <input id='save' type="submit" class="btn" value="Kaydet" onclick="send()" />
-          </form>
-          <div id="panel">
-            <input id="address_src" type="textbox" value="">
-            <input id ='search' type="button" class="btn" value="Ara" />
-          </div>
+        <div class="col-md-8">
           <div id="map"></div>
+        </div>
+        <div class="col-md-4" >
+            <form method="post" id="geocoding_form" action="/new_address">
+                <label for="address">Adres İsmi:</label>
+                <input type="text" id="address_name" class="form-group" name="address_name" />
+                <label for="address">Address:</label>
+                <input type="text" id="address" class="form-group" name="address" diasble/>
+                <input type="hidden" id="lat" name="lat"/>
+                <input type="hidden" id="lng" name="lng"/>
+                <input id ='search' type="button" class="btn" value="Ara" />
+                <input id='save' type="submit" class="btn" value="Kaydet" onclick="send()" />
+            </form>
         </div>
     </div>
 </div>
