@@ -12,7 +12,7 @@ import os.path
 @app.route('/categories')
 def home():
     form = SeachForm()
-    last_objects = Stuff.query.filter(Stuff.approved).order_by(Stuff.id.desc()).limit(5)
+    last_objects = Stuff.query.filter(Stuff.approved == 1).order_by(Stuff.id.desc()).limit(5)
     return render_template("index.html", user=current_user,
                            last_objects=last_objects, form=form)
 
@@ -25,7 +25,7 @@ def search():
         stuff_key = unicode(request.args.get('stuff'))
         address_key = unicode(request.args.get('address'))
         last_objects = Stuff.query.join(Address).\
-            filter(Stuff.approved,
+            filter(Stuff.approved == 1,
                    Address.id == Stuff.address_id,
                    Stuff.title.like('%'+stuff_key+'%'),
                    Address.detail.like('%'+address_key+'%'))
@@ -59,6 +59,7 @@ def edit_stuff(stuff_id=None):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
     form = EditStuffForm()
     is_new = True
+
     if current_user.addresses:
         address_choices = [(address.id, address.name)
                            for address in current_user.addresses]
@@ -70,10 +71,12 @@ def edit_stuff(stuff_id=None):
     form.address.choices = address_choices
 
     if current_user.groups:
-        group_choices = [(group.id, group.name)
-                           for group in current_user.groups]
+        group_choices = [(membership.group.id, membership.group.name)
+                         for membership in current_user.groups]
+        group_choices = [(-1, u'Herkese Acik')] + group_choices
     else:
         group_choices = [(-1, u'Herkese Acik')]
+
     form.group.choices = group_choices
 
     categories = Category.query.order_by(Category.name)
@@ -81,7 +84,7 @@ def edit_stuff(stuff_id=None):
                         for category in categories]
     form.category.choices = category_choices
     if stuff:
-        category = Category.query.\
+        category = Category.query. \
             filter(Category.id == stuff.category_id).first()
     else:
         category = categories[0]
@@ -139,8 +142,15 @@ def edit_stuff(stuff_id=None):
             if stuff_id is None:
                 return redirect(url_for('edit_stuff', stuff_id=stuff.id))
 
+
     if stuff:
         is_new = False
+        if stuff.group_id > 0:
+            group_choices = [(stuff.group_id, stuff.group.name)]
+        else:
+            group_choices = [(-1, u'Herkese Acik')]
+
+        form.group.choices = group_choices
         form.fill_form(stuff)
 
     return render_template("edit_stuff.html", user=current_user,
@@ -343,3 +353,38 @@ def make_request(stuff_id):
 
     db.session.commit()
     return render_template("my_messages.html", user=current_user)
+
+@login_required
+@app.route('/moderation')
+def moderation():
+    action = request.args.get("action")
+    id = request.args.get("id")
+
+    if action == 'approve' and id>0:
+        if 'admin' in current_user.roles:
+            stuff = Stuff.query.filter(Stuff.approved == 0,
+                                       Stuff.id == id). \
+                order_by(Stuff.id.desc()).first()
+        else:
+            stuff = Stuff.query.join(Group).join(GroupMembership) \
+                .filter(GroupMembership.user_id == current_user.id,
+                        GroupMembership.is_moderator,
+                        Stuff.id == id,
+                        Stuff.approved == 0). \
+                order_by(Stuff.id.desc()).first()
+        if stuff:
+            stuff.approved = 1
+            db.session.commit()
+
+    if 'admin' in current_user.roles:
+        last_objects = Stuff.query.filter(Stuff.approved == 0).\
+            order_by(Stuff.id.desc()).limit(5)
+    else:
+        last_objects = Stuff.query.join(Group).join(GroupMembership)\
+            .filter(GroupMembership.user_id == current_user.id,
+                    GroupMembership.is_moderator,
+                    Stuff.approved == 0).\
+            order_by(Stuff.id.desc()).limit(5)
+
+    return render_template("moderation.html", user=current_user,
+                           last_objects=last_objects)
