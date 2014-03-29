@@ -96,6 +96,10 @@ class Stuff(db.Model):
     type_id = db.Column(db.Integer, db.ForeignKey('stufftype.id'))
     category = db.relationship('Category', backref='stuff_list')
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
+    group = db.relationship('Group', backref='stuff_list')
+    approved = db.Column(db.Boolean(), default=False)
+
     def __repr__(self):
         return "%s" % (self.title)
 
@@ -220,6 +224,25 @@ class Message(db.Model):
     @property
     def url(self):
         return "%s/%s/" % ('conversation', self.id)
+
+class Group(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), unique=True)
+    description = db.Column(db.String(1000))
+    members = db.relationship("GroupMembership", backref="group")
+
+    def __repr__(self):
+        return self.name
+
+class GroupMembership(db.Model):
+    __tablename__ = 'group_membership'
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), primary_key=True)
+    is_moderator = db.Column(db.Boolean)
+    user = db.relationship("User", backref='groups')
+
+    def __repr__(self):
+        return "%s[%s] " % (self.user.name, self.group.name)
 
 class Connection(db.Model):
     id = db.Column(db.Integer, primary_key=True)

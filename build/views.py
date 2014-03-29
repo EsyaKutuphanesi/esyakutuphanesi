@@ -12,7 +12,7 @@ import os.path
 @app.route('/categories')
 def home():
     form = SeachForm()
-    last_objects = Stuff.query.order_by(Stuff.id.desc()).limit(5)
+    last_objects = Stuff.query.filter(Stuff.approved).order_by(Stuff.id.desc()).limit(5)
     return render_template("index.html", user=current_user,
                            last_objects=last_objects, form=form)
 
@@ -25,7 +25,8 @@ def search():
         stuff_key = unicode(request.args.get('stuff'))
         address_key = unicode(request.args.get('address'))
         last_objects = Stuff.query.join(Address).\
-            filter(Address.id == Stuff.address_id,
+            filter(Stuff.approved,
+                   Address.id == Stuff.address_id,
                    Stuff.title.like('%'+stuff_key+'%'),
                    Address.detail.like('%'+address_key+'%'))
 
@@ -46,6 +47,7 @@ def new_address():
         db.session.add(address)
         db.session.commit()
         flash(u"Adresiniz kaydedildi")
+
         return redirect(url_for("edit_profile"))
     return render_template("map.html", user=current_user)
 
@@ -56,13 +58,23 @@ def new_address():
 def edit_stuff(stuff_id=None):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
     form = EditStuffForm()
-
+    is_new = True
     if current_user.addresses:
         address_choices = [(address.id, address.name)
                            for address in current_user.addresses]
     else:
-        address_choices = [('none', 'None')]
+        flash('Adres girmeniz gerekiyor')
+        return redirect(url_for("new_address",
+                                next=request.script_root+request.path))
+
     form.address.choices = address_choices
+
+    if current_user.groups:
+        group_choices = [(group.id, group.name)
+                           for group in current_user.groups]
+    else:
+        group_choices = [(-1, u'Herkese Acik')]
+    form.group.choices = group_choices
 
     categories = Category.query.order_by(Category.name)
     category_choices = [(category.id, category.name)
@@ -86,7 +98,6 @@ def edit_stuff(stuff_id=None):
         stuff_type_choices = [(stuff_type.id, stuff_type.name)
                               for stuff_type in stuff_types]
         form.stuff_type.choices = stuff_type_choices
-
         if form.validate_on_submit():
             photo_file = form.photo.data
             if photo_file:
@@ -106,15 +117,17 @@ def edit_stuff(stuff_id=None):
                 stuff.address_id = form.address.data
                 stuff.category_id = form.category.data
                 stuff.type_id = form.stuff_type.data
+                flash("Esya guncellendi")
             else:
                 stuff = Stuff(title=form.title.data,
                               detail=form.detail.data,
                               address_id=form.address.data,
                               owner=current_user,
                               category_id=form.category.data,
-                              type_id=form.stuff_type.data)
-
+                              type_id=form.stuff_type.data,
+                              group_id=form.group.data)
                 db.session.add(stuff)
+                flash("Esya kaydedildi")
 
             tags = form.tags.data.split(',')
             for t in tags:
@@ -127,10 +140,12 @@ def edit_stuff(stuff_id=None):
                 return redirect(url_for('edit_stuff', stuff_id=stuff.id))
 
     if stuff:
+        is_new = False
         form.fill_form(stuff)
 
     return render_template("edit_stuff.html", user=current_user,
-                           form=form, action='Edit', stuff=stuff)
+                           form=form, action='Edit', stuff=stuff,
+                           is_new=is_new)
 
 
 @login_required

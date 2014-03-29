@@ -19,6 +19,11 @@
     <div class="col-md-2"></div>
     <div class="col-md-5">
         <h1>Eşya Sayfası</h1>
+        {% if not is_new %}
+            {% if not stuff.approved %}
+                <p class="alert-danger">Eşyanız henüz onaylanmadı</p>
+            {% endif %}
+        {% endif %}
         <form action="{{ form_action }}" method="POST" name="edit_stuff_form" enctype="multipart/form-data">
           {{ form.hidden_tag() }}
           {{ render_field_with_errors(form.title) }}
@@ -26,6 +31,7 @@
           {{ render_field_with_errors(form.stuff_type) }}
           {{ render_field_with_errors(form.detail) }}
           {{ render_field_with_errors(form.address) }}
+            {{ render_field_with_errors(form.group) }}
           {{ render_field_with_errors(form.photo) }}
             {%for tag in stuff.tags%}
                 <div class="btn btn-default">{{tag}}</div>

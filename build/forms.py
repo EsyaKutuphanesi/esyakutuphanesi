@@ -67,7 +67,8 @@ class EditStuffForm(Form):
     detail = TextAreaField('Detaylar', [
         validators.Length(min=0, max=1000),
     ])
-    address = SelectField('Adress', coerce=int, validators=[validators.Required()])
+    address = SelectField('Adres', coerce=int, validators=[validators.Required()])
+    group = SelectField('Grup', coerce=int, validators=[validators.Required()])
     submit = SubmitField("Kaydet")
     tags = TextField(u'Etiketler',[
         validators.Length(min=0, max=255)
