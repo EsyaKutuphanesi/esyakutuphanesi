@@ -75,6 +75,8 @@ class EditStuffForm(Form):
     ])
     category = SelectField('Kategori', coerce=int, validators=[validators.Required()])
     stuff_type = SelectField(u'Eşya Türü', coerce=int, validators=[validators.Required()])
+    is_wanted = SelectField(u'İstiyorum?', choices=[('False', u'Vermek'),
+                                          ('True', u'Almak')])
     def fill_form(self, stuff):
         self.tags.data=''
         self.title.data = stuff.title
@@ -83,6 +85,7 @@ class EditStuffForm(Form):
         self.address.data = stuff.address_id
         self.stuff_type.data = stuff.type_id
         self.category.data = stuff.category_id
+        self.is_wanted.data = str(stuff.is_wanted)
 
     def validate(self):
         rv = Form.validate(self)

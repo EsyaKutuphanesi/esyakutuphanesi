@@ -99,6 +99,8 @@ class Stuff(db.Model):
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
     group = db.relationship('Group', backref='stuff_list')
     approved = db.Column(db.Integer, default=0)
+    status = db.Column(db.Integer, default=1)
+    is_wanted = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return "%s" % (self.title)

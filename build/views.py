@@ -120,6 +120,7 @@ def edit_stuff(stuff_id=None):
                 stuff.address_id = form.address.data
                 stuff.category_id = form.category.data
                 stuff.type_id = form.stuff_type.data
+                stuff.is_wanted = form.is_wanted.data == 'True'
                 flash("Esya guncellendi")
             else:
                 stuff = Stuff(title=form.title.data,
@@ -128,7 +129,8 @@ def edit_stuff(stuff_id=None):
                               owner=current_user,
                               category_id=form.category.data,
                               type_id=form.stuff_type.data,
-                              group_id=form.group.data)
+                              group_id=form.group.data,
+                              is_wanted=form.is_wanted.data == 'True')
                 db.session.add(stuff)
                 flash("Esya kaydedildi")
 
