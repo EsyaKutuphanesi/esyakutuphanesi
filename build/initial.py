@@ -7,6 +7,7 @@ from models import users, Role, User,Address, Stuff,\
 db.drop_all()
 roles = {'admin': 'admin',
          'member': 'member',
+         'moderator': 'moderator'
          }
 # şifre 3 kere ek
 users_list = [
