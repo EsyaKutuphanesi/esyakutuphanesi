@@ -41,21 +41,19 @@
 
         <p><a href="/new_stuff">Eşya Ekle</a></p>
         {%for stuff in user.stuff_list%}
-        <div class="row">
-            <div class="col-md-6">
-                {%if stuff.photos%}
-                <img class="img-responsive" src="/photos/{{stuff.photos[0].filename}}" />
-                {%else%}
-                <img class="img-responsive" src="/static/logosari1.png" />
-                {%endif%}
+            <div class="row">
+                <div class="col-md-6">
+                    {%if stuff.photos%}
+                    <img class="img-responsive" src="/static/photos/{{stuff.photos[0].filename}}" />
+                    {%else%}
+                    <img class="img-responsive" src="/static/photos/logosari1.png" />
+                    {%endif%}
+                </div>
+                <div class="col-md-6">
+                    <p><a href="{{stuff.edit_url}}">{{stuff}}</a></p>
+                    <p>{{stuff.detail}}</p>
+                </div>
             </div>
-            <div class="col-md-6">
-                <p><a href="{{stuff.edit_url}}">{{stuff}}</a></p>
-                <p>{{stuff.detail}}</p>
-            </div>
-
-        </div>
-
         {%endfor%}
     </div>
     <div class="col-md-5">

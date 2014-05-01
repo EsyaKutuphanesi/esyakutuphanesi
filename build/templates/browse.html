@@ -82,46 +82,48 @@
         })
     </script>
     <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <h1>Esya Kutuphanesi 2.0</h1>
-            <div class="form-group">
-                <select id="categories">
-                </select>
-                <select id="stuff_types">
-                </select>
-                <button id="list_btn" class="btn">Listele</button>
-            </div>
+        <div class="col-md-4 col-md-offset-1 form-group">
+            <select class="form-control" id="categories">
+            </select>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4 form-group">
+            <select class="form-control" id="stuff_types">
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button id="list_btn" class="btn">Listele</button>
+        </div>
     </div>
     <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <h3>Son Paylaşılanlar:</h3>
-            {% for stuff in stuff_list%}
-                <div class="col-md-4">
-                    <div class="row">
-                      <a href="{{stuff.url}}"> {{stuff}}</a>
+        <div class="col-md-12">
+            <div class="row">
+                {% for stuff in stuff_list%}
+                  <div class="col-md-3">
+                    <div class="thumbnail">
+                        <a href="{{stuff.url}}">
+                            {%if stuff.photos%}
+                            <img src="/static/photos/{{stuff.photos[0].filename}}" />
+                            {%else%}
+                            <img src="/static/photos/logosari1.png" />
+                            {%endif%}
+                        </a>
+                        <div class="caption">
+                            <a href="{{stuff.url}}">
+                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                            </a>
+                        <p style="font-size:12px; height: 100px; overflow: hidden;">{{stuff.detail}}</p>
+                        <p>
+                            {% if stuff.is_wanted %}
+                                <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='{{stuff.url}}'">Ödünç ver</button>
+                            {% else %}
+                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='{{stuff.url}}'">Ödünç iste</button>
+                            {% endif %}
+                        </p>
+                      </div>
                     </div>
-                    <div class="row">
-                        <ol class="breadcrumb">
-                            <li><a href="/{{stuff.category.url}}">{{stuff.category}}</a></li>
-                            <li><a href="/{{stuff.stuff_type.url}}">{{stuff.stuff_type}}</a></li>
-                        </ol>
-                    </div>
-                    <div class="row">
-                        {%if stuff.photos%}
-                        <img class="img-responsive" src="/photos/{{stuff.photos[0].filename}}" />
-                        {%else%}
-                        <img class="img-responsive" src="/static/logosari1.png" />
-                        {%endif%}
-                    </div>
-                    <div class="row">
-                      {{stuff.detail}}
-                    </div>
-                </div>
-            {%endfor%}
+                  </div>
+                {%endfor%}
+            </div>
         </div>
         <div class="col-md-2"></div>
     </div>

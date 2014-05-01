@@ -2,59 +2,119 @@
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <h1>Esya Kutuphanesi 2.0</h1>
-            {%if user.is_authenticated()%}
-                <h2>Welcome</h2>
-            <form action="{{url_for('search')}}" method="get">
-                {{ render_field_with_errors(form.stuff) }}
-                {{ render_field_with_errors(form.address) }}
-                {{ render_field(form.submit) }}
-            </form>
-            {%endif%}
+    <!--<div class="row">-->
+        <!--<div class="col-md-4 col-md-offset-4">-->
+            <!--<h1>Esya Kutuphanesi 2.0</h1>-->
+            <!--{%if user.is_authenticated()%}-->
+                <!--<h2>Welcome</h2>-->
+            <!--<form action="{{url_for('search')}}" method="get">-->
+                <!--{{ render_field_with_errors(form.stuff) }}-->
+                <!--{{ render_field_with_errors(form.address) }}-->
+                <!--{{ render_field(form.submit) }}-->
+            <!--</form>-->
+            <!--{%endif%}-->
+        <!--</div>-->
+    <!--</div>-->
+
+    {%if not user.is_authenticated()%}
+        <div class="col-md-6">
+            <div style="padding:15px;  border:1px solid #d2d2d2; cursor:pointer;">
+                Yeni misin? Nasıl çalışır, ben ne yapabilirim diye merak mı ediyorsun? İZLE
+            </div>
+
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-md-3 col-md-offset-3" style="text-align:right;">
+                <a href="/register"><button type="button" class="btn btn-default" style="margin-bottom:5px;">Hemen Kayıt Ol</button></a>
+                <form action="/provider_login/facebook" method="POST">
+                    <input type="submit" value="Login with Facebook">
+                </form>
+        </div>
+    {%endif%}
+    <div class="col-md-12">
+        <div class="col-md-12" style="background:rgba(0,0,0,0.5); margin-top:30px; padding:30px 15px; color:white; border-radius:10px;">
+            <form role="search" name="search" action="/search" method="get">
+                <table class="table searchTable">
+                    <tr>
+                        <td>Eşya Ara:</td>
+                        <td>Nerede?</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" name="stuff" placeholder="Ne Arıyorsun?">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" name="address" placeholder="Nerede Arıyorsun?">
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-default">Ara</button>
+                        </td>
+                    </tr>
+
+                </table>
+            </form>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <h3>Son Paylaşılanlar:</h3>
+    <div class="col-md-12 grayLine"></div>
+    <div class="col-md-12">
+        <h3>Son Paylaşılanlar:</h3>
+
+        <div class="row">
             {% for stuff in last_objects%}
-                <div class="col-md-4">
-                    <div class="row">
-                      <div class="col-md-6">
-                          <a href="{{stuff.url}}"> {{stuff}} </a>
-                      </div>
-
-                      {% if stuff.is_wanted %}
-                          <div class="col-md-6 label label-danger">Almak istiyorum</div>
-                      {% else %}
-                          <div class="col-md-6 label label-success">Vermek istiyorum</div>
-                      {% endif %}
-
-                    </div>
-                    <div class="row">
-                        <ol class="breadcrumb">
-                            <li><a href="{{stuff.category.url}}">{{stuff.category}}</a></li>
-                            <li><a href="{{stuff.stuff_type.url}}">{{stuff.stuff_type}}</a></li>
-                        </ol>
-                    </div>
-                    <div class="row">
+              <div class="col-md-3">
+                <div class="thumbnail">
+                    <a href="{{stuff.url}}">
                         {%if stuff.photos%}
-                        <img class="img-responsive" src="/photos/{{stuff.photos[0].filename}}" />
+                        <img src="/static/photos/{{stuff.photos[0].filename}}" style="height: 150px;"/>
                         {%else%}
-                        <img class="img-responsive" src="/static/logosari1.png" />
+                        <img src="/static/photos/logosari1.png" style="height: 150px;"/>
                         {%endif%}
-                    </div>
-                    <div class="row">
-                      {{stuff.detail}}
-                    </div>
+                    </a>
+                    <div class="caption">
+                        <a href="{{stuff.url}}">
+                            <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                        </a>
+                    <p style="font-size:12px; height: 100px; overflow: hidden;">{{stuff.detail}}</p>
+                    <p>
+                        {% if stuff.is_wanted %}
+                            <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='{{stuff.url}}'">Ödünç ver</button>
+                        {% else %}
+                            <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='{{stuff.url}}'">Ödünç iste</button>
+                        {% endif %}
+                    </p>
+                  </div>
                 </div>
+              </div>
             {%endfor%}
         </div>
-        <div class="col-md-2"></div>
+    </div>
+
+    <div class="col-md-12 grayLine"></div>
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <a href="#">
+                <div style="width:100px; height:100px; border-radius:50%; overflow:hidden; margin:0 auto;" >
+                    <img src="../static/photos/why-so-serious.jpg" style="height:100%;"/>
+                </div>
+                <div style="padding:10px; text-align:center;">Arkadaşlarını davet edebilirsin</div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="#">
+                <div style="width:100px; height:100px; border-radius:50%; overflow:hidden; margin:0 auto;" >
+                    <img src="../static/photos/why-so-serious.jpg" style="height:100%;"/>
+                </div>
+                <div style="padding:10px; text-align:center;">Destek olabilirsin</div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="#">
+                <div style="width:100px; height:100px; border-radius:50%; overflow:hidden; margin:0 auto;" >
+                    <img src="../static/photos/why-so-serious.jpg" style="height:100%;"/>
+                </div>
+                <div style="padding:10px; text-align:center;">Hikayeni paylaşabilirsin</div>
+            </a>
+        </div>
     </div>
 {% endblock %}
 

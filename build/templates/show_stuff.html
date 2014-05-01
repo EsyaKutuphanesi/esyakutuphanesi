@@ -1,22 +1,33 @@
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
-    <div class="col-md-2"></div>
-    <div class="col-md-5">
-        <h1>{{stuff.title}}</h1>
-        <p>
-            <div class="btn btn-danger">
-                <a href="/make_request/{{stuff.id}}">İste</a>
-            </div>
-        </p>
-        {%for tag in stuff.tags%}
-            <div class="btn btn-default">{{tag}}</div>
-        {%endfor%}
+    <div class="col-md-12">
         <div class="row">
-            <ol class="breadcrumb">
-                <li><a href="{{stuff.category.url}}">{{stuff.category}}</a></li>
-                <li><a href="{{stuff.stuff_type.url}}">{{stuff.stuff_type}}</a></li>
-            </ol>
+            <div class="col-md-8">
+               <h1>{{stuff.title}}</h1>
+            </div>
+
+            <!-- TODO: BURADA LOGIN DEĞİLSE LOGINE GONDER-->
+
+            <div class="col-md-4" style="margin-top:25px;">
+                {% if stuff.is_wanted %}
+                    <button type="button" class="btn btn-info" style="width:100%;" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç ver</button>
+                {% else %}
+                    <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a href="{{stuff.category.url}}">{{stuff.category}}</a></li>
+                    <li><a href="{{stuff.stuff_type.url}}">{{stuff.stuff_type}}</a></li>
+                    <span style="margin-right:20px;"></span>
+                    {%for tag in stuff.tags%}
+                        <span class="label label-warning">{{tag}}</span>
+                    {%endfor%}
+                </ol>
+            </div>
         </div>
         <div class="tumbnail">
             <p>{{stuff.detail}}</p>
@@ -24,12 +35,12 @@
         </form>
 
     </div>
-    <div class="col-md-5">
+    <div class="col-md-12" style="margin-top:20px;">
         {%if stuff%}
         <div class="row">
             {%for photo in stuff.photos%}
-                <div class="col-md-6">
-                    <img class="img-responsive" src="/photos/{{photo.filename}}" />
+                <div class="col-md-4">
+                    <img class="img-responsive" src="/static/photos/{{photo.filename}}" />
                 </div>
             {%endfor%}
          </div>
