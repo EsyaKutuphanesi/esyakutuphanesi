@@ -1,8 +1,8 @@
 *.pyc
 *.sql
 .DS_Store
-.idea/
-bin/
-include/
-lib/
-venv/
+.idea
+bin
+include
+lib
+venv
