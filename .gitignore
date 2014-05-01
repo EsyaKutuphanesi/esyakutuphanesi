@@ -1,2 +1,6 @@
 *.pyc
 *.sql
+bin
+include
+lib
+venv
