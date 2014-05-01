@@ -2,7 +2,7 @@
 *.sql
 .DS_Store
 .idea
-bin
-include
-lib
-venv
+bin/
+include/
+lib/
+venv/
