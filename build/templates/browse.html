@@ -27,26 +27,26 @@
                     {%endif%}
                 });
             });
-            $("select#stuff_types").change(function(e){
-                var htmlString = '';
-                $.getJSON('/get_categories/'+$(this).val(),'',function(j){
-                    {%if not params['category']%}
-                        $.each(j, function(key,value){
-                            console.log(value);
-                            htmlString += "<option value='"+value.id+"'>"+value.name+"</option>";
-                        });
-                        $("select#categories").html(htmlString);
-                    {%endif%}
-                    {%if params['category']%}
-                        if(firstLoad){
-                            firstLoad = false;
-                            console.log('{{params['category'].value}}')
-                            $("select#categories").val('{{params['category'].value}}');
-                        }
-                    {%endif%}
-                    // $("select#categories").trigger("change");
-                });
-            });
+{#            $("select#stuff_types").change(function(e){#}
+{#                var htmlString = '';#}
+{#                $.getJSON('/get_categories/'+$(this).val(),'',function(j){#}
+{#                    {%if not params['category']%}#}
+{#                        $.each(j, function(key,value){#}
+{#                            console.log(value);#}
+{#                            htmlString += "<option value='"+value.id+"'>"+value.name+"</option>";#}
+{#                        });#}
+{#                        $("select#categories").html(htmlString);#}
+{#                    {%endif%}#}
+{#                    {%if params['category']%}#}
+{#                        if(firstLoad){#}
+{#                            firstLoad = false;#}
+{#                            console.log('{{params['category'].value}}')#}
+{#                            $("select#categories").val('{{params['category'].value}}');#}
+{#                        }#}
+{#                    {%endif%}#}
+{#                    // $("select#categories").trigger("change");#}
+{#                });#}
+{#            });#}
             {%if params['category']%}
 
                 var htmlString = '';
@@ -61,17 +61,17 @@
 
                      $("select#categories").trigger("change");
                 });
-            {%elif params['stuff_type']%}
-                $.getJSON('/get_stuff_types','',function(j){
-                    stuff_type = document.getElementById('stuff_types');
-                    stuff_type.innerHTML = ''
-                    $.each(j, function(key,value){
-                        console.log(value);
-                        stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";
-                    });
-                    $("select#stuff_types").val('{{params['stuff_type'].value}}');
-                    $("select#stuff_types").trigger("change");
-                });
+{#            {%elif params['stuff_type']%}#}
+{#                $.getJSON('/get_stuff_types','',function(j){#}
+{#                    stuff_type = document.getElementById('stuff_types');#}
+{#                    stuff_type.innerHTML = ''#}
+{#                    $.each(j, function(key,value){#}
+{#                        console.log(value);#}
+{#                        stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";#}
+{#                    });#}
+{#                    $("select#stuff_types").val('{{params['stuff_type'].value}}');#}
+{#                    $("select#stuff_types").trigger("change");#}
+{#                });#}
             {%endif%}
             $("#list_btn").click(function(){
                 var category = $("select#categories option:selected").text();
@@ -82,17 +82,19 @@
         })
     </script>
     <div class="row">
-        <div class="col-md-4 col-md-offset-1 form-group">
-            <select class="form-control" id="categories">
-            </select>
-        </div>
-        <div class="col-md-4 form-group">
-            <select class="form-control" id="stuff_types">
-            </select>
-        </div>
-        <div class="col-md-2">
-            <button id="list_btn" class="btn">Listele</button>
-        </div>
+        {%  if params['category']  %}
+            <div class="col-md-4 col-md-offset-1 form-group">
+                <select class="form-control" id="categories">
+                </select>
+            </div>
+            <div class="col-md-4 form-group">
+                <select class="form-control" id="stuff_types">
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button id="list_btn" class="btn">Listele</button>
+            </div>
+        {%endif%}
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -108,7 +110,7 @@
                             {%endif%}
                         </a>
                         <div class="caption">
-                            <a href="{{stuff.url}}">
+                            <a href="/{{stuff.url}}">
                                 <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
                             </a>
                         <p style="font-size:12px; height: 100px; overflow: hidden;">{{stuff.detail}}</p>

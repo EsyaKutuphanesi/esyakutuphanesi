@@ -5,7 +5,8 @@
 {% block content %}
     <div class="col-md-4"></div>
     <div class="col-md-4">
-        <h1>Login-Custom</h1>
+        <div class="row">{{ social_login('facebook', 'Facebook' )}}</div>
+        <div class="row">---------veya-------</div>
         <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
           {{ login_user_form.hidden_tag() }}
           {{ render_field_with_errors(login_user_form.email) }}
@@ -14,7 +15,7 @@
           {{ render_field(login_user_form.next) }}
           {{ render_field(login_user_form.submit) }}
         </form>
-        {{ social_login('facebook', 'Facebook' )}}
+
     </div>
     <div class="col-md-4"></div>
 {% endblock %}

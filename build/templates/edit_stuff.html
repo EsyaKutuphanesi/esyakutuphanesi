@@ -1,9 +1,18 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
 {% extends "layout.html" %}
+
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
+    <script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/ek.js') }}"></script>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/ek.css')}}">
     <script>
         $(function(){
+            if($("select#address").val() == 20){
+                $("#new_address").show();
+            } else {
+                $("#new_address").hide();
+            }
             $("select#category").change(function(e){
                 $.getJSON('/get_stuff_types/'+$(this).val(),'',function(j){
                     stuff_type = document.getElementById('stuff_type');
@@ -14,10 +23,16 @@
                     });
                 });
             });
+            $("select#address").change(function(e){
+                if($("select#address").val() == 20){
+                    $("#new_address").show();
+                } else {
+                    $("#new_address").hide();
+                }
+            });
         })
     </script>
-    <div class="col-md-2"></div>
-    <div class="col-md-5">
+    <div class="col-md-8 col-md-offset-1">
         <h1>Eşya Sayfası</h1>
         {% if not is_new %}
             {% if not stuff.approved %}
@@ -32,6 +47,14 @@
           {{ render_field_with_errors(form.detail) }}
             {{ render_field_with_errors(form.is_wanted) }}
           {{ render_field_with_errors(form.address) }}
+            <div id="new_address">
+                <input type="text" id="address_str" class="form-group" name="address_str" diasble/>
+                <input id ='search' type="button" class="btn" value="Ara" />
+                <div id="map"></div>
+                <input type="hidden" id="lat" name="lat"/>
+                <input type="hidden" id="lng" name="lng"/>
+
+            </div>
             {{ render_field_with_errors(form.group) }}
           {{ render_field_with_errors(form.photo) }}
             {%for tag in stuff.tags%}
@@ -42,7 +65,7 @@
         </form>
 
     </div>
-    <div class="col-md-5">
+    <div class="col-md-3">
         {%if stuff%}
         <div class="row">
             {%for photo in stuff.photos%}

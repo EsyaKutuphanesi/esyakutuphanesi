@@ -10,14 +10,14 @@ $(document).ready(function(){
     $('#search').click(function(e){
         e.preventDefault();
         GMaps.geocode({
-            address: $('#address').val().trim(),
+            address: $('#address_str').val().trim(),
             callback: function(results, status){
                 if(status=='OK'){
                   console.log(results);
                   var latlng = results[0].geometry.location;
                   addr_components = results[0].address_components;
                   adrStr = parseAddress(addr_components);
-                  $('#address').val(adrStr);
+                  $('#address_str').val(adrStr);
                   $('#lat').val(latlng.lat());
                   $('#lng').val(latlng.lng());
                   map.setCenter(latlng.lat(), latlng.lng());
@@ -30,16 +30,16 @@ $(document).ready(function(){
         });
     });
 
-    $('#address').keypress(function(e){
+    $('#address_str').keypress(function(e){
         if(e.which == 13) {
             e.preventDefault();
             GMaps.geocode({
-                address: $('#address').val().trim(),
+                address: $('#address_str').val().trim(),
                 callback: function(results, status){
                     if(status=='OK'){
                       var latlng = results[0].geometry.location;
                       adrStr = parseAddress(results[0].addr_components);
-                      $('#address').val(adrStr);
+                      $('#address_str').val(adrStr);
                       $('#lat').val(latLng.lat());
                       $('#lng').val(latLng.lng());
                       map.setCenter(latlng.lat(), latlng.lng());
@@ -69,7 +69,7 @@ $(document).ready(function(){
                         addr_components = results[0].address_components;
                         console.log(addr_components);
                         adrStr = parseAddress(addr_components);
-                        $('#address').val(adrStr);
+                        $('#address_str').val(adrStr);
                         $('#lat').val(e.latLng.lat());
                         $('#lng').val(e.latLng.lng());
                         map.addMarker({

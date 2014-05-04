@@ -6,7 +6,7 @@ margin-top: 20px;
 }
 
 #map-canvas {
-    height: 500px;
+    /*height: 500px;*/
     margin: 0px;
     padding: 0px
 }
@@ -68,4 +68,8 @@ margin-top: 20px;
   border-left:16px solid transparent;
   border-right:16px solid transparent;
   border-bottom:16px solid #336699;
+}
+
+.grey{
+    background-color: #808080;
 }

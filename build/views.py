@@ -24,11 +24,12 @@ def search():
     if request.method == 'GET':
         stuff_key = unicode(request.args.get('stuff'))
         address_key = unicode(request.args.get('address'))
+        print stuff_key
         last_objects = Stuff.query.join(Address).\
             filter(Stuff.approved == 1,
                    Address.id == Stuff.address_id,
                    Stuff.title.like('%'+stuff_key+'%'),
-                   Address.detail.like('%'+address_key+'%'))
+                   Address.detail.like('%'+address_key+'%')).limit(5)
 
     return render_template("search.html", user=current_user,
                            last_objects=last_objects, form=form)
@@ -42,7 +43,7 @@ def new_address():
         address = Address(user=current_user,
                           lat=request.form.get('lat'),
                           lng=request.form.get('lng'),
-                          detail=unicode(request.form.get('address')),
+                          detail=unicode(request.form.get('address_str')),
                           name=request.form.get('address_name'))
         db.session.add(address)
         db.session.commit()
@@ -59,14 +60,19 @@ def edit_stuff(stuff_id=None):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
     form = EditStuffForm()
     is_new = True
+    is_wanted = unicode(request.args.get('is_wanted'))
+    if is_wanted == 'true':
+        form.is_wanted.data = 'True'
 
+    address_choices = []
     if current_user.addresses:
-        address_choices = [(address.id, address.name)
+        address_choices = [(address.id, address.detail)
                            for address in current_user.addresses]
-    else:
-        flash('Adres girmeniz gerekiyor')
-        return redirect(url_for("new_address",
-                                next=request.script_root+request.path))
+    address_choices += [(20, u'Yeni Adres')]
+    #else:
+    #    flash('Adres girmeniz gerekiyor')
+    #    return redirect(url_for("new_address",
+    #                            next=request.script_root+request.path))
 
     form.address.choices = address_choices
 
@@ -101,6 +107,7 @@ def edit_stuff(stuff_id=None):
         stuff_type_choices = [(stuff_type.id, stuff_type.name)
                               for stuff_type in stuff_types]
         form.stuff_type.choices = stuff_type_choices
+        print unicode(request.form.get('address_str'))
         if form.validate_on_submit():
             photo_file = form.photo.data
             if photo_file:
@@ -114,10 +121,21 @@ def edit_stuff(stuff_id=None):
                                        stuff=stuff)
                 db.session.add(new_photo)
                 db.session.commit()
+            if form.address.data == 20:
+                address = Address(user=current_user,
+                                  lat=request.form.get('lat'),
+                                  lng=request.form.get('lng'),
+                                  detail=unicode(request.form.get('address_str')),
+                                  name="addr")
+                db.session.add(address)
+            else:
+                address = Address.query.\
+                    filter(Address.id == form.address.data).\
+                    first()
             if stuff:
                 stuff.title = form.title.data
                 stuff.detail = form.detail.data
-                stuff.address_id = form.address.data
+                stuff.stuff_address = address
                 stuff.category_id = form.category.data
                 stuff.type_id = form.stuff_type.data
                 stuff.is_wanted = form.is_wanted.data == 'True'
@@ -125,7 +143,7 @@ def edit_stuff(stuff_id=None):
             else:
                 stuff = Stuff(title=form.title.data,
                               detail=form.detail.data,
-                              address_id=form.address.data,
+                              stuff_address=address,
                               owner=current_user,
                               category_id=form.category.data,
                               type_id=form.stuff_type.data,
@@ -147,6 +165,7 @@ def edit_stuff(stuff_id=None):
 
     if stuff:
         is_new = False
+
         if stuff.group_id > 0:
             group_choices = [(stuff.group_id, stuff.group.name)]
         else:
@@ -294,11 +313,7 @@ def category_stuff_type_view(category_name, type_name):
         'category': {
             'type': 'category',
             'value': category.id
-        },
-        'stuff_type': {
-            'type': 'stuff_type',
-            'value': stuff_type.id
-        },
+        }
     }
 
     return render_template("browse.html", user=current_user,
