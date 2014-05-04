@@ -2,6 +2,8 @@
 *.sql
 .DS_Store
 .idea
+.project
+.pydevproject
 bin/
 include/
 lib/
