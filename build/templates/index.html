@@ -2,21 +2,27 @@
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
-    <!--<div class="row">-->
-        <!--<div class="col-md-4 col-md-offset-4">-->
-            <!--<h1>Esya Kutuphanesi 2.0</h1>-->
-            <!--{%if user.is_authenticated()%}-->
-                <!--<h2>Welcome</h2>-->
-            <!--<form action="{{url_for('search')}}" method="get">-->
-                <!--{{ render_field_with_errors(form.stuff) }}-->
-                <!--{{ render_field_with_errors(form.address) }}-->
-                <!--{{ render_field(form.submit) }}-->
-            <!--</form>-->
-            <!--{%endif%}-->
-        <!--</div>-->
-    <!--</div>-->
+<script>
+    $.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',function(){
+        $.getScript('http://cdn.jsdelivr.net/jquery.lazyload/1.8.4/jquery.lazyload.js',function(){
 
+          var $container = $('#container');
+          $container.imagesLoaded(function(){
+              $container.masonry({
+                  itemSelector: '.item',
+                  columnWidth: function(containerWidth){
+                      return containerWidth / 12;
+                  }
+              });
+          });
+
+
+        });
+
+    });
+</script>
     {%if not user.is_authenticated()%}
+    <div class="row">
         <div class="col-md-6">
             <div style="padding:15px;  border:1px solid #d2d2d2; cursor:pointer;">
                 Yeni misin? Nasıl çalışır, ben ne yapabilirim diye merak mı ediyorsun? İZLE
@@ -29,68 +35,74 @@
                     <input type="submit" value="Login with Facebook">
                 </form>
         </div>
+    </div>
     {%endif%}
-    <div class="col-md-12">
-        <div class="col-md-12" style="background:rgba(0,0,0,0.5); margin-top:30px; padding:30px 15px; color:white; border-radius:10px;">
-            <form role="search" name="search" action="/search" method="get">
-                <table class="table searchTable">
-                    <tr>
-                        <td>Eşya Ara:</td>
-                        <td>Nerede?</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="text" class="form-control" name="stuff" placeholder="Ne Arıyorsun?">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="address" placeholder="Nerede Arıyorsun?">
-                        </td>
-                        <td>
-                            <button type="submit" class="btn btn-default">Ara</button>
-                        </td>
-                    </tr>
 
-                </table>
-            </form>
-        </div>
+    <div class="row" style="background:rgba(0,0,0,0.5); margin-top:30px; padding:30px 15px; color:white; border-radius:10px;">
+        <form role="search" name="search" action="/search" method="get">
+            <table class="table searchTable">
+                <tr>
+                    <td>Eşya Ara:</td>
+                    <td>Nerede?</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" name="stuff" placeholder="Ne Arıyorsun?">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" required="required" name="address" placeholder="Nerede Arıyorsun?">
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-default">Ara</button>
+                    </td>
+                </tr>
+
+            </table>
+        </form>
     </div>
-    <div class="col-md-12 grayLine"></div>
-    <div class="col-md-12">
-        <h3>Son Paylaşılanlar:</h3>
 
-        <div class="row">
-            {% for stuff in last_objects%}
-              <div class="col-md-3">
-                <div class="thumbnail">
-                    <a href="{{stuff.url}}">
-                        {%if stuff.photos%}
-                        <img src="/static/photos/{{stuff.photos[0].filename}}" style="height: 150px;"/>
-                        {%else%}
-                        <img src="/static/photos/logosari1.png" style="height: 150px;"/>
-                        {%endif%}
-                    </a>
-                    <div class="caption">
+    <div class="col-md-12 grayLine"></div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Son Paylaşılanlar:</h3>
+        </div>
+
+        <div class="col-md-12">
+            <div id="container" class="row fluid">
+                {% for stuff in last_objects%}
+                  <div class="col-md-3 item">
+                    <div class="thumbnail">
                         <a href="{{stuff.url}}">
-                            <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                            {%if stuff.photos%}
+                            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                            {%else%}
+                            <img src="/static/photos/logosari1.png"/>
+                            {%endif%}
                         </a>
-                    <p style="font-size:12px; height: 100px; overflow: hidden;">{{stuff.detail}}</p>
-                    <p>
-                        {% if stuff.is_wanted %}
-                            <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='{{stuff.url}}'">Ödünç ver</button>
-                        {% else %}
-                            <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='{{stuff.url}}'">Ödünç iste</button>
-                        {% endif %}
-                    </p>
+                        <div class="caption">
+                            <a href="{{stuff.url}}">
+                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                            </a>
+                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail}}</p>
+                        <p>
+                            {% if stuff.is_wanted %}
+                                <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='{{stuff.url}}'">Bende var!</button>
+                            {% else %}
+                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='{{stuff.url}}'">Ödünç iste</button>
+                            {% endif %}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            {%endfor%}
+                {%endfor%}
+            </div>
         </div>
     </div>
 
     <div class="col-md-12 grayLine"></div>
-    <div class="col-md-12">
+    <div class="row">
         <div class="col-md-4">
             <a href="#">
                 <div style="width:100px; height:100px; border-radius:50%; overflow:hidden; margin:0 auto;" >
@@ -117,4 +129,3 @@
         </div>
     </div>
 {% endblock %}
-

@@ -11,28 +11,28 @@ function send(){
     window.location = window.location + "?address="+JSON.stringify(addr_components);
 }
 </script>
-<div class="col-md-2"></div>
-<div class="col-md-8">
-    <h1>Yeni Address </h1>
+    <h1> Adres Ekle </h1>
     <div class="row">
         <div class="col-md-8">
           <div id="map"></div>
         </div>
         <div class="col-md-4" >
             <form method="post" id="geocoding_form" action="/new_address">
-                <label for="address_name">Adres İsmi:</label>
-                <input type="text" id="address_name" class="form-group" name="address_name" />
-                <label for="address_str">Address:</label>
-                <input type="text" id="address_str" class="form-group" name="address_str" diasble/>
-                <input type="hidden" id="lat" name="lat"/>
-                <input type="hidden" id="lng" name="lng"/>
-                <input id ='search' type="button" class="btn" value="Ara" />
-                <input id='save' type="submit" class="btn" value="Kaydet" onclick="send()" />
+                <div class="row">
+                    <label for="address_name">Adres İsmi:</label>
+                    <input type="text" id="address_name" class="form-group" name="address_name" />
+                </div>
+                <div class="row">
+                    <label for="address_str">Adres:</label>
+                    <input type="text" id="address_str" class="form-group" name="address_str" diasble/>
+                    <input type="hidden" id="lat" name="lat"/>
+                    <input type="hidden" id="lng" name="lng"/>
+                    <input id ='search' type="button" class="btn" value="Ara" />
+                </div>
+                <input id='save' type="submit" class="btn btn-success pull-right" value="Kaydet" onclick="send()" />
             </form>
         </div>
     </div>
-</div>
-<div class="col-md-2"></div>
 
 {% endblock %}
 

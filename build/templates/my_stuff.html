@@ -34,29 +34,56 @@
         }
     </script>
 
-    <div class="col-md-2"></div>
-    <div class="col-md-5">
+    <div class="col-md-3">
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="/edit_profile">Profil</a></li>
+          <li><a href="/my_messages">Mesajlar</a></li>
+          <li class="active"><a href="/my_stuff">Eşya Kütüphanem</a></li>
+          <li><a href="/my_calendar">Takvim</a></li>
+          <li><a href="/groups">Gruplarım</a></li>
+          <li><a href="/invite">Davet Et</a></li>
+        </ul>
+    </div>
 
-         <h1>Eşyalarım</h1>
+    <div class="col-md-9">
+        <div class="col-md-12" style="margin-bottom:10px;">
+            <button type="button" class="btn btn-success pull-right" onclick="window.location.href='/new_stuff'">Yeni eşya ekle</button>
+        </div>
 
-        <p><a href="/new_stuff">Eşya Ekle</a></p>
-        {%for stuff in user.stuff_list%}
-            <div class="row">
-                <div class="col-md-6">
+            {%for stuff in user.stuff_list%}
+
+<!--            <div class="media">
+              <a class="pull-left" href="#">
+                <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="/static/photos/{{stuff.photos[0].filename}}" style="width: 64px; height: 64px;">
+              </a>
+              <div class="media-body">
+                <h4 class="media-heading">{{stuff}}</h4>
+                {{stuff.detail}}
+              </div>
+            </div>-->
+
+          <div class="col-md-4">
+            <div class="thumbnail">
+                <a href="{{stuff.url}}">
                     {%if stuff.photos%}
-                    <img class="img-responsive" src="/static/photos/{{stuff.photos[0].filename}}" />
+                    <img src="/static/photos/{{stuff.photos[0].filename}}" style="height:150px;"/>
                     {%else%}
-                    <img class="img-responsive" src="/static/photos/logosari1.png" />
+                    <img src="/static/photos/logosari1.png" style="height:150px;"/>
                     {%endif%}
-                </div>
-                <div class="col-md-6">
-                    <p><a href="{{stuff.edit_url}}">{{stuff}}</a></p>
-                    <p>{{stuff.detail}}</p>
-                </div>
+                </a>
+                <div class="caption">
+                    <a href="{{stuff.url}}">
+                        <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                    </a>
+                <p style="font-size:12px; height: 100px; overflow: hidden;">{{stuff.detail}}</p>
+                <p>
+                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='{{stuff.edit_url}}'">Düzenle</button>
+                </p>
+              </div>
             </div>
+          </div>
         {%endfor%}
     </div>
-    <div class="col-md-5">
-    </div>
+
 {% endblock %}
 

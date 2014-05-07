@@ -2,8 +2,7 @@
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
-    <div class="col-md-2"></div>
-    <div class="col-md-5">
+    <div class="col-md-8 col-md-offset-2">
          <h1>{{conversation.title}}</h1>
          <form action="/conversations/{{ conversation.id }}" method="post">
              {{ form.hidden_tag() }}
@@ -24,8 +23,6 @@
                 </div>
             </div>
         {% endfor %}
-    </div>
-    <div class="col-md-5">
     </div>
 {% endblock %}
 

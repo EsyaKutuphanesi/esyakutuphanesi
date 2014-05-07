@@ -12,7 +12,8 @@ import os.path
 @app.route('/categories')
 def home():
     form = SeachForm()
-    last_objects = Stuff.query.filter(Stuff.approved == 1).order_by(Stuff.id.desc()).limit(5)
+    last_objects = Stuff.query.filter(Stuff.approved == 1).order_by(Stuff.id.desc()).limit(8)
+
     return render_template("index.html", user=current_user,
                            last_objects=last_objects, form=form)
 
@@ -258,7 +259,7 @@ def edit_profile():
 
 @app.route('/photos/<path:filename>')
 def photos_static(filename):
-    return send_from_directory(app.root_path + '/photos/', filename)
+    return send_from_directory(app.root_path + '/static/photos/', filename)
 
 
 def get_file_extension(filename):
@@ -308,7 +309,7 @@ def category_stuff_type_view(category_name, type_name):
         join(StuffType).\
         filter(StuffType.id == stuff_type.id).\
         filter(Category.id == category.id).\
-        limit(5)
+        limit(8)
     params = {
         'category': {
             'type': 'category',
@@ -405,3 +406,23 @@ def moderation():
 
     return render_template("moderation.html", user=current_user,
                            last_objects=last_objects)
+
+@login_required
+@app.route('/profile')
+def profile():
+    return render_template("profile.html", user=current_user)
+
+@login_required
+@app.route('/groups')
+def groups():
+    return render_template("groups.html", user=current_user)
+
+@login_required
+@app.route('/my_calendar')
+def my_calendar():
+    return render_template("my_calendar.html", user=current_user)
+
+@login_required
+@app.route('/invite')
+def invite():
+    return render_template("invite.html", user=current_user)

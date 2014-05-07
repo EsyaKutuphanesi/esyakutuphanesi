@@ -2,25 +2,35 @@
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
-    <div class="col-md-2"></div>
-    <div class="col-md-5">
 
-         <h1>Konuşmalarım</h1>
-        {% for conversation in user.conversations %}
-            <p>
-                <a href="/conversations/{{conversation.id}}">
-                    {{conversation.title}}
+    <div class="col-md-3">
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="/edit_profile">Profil</a></li>
+          <li class="active"><a href="/my_messages">Mesajlar</a></li>
+          <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
+          <li><a href="#">Takvim</a></li>
+          <li><a href="/groups">Gruplarım</a></li>
+          <li><a href="#">Davet Et</a></li>
+        </ul>
+    </div>
+
+    <div class="col-md-9">
+        <div class="list-group">
+            {% for conversation in user.conversations %}
+                <a href="/conversations/{{conversation.id}}" class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        {{conversation.title}} -
+                        {% for other_user in conversation.users %}
+                            {% if other_user != user %}
+                                {{other_user.name}}
+                            {% endif %}
+                        {% endfor %}
+                    </h4>
+                    <p class="list-group-item-text">Meaj afnaklsfklasnfklnkls nsknflksanfk sfasf asfafafasf las. </p>
                 </a>
-                {% for other_user in conversation.users %}
-                    {% if other_user != user %}
-                        {{other_user.name}}
-                    {% endif %}
-                {% endfor %}
-            </p>
-        {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
 
-    </div>
-    <div class="col-md-5">
-    </div>
 {% endblock %}
 

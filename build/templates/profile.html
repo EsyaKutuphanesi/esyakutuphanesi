@@ -1,0 +1,15 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% extends "layout.html" %}
+{%block title%}Esya Kutuphanesi{%endblock%}
+{% block content %}
+    <div class="row">
+        <ul class="nav nav-tabs nav-justified">
+          <li class="active"><a href="/edit_profile">Profil</a></li>
+          <li><a href="/my_messages">Mesajlar</a></li>
+          <li><a href="#">Eşya Kütüphanem</a></li>
+          <li><a href="#">Takvim</a></li>
+          <li><a href="#">Gruplarım</a></li>
+          <li><a href="#">Davet Et</a></li>
+        </ul>
+    </div>
+{% endblock %}

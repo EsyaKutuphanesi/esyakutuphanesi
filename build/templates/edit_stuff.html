@@ -32,8 +32,7 @@
             });
         })
     </script>
-    <div class="col-md-8 col-md-offset-1">
-        <h1>Eşya Sayfası</h1>
+    <div class="col-md-8 col-md-offset-2">
         {% if not is_new %}
             {% if not stuff.approved %}
                 <p class="alert-danger">Eşyanız henüz onaylanmadı</p>
@@ -57,24 +56,28 @@
             </div>
             {{ render_field_with_errors(form.group) }}
           {{ render_field_with_errors(form.photo) }}
-            {%for tag in stuff.tags%}
-                <div class="btn btn-default">{{tag}}</div>
-            {%endfor%}
+
+            {%if stuff%}
+                <div class="col-md-12">
+                    {%for photo in stuff.photos%}
+                    <div class="col-md-3">
+                        <img class="img-responsive" src="/photos/{{photo.filename}}" />
+                     </div>
+                    {%endfor%}
+                </div>
+            {%endif%}
+
           {{ render_field_with_errors(form.tags) }}
-          {{ render_field(form.submit) }}
+            {%for tag in stuff.tags%}
+                <span class="label label-warning">{{tag}}</span>
+            {%endfor%}
+            <div style="margin-top:20px;">
+                {{ render_field(form.submit) }}
+            </div>
+
         </form>
 
     </div>
-    <div class="col-md-3">
-        {%if stuff%}
-        <div class="row">
-            {%for photo in stuff.photos%}
-                <div class="col-md-6">
-                    <img class="img-responsive" src="/photos/{{photo.filename}}" />
-                </div>
-            {%endfor%}
-         </div>
-        {%endif%}
-    </div>
+
 {% endblock %}
 

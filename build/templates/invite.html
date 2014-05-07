@@ -1,0 +1,16 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% extends "layout.html" %}
+{%block title%}Esya Kutuphanesi{%endblock%}
+{% block content %}
+
+    <div class="col-md-3">
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="/edit_profile">Profil</a></li>
+          <li><a href="/my_messages">Mesajlar</a></li>
+          <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
+          <li><a href="/my_calendar">Takvim</a></li>
+          <li><a href="/groups">Gruplarım</a></li>
+          <li class="active"><a href="/invite">Davet Et</a></li>
+        </ul>
+
+{% endblock %}

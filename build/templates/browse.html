@@ -97,37 +97,44 @@
         {%endif%}
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                {% for stuff in stuff_list%}
-                  <div class="col-md-3">
-                    <div class="thumbnail">
-                        <a href="{{stuff.url}}">
-                            {%if stuff.photos%}
-                            <img src="/static/photos/{{stuff.photos[0].filename}}" />
-                            {%else%}
-                            <img src="/static/photos/logosari1.png" />
-                            {%endif%}
-                        </a>
-                        <div class="caption">
-                            <a href="/{{stuff.url}}">
-                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                            </a>
-                        <p style="font-size:12px; height: 100px; overflow: hidden;">{{stuff.detail}}</p>
-                        <p>
-                            {% if stuff.is_wanted %}
-                                <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='{{stuff.url}}'">Ödünç ver</button>
-                            {% else %}
-                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='{{stuff.url}}'">Ödünç iste</button>
-                            {% endif %}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                {%endfor%}
+        {% for stuff in stuff_list%}
+          <div class="col-md-3">
+            <div class="thumbnail">
+                <a href="/show_stuff/{{stuff.id}}">
+                    {%if stuff.photos%}
+                    <img src="/static/photos/{{stuff.photos[0].filename}}"  style="height: 150px;"/>
+                    {%else%}
+                    <img src="/static/photos/logosari1.png"  style="height: 150px;"/>
+                    {%endif%}
+                </a>
+                <div class="caption">
+                    <a href="/{{stuff.url}}">
+                        <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                    </a>
+                <p style="font-size:12px; height: 100px; overflow: hidden;">{{stuff.detail}}</p>
+                <p>
+                    {% if stuff.is_wanted %}
+                        <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/show_stuff/{{stuff.id}}'">Bende var!</button>
+                    {% else %}
+                        <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/show_stuff/{{stuff.id}}'">Ödünç iste</button>
+                    {% endif %}
+                </p>
+              </div>
             </div>
-        </div>
-        <div class="col-md-2"></div>
+          </div>
+        {%endfor%}
+        {%if not stuff_list[0]%}
+            <div class="col-md-12" style="background:rgba(0,0,0,0.5); margin:20px auto; padding:15px; line-height:34px;color:white; border-radius:10px;">
+                <div class="col-md-5">Bu kategoride henüz paylaşılmış ürün bulunmuyor.</div>
+                <div class="col-md-7">
+                    {%if user.is_authenticated()%}
+                        <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/new_stuff?is_wanted=true'">İstediğin eşyayı listele</button>
+                    {%else%}
+                        <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/login'">İstediğin eşyayı listele</button>
+                    {%endif%}
+                </div>
+            </div>
+        {%endif%}
     </div>
 {% endblock %}
 

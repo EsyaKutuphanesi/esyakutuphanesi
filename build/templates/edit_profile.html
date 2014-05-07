@@ -3,41 +3,48 @@
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
 
+    <div class="col-md-3">
+        <ul class="nav nav-pills nav-stacked">
+          <li class="active"><a href="/edit_profile">Profil</a></li>
+          <li><a href="/my_messages">Mesajlar</a></li>
+          <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
+          <li><a href="/my_calendar">Takvim</a></li>
+          <li><a href="/groups">Gruplarım</a></li>
+          <li><a href="/invite">Davet Et</a></li>
+        </ul>
+    </div>
 
-    <div class="col-md-2"></div>
-    <div class="col-md-5">
-        <h1>Profil</h1>
-        {%if user.photos%}
-        <img width="150" height="200" src="/photos/{{user.photos[-1].filename}}" />
-        {%else%}
-        <img width="150" height="200" src="/photos/why-so-serious.jpg"/>
-        {%endif%}
+    <div class="col-md-9">
         <form action="{{ url_for('edit_profile') }}" method="POST" name="edit_user_form" enctype="multipart/form-data">
-          {{ form.hidden_tag() }}
-          {{ render_field_with_errors(form.photo) }}
-          {{ render_field_with_errors(form.name) }}
-          {{ render_field_with_errors(form.email) }}
-          {{ render_field_with_errors(form.phone_number) }}
-          {{ render_field_with_errors(form.about) }}
-          {{ render_field(form.submit) }}
+            {{ form.hidden_tag() }}
+            <div class="col-md-6">
+                <div class="col-md-12" style="overflow:hidden;">
+                    {%if user.photos%}
+                    <img height="250" src="/photos/{{user.photos[-1].filename}}"/>
+                    {%else%}
+                    <img height="250" src="/photos/why-so-serious.jpg"/>
+                    {%endif%}
+               </div>
+                <div class="col-md-12">{{ render_field_with_errors(form.photo) }}</div>
+                <div class="col-md-12">
+                    <h3>Adreslerim</h3>
+                    {%for address in user.addresses%}
+                        <p>{{address.detail}}</p>
+                    {%endfor%}
+                    <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/new_address'">Yeni adres ekle</button>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+              {{ render_field_with_errors(form.name) }}
+              {{ render_field_with_errors(form.email) }}
+              {{ render_field_with_errors(form.phone_number) }}
+              {{ render_field_with_errors(form.about) }}
+              {{ render_field(form.submit) }}
+            </div>
         </form>
-
     </div>
-    <div class="col-md-5">
-         <h1>Adreslerim</h1>
 
-        <p><a href="/new_address">Adres Ekle</a></p>
-        {%for address in user.addresses%}
-        <p>{{address.detail}}</p>
-
-        {%endfor%}
-
-        <br>
-        <h1>Gruplarım</h1>
-        {%for membership in user.groups%}
-            <p>{{membership.group.name}}</p>
-
-        {%endfor%}
-    </div>
 {% endblock %}
 
