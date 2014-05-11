@@ -17,6 +17,7 @@
                         console.log(value);
                         stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";
                     });
+                    stuff_type.innerHTML += "<option value='all'>hepsi</option>";
                     {%endif%}
                     {%if params['stuff_type']%}
                         if(firstLoad){
@@ -27,26 +28,7 @@
                     {%endif%}
                 });
             });
-{#            $("select#stuff_types").change(function(e){#}
-{#                var htmlString = '';#}
-{#                $.getJSON('/get_categories/'+$(this).val(),'',function(j){#}
-{#                    {%if not params['category']%}#}
-{#                        $.each(j, function(key,value){#}
-{#                            console.log(value);#}
-{#                            htmlString += "<option value='"+value.id+"'>"+value.name+"</option>";#}
-{#                        });#}
-{#                        $("select#categories").html(htmlString);#}
-{#                    {%endif%}#}
-{#                    {%if params['category']%}#}
-{#                        if(firstLoad){#}
-{#                            firstLoad = false;#}
-{#                            console.log('{{params['category'].value}}')#}
-{#                            $("select#categories").val('{{params['category'].value}}');#}
-{#                        }#}
-{#                    {%endif%}#}
-{#                    // $("select#categories").trigger("change");#}
-{#                });#}
-{#            });#}
+
             {%if params['category']%}
 
                 var htmlString = '';
@@ -73,22 +55,47 @@
 {#                    $("select#stuff_types").trigger("change");#}
 {#                });#}
             {%endif%}
+            {% if params['stuff_type'] %}
+                //$("select#stuff_types").val('{{params['stuff_type'].value}}');
+                console.log('{{params['stuff_type'].value}}')
+            {%endif%}
+            {% if params['is_wanted'] %}
+                $("select#is_wanted").val('{{params['is_wanted'].value}}');
+            {%endif%}
+
             $("#list_btn").click(function(){
                 var category = $("select#categories option:selected").text();
                 var stuff_type = $("select#stuff_types option:selected").text();
+                var is_wanted = $("select#is_wanted option:selected").val();
                 var host = window.location.host;
-                window.location = "http://"+host+"/category/"+category+"/type/"+stuff_type;
+                var url = '';
+                if(stuff_type == 'hepsi'){
+                    url = "http://"+host+"/category/"+category;
+                } else {
+                    url = "http://"+host+"/category/"+category+"/type/"+stuff_type;
+                }
+                if(is_wanted != 2){
+                    url += "?is_wanted="+is_wanted;
+                }
+                window.location = url;
             })
         })
     </script>
     <div class="row">
         {%  if params['category']  %}
-            <div class="col-md-4 col-md-offset-1 form-group">
+            <div class="col-md-2 col-md-offset-1 form-group">
                 <select class="form-control" id="categories">
                 </select>
             </div>
-            <div class="col-md-4 form-group">
+            <div class="col-md-2 form-group">
                 <select class="form-control" id="stuff_types">
+                </select>
+            </div>
+            <div class="col-md-2 form-group">
+                <select class="form-control" id="is_wanted">
+                    <option value="0">Paylaşılan</option>
+                    <option value="1">İstenilen</option>
+                    <option value="2">Her ikisi</option>
                 </select>
             </div>
             <div class="col-md-2">
@@ -96,34 +103,10 @@
             </div>
         {%endif%}
     </div>
+
     <div class="row">
-        {% for stuff in stuff_list%}
-          <div class="col-md-3">
-            <div class="thumbnail">
-                <a href="/show_stuff/{{stuff.id}}">
-                    {%if stuff.photos%}
-                    <img src="/static/photos/{{stuff.photos[0].filename}}"  style="height: 150px;"/>
-                    {%else%}
-                    <img src="/static/photos/logosari1.png"  style="height: 150px;"/>
-                    {%endif%}
-                </a>
-                <div class="caption">
-                    <a href="/{{stuff.url}}">
-                        <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                    </a>
-                <p style="font-size:12px; height: 100px; overflow: hidden;">{{stuff.detail}}</p>
-                <p>
-                    {% if stuff.is_wanted %}
-                        <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/show_stuff/{{stuff.id}}'">Bende var!</button>
-                    {% else %}
-                        <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/show_stuff/{{stuff.id}}'">Ödünç iste</button>
-                    {% endif %}
-                </p>
-              </div>
-            </div>
-          </div>
-        {%endfor%}
-        {%if not stuff_list[0]%}
+
+        {% if not stuff_list[0]%}
             <div class="col-md-12" style="background:rgba(0,0,0,0.5); margin:20px auto; padding:15px; line-height:34px;color:white; border-radius:10px;">
                 <div class="col-md-5">Bu kategoride henüz paylaşılmış ürün bulunmuyor.</div>
                 <div class="col-md-7">
@@ -135,6 +118,32 @@
                 </div>
             </div>
         {%endif%}
+        {% for stuff in stuff_list %}
+              <div class="col-md-3">
+                <div class="thumbnail">
+                    <a href="/show_stuff/{{stuff.id}}">
+                        {%if stuff.photos%}
+                        <img src="/static/photos/{{stuff.photos[0].filename}}"  style="height: 150px;"/>
+                        {%else%}
+                        <img src="/static/photos/logosari1.png"  style="height: 150px;"/>
+                        {%endif%}
+                    </a>
+                    <div class="caption">
+                        <a href="/{{stuff.url}}">
+                            <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                        </a>
+                    <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+                    <p>
+                        {% if stuff.is_wanted %}
+                            <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/show_stuff/{{stuff.id}}'">Bende var!</button>
+                        {% else %}
+                            <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/show_stuff/{{stuff.id}}'">Ödünç iste</button>
+                        {% endif %}
+                    </p>
+                  </div>
+                </div>
+              </div>
+        {%endfor%}
     </div>
 {% endblock %}
 

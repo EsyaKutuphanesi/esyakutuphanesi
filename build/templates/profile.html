@@ -1,15 +1,118 @@
-{% from "security/_macros.html" import render_field_with_errors, render_field %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
-    <div class="row">
-        <ul class="nav nav-tabs nav-justified">
-          <li class="active"><a href="/edit_profile">Profil</a></li>
-          <li><a href="/my_messages">Mesajlar</a></li>
-          <li><a href="#">Eşya Kütüphanem</a></li>
-          <li><a href="#">Takvim</a></li>
-          <li><a href="#">Gruplarım</a></li>
-          <li><a href="#">Davet Et</a></li>
-        </ul>
+
+    <div class="row" style="margin:20px auto;">
+        <div class="col-md-5">
+            <img src="/static/photos/{{user.photo}}" class="img-responsive">
+        </div>
+        <div class="col-md-6 pull-right">
+            <div class="row">
+                <span class="pull-left" style="font-size:24px; font-weight:500;"> {{user.name}}</span>
+                <div class="pull-right" style=" margin-top:7px;">
+                    <span class="glyphicon glyphicon-heart"></span>
+                    <span class="glyphicon glyphicon-heart"></span>
+                    <span class="glyphicon glyphicon-heart"></span>
+                    <span class="glyphicon glyphicon-heart"></span>
+                    <span class="glyphicon glyphicon-heart-empty"></span>
+                </div>
+            </div>
+            <div class="row" style="margin-top:20px;">
+                <div class="row">
+                    <div class="col-md-6">Geri dönüş yüzdesi</div>
+                    <div class="col-md-6">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                <span class="sr-only">40% Complete (success)</span>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <h4>Sevdikleri</h4>
+                <div>{% if user.about %}{{user.about}}{% else %}-{% endif %}</div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <h4>Grupları</h4>
+                <div>{% if user.about %}{{user.about}}{% else %}Çiğdemim{% endif %}</div>
+            </div>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3 style="border-bottom: 1px solid #dddddd;
+padding-bottom: 10px;">Son Paylaştıkları:</h3>
+        </div>
+
+        <div class="col-md-12">
+            <div id="container" class="row fluid">
+                {% for stuff in user_stuff if stuff.is_wanted==0%}
+                  <div class="col-md-3 item">
+                    <div class="thumbnail">
+                        <a href="{{stuff.url}}">
+                            {%if stuff.photos%}
+                            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                            {%else%}
+                            <img src="/static/photos/logosari1.png"/>
+                            {%endif%}
+                        </a>
+                        <div class="caption">
+                            <a href="{{stuff.url}}">
+                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                            </a>
+                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+                        <p>
+                            {% if user.is_authenticated() %}
+                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                            {% else %}
+                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login'">Ödünç iste</button>
+                            {% endif %}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3 style="border-bottom: 1px solid #dddddd;
+padding-bottom: 10px;">Son Aradıkları:</h3>
+        </div>
+
+        <div class="col-md-12">
+            <div id="container" class="row fluid">
+                {% for stuff in user_stuff if stuff.is_wanted==1%}
+                  <div class="col-md-3 item">
+                    <div class="thumbnail">
+                        <a href="{{stuff.url}}">
+                            {%if stuff.photos%}
+                            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                            {%else%}
+                            <img src="/static/photos/logosari1.png"/>
+                            {%endif%}
+                        </a>
+                        <div class="caption">
+                            <a href="{{stuff.url}}">
+                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                            </a>
+                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+                        <p>
+                            {% if user.is_authenticated() %}
+                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                            {% else %}
+                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login'">Ödünç iste</button>
+                            {% endif %}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

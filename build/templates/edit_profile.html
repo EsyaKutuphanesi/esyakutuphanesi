@@ -3,18 +3,17 @@
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
 
-    <div class="col-md-3">
-        <ul class="nav nav-pills nav-stacked">
-          <li class="active"><a href="/edit_profile">Profil</a></li>
+    <div class="row">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="/edit_profile">Ayarlar</a></li>
           <li><a href="/my_messages">Mesajlar</a></li>
           <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
-          <li><a href="/my_calendar">Takvim</a></li>
           <li><a href="/groups">Gruplarım</a></li>
           <li><a href="/invite">Davet Et</a></li>
         </ul>
     </div>
 
-    <div class="col-md-9">
+    <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
         <form action="{{ url_for('edit_profile') }}" method="POST" name="edit_user_form" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <div class="col-md-6">
@@ -26,14 +25,6 @@
                     {%endif%}
                </div>
                 <div class="col-md-12">{{ render_field_with_errors(form.photo) }}</div>
-                <div class="col-md-12">
-                    <h3>Adreslerim</h3>
-                    {%for address in user.addresses%}
-                        <p>{{address.detail}}</p>
-                    {%endfor%}
-                    <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/new_address'">Yeni adres ekle</button>
-
-                </div>
             </div>
 
             <div class="col-md-6">
@@ -44,6 +35,15 @@
               {{ render_field(form.submit) }}
             </div>
         </form>
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <h3>Adreslerim</h3>
+                {%for address in user.addresses%}
+                    <p>{{address.detail}}</p>
+                {%endfor%}
+                <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/new_address'">Yeni adres ekle</button>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

@@ -38,7 +38,7 @@
     </div>
     {%endif%}
 
-    <div class="row" style="background:rgba(0,0,0,0.5); margin-top:30px; padding:30px 15px; color:white; border-radius:10px;">
+    <div class="row" style="background:rgba(0,0,0,0.5); margin:30px auto; padding:30px 15px; color:white; border-radius:10px;">
         <form role="search" name="search" action="/search" method="get">
             <table class="table searchTable">
                 <tr>
@@ -62,16 +62,17 @@
         </form>
     </div>
 
-    <div class="col-md-12 grayLine"></div>
+    <!--<div class="col-md-12 grayLine"></div>-->
 
     <div class="row">
         <div class="col-md-12">
-            <h3>Son Paylaşılanlar:</h3>
+            <h3 style="border-bottom: 1px solid #dddddd;
+padding-bottom: 10px;">Son Paylaşılanlar:</h3>
         </div>
 
         <div class="col-md-12">
             <div id="container" class="row fluid">
-                {% for stuff in last_objects%}
+                {% for stuff in last_objects if stuff.is_wanted==0%}
                   <div class="col-md-3 item">
                     <div class="thumbnail">
                         <a href="{{stuff.url}}">
@@ -85,13 +86,45 @@
                             <a href="{{stuff.url}}">
                                 <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
                             </a>
-                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail}}</p>
+                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
                         <p>
-                            {% if stuff.is_wanted %}
-                                <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='{{stuff.url}}'">Bende var!</button>
-                            {% else %}
-                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='{{stuff.url}}'">Ödünç iste</button>
-                            {% endif %}
+                            <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="col-md-12 grayLine"></div>-->
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3 style="border-bottom: 1px solid #dddddd;
+padding-bottom: 10px;">Son Arananlar:</h3>
+        </div>
+
+        <div class="col-md-12">
+            <div id="container" class="row fluid">
+                {% for stuff in last_objects if stuff.is_wanted==1%}
+                  <div class="col-md-3 item">
+                    <div class="thumbnail">
+                        <a href="{{stuff.url}}">
+                            {%if stuff.photos%}
+                            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                            {%else%}
+                            <img src="/static/photos/logosari1.png"/>
+                            {%endif%}
+                        </a>
+                        <div class="caption">
+                            <a href="{{stuff.url}}">
+                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                            </a>
+                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+                        <p>
+                            <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Bende var!</button>
                         </p>
                       </div>
                     </div>

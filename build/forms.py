@@ -25,7 +25,7 @@ class EditUserForm(Form):
     phone_number = TextField('Telefonunuz', [
         validators.Length(min=0, max=35),
     ])
-    about = TextAreaField(u'Hakkınızda', [
+    about = TextAreaField(u'Sevdikleriniz', [
         validators.Length(min=0, max=1000),
     ])
     password = PasswordField(u'Yeni Şifre', [
@@ -60,7 +60,7 @@ class EditUserForm(Form):
 class EditStuffForm(Form):
     stuffid = HiddenField('stuffid');
     photo = FileField(u'Resim Yükle')
-    title = TextField('Esya Tanimi', [
+    title = TextField(u'Başlık', [
         validators.Length(min=4, max=255),
         validators.Required()
     ])

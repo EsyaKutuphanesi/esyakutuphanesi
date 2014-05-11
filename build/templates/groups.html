@@ -3,20 +3,23 @@
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
 
-    <div class="col-md-3">
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="/edit_profile">Profil</a></li>
+    <div class="row">
+        <ul class="nav nav-tabs">
+          <li><a href="/edit_profile">Ayarlar</a></li>
           <li><a href="/my_messages">Mesajlar</a></li>
           <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
-          <li><a href="/my_calendar">Takvim</a></li>
           <li class="active"><a href="/groups">Gruplarım</a></li>
           <li><a href="/invite">Davet Et</a></li>
         </ul>
     </div>
 
-    {%for membership in user.groups%}
-        <p>{{membership.group.name}}</p>
-
-    {%endfor%}
+    <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
+        {%for membership in user.groups%}
+            <div class="col-md-10">
+                <h4>{{membership.group.name}}</h4>
+                <div>{{membership.group.description}}</div>
+            </div>
+        {%endfor%}
+    </div>
 
 {% endblock %}

@@ -1,54 +1,135 @@
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
+<script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script></script>
+{#<script type="text/javascript" src="{{ url_for('static',filename='js/ek.js') }}"></script>#}
+<script>
+    var map;
+    var marker;
+    var addr_components;
+    $(document).ready(function(){
+        map = new GMaps({
+            el: '#map',
+            lat: 41.03806,
+            lng: 28.986648
+        });
+        map.setCenter({{stuff_address.lat}}, {{stuff_address.lng}});
+        map.addMarker({
+            lat: {{stuff_address.lat}},
+            lng: {{stuff_address.lng}},
+            title: 'Lima',
+            click: function(e) {
+                alert('You clicked in this marker');
+            }
+        });
+    });
+</script>
     <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-8">
-               <h1>{{stuff.title}}</h1>
+        <div class="col-md-7">
+           <div class="row"><h1>{{stuff.title}}</h1></div>
+
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li><a href="/{{stuff.category.url}}">{{stuff.category}}</a></li>
+                    <li><a href="/{{stuff.stuff_type.url}}">{{stuff.stuff_type}}</a></li>
+                    <span style="margin-right:20px;"></span>
+                    {%for tag in stuff.tags%}
+                        <span class="label label-warning">{{tag}}</span>
+                    {%endfor%}
+                </ol>
             </div>
 
-            <!-- TODO: BURADA LOGIN DEĞİLSE LOGINE GONDER-->
+            <div class="row">
+                <p>{{stuff.detail}}</p>
+            </div>
 
-            <div class="col-md-4" style="margin-top:25px;">
-                {%if user.is_authenticated()%}
-                    {% if stuff.is_wanted %}
-                        <button type="button" class="btn btn-info" style="width:100%;" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç ver</button>
-                    {% else %}
-                        <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
-                    {% endif %}
-                {%else%}
-                    {% if stuff.is_wanted %}
-                        <button type="button" class="btn btn-info" style="width:100%;" onclick="window.location.href='/login'">Ödünç ver</button>
-                    {% else %}
-                        <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/login'">Ödünç iste</button>
-                    {% endif %}
+            <div class="row" style="margin:20px auto;">
+                {%if stuff%}
+                <div class="row">
+                    {%for photo in stuff.photos%}
+                        <div class="col-md-3">
+                            <img class="img-responsive" src="/static/photos/{{photo.filename}}" />
+                        </div>
+                    {%endfor%}
+                 </div>
                 {%endif%}
             </div>
+
         </div>
-        <div class="row">
-            <ol class="breadcrumb">
-                <li><a href="/{{stuff.category.url}}">{{stuff.category}}</a></li>
-                <li><a href="/{{stuff.stuff_type.url}}">{{stuff.stuff_type}}</a></li>
-                <span style="margin-right:20px;"></span>
-                {%for tag in stuff.tags%}
-                    <span class="label label-warning">{{tag}}</span>
-                {%endfor%}
-            </ol>
-        </div>
-        <div class="tumbnail">
-            <p>{{stuff.detail}}</p>
-        </div>
-    </div>
-    <div class="col-md-12" style="margin-top:20px;">
-        {%if stuff%}
-        <div class="row">
-            {%for photo in stuff.photos%}
-                <div class="col-md-4">
-                    <img class="img-responsive" src="/static/photos/{{photo.filename}}" />
+        <div class="col-md-4 pull-right" style="margin-top:25px;">
+            {%if user.is_authenticated()%}
+                {% if stuff.is_wanted %}
+                    <button type="button" class="btn btn-info" style="width:100%;" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Bende var!</button>
+                {% else %}
+                    <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                {% endif %}
+            {%else%}
+                {% if stuff.is_wanted %}
+                    <button type="button" class="btn btn-info" style="width:100%;" onclick="window.location.href='/login'">Bende var!</button>
+                {% else %}
+                    <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/login'">Ödünç iste</button>
+                {% endif %}
+            {%endif%}
+            <div class="row" style="margin:10px 0px;">
+                <img class="img-responsive" src="/static/photos/{{stuff_owner.photo}}" style="max-height:250px; margin:0 auto;">
+            </div>
+            <div class="row" style=" margin: auto auto 10px;">
+                <div style="font-size:14px; float:left;">
+                    <a href="/profile/{{stuff_owner.id}}">{{stuff_owner.name}}</a> paylaştı.
                 </div>
-            {%endfor%}
-         </div>
-        {%endif%}
+                <div style="float:right;">
+                    <span class="glyphicon glyphicon-heart"></span>
+                    <span class="glyphicon glyphicon-heart"></span>
+                    <span class="glyphicon glyphicon-heart"></span>
+                    <span class="glyphicon glyphicon-heart"></span>
+                    <span class="glyphicon glyphicon-heart-empty"></span>
+                </div>
+            </div>
+
+        </div>
     </div>
+
+    <div class="col-md-12">
+        <h3 style="margin-bottom:10px;">Paylaşımın adresi:</h3>
+        <div id="map" style="height: 100px;"></div>
+    </div>
+    <div class="col-md-12 grayLine"></div>
+
+    <div class="col-md-12">
+        <h3 style="margin-bottom: 30px;">Değerlendirmeler</h3>
+
+        <div class="media">
+            <a class="pull-left" href="#">
+            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
+            </a>
+            <div class="media-body">
+                <div class="input-group">
+                  <input type="text" class="form-control" style="height:64px;">
+                  <span class="input-group-btn" >
+                    <button class="btn btn-default" type="button" style="height:64px;">Gönder</button>
+                  </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
+          </a>
+          <div class="media-body">
+            <a href="#"><span style="font-weight:bold;">Didem Yeni</span></a> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+          </div>
+        </div>
+        <div class="media">
+          <a class="pull-left" href="#">
+            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
+          </a>
+          <div class="media-body">
+            <a href="#"><span style="font-weight:bold;">Aysu Erdoğdu</span></a> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+          </div>
+        </div>
+
+    </div>
+
 {% endblock %}
 

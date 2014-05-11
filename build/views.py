@@ -17,11 +17,11 @@ def home():
     return render_template("index.html", user=current_user,
                            last_objects=last_objects, form=form)
 
-
 @app.route('/search')
 def search():
     form = SeachForm()
     last_objects = list()
+
     if request.method == 'GET':
         stuff_key = unicode(request.args.get('stuff'))
         address_key = unicode(request.args.get('address'))
@@ -30,14 +30,13 @@ def search():
             filter(Stuff.approved == 1,
                    Address.id == Stuff.address_id,
                    Stuff.title.like('%'+stuff_key+'%'),
-                   Address.detail.like('%'+address_key+'%')).limit(5)
+                   Address.detail.like('%'+address_key+'%')).limit(8)
 
     return render_template("search.html", user=current_user,
                            last_objects=last_objects, form=form)
 
-
-@login_required
 @app.route('/new_address', methods=["GET", "POST"])
+@login_required
 def new_address():
     if request.method == 'POST':
         print unicode(request.form)
@@ -53,10 +52,9 @@ def new_address():
         return redirect(url_for("edit_profile"))
     return render_template("map.html", user=current_user)
 
-
-@login_required
 @app.route('/edit_stuff/<stuff_id>', methods=["GET", "POST"])
 @app.route('/new_stuff', methods=["GET", "POST"])
+@login_required
 def edit_stuff(stuff_id=None):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
     form = EditStuffForm()
@@ -117,11 +115,7 @@ def edit_stuff(stuff_id=None):
                 filepath = os.path.join(app.config['UPLOADS_FOLDER'],
                                         generated_name)
                 photo_file.save(filepath)
-                new_photo = StuffPhoto(owner=current_user,
-                                       filename=generated_name,
-                                       stuff=stuff)
-                db.session.add(new_photo)
-                db.session.commit()
+
             if form.address.data == 20:
                 address = Address(user=current_user,
                                   lat=request.form.get('lat'),
@@ -140,7 +134,14 @@ def edit_stuff(stuff_id=None):
                 stuff.category_id = form.category.data
                 stuff.type_id = form.stuff_type.data
                 stuff.is_wanted = form.is_wanted.data == 'True'
+                if photo_file:
+                    new_photo = StuffPhoto(owner=current_user,
+                                           filename=generated_name,
+                                           stuff=stuff)
+                    db.session.add(new_photo)
+                    db.session.commit()
                 flash("Esya guncellendi")
+
             else:
                 stuff = Stuff(title=form.title.data,
                               detail=form.detail.data,
@@ -151,6 +152,12 @@ def edit_stuff(stuff_id=None):
                               group_id=form.group.data,
                               is_wanted=form.is_wanted.data == 'True')
                 db.session.add(stuff)
+                if photo_file:
+                    new_photo = StuffPhoto(owner=current_user,
+                                           filename=generated_name,
+                                           stuff=stuff)
+                    db.session.add(new_photo)
+                    db.session.commit()
                 flash("Esya kaydedildi")
 
             tags = form.tags.data.split(',')
@@ -179,12 +186,10 @@ def edit_stuff(stuff_id=None):
                            form=form, action='Edit', stuff=stuff,
                            is_new=is_new)
 
-
-@login_required
 @app.route('/my_stuff')
+@login_required
 def my_stuff():
     return render_template("my_stuff.html", user=current_user)
-
 
 @app.route('/get_stuff_types/<category_id>')
 @app.route('/get_stuff_types')
@@ -201,7 +206,6 @@ def get_stuff_types(category_id=None):
 
     return stuff_type_choices_json
 
-
 @app.route('/get_categories')
 @app.route('/get_categories/<type_id>')
 def get_categories(type_id=None):
@@ -217,16 +221,17 @@ def get_categories(type_id=None):
 
     return category_list_json
 
-
-@login_required
 @app.route('/show_stuff/<stuff_id>')
 def show_stuff(stuff_id):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
-    return render_template("show_stuff.html", user=current_user, stuff=stuff)
+    stuff_owner = User.query.filter(User.id == stuff.owner_id).first()
 
+    stuff_address = Address.query.filter(Address.id == stuff.address_id).first()
 
-@login_required
+    return render_template("show_stuff.html", stuff_address=stuff_address, stuff_owner=stuff_owner, user=current_user, stuff=stuff)
+
 @app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
 def edit_profile():
     form = EditUserForm()
 
@@ -256,22 +261,30 @@ def edit_profile():
                            form=form,
                            user=current_user)
 
-
 @app.route('/photos/<path:filename>')
 def photos_static(filename):
     return send_from_directory(app.root_path + '/static/photos/', filename)
-
 
 def get_file_extension(filename):
     if '.' in filename:
         return filename.rsplit('.', 1)[1]
 
-
 @app.route('/category/<category_name>/')
 def category_view(category_name=None):
+    is_wanted = request.args.get('is_wanted')
+
     category = Category.query.\
         filter(Category.name == category_name).first()
-    stuff_list = category.stuff_list
+    #stuff_list = category.stuff_list
+    if is_wanted is None:
+        stuff_list = Stuff.query.\
+            filter(Stuff.category == category).\
+            limit(20)
+    else:
+        stuff_list = Stuff.query.\
+            filter(Stuff.category == category,
+                   Stuff.is_wanted == is_wanted).\
+            limit(20)
     params = {
         'category': {
             'type': 'category',
@@ -281,7 +294,6 @@ def category_view(category_name=None):
 
     return render_template("browse.html", user=current_user,
                            stuff_list=stuff_list, params=params)
-
 
 @app.route('/stuff_type/<type_name>/')
 def stuff_type_view(type_name=None):
@@ -297,38 +309,53 @@ def stuff_type_view(type_name=None):
     return render_template("browse.html", user=current_user,
                            stuff_list=stuff_list, params=params)
 
-
 @app.route('/category/<category_name>/type/<type_name>')
 def category_stuff_type_view(category_name, type_name):
+    is_wanted = request.args.get('is_wanted')
     stuff_type = StuffType.query.\
         filter(StuffType.name == type_name).first()
     category = Category.query.\
         filter(Category.name == category_name).first()
-    stuff_list = Stuff.query.\
-        join(Category).\
-        join(StuffType).\
-        filter(StuffType.id == stuff_type.id).\
-        filter(Category.id == category.id).\
-        limit(8)
+    if is_wanted is None:
+        stuff_list = Stuff.query.\
+            join(Category).\
+            join(StuffType).\
+            filter(StuffType.id == stuff_type.id).\
+            filter(Category.id == category.id).\
+            limit(8)
+    else:
+        stuff_list = Stuff.query.\
+            join(Category).\
+            join(StuffType).\
+            filter(StuffType.id == stuff_type.id).\
+            filter(Category.id == category.id).\
+            filter(Stuff.is_wanted == is_wanted).\
+            limit(8)
+
     params = {
         'category': {
             'type': 'category',
             'value': category.id
+        },
+        'stuff_type': {
+            'type': 'stuff_type',
+            'value': stuff_type.id
+        },'is_wanted': {
+            'type': 'is_wanted',
+            'value': is_wanted if is_wanted is not None else 2
         }
     }
 
     return render_template("browse.html", user=current_user,
                            stuff_list=stuff_list, params=params)
 
-
-@login_required
 @app.route('/my_messages')
+@login_required
 def my_messages():
     return render_template("my_messages.html", user=current_user)
 
-
-@login_required
 @app.route('/conversations/<conversation_id>', methods=["GET", "POST"])
+@login_required
 def show_conversation(conversation_id):
     conversation = Conversation.query.\
         filter(Conversation.id == conversation_id).first()
@@ -347,9 +374,8 @@ def show_conversation(conversation_id):
     return render_template("conversation.html", user=current_user,
                            form=form, action='Edit', conversation=conversation)
 
-
-@login_required
 @app.route('/make_request/<stuff_id>')
+@login_required
 def make_request(stuff_id):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
     new_request = Request(stuff_id=stuff_id,
@@ -372,8 +398,8 @@ def make_request(stuff_id):
     db.session.commit()
     return render_template("my_messages.html", user=current_user)
 
-@login_required
 @app.route('/moderation')
+@login_required
 def moderation():
     action = request.args.get("action")
     id = request.args.get("id")
@@ -396,33 +422,30 @@ def moderation():
 
     if 'admin' in current_user.roles:
         last_objects = Stuff.query.filter(Stuff.approved == 0).\
-            order_by(Stuff.id.desc()).limit(5)
+            order_by(Stuff.id.desc()).limit(8)
     else:
         last_objects = Stuff.query.join(Group).join(GroupMembership)\
             .filter(GroupMembership.user_id == current_user.id,
                     GroupMembership.is_moderator,
                     Stuff.approved == 0).\
-            order_by(Stuff.id.desc()).limit(5)
+            order_by(Stuff.id.desc()).limit(8)
 
     return render_template("moderation.html", user=current_user,
                            last_objects=last_objects)
 
-@login_required
-@app.route('/profile')
-def profile():
-    return render_template("profile.html", user=current_user)
+@app.route('/profile/<user_id>')
+def get_profile(user_id):
+    user_stuff = Stuff.query.filter(Stuff.owner_id == user_id)
 
-@login_required
+    return render_template("profile.html", user_stuff=user_stuff, user=current_user)
+
 @app.route('/groups')
+@login_required
 def groups():
+
     return render_template("groups.html", user=current_user)
 
-@login_required
-@app.route('/my_calendar')
-def my_calendar():
-    return render_template("my_calendar.html", user=current_user)
-
-@login_required
 @app.route('/invite')
+@login_required
 def invite():
     return render_template("invite.html", user=current_user)
