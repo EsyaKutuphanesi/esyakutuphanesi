@@ -1,0 +1,30 @@
+{% macro render_item_box(stuff, user, is_wanted=False) -%}
+<div class="col-md-3 item">
+    <div class="thumbnail">
+        <a href="{{stuff.url}}">
+            {%if stuff.photos%}
+            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+            {%else%}
+            <img src="/static/photos/logosari1.png"/>
+            {%endif%}
+        </a>
+        <div class="caption">
+            <a href="{{stuff.url}}">
+                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+            </a>
+            <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+            <p>
+                {% if user.id != stuff.owner_id %}
+                    {% if not is_wanted %}
+                        <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                    {%else%}
+                        <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/make_request/{{stuff.id}}'">Bende Var!</button>
+                    {%endif%}
+                {%else%}
+                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
+                {%endif%}
+            </p>
+        </div>
+    </div>
+</div>
+{% endmacro %}

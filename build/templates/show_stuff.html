@@ -59,7 +59,7 @@
         <div class="col-md-4 pull-right" style="margin-top:25px;">
             {% if not stuff.owner_id == user.id %}
                 {% if stuff.is_wanted %}
-                    <button type="button" class="btn btn-info" style="width:100%;" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Bende var!</button>
+                    <button type="button" class="btn btn-info" style="width:100%;" onclick="window.location.href='/make_request/{{stuff.id}}'">Bende var!</button>
                 {% else %}
                     <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
                 {% endif %}
