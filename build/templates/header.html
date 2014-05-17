@@ -13,12 +13,12 @@
 <nav class="navbar navbar-inverse" role="navigation" style="border-radius:0;">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
-    <a class="navbar-brand" href="/">EK</a>
+    <a class="navbar-brand" href="/"><img src="/static/photos/logo.png"/></a>
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <form class="navbar-form navbar-left" role="search" name="search" action="/search" method="get">
+    <form class="navbar-form navbar-left padding15" role="search" name="search" action="/search" method="get">
       <div class="form-group">
         <input type="text" class="form-control" name="stuff" placeholder="Ne Arıyorsun?">
       </div>
@@ -27,20 +27,20 @@
       </div>
       <button type="submit" class="btn btn-default">Ara</button>
     </form>
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav padding15">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kategoriler <b class="caret"></b></a>
         <ul id="categories" class="dropdown-menu">
         </ul>
       </li>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right padding15">
         {%if user.is_authenticated()%}
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profil <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="/profile/{{user.id}}">Profilim</a></li>
-              <li><a href="/edit_profile">Ayarlar</a></li>
+              <li><a href="/edit_profile">Pano</a></li>
               <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
               {% if 'admin' in user.roles or 'moderator' in user.roles %}
                   <li><a href="/moderation">Moderasyon</a></li>
@@ -50,12 +50,12 @@
             </ul>
         </li>
         <li><a href="/my_messages">Mesajlar</a></li>
-        <li><a href="/new_stuff">Eşya Ekle</a></li>
         {%else%}
         <li><a href="/login">Giriş Yap</a></li>
         <li><a href="/register">Kaydol</a></li>
-        <li><a href="/login">Eşya Ekle</a></li>
         {%endif%}
+        <li><a href="/new_stuff">Eşya Ekle</a></li>
+
     </ul>
   </div><!-- /.navbar-collapse -->
 </nav>

@@ -1,8 +1,8 @@
 {% extends "security/header.html" %}
 {% from "security/_macros.html" import render_field_with_errors, render_field, social_login %}
-{% include "security/_messages.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
+
     <div class="col-md-4 col-md-offset-4">
         <div class="row text-center">{{ social_login('facebook', 'Facebook' )}}</div>
         <div class="row text-center" style="margin:20px auto;">--------------veya--------------</div>

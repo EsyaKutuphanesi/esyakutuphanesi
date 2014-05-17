@@ -8,32 +8,32 @@ from wtforms.validators import Required
 from models import User
 
 class ExtendedRegisterForm(RegisterForm):
-    name = TextField('Ad Soyad', [Required()])
+    name = TextField(u'İsim Soyisim', [Required()])
 
 
 class EditUserForm(Form):
     userid = HiddenField('userid');
     photo = FileField(u'Resim Yükle')
-    name = TextField('Isminiz', [
+    name = TextField(u'İsim', [
         validators.Length(min=4, max=25),
         validators.Required()
     ])
-    email = TextField('E-Posta Adresiniz', [
+    email = TextField(u'Email Adresi', [
         validators.Length(min=6, max=35),
         validators.Required()
     ])
-    phone_number = TextField('Telefonunuz', [
+    phone_number = TextField(u'Telefon', [
         validators.Length(min=0, max=35),
     ])
-    about = TextAreaField(u'Sevdikleriniz', [
+    about = TextAreaField(u'Sevdiklerin', [
         validators.Length(min=0, max=1000),
     ])
     password = PasswordField(u'Yeni Şifre', [
-        validators.EqualTo('confirm', message='Passwords must match')
+        validators.EqualTo('confirm', message=u'Şifreler aynı olmalı.')
     ])
     confirm = PasswordField(u'Şifreyi Onayla')
 
-    submit = SubmitField("Kaydet")
+    submit = SubmitField(u"Kaydet")
 
     def fill_form(self, user):
         self.name.data = user.name
@@ -52,7 +52,7 @@ class EditUserForm(Form):
         print self.userid.data
         print user.id
         if user and user.id <> int(self.userid.data):
-            self.email.errors.append('There is already a user registered with this email')
+            self.email.errors.append(u'Bu email adresi ile kayıtlı bir kullanıcı bulunuyor.')
             return False
 
         return True
@@ -64,11 +64,11 @@ class EditStuffForm(Form):
         validators.Length(min=4, max=255),
         validators.Required()
     ])
-    detail = TextAreaField('Detaylar', [
+    detail = TextAreaField(u'Detaylar', [
         validators.Length(min=0, max=1000),
     ])
-    address = SelectField('Adres', coerce=int, validators=[validators.Required()])
-    group = SelectField('Grup', coerce=int, validators=[validators.Required()])
+    address = SelectField(u'Adres', coerce=int, validators=[validators.Required()])
+    group = SelectField(u'Grup', coerce=int, validators=[validators.Required()])
     submit = SubmitField("Kaydet")
     tags = TextField(u'Etiketler',[
         validators.Length(min=0, max=255)

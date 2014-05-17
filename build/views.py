@@ -12,10 +12,13 @@ import os.path
 @app.route('/categories')
 def home():
     form = SeachForm()
-    last_objects = Stuff.query.filter(Stuff.approved == 1).order_by(Stuff.id.desc()).limit(8)
+    last_objects_shared = Stuff.query.filter(Stuff.approved == 1,
+                                             Stuff.is_wanted == 0).order_by(Stuff.id.desc()).limit(8)
+    last_objects_wanted = Stuff.query.filter(Stuff.approved == 1,
+                                             Stuff.is_wanted == 1).order_by(Stuff.id.desc()).limit(8)
 
     return render_template("index.html", user=current_user,
-                           last_objects=last_objects, form=form)
+                           last_objects_wanted=last_objects_wanted, last_objects_shared=last_objects_shared, form=form)
 
 @app.route('/search')
 def search():
@@ -289,25 +292,33 @@ def category_view(category_name=None):
         'category': {
             'type': 'category',
             'value': category.id
+        },
+        'stuff_type': {
+            'type': 'stuff_type',
+            'value': 'all'
+        },
+        'is_wanted': {
+            'type': 'is_wanted',
+            'value': is_wanted if is_wanted is not None else 2
         }
     }
 
     return render_template("browse.html", user=current_user,
                            stuff_list=stuff_list, params=params)
 
-@app.route('/stuff_type/<type_name>/')
-def stuff_type_view(type_name=None):
-    stuff_type = StuffType.query.\
-        filter(StuffType.name == type_name).first()
-    stuff_list = stuff_type.stuff_list
-    params = {
-        'stuff_type': {
-            'type': 'stuff_type',
-            'value': stuff_type.id
-        },
-    }
-    return render_template("browse.html", user=current_user,
-                           stuff_list=stuff_list, params=params)
+#@app.route('/stuff_type/<type_name>/')
+#def stuff_type_view(type_name=None):
+#    stuff_type = StuffType.query.\
+#        filter(StuffType.name == type_name).first()
+#    stuff_list = stuff_type.stuff_list
+#    params = {
+#        'stuff_type': {
+#            'type': 'stuff_type',
+#            'value': stuff_type.id
+#        },
+#    }
+#    return render_template("browse.html", user=current_user,
+#                           stuff_list=stuff_list, params=params)
 
 @app.route('/category/<category_name>/type/<type_name>')
 def category_stuff_type_view(category_name, type_name):
@@ -340,7 +351,8 @@ def category_stuff_type_view(category_name, type_name):
         'stuff_type': {
             'type': 'stuff_type',
             'value': stuff_type.id
-        },'is_wanted': {
+        },
+        'is_wanted': {
             'type': 'is_wanted',
             'value': is_wanted if is_wanted is not None else 2
         }
@@ -435,9 +447,16 @@ def moderation():
 
 @app.route('/profile/<user_id>')
 def get_profile(user_id):
-    user_stuff = Stuff.query.filter(Stuff.owner_id == user_id)
+    user_profile = User.query.filter(User.id == user_id).first()
+    user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 0).limit(8)
+    user_stuff_wanted = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 1).limit(8)
 
-    return render_template("profile.html", user_stuff=user_stuff, user=current_user)
+    users_group = Group.query.join(GroupMembership).\
+        filter(GroupMembership.group_id == Group.id,
+               GroupMembership.user_id == user_id)
+
+    return render_template("profile.html", user_stuff_shared=user_stuff_shared, user_stuff_wanted=user_stuff_wanted,
+                           users_group=users_group, user_profile=user_profile, user=current_user)
 
 @app.route('/groups')
 @login_required
@@ -445,7 +464,33 @@ def groups():
 
     return render_template("groups.html", user=current_user)
 
-@app.route('/invite')
+@app.route('/group/<group_id>')
+@login_required
+def group(group_id):
+    group_info = Group.query.filter(Group.id == group_id).first()
+
+    group_shares = Stuff.query.filter(Stuff.group_id == group_id)
+
+    group_members = User.query.join(GroupMembership).\
+        filter(GroupMembership.group_id == group_id, User.id == GroupMembership.user_id)
+
+    for members_photos in group_members:
+        photos = Photo.query.filter(Photo.owner_id == members_photos.id)
+
+    return render_template("group.html", group_info=group_info, group_shares=group_shares,
+                           group_members=group_members, photos=photos, user=current_user)
+
+@app.route('/invite') #, methods=["GET", "POST"]
 @login_required
 def invite():
+    # if request.method == 'POST':
+    #         print unicode(request.form)
+    #         invite_info = Invitations(user=current_user,
+    #                           emails=request.form.get('invited-emails'),
+    #                           message=request.form.get('invite_message'),
+    #         db.session.add(invitations)
+    #         db.session.commit()
+    #         flash(u"")
+    #
+    #         return redirect(url_for("invite"))
     return render_template("invite.html", user=current_user)

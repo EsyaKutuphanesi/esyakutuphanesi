@@ -3,6 +3,22 @@
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
 
+<script src="http://connect.facebook.net/en_US/all.js"></script>
+<script>
+    FB.init({
+        appId:'1478430419047146',
+        cookie:true,
+        status:true,
+        xfbml:true
+    });
+
+    function FacebookInviteFriends(){
+        FB.ui({
+        method: 'apprequests',
+        message: 'Eşyalarını benimle Eşyakütüphanesi üzerinden paylaşabilirsin :)'
+        });
+    }
+</script>
     <div class="row">
         <ul class="nav nav-tabs">
           <li><a href="/edit_profile">Ayarlar</a></li>
@@ -13,6 +29,20 @@
         </ul>
     </div>
 
-    <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;"></div>
+    <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
+        <div class="col-md-4">
+            <h5>Facebook ile davet et</h5>
+            <div id="fb-root"></div>
+            <button type="button" class="btn" onclick="FacebookInviteFriends();" style="color:white; background-color:#3c599f;">Facebook arkadaşlarını davet et</button>
+        </div>
+        <div class="col-md-8">
+            <h5>Email ile davet et</h5>
+            <form action="{{url_for('invite')}}" method="POST" name="invite_form" enctype="multipart/form-data">
+                <input type="text" class="form-control" placeholder="a@b.com, ..." name="invited_emails"/>
+                <textarea class="form-control" rows="3" style="margin:10px auto;" name="invite_message">Eşyakütüphanesi'ne sen de katıl :)</textarea>
+                <button type="submit" class="btn btn-success pull-right">Davet et</button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}

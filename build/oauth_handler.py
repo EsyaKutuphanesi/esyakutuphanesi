@@ -3,8 +3,8 @@ from flask_oauth import OAuth
 from flask.ext.security import login_user
 from models import *
 
-FACEBOOK_APP_ID = ''
-FACEBOOK_APP_SECRET = ''
+FACEBOOK_APP_ID = '1478430419047146'
+FACEBOOK_APP_SECRET = 'a4e998278e99029f86abaa2eb4ef95df'
 
 oauth = OAuth()
 
@@ -45,19 +45,23 @@ def facebook_authorized(resp):
 
     session['facebook_token'] = (resp['access_token'], '')
     data = facebook.get('/me').data
+    profile_picture = facebook.get('/me/picture').data
 
     if 'id' in data and 'name' in data \
         and 'email' in data and 'link' in data:
 
         provider_user_id = data['id']
-        user_name = data['name']
+        name = data['name']
+        username = data['username']
         user_email = data['email']
         profile_url = data['link']
+        profile_picture = profile_picture['url']
 
         user = User.query.filter(User.email == user_email).first()
         if not user:
-            user = users.create_user(name=user_name,
+            user = users.create_user(name=name,
                                      email=user_email,
+                                     photo=profile_picture,
                                      password=None,
                                      active=True)
             users.commit()
@@ -69,7 +73,10 @@ def facebook_authorized(resp):
                                     provider_id='facebook',
                                     provider_user_id=provider_user_id,
                                     access_token=resp['access_token'],
-                                    profile_url=profile_url
+                                    profile_url=profile_url,
+                                    image_url=profile_picture,
+                                    full_name=name,
+                                    display_name=username
             )
             db.session.add(connection)
             db.session.commit()

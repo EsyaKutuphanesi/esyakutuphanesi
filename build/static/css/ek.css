@@ -71,6 +71,9 @@ margin-top: 20px;
 }
 
 
+.padding15 {
+    padding:15px;
+}
 .searchTable {
     border:0 !important; margin-bottom:0;
 }
@@ -106,6 +109,21 @@ margin-top: 20px;
     width:100%;
 }
 .grayLine {
-    border-bottom: 2px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
     margin:50px auto 20px;
+}
+.socialDivText {
+    width:100px; height:100px; border-radius:50%;
+    overflow:hidden; margin:0 auto;
+}
+.socialDivs {
+    padding:10px; text-align:center;
+    color: #333333;
+}
+.footerUl {
+    list-style-type: none;
+    padding-left: 0;
+}
+.footerUl li {
+    color:#333333;
 }

@@ -4,11 +4,15 @@
 
     <div class="row" style="margin:20px auto;">
         <div class="col-md-5">
-            <img src="/static/photos/{{user.photo}}" class="img-responsive">
+            {% if user_profile.photo %}
+                <img src="/static/photos/{{user_profile.photo}}" class="img-responsive">
+            {% else %}
+                <img src="/static/photos/ek1024.png" class="img-responsive">
+            {% endif %}
         </div>
         <div class="col-md-6 pull-right">
             <div class="row">
-                <span class="pull-left" style="font-size:24px; font-weight:500;"> {{user.name}}</span>
+                <span class="pull-left" style="font-size:24px; font-weight:500;"> {{user_profile.name}}</span>
                 <div class="pull-right" style=" margin-top:7px;">
                     <span class="glyphicon glyphicon-heart"></span>
                     <span class="glyphicon glyphicon-heart"></span>
@@ -31,88 +35,100 @@
             </div>
             <div class="row" style="margin-top:10px;">
                 <h4>Sevdikleri</h4>
-                <div>{% if user.about %}{{user.about}}{% else %}-{% endif %}</div>
+                <div>{% if user_profile.about %}{{user_profile.about}}{% else %}-{% endif %}</div>
             </div>
             <div class="row" style="margin-top:10px;">
-                <h4>Grupları</h4>
-                <div>{% if user.about %}{{user.about}}{% else %}Çiğdemim{% endif %}</div>
+                <h4>Grupları</h4> |
+                {%  if users_group[0] %}
+                    {% for groups in users_group %}
+                        <a href="/group/{{groups.id}}" style="color:#333333;"> <span>{{groups.name}}</span></a> |
+                    {% endfor %}
+                {% else %}
+                    <span>-</span>
+                {% endif %}
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
-            <h3 style="border-bottom: 1px solid #dddddd;
-padding-bottom: 10px;">Son Paylaştıkları:</h3>
-        </div>
-
-        <div class="col-md-12">
-            <div id="container" class="row fluid">
-                {% for stuff in user_stuff if stuff.is_wanted==0%}
-                  <div class="col-md-3 item">
-                    <div class="thumbnail">
-                        <a href="{{stuff.url}}">
-                            {%if stuff.photos%}
-                            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
-                            {%else%}
-                            <img src="/static/photos/logosari1.png"/>
-                            {%endif%}
-                        </a>
-                        <div class="caption">
-                            <a href="{{stuff.url}}">
-                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                            </a>
-                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
-                        <p>
-                            {% if user.is_authenticated() %}
-                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
-                            {% else %}
-                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login'">Ödünç iste</button>
-                            {% endif %}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                {%endfor%}
+        {% if user_stuff_shared[0] %}
+            <div class="col-md-12">
+                <h3 style="border-bottom: 1px solid #dddddd;
+    padding-bottom: 10px;">Son Paylaştıkları:</h3>
             </div>
-        </div>
-    </div>
 
+            <div class="col-md-12">
+                <div id="container" class="row fluid">
+                    {% for stuff in user_stuff_shared%}
+                      <div class="col-md-3 item">
+                        <div class="thumbnail">
+                            <a href="/show_stuff/{{stuff.id}}">
+                                {%if stuff.photos%}
+                                <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                                {%else%}
+                                <img src="/static/photos/logosari1.png"/>
+                                {%endif%}
+                            </a>
+                            <div class="caption">
+                                <a href="{{stuff.url}}">
+                                    <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                                </a>
+                            <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+                            <p>
+                                {% if not stuff.owner_id == user.id %}
+                                    <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                                {% else %}
+                                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
+                                {% endif %}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    {%endfor%}
+                </div>
+            </div>
+        {% else %}
+            HENÜZ EŞYA PAYLAŞILMAMIŞ
+        {% endif %}
+    </div>
     <div class="row">
-        <div class="col-md-12">
-            <h3 style="border-bottom: 1px solid #dddddd;
-padding-bottom: 10px;">Son Aradıkları:</h3>
-        </div>
-
-        <div class="col-md-12">
-            <div id="container" class="row fluid">
-                {% for stuff in user_stuff if stuff.is_wanted==1%}
-                  <div class="col-md-3 item">
-                    <div class="thumbnail">
-                        <a href="{{stuff.url}}">
-                            {%if stuff.photos%}
-                            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
-                            {%else%}
-                            <img src="/static/photos/logosari1.png"/>
-                            {%endif%}
-                        </a>
-                        <div class="caption">
-                            <a href="{{stuff.url}}">
-                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                            </a>
-                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
-                        <p>
-                            {% if user.is_authenticated() %}
-                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
-                            {% else %}
-                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login'">Ödünç iste</button>
-                            {% endif %}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                {%endfor%}
+        {% if user_stuff_wanted[0] %}
+            <div class="col-md-12">
+                <h3 style="border-bottom: 1px solid #dddddd;
+    padding-bottom: 10px;">Son Aradıkları:</h3>
             </div>
-        </div>
-    </div>
 
+            <div class="col-md-12">
+                <div id="container" class="row fluid">
+                    {% for stuff in user_stuff_wanted %}
+                      <div class="col-md-3 item">
+                        <div class="thumbnail">
+                            <a href="/show_stuff/{{stuff.id}}">
+                                {%if stuff.photos%}
+                                <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                                {%else%}
+                                <img src="/static/photos/ek1024.png"/>
+                                {%endif%}
+                            </a>
+                            <div class="caption">
+                                <a href="{{stuff.url}}">
+                                    <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                                </a>
+                            <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+                            <p>
+                                {% if not stuff.owner_id == user.id %}
+                                    <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Bende var!</button>
+                                {% else %}
+                                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
+                                {% endif %}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    {%endfor%}
+                </div>
+            </div>
+        {% else %}
+            HENÜZ EŞYA ARANMAMIŞ
+        {% endif %}
+    </div>
 {% endblock %}

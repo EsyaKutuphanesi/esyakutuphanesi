@@ -1,4 +1,3 @@
-{% from "security/_macros.html" import render_field_with_errors, render_field %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
@@ -14,10 +13,20 @@
     </div>
 
     <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
+        <div class="row">
+            GRUP KUR
+        </div>
+
         {%for membership in user.groups%}
-            <div class="col-md-10">
-                <h4>{{membership.group.name}}</h4>
-                <div>{{membership.group.description}}</div>
+            <div class="media">
+              <a class="pull-left" href="#">
+                <img class="media-object" src="/static/photos/cigdemim.png" style="width: 64px; height: auto;">
+              <!--{{membership.group.logo}}-->
+              </a>
+              <div class="media-body">
+                <a href="/group/{{membership.group.id}}"><h4 class="media-heading">{{membership.group.name}}</h4></a>
+                  {{membership.group.description}}
+              </div>
             </div>
         {%endfor%}
     </div>

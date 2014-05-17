@@ -2,6 +2,7 @@
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
+<script src="http://connect.facebook.net/en_US/all.js"></script>
 <script>
     $.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',function(){
         $.getScript('http://cdn.jsdelivr.net/jquery.lazyload/1.8.4/jquery.lazyload.js',function(){
@@ -30,9 +31,9 @@
 
         </div>
         <div class="col-md-3 col-md-offset-3" style="text-align:right;">
-                <a href="/register"><button type="button" class="btn btn-default" style="margin-bottom:5px;">Hemen Kayıt Ol</button></a>
+                <button type="button" class="btn btn-success" style="margin-bottom:5px;" onclick="window.location.href='/register'">Hemen Kayıt Ol</button>
                 <form action="/provider_login/facebook" method="POST">
-                    <input type="submit" value="Login with Facebook">
+                    <button type="submit" class="btn" style="color:white; background-color:#3c599f;" value="Login with Facebook">Facebook ile bağlan</button>
                 </form>
         </div>
     </div>
@@ -67,12 +68,12 @@
     <div class="row">
         <div class="col-md-12">
             <h3 style="border-bottom: 1px solid #dddddd;
-padding-bottom: 10px;">Son Paylaşılanlar:</h3>
+padding-bottom: 10px;">Son Paylaşılanlar</h3>
         </div>
 
         <div class="col-md-12">
             <div id="container" class="row fluid">
-                {% for stuff in last_objects if stuff.is_wanted==0%}
+                {% for stuff in last_objects_shared %}
                   <div class="col-md-3 item">
                     <div class="thumbnail">
                         <a href="{{stuff.url}}">
@@ -88,7 +89,11 @@ padding-bottom: 10px;">Son Paylaşılanlar:</h3>
                             </a>
                         <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
                         <p>
-                            <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                            {% if not stuff.owner_id == user.id %}
+                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                            {% else %}
+                                <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
+                            {% endif %}
                         </p>
                       </div>
                     </div>
@@ -99,65 +104,68 @@ padding-bottom: 10px;">Son Paylaşılanlar:</h3>
     </div>
 
     <!--<div class="col-md-12 grayLine"></div>-->
+    {%if user.is_authenticated()%}
+        <div class="row">
+            <div class="col-md-12">
+                <h3 style="border-bottom: 1px solid #dddddd;
+    padding-bottom: 10px;">Son Arananlar</h3>
+            </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <h3 style="border-bottom: 1px solid #dddddd;
-padding-bottom: 10px;">Son Arananlar:</h3>
-        </div>
-
-        <div class="col-md-12">
-            <div id="container" class="row fluid">
-                {% for stuff in last_objects if stuff.is_wanted==1%}
-                  <div class="col-md-3 item">
-                    <div class="thumbnail">
-                        <a href="{{stuff.url}}">
-                            {%if stuff.photos%}
-                            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
-                            {%else%}
-                            <img src="/static/photos/logosari1.png"/>
-                            {%endif%}
-                        </a>
-                        <div class="caption">
+            <div class="col-md-12">
+                <div id="container" class="row fluid">
+                    {% for stuff in last_objects_wanted %}
+                      <div class="col-md-3 item">
+                        <div class="thumbnail">
                             <a href="{{stuff.url}}">
-                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                                {%if stuff.photos%}
+                                <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                                {%else%}
+                                <img src="/static/photos/logosari1.png"/>
+                                {%endif%}
                             </a>
-                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
-                        <p>
-                            <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Bende var!</button>
-                        </p>
+                            <div class="caption">
+                                <a href="{{stuff.url}}">
+                                    <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                                </a>
+                            <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+                            <p>
+                                {% if not stuff.owner_id == user.id %}
+                                    <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Bende var!</button>
+                                {% else %}
+                                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
+                                {% endif %}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                {%endfor%}
+                    {%endfor%}
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
-    <div class="col-md-12 grayLine"></div>
+    <div class="col-md-12 grayLine" style="margin-bottom:50px;"></div>
+
     <div class="row">
         <div class="col-md-4">
             <a href="#">
-                <div style="width:100px; height:100px; border-radius:50%; overflow:hidden; margin:0 auto;" >
-                    <img src="../static/photos/why-so-serious.jpg" style="height:100%;"/>
+                <div>
+                    <img src="/static/photos/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
-                <div style="padding:10px; text-align:center;">Arkadaşlarını davet edebilirsin</div>
             </a>
         </div>
         <div class="col-md-4">
             <a href="#">
-                <div style="width:100px; height:100px; border-radius:50%; overflow:hidden; margin:0 auto;" >
-                    <img src="../static/photos/why-so-serious.jpg" style="height:100%;"/>
+                <div>
+                    <img src="/static/photos/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
-                <div style="padding:10px; text-align:center;">Destek olabilirsin</div>
             </a>
         </div>
         <div class="col-md-4">
             <a href="#">
-                <div style="width:100px; height:100px; border-radius:50%; overflow:hidden; margin:0 auto;" >
-                    <img src="../static/photos/why-so-serious.jpg" style="height:100%;"/>
+                <div>
+                    <img src="/static/photos/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
-                <div style="padding:10px; text-align:center;">Hikayeni paylaşabilirsin</div>
             </a>
         </div>
     </div>

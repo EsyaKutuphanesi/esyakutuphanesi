@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 {% block header %}
-<nav class="navbar navbar-inverse" role="navigation">
+<nav class="navbar navbar-inverse" role="navigation" style="border-radius:0;">
   <div class="navbar-header">
-    <a class="navbar-brand" href="/">EK</a>
+    <a class="navbar-brand" href="/"><img src="/static/photos/logo.png"/></a>
   </div>
 
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-    <form class="navbar-form navbar-left" role="search" name="search" action="/search" method="get">
+    <form class="navbar-form navbar-left padding15" role="search" name="search" action="/search" method="get">
       <div class="form-group">
         <input type="text" class="form-control" name="stuff" placeholder="Ne Arıyorsun?">
       </div>
@@ -16,11 +16,10 @@
       </div>
       <button type="submit" class="btn btn-default">Ara</button>
     </form>
-
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right padding15">
         <li><a href="/login">Giriş Yap</a></li>
         <li><a href="/register">Kaydol</a></li>
-        <li><a href="/login">Eşya Ekle</a></li>
+        <li><a href="/new_stuff">Eşya Ekle</a></li>
     </ul>
   </div>
 </nav>

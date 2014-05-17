@@ -20,12 +20,12 @@
     </div>
 
     <div class="contanier">
-        <div class="row" style="margin-bottom:30px;">
-            <div id="flashing" class="col-md-4 col-md-offset-4">
+        <div class="col-md-12" style="margin-bottom:30px;">
+            <div id="flashing" class="col-md-8 col-md-offset-2">
                 {% include 'security/_messages.html' %}
             </div>
         </div>
-        <div class="row">
+        <div class="col-md-12" style=" overflow:hidden;">
             <div class="col-md-8 col-md-offset-2">
     	        {% block content %}{% endblock %}
             </div>
@@ -34,13 +34,80 @@
     </div>
     <div id="footer" class="container">
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                {% block footer %}
-                &copy; Copyright 2013 by Eşya Kütüphanesi.
-                {% endblock %}
-             </div>
-            <div class="col-md-4"></div>
+            <div class="col-md-10 col-md-offset-1" style="margin-top:50px; padding-top: 20px; border-top: 1px solid #dddddd;">
+            {% block footer %}
+                <div class="col-md-12 text-center">
+                    <div class="col-md-3">
+                        <h5>BİZ KİMİZ?</h5>
+                        <ul class="footerUl">
+                             <a href="#">
+                                <li>Hikayemiz</li>
+                            </a>
+                             <a href="#">
+                                <li>Amacımız</li>
+                            </a>
+                             <a href="#">
+                                <li>Basında Biz</li>
+                            </a>
+                             <a href="#">
+                                <li>İletişim</li>
+                            </a>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>BİRLİKTE ÇALIŞALIM</h5>
+                        <ul class="footerUl">
+                            <a href="#">
+                                <li>Şirketler</li>
+                            </a>
+                             <a href="#">
+                                <li>Belediyeler</li>
+                            </a>
+                             <a href="#">
+                                <li>Üniversiteler</li>
+                            </a>
+                             <a href="#">
+                                <li>Etkinlikler</li>
+                            </a>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>EŞYA KÜTÜPHANESİ</h5>
+                        <ul class="footerUl">
+                            <a href="#">
+                                <li>Rehber</li>
+                            </a>
+                             <a href="#">
+                                <li>Gruplarımız</li>
+                            </a>
+                             <a href="#">
+                                <li>Video</li>
+                            </a>
+                             <a href="#">
+                                <li>Gizlilik Sözleşmesi</li>
+                            </a>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>SOSYAL MEDYA</h5>
+                        <ul class="footerUl">
+                            <a href="#">
+                                <li>Facebook</li>
+                            </a>
+                             <a href="#">
+                                <li>Twitter</li>
+                            </a>
+                             <a href="#">
+                                <li>Google +</li>
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-12 text-center" style="margin:30px;">
+                    &copy; Copyright 2013 by Eşya Kütüphanesi.
+                </div>
+            {% endblock %}
+            </div>
         </div>
     </div>
   </body>
