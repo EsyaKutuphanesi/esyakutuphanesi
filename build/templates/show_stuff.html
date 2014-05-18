@@ -48,7 +48,7 @@
                 <div class="row">
                     {%for photo in stuff.photos%}
                         <div class="col-md-3">
-                            <img class="img-responsive" src="/static/photos/{{photo.filename}}" />
+                            <img class="img-responsive" src="/photos/{{photo.filename}}" />
                         </div>
                     {%endfor%}
                  </div>
@@ -68,7 +68,7 @@
             {% endif %}
 
             <div class="row" style="margin:10px 0px;">
-                <img class="img-responsive" src="/static/photos/{{stuff_owner.photo}}" style="max-height:250px; margin:0 auto;">
+                <img class="img-responsive" src="/photos/{{stuff_owner.photo}}" style="max-height:250px; margin:0 auto;">
             </div>
             <div class="row" style=" margin: auto auto 10px;">
                 <div style="font-size:14px; float:left;">

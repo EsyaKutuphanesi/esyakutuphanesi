@@ -32,7 +32,10 @@
               {{ render_field_with_errors(form.email) }}
               {{ render_field_with_errors(form.phone_number) }}
               {{ render_field_with_errors(form.about) }}
-              {{ render_field(form.submit) }}
+              <div class="form-group  ">
+                    <input class="form-control btn-success" id="submit" name="submit" type="submit" value="Kaydet">
+              </div>
+              <!--{{ render_field(form.submit) }}-->
             </div>
         </form>
         <div class="col-md-12">
@@ -41,7 +44,7 @@
                 {%for address in user.addresses%}
                     <p>{{address.detail}}</p>
                 {%endfor%}
-                <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/new_address'">Yeni adres ekle</button>
+                <button type="button" class="btn btn-warning" onclick="window.location.href='/new_address'">Yeni adres ekle</button>
             </div>
         </div>
     </div>

@@ -23,7 +23,7 @@
 </script>
 
     <div class="row">
-        <div class="col-md-2" style="margin-top: 20px;"><img src="/static/photos/cigdemim.png" class="img-responsive"/></div>
+        <div class="col-md-2" style="margin-top: 20px;"><img src="/photos/cigdemim.png" class="img-responsive"/></div>
         <div class="col-md-10">
             <h2>{{group_info.name}}</h2>
             <div>{{group_info.description}}</div>
@@ -44,9 +44,9 @@
                             <div class="thumbnail">
                                 <a href="{{stuff.url}}">
                                     {%if stuff.photos%}
-                                    <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                                    <img src="/photos/{{stuff.photos[0].filename}}"/>
                                     {%else%}
-                                    <img src="/static/photos/logosari1.png"/>
+                                    <img src="/photos/logosari1.png"/>
                                     {%endif%}
                                 </a>
                                 <div class="caption">
@@ -79,7 +79,7 @@
                     <!--{{members.name}}-->
                     <div style="width:46%; margin:2%; float:left;">
                         <a href="/profile/{{members.id}}">
-                            <img src="/static/photos/{{members.photo}}" class="img-responsive"/>
+                            <img src="/photos/{{members.photo}}" class="img-responsive"/>
                         </a>
                     </div>
                 {% endfor %}

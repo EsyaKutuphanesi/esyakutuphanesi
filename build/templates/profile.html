@@ -5,9 +5,9 @@
     <div class="row" style="margin:20px auto;">
         <div class="col-md-5">
             {% if user_profile.photo %}
-                <img src="/static/photos/{{user_profile.photo}}" class="img-responsive">
+                <img src="/photos/{{user_profile.photo}}" class="img-responsive">
             {% else %}
-                <img src="/static/photos/ek1024.png" class="img-responsive">
+                <img src="/photos/ek1024.png" class="img-responsive">
             {% endif %}
         </div>
         <div class="col-md-6 pull-right">
@@ -63,9 +63,9 @@
                         <div class="thumbnail">
                             <a href="/show_stuff/{{stuff.id}}">
                                 {%if stuff.photos%}
-                                <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                                <img src="/photos/{{stuff.photos[0].filename}}"/>
                                 {%else%}
-                                <img src="/static/photos/logosari1.png"/>
+                                <img src="/photos/logosari1.png"/>
                                 {%endif%}
                             </a>
                             <div class="caption">
@@ -104,9 +104,9 @@
                         <div class="thumbnail">
                             <a href="/show_stuff/{{stuff.id}}">
                                 {%if stuff.photos%}
-                                <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                                <img src="/photos/{{stuff.photos[0].filename}}"/>
                                 {%else%}
-                                <img src="/static/photos/ek1024.png"/>
+                                <img src="/photos/ek1024.png"/>
                                 {%endif%}
                             </a>
                             <div class="caption">

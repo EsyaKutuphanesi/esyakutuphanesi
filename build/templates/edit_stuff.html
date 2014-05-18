@@ -71,7 +71,10 @@
                 <span class="label label-warning">{{tag}}</span>
             {%endfor%}
             <div style="margin-top:20px;">
-                {{ render_field(form.submit) }}
+                <div class="form-group  ">
+                    <input class="form-control btn-success" id="submit" name="submit" type="submit" value="Kaydet">
+                </div>
+                <!--{{ render_field(form.submit) }}-->
             </div>
 
         </form>
