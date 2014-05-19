@@ -116,14 +116,6 @@ def edit_stuff(stuff_id=None):
         form.stuff_type.choices = stuff_type_choices
         print unicode(request.form.get('address_str'))
         if form.validate_on_submit():
-            photo_file = form.photo.data
-            if photo_file:
-                file_ext = get_file_extension(photo_file.filename)
-                generated_name = str(uuid.uuid1())+'.'+file_ext
-                filepath = os.path.join(app.config['UPLOADS_FOLDER'],
-                                        generated_name)
-                photo_file.save(filepath)
-
             if form.address.data == 20:
                 address = Address(user=current_user,
                                   lat=request.form.get('lat'),
@@ -135,6 +127,7 @@ def edit_stuff(stuff_id=None):
                 address = Address.query.\
                     filter(Address.id == form.address.data).\
                     first()
+
             if stuff:
                 stuff.title = form.title.data
                 stuff.detail = form.detail.data
@@ -142,14 +135,7 @@ def edit_stuff(stuff_id=None):
                 stuff.category_id = form.category.data
                 stuff.type_id = form.stuff_type.data
                 stuff.is_wanted = form.is_wanted.data == 'True'
-                if photo_file:
-                    new_photo = StuffPhoto(owner=current_user,
-                                           filename=generated_name,
-                                           stuff=stuff)
-                    db.session.add(new_photo)
-                    db.session.commit()
                 flash("Esya guncellendi")
-
             else:
                 stuff = Stuff(title=form.title.data,
                               detail=form.detail.data,
@@ -160,14 +146,20 @@ def edit_stuff(stuff_id=None):
                               group_id=form.group.data,
                               is_wanted=form.is_wanted.data == 'True')
                 db.session.add(stuff)
-                if photo_file:
-                    new_photo = StuffPhoto(owner=current_user,
-                                           filename=generated_name,
-                                           stuff=stuff)
-                    db.session.add(new_photo)
-                    db.session.commit()
                 flash("Esya kaydedildi")
 
+            photo_file = form.photo.data
+            if photo_file:
+                file_ext = get_file_extension(photo_file.filename)
+                generated_name = str(uuid.uuid1())+'.'+file_ext
+                filepath = os.path.join(app.config['UPLOADS_FOLDER'],
+                                        generated_name)
+                photo_file.save(filepath)
+                new_photo = StuffPhoto(owner=current_user,
+                                       filename=generated_name,
+                                       stuff=stuff)
+                db.session.add(new_photo)
+                db.session.commit()
             tags = form.tags.data.split(',')
             for t in tags:
                 if t > '':
