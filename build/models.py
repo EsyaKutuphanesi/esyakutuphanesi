@@ -101,6 +101,7 @@ class Stuff(db.Model):
     approved = db.Column(db.Integer, default=0)
     status = db.Column(db.Integer, default=1)
     is_wanted = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
         return "%s" % (self.title)
@@ -181,7 +182,11 @@ class Request(db.Model):
     user = db.relationship('User', backref='requests', foreign_keys=[user_id])
     from_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     from_user = db.relationship('User', backref='incoming_requests', foreign_keys=[from_user_id])
-    status = db.Column(db.Integer,default=0)
+    status = db.Column(db.Integer, default=0)
+    duration = db.Column(db.Integer)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    given_at = db.Column(db.DateTime)
+    returned_at = db.Column(db.DateTime)
 
 
     @property
@@ -199,6 +204,7 @@ class Conversation(db.Model):
     request_id = db.Column(db.Integer, db.ForeignKey('request.id'))
     request = db.relationship('Request', backref='conversation')
     title = db.Column(db.String(255))
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
     @property
     def admin_url(self):
@@ -215,6 +221,7 @@ class Message(db.Model):
     conversation_id = db.Column(db.Integer, db.ForeignKey('conversation.id'))
     conversation = db.relationship('Conversation', backref='messages')
     txt = db.Column(db.String(1000))
+    created_at = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
         return self.txt

@@ -16,9 +16,9 @@
             <p>
                 {% if user.id != stuff.owner_id %}
                     {% if not is_wanted %}
-                        <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                        <button type="button" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Ödünç iste</button>
                     {%else%}
-                        <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/make_request/{{stuff.id}}'">Bende Var!</button>
+                        <button type="button" style="width:100%;" class="btn btn-info" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')")">Bende Var!</button>
                     {%endif%}
                 {%else%}
                     <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>

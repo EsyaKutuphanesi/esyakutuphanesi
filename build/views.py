@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 import uuid
 import json
+import datetime
 
 from flask import render_template, send_from_directory, flash
 from flask_login import current_user, login_required
@@ -12,13 +14,16 @@ import os.path
 @app.route('/categories')
 def home():
     form = SeachForm()
+    request_form = RequestForm()
     last_objects_shared = Stuff.query.filter(Stuff.approved == 1,
                                              Stuff.is_wanted == 0).order_by(Stuff.id.desc()).limit(8)
     last_objects_wanted = Stuff.query.filter(Stuff.approved == 1,
                                              Stuff.is_wanted == 1).order_by(Stuff.id.desc()).limit(8)
 
     return render_template("index.html", user=current_user,
-                           last_objects_wanted=last_objects_wanted, last_objects_shared=last_objects_shared, form=form)
+                           last_objects_wanted=last_objects_wanted,
+                           last_objects_shared=last_objects_shared,
+                           form=form, request_form=request_form)
 
 @app.route('/search')
 def search():
@@ -375,40 +380,71 @@ def show_conversation(conversation_id):
     if current_user not in conversation.users:
         redirect('/my_messages')
 
-    form = ConversationForm(request.form)
+    form = ConversationForm()
     if request.method == 'POST' and form.validate_on_submit():
         new_message = Message(user=current_user,
                               conversation=conversation,
                               txt=form.message.data)
         db.session.add(new_message)
         db.session.commit()
+    form.message.data = None
+    if request.args.get('status'):
+        status = int(request.args.get('status'))
+    else:
+        status = 0
+    if status > 0 and conversation.request.stuff.owner == current_user:
+        if conversation.request.stuff.status == 1:
+            if status == 1 and conversation.request.status == 0:
+                flash(u'Eşyayı vermeyi kabul ettiniz.')
+                conversation.request.stuff.status = 0
+                conversation.request.status = 1
+                conversation.request.given_at = datetime.utcnow()
+                db.session.commit()
+        elif status == 2 and conversation.request.status == 1:
+            flash(u'Eşyayı geri aldınız.')
+            conversation.request.stuff.status = 1
+            conversation.request.status = 2
+            conversation.request.returned_at = datetime.utcnow()
+            db.session.commit()
+        else:
+            flash(u'Eşya zaten başkasına verilmiş')
 
     return render_template("conversation.html", user=current_user,
                            form=form, action='Edit', conversation=conversation)
 
-@app.route('/make_request/<stuff_id>')
+@app.route('/make_request/<stuff_id>', methods=['GET','POST'])
+@app.route('/make_request', methods=['POST'])
 @login_required
-def make_request(stuff_id):
-    stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
-    new_request = Request(stuff_id=stuff_id,
-                          user_id=current_user.id,
-                          from_user_id=stuff.owner_id)
-    db.session.add(new_request)
+def make_request(stuff_id=None):
+    form = RequestForm()
+    message = None
+    if form.validate_on_submit():
+        message = form.message.data
+        stuff_id = form.stuff_id.data
+        duration = int(form.duration.data)
+        unit = int(form.unit.data)
+        if stuff_id is None or not (stuff_id > ''):
+            flash(u'İstek gönderilemedi.s');
+            redirect('/')
+        stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
+        new_request = Request(stuff_id=stuff_id,
+                              user_id=current_user.id,
+                              from_user_id=stuff.owner_id,
+                              duration=(duration * unit))
+        db.session.add(new_request)
+        new_conversation = Conversation(title='%s - %s' % (stuff.title, current_user),
+                                        users=[current_user, stuff.owner],
+                                        request=new_request)
+        db.session.add(new_conversation)
+        new_message = Message(user=current_user,
+                              conversation=new_conversation,
+                              txt=message)
+        db.session.add(new_message)
 
-    new_conversation = Conversation(title='new conversation',
-                                    users=[current_user, stuff.owner],
-                                    request=new_request)
-
-    db.session.add(new_conversation)
-
-    new_message = Message(user=current_user,
-                          conversation=new_conversation,
-                          txt='Merhaba %s, %s esyasini istiyorum'
-                              % (stuff.owner.name, stuff.title))
-    db.session.add(new_message)
-
-    db.session.commit()
-    return render_template("my_messages.html", user=current_user)
+        db.session.commit()
+        return redirect(url_for('my_messages'))
+    flash(u'İstek gönderilemedi.s');
+    redirect('/')
 
 @app.route('/moderation')
 @login_required

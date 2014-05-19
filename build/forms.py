@@ -119,3 +119,21 @@ class ConversationForm(Form):
             return False
 
         return True
+
+class RequestForm(Form):
+    message = TextAreaField(u'Mesaj Yaz', [
+        validators.Length(min=0, max=1000),
+        validators.Required()
+    ])
+
+    duration = TextAreaField(u'Ne zamana kadar?', [
+        validators.Length(min=0, max=4),
+    ])
+
+    unit = SelectField('',
+                            coerce=int,
+                            choices=[(1, u'Gün'),
+                                     (7, u'Hafta')])
+    stuff_id = HiddenField()
+
+    submit = SubmitField(u"Gönder")

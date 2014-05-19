@@ -9,6 +9,11 @@
              $("ul#categories").html(htmlString);
         });
     })
+     function showRequestModal(stuffid, title, owner) {
+         $('#requestModal').modal('show');
+         $('#message').val('Merhaba, '+owner+' senden '+title+ ' eşyanı istiyorum.');
+         $('#stuff_id').val(stuffid);
+     }
 </script>
 <nav class="navbar navbar-inverse" role="navigation" style="border-radius:0;">
   <!-- Brand and toggle get grouped for better mobile display -->

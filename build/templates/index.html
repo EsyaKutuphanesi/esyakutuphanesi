@@ -1,5 +1,6 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
 {% from "macros/item_box.html" import render_item_box %}
+{% from "macros/request_modal.html" import request_modal %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
@@ -23,6 +24,7 @@
         });
 
     });
+
 </script>
     {%if not user.is_authenticated()%}
     <div class="row">
@@ -76,35 +78,7 @@ padding-bottom: 10px;">Son Paylaşılanlar</h3>
         <div class="col-md-12">
             <div id="container" class="row fluid">
                 {% for stuff in last_objects_shared %}
-<<<<<<< HEAD
                     {{ render_item_box(stuff, user) }}
-=======
-                  <div class="col-md-3 item">
-                    <div class="thumbnail">
-                        <a href="{{stuff.url}}">
-                            {%if stuff.photos%}
-                            <img src="/photos/{{stuff.photos[0].filename}}"/>
-                            {%else%}
-                            <img src="/photos/logosari1.png"/>
-                            {%endif%}
-                        </a>
-                        <div class="caption">
-                            <a href="{{stuff.url}}">
-                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                            </a>
-                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
-                        <p>
-                            {% if not stuff.owner_id == user.id %}
-                                <button type="button" style="width:100%;" class="btn btn-success" data-toggle="modal" data-target="#myModal">Ödünç iste</button>
-                            <!--onclick="window.location.href='/make_request/{{stuff.id}}'"-->
-                            {% else %}
-                                <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
-                            {% endif %}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
->>>>>>> 8bef4bd5778875c8d89a96a89b8a89c947a4d93d
                 {%endfor%}
             </div>
         </div>
@@ -154,21 +128,5 @@ padding-bottom: 10px;">Son Paylaşılanlar</h3>
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Ödünç iste</h4>
-          </div>
-          <div class="modal-body">
-            Bunu senden ödünç almak istiyorum.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success">Ödünç iste</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    {{ request_modal(request_form) }}
 {% endblock %}
