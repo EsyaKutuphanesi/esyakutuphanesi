@@ -5,7 +5,6 @@
 {% block content %}
     <script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/ek.js') }}"></script>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/ek.css')}}">
     <script>
         $(function(){
             if($("select#address").val() == 20){
@@ -33,9 +32,11 @@
         })
     </script>
     <div class="col-md-8 col-md-offset-2">
-        {% if not is_new %}
+        {% if is_new %}
+        <h2>Eşya Ekle</h2>
+        {% else %}
             {% if not stuff.approved %}
-                <p class="alert-danger">Eşyanız henüz onaylanmadı</p>
+                <p class="alert-danger">Eşya henüz onaylanmadı.</p>
             {% endif %}
         {% endif %}
         <form action="{{ form_action }}" method="POST" name="edit_stuff_form" enctype="multipart/form-data">
@@ -44,27 +45,32 @@
           {{ render_field_with_errors(form.category) }}
           {{ render_field_with_errors(form.stuff_type) }}
           {{ render_field_with_errors(form.detail) }}
-            {{ render_field_with_errors(form.is_wanted) }}
+            <!--{{ render_field_with_errors(form.is_wanted) }}-->
+            <div class="form-group  ">
+                <input type="hidden" id="is_wanted" name="is_wanted" value="{{is_wanted}}"/>
+            </div>
           {{ render_field_with_errors(form.address) }}
             <div id="new_address">
-                <input type="text" id="address_str" class="form-group" name="address_str" />
+                <input type="text" id="address_str" class="form-group" name="address_str"/>
                 <input id ='search' type="button" class="btn" value="Ara" />
                 <div id="map"></div>
                 <input type="hidden" id="lat" name="lat"/>
-                <input type="hidden" id="lng" name="lng"/>w
+                <input type="hidden" id="lng" name="lng"/>
             </div>
             {{ render_field_with_errors(form.group) }}
-          {{ render_field_with_errors(form.photo) }}
 
-            {%if stuff%}
-                <div class="col-md-12">
-                    {%for photo in stuff.photos%}
-                    <div class="col-md-3">
-                        <img class="img-responsive" src="/photos/{{photo.filename}}" />
-                     </div>
-                    {%endfor%}
-                </div>
-            {%endif%}
+            {% if not is_wanted==true %}
+                {{ render_field_with_errors(form.photo) }}
+                {%if stuff%}
+                    <div class="col-md-12">
+                        {%for photo in stuff.photos%}
+                        <div class="col-md-3">
+                            <img class="img-responsive" src="/photos/{{photo.filename}}" />
+                         </div>
+                        {%endfor%}
+                    </div>
+                {%endif%}
+            {% endif%}
 
           {{ render_field_with_errors(form.tags) }}
             {%for tag in stuff.tags%}

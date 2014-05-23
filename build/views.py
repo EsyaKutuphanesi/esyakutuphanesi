@@ -55,7 +55,7 @@ def new_address():
                           name=request.form.get('address_name'))
         db.session.add(address)
         db.session.commit()
-        flash(u"Adresiniz kaydedildi")
+        flash(u"Adres kaydedildi.")
 
         return redirect(url_for("edit_profile"))
     return render_template("map.html", user=current_user)
@@ -67,15 +67,15 @@ def edit_stuff(stuff_id=None):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
     form = EditStuffForm()
     is_new = True
-    is_wanted = unicode(request.args.get('is_wanted'))
-    if is_wanted == 'true':
-        form.is_wanted.data = 'True'
+    is_wanted = bool(request.args.get('is_wanted'))
+    # if is_wanted == 'true':
+    #     form.is_wanted.data = 'True'
 
     address_choices = []
     if current_user.addresses:
         address_choices = [(address.id, address.detail)
                            for address in current_user.addresses]
-    address_choices += [(20, u'Yeni Adres')]
+    address_choices += [(20, u'Yeni adres: Haritadan sağ tıklayarak seçebilirsiniz.')]
     #else:
     #    flash('Adres girmeniz gerekiyor')
     #    return redirect(url_for("new_address",
@@ -86,9 +86,9 @@ def edit_stuff(stuff_id=None):
     if current_user.groups:
         group_choices = [(membership.group.id, membership.group.name)
                          for membership in current_user.groups]
-        group_choices = [(-1, u'Herkese Acik')] + group_choices
+        group_choices = [(-1, u'Herkese açık')] + group_choices
     else:
-        group_choices = [(-1, u'Herkese Acik')]
+        group_choices = [(-1, u'Herkese açık')]
 
     form.group.choices = group_choices
 
@@ -114,7 +114,12 @@ def edit_stuff(stuff_id=None):
         stuff_type_choices = [(stuff_type.id, stuff_type.name)
                               for stuff_type in stuff_types]
         form.stuff_type.choices = stuff_type_choices
-        print unicode(request.form.get('address_str'))
+
+        # print unicode(request.form.get('address_str'))
+        # print "hebebeeeee"
+        # print request.form.get('lat')
+        # print request.form.get('lng')
+
         if form.validate_on_submit():
             if form.address.data == 20:
                 address = Address(user=current_user,
@@ -135,7 +140,7 @@ def edit_stuff(stuff_id=None):
                 stuff.category_id = form.category.data
                 stuff.type_id = form.stuff_type.data
                 stuff.is_wanted = form.is_wanted.data == 'True'
-                flash("Esya guncellendi")
+                flash(u"Eşya güncellendi.")
             else:
                 stuff = Stuff(title=form.title.data,
                               detail=form.detail.data,
@@ -146,7 +151,7 @@ def edit_stuff(stuff_id=None):
                               group_id=form.group.data,
                               is_wanted=form.is_wanted.data == 'True')
                 db.session.add(stuff)
-                flash("Esya kaydedildi")
+                flash(u"Eşya kaydedildi.")
 
             photo_file = form.photo.data
             if photo_file:
@@ -170,19 +175,18 @@ def edit_stuff(stuff_id=None):
             if stuff_id is None:
                 return redirect(url_for('edit_stuff', stuff_id=stuff.id))
 
-
     if stuff:
         is_new = False
 
         if stuff.group_id > 0:
             group_choices = [(stuff.group_id, stuff.group.name)]
         else:
-            group_choices = [(-1, u'Herkese Acik')]
+            group_choices = [(-1, u'Herkese açık')]
 
         form.group.choices = group_choices
         form.fill_form(stuff)
 
-    return render_template("edit_stuff.html", user=current_user,
+    return render_template("edit_stuff.html", user=current_user, is_wanted=is_wanted,
                            form=form, action='Edit', stuff=stuff,
                            is_new=is_new)
 
@@ -224,11 +228,9 @@ def get_categories(type_id=None):
 @app.route('/show_stuff/<stuff_id>')
 def show_stuff(stuff_id):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
-    stuff_owner = User.query.filter(User.id == stuff.owner_id).first()
-
     stuff_address = Address.query.filter(Address.id == stuff.address_id).first()
 
-    return render_template("show_stuff.html", stuff_address=stuff_address, stuff_owner=stuff_owner, user=current_user, stuff=stuff)
+    return render_template("show_stuff.html", stuff_address=stuff_address, user=current_user, stuff=stuff)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -249,12 +251,17 @@ def edit_profile():
                 db.session.add(new_photo)
                 db.session.commit()
 
+                User.query.filter(User.id == current_user.id).\
+                    update({User.photo: new_photo.filename})
+
             User.query.filter(User.id == current_user.id).\
                 update({User.name: form.name.data,
                         User.email: form.email.data,
                         User.phone_number: form.phone_number.data,
                         User.about: form.about.data})
             db.session.commit()
+
+            flash(u"Profil güncellendi.")
 
     form.fill_form(current_user)
     return render_template('edit_profile.html',
@@ -278,12 +285,14 @@ def category_view(category_name=None):
     #stuff_list = category.stuff_list
     if is_wanted is None:
         stuff_list = Stuff.query.\
-            filter(Stuff.category == category).\
+            filter(Stuff.category == category,
+                   Stuff.approved == 1).\
             limit(20)
     else:
         stuff_list = Stuff.query.\
             filter(Stuff.category == category,
-                   Stuff.is_wanted == is_wanted).\
+                   Stuff.is_wanted == is_wanted,
+                   Stuff.approved == 1).\
             limit(20)
     params = {
         'category': {
@@ -399,9 +408,11 @@ def show_conversation(conversation_id):
             conversation.request.returned_at = datetime.utcnow()
             db.session.commit()
         else:
-            flash(u'Eşya zaten başkasına verilmiş')
+            flash(u'Eşya zaten başkasına verilmiş.')
 
-    return render_template("conversation.html", user=current_user,
+    wanted_stuff = StuffPhoto.query.filter(StuffPhoto.stuff_id == conversation.request.stuff_id).first()
+
+    return render_template("conversation.html", user=current_user, wanted_stuff=wanted_stuff,
                            form=form, action='Edit', conversation=conversation)
 
 @app.route('/make_request/<stuff_id>', methods=['GET','POST'])
@@ -424,7 +435,7 @@ def make_request(stuff_id=None):
                               from_user_id=stuff.owner_id,
                               duration=(duration * unit))
         db.session.add(new_request)
-        new_conversation = Conversation(title='%s - %s' % (stuff.title, current_user),
+        new_conversation = Conversation(title='%s' % stuff.title,
                                         users=[current_user, stuff.owner],
                                         request=new_request)
         db.session.add(new_conversation)
@@ -476,8 +487,8 @@ def moderation():
 @app.route('/profile/<user_id>')
 def get_profile(user_id):
     user_profile = User.query.filter(User.id == user_id).first()
-    user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 0).limit(8)
-    user_stuff_wanted = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 1).limit(8)
+    user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 0, Stuff.approved == 1).limit(8)
+    user_stuff_wanted = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 1, Stuff.approved == 1).limit(8)
 
     users_group = Group.query.join(GroupMembership).\
         filter(GroupMembership.group_id == Group.id,
@@ -490,7 +501,24 @@ def get_profile(user_id):
 @login_required
 def groups():
 
-    return render_template("groups.html", user=current_user)
+    form = CreateGroupForm()
+    print request.form.get('text')
+    print request.form.get('group_name')
+
+    if request.method == 'POST' and form.validate_on_submit():
+        # invite_info = Invitations(user_id=current_user.id,
+        #                           emails=request.form.get('emails'),
+        #                           message=request.form.get('message'))
+        # db.session.add(invite_info)
+        # db.session.commit()
+
+        print request.form.get('text')
+        print request.form.get('group_name')
+
+        flash(u"Grup kurma isteğiniz gönderildi :)")
+        return redirect(url_for('/'))
+
+    return render_template("groups.html", form=form, user=current_user)
 
 @app.route('/group/<group_id>')
 @login_required
@@ -508,17 +536,19 @@ def group(group_id):
     return render_template("group.html", group_info=group_info, group_shares=group_shares,
                            group_members=group_members, photos=photos, user=current_user)
 
-@app.route('/invite') #, methods=["GET", "POST"]
+@app.route('/invite', methods=["GET", "POST"])
 @login_required
 def invite():
-    # if request.method == 'POST':
-    #         print unicode(request.form)
-    #         invite_info = Invitations(user=current_user,
-    #                           emails=request.form.get('invited-emails'),
-    #                           message=request.form.get('invite_message'),
-    #         db.session.add(invitations)
-    #         db.session.commit()
-    #         flash(u"")
-    #
-    #         return redirect(url_for("invite"))
-    return render_template("invite.html", user=current_user)
+    form = InvitationForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        invite_info = Invitations(user_id=current_user.id,
+                                  emails=request.form.get('emails'),
+                                  message=request.form.get('message'))
+        db.session.add(invite_info)
+        db.session.commit()
+
+        flash(u"Davetiniz gönderildi :)")
+        return redirect(url_for('invite'))
+
+    return render_template("invite.html", form=form, user=current_user)

@@ -238,6 +238,7 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True)
     description = db.Column(db.String(1000))
+    logo = db.Column(db.String(255), nullable=False)
     members = db.relationship("GroupMembership", backref="group")
 
     def __repr__(self):
@@ -266,6 +267,13 @@ class Connection(db.Model):
     image_url = db.Column(db.String(512))
     rank = db.Column(db.Integer)
     user = db.relationship('User', backref='social_connections')
+
+class Invitations(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    emails = db.Column(db.String(255))
+    message = db.Column(db.String(1000))
+    datetime = db.Column(db.DateTime, default=datetime.now)
 
 users = SQLAlchemyUserDatastore(db, User, Role)
 # social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))

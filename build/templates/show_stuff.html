@@ -1,8 +1,11 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
+{% from "macros/request_modal.html" import request_modal %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
-<script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script></script>
-{#<script type="text/javascript" src="{{ url_for('static',filename='js/ek.js') }}"></script>#}
+<script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script>
+<!--<script type="text/javascript" src="{{ url_for('static',filename='js/ek.js') }}"></script>-->
 <script>
     var map;
     var marker;
@@ -27,7 +30,6 @@
     <div class="col-md-12">
         <div class="col-md-7">
            <div class="row"><h1>{{stuff.title}}</h1></div>
-
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="/{{stuff.category.url}}">{{stuff.category}}</a></li>
@@ -59,20 +61,24 @@
         <div class="col-md-4 pull-right" style="margin-top:25px;">
             {% if not stuff.owner_id == user.id %}
                 {% if stuff.is_wanted %}
-                    <button type="button" class="btn btn-info" style="width:100%;" onclick="window.location.href='/make_request/{{stuff.id}}'">Bende var!</button>
+                    <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Bende var!</button>
                 {% else %}
-                    <button type="button" class="btn btn-success" style="width:100%;" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                    <button type="button" class="btn btn-success" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Ödünç iste</button>
                 {% endif %}
             {% else %}
                 <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
             {% endif %}
 
             <div class="row" style="margin:10px 0px;">
-                <img class="img-responsive" src="/photos/{{stuff_owner.photo}}" style="max-height:250px; margin:0 auto;">
+                {% if stuff.owner.photo %}
+                    <img class="img-responsive" src="/photos/{{stuff.owner.photo}}" style="max-height:250px; margin:0 auto;">
+                {% else %}
+                    <img src="/static/images/ek.png" class="img-responsive">
+                {% endif %}
             </div>
             <div class="row" style=" margin: auto auto 10px;">
                 <div style="font-size:14px; float:left;">
-                    <a href="/profile/{{stuff_owner.id}}">{{stuff_owner.name}}</a> paylaştı.
+                    <a href="/profile/{{stuff.owner.id}}">{{stuff.owner.name}}</a> paylaştı.
                 </div>
                 <div style="float:right;">
                     <span class="glyphicon glyphicon-heart"></span>
@@ -94,7 +100,7 @@
     <div class="col-md-12">
         <h3 style="margin: 60px auto 30px;">Değerlendirmeler</h3>
 
-        <div class="media">
+<!--        <div class="media">
             <a class="pull-left" href="#">
             <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
             </a>
@@ -106,11 +112,11 @@
                   </span>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <div class="media">
           <a class="pull-left" href="#">
-            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
+            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="" style="width: 64px; height: 64px;">
           </a>
           <div class="media-body">
             <a href="#"><span style="font-weight:bold;">Didem Yeni</span></a> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
@@ -118,7 +124,7 @@
         </div>
         <div class="media">
           <a class="pull-left" href="#">
-            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
+            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="+" style="width: 64px; height: 64px;">
           </a>
           <div class="media-body">
             <a href="#"><span style="font-weight:bold;">Aysu Erdoğdu</span></a> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.

@@ -1,3 +1,6 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
+{% from "macros/request_modal.html" import request_modal %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
@@ -7,7 +10,7 @@
             {% if user_profile.photo %}
                 <img src="/photos/{{user_profile.photo}}" class="img-responsive">
             {% else %}
-                <img src="/photos/ek1024.png" class="img-responsive">
+                <img src="/static/images/ek.png" class="img-responsive">
             {% endif %}
         </div>
         <div class="col-md-6 pull-right">
@@ -26,8 +29,8 @@
                     <div class="col-md-6">Geri dönüş yüzdesi</div>
                     <div class="col-md-6">
                         <div class="progress">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                <span class="sr-only">40% Complete (success)</span>
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{success_rate}}" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                <!--<span class="sr-only">40% Complete (success)</span>-->
                             </div>
                        </div>
                     </div>
@@ -38,9 +41,9 @@
                 <div>{% if user_profile.about %}{{user_profile.about}}{% else %}-{% endif %}</div>
             </div>
             <div class="row" style="margin-top:10px;">
-                <h4>Grupları</h4> |
+                <h4>Grupları</h4>
                 {%  if users_group[0] %}
-                    {% for groups in users_group %}
+                   |{% for groups in users_group %}
                         <a href="/group/{{groups.id}}" style="color:#333333;"> <span>{{groups.name}}</span></a> |
                     {% endfor %}
                 {% else %}
@@ -59,30 +62,7 @@
             <div class="col-md-12">
                 <div id="container" class="row fluid">
                     {% for stuff in user_stuff_shared%}
-                      <div class="col-md-3 item">
-                        <div class="thumbnail">
-                            <a href="/show_stuff/{{stuff.id}}">
-                                {%if stuff.photos%}
-                                <img src="/photos/{{stuff.photos[0].filename}}"/>
-                                {%else%}
-                                <img src="/photos/logosari1.png"/>
-                                {%endif%}
-                            </a>
-                            <div class="caption">
-                                <a href="{{stuff.url}}">
-                                    <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                                </a>
-                            <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
-                            <p>
-                                {% if not stuff.owner_id == user.id %}
-                                    <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
-                                {% else %}
-                                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
-                                {% endif %}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                        {{ render_item_box(stuff, user) }}
                     {%endfor%}
                 </div>
             </div>
@@ -100,35 +80,11 @@
             <div class="col-md-12">
                 <div id="container" class="row fluid">
                     {% for stuff in user_stuff_wanted %}
-                      <div class="col-md-3 item">
-                        <div class="thumbnail">
-                            <a href="/show_stuff/{{stuff.id}}">
-                                {%if stuff.photos%}
-                                <img src="/photos/{{stuff.photos[0].filename}}"/>
-                                {%else%}
-                                <img src="/photos/ek1024.png"/>
-                                {%endif%}
-                            </a>
-                            <div class="caption">
-                                <a href="{{stuff.url}}">
-                                    <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                                </a>
-                            <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
-                            <p>
-                                {% if not stuff.owner_id == user.id %}
-                                    <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Bende var!</button>
-                                {% else %}
-                                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
-                                {% endif %}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                        {{ render_item_box(stuff, user, True) }}
                     {%endfor%}
                 </div>
             </div>
-        {% else %}
-            HENÜZ EŞYA ARANMAMIŞ
         {% endif %}
     </div>
+
 {% endblock %}

@@ -5,7 +5,7 @@
             {%if stuff.photos%}
             <img src="/static/photos/{{stuff.photos[0].filename}}"/>
             {%else%}
-            <img src="/static/photos/logosari1.png"/>
+            <img src="/static/images/ek.png"/>
             {%endif%}
         </a>
         <div class="caption">
@@ -14,15 +14,22 @@
             </a>
             <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
             <p>
-                {% if user.id != stuff.owner_id %}
-                    {% if not is_wanted %}
-                        <button type="button" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Ödünç iste</button>
+                {% if stuff.status == 1%}
+                    {% if user.id != stuff.owner_id %}
+                        {% if not is_wanted %}
+                            <button type="button" style="width:100%;" class="btn btn-success" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Ödünç iste</button>
+                        {%else%}
+                            <button type="button" style="width:100%;" class="btn btn-info" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Bende Var!</button>
+                        {%endif%}
                     {%else%}
-                        <button type="button" style="width:100%;" class="btn btn-info" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')")">Bende Var!</button>
+                        {% if stuff.approved==0 %}
+                            <p class="alert-danger">Henüz onaylanmadı.</p>
+                        {% endif %}
+                        <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
                     {%endif%}
-                {%else%}
-                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
-                {%endif%}
+                {% else %}
+                        <button type="button" style="width:100%;" class="btn btn-success disabled">Ödünç verildi</button>
+                {% endif %}
             </p>
         </div>
     </div>

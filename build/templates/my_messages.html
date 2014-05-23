@@ -14,21 +14,28 @@
     </div>
 
     <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
-        <div class="list-group">
-            {% for conversation in user.conversations %}
-                <a href="/conversations/{{conversation.id}}" class="list-group-item" style="border:0px;">
-                    <h4 class="list-group-item-heading">
-                        {{conversation.title}} -
-                        {% for other_user in conversation.users %}
-                            {% if other_user != user %}
-                                {{other_user.name}}
-                            {% endif %}
-                        {% endfor %}
-                    </h4>
-                    <p class="list-group-item-text">{{conversation.messages[-1]}} </p>
-                </a>
-            {% endfor %}
-        </div>
+        {% if not user.conversations[0] %}
+            HENÜZ MESAJ YOK
+        {% else %}
+            <div class="list-group">
+                {% for conversation in user.conversations  | reverse %}
+                    <a href="/conversations/{{conversation.id}}" class="list-group-item" style="border:0px;">
+                        <h4 class="list-group-item-heading">
+                            {{conversation.title}}
+<!--                            {% for other_user in conversation.users %}
+                                {% if other_user != user %}
+                                    {{other_user.name}}
+                                {% endif %}
+                            {% endfor %}-->
+                        </h4>
+                        <p class="list-group-item-text">
+                            {{conversation.messages[-1]}}
+                            <span class="pull-right" style="width: 77px; height: 17px; overflow: hidden;">{{conversation.created_at}}</span>
+                        </p>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 
 {% endblock %}

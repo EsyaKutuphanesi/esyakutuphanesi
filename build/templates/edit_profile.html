@@ -17,11 +17,11 @@
         <form action="{{ url_for('edit_profile') }}" method="POST" name="edit_user_form" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <div class="col-md-6">
-                <div class="col-md-12" style="overflow:hidden;">
+                <div class="col-md-12 text-center" style="overflow:hidden; margin-bottom:10px;">
                     {%if user.photos%}
                     <img height="250" src="/photos/{{user.photos[-1].filename}}"/>
                     {%else%}
-                    <img height="250" src="/photos/ek1024.png"/>
+                    <img height="250" src="/static/images/ek.png"/>
                     {%endif%}
                </div>
                 <div class="col-md-12">{{ render_field_with_errors(form.photo) }}</div>
@@ -32,10 +32,7 @@
               {{ render_field_with_errors(form.email) }}
               {{ render_field_with_errors(form.phone_number) }}
               {{ render_field_with_errors(form.about) }}
-              <div class="form-group  ">
-                    <input class="form-control btn-success" id="submit" name="submit" type="submit" value="Kaydet">
-              </div>
-              <!--{{ render_field(form.submit) }}-->
+              {{ form.submit(class_='btn btn-success pull-right')}}
             </div>
         </form>
         <div class="col-md-12">

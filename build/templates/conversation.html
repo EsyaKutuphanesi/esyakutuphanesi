@@ -9,31 +9,66 @@
             }
         }
     </script>
-    <div class="col-md-8 col-md-offset-2">
-         <h1>{{conversation.title}}</h1>
-         <form action="/conversations/{{ conversation.id }}" method="post">
-             {{ form.hidden_tag() }}
-          <div class="form-group">
-            {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
-          </div>
+        <div class="row">
+            <ol class="breadcrumb" style="background:none;">
+                <li><a href="/my_messages">< Mesajlara geri dön</a></li>
+            </ol>
+        </div>
+    <div class="col-md-4">
 
-          {{ form.submit(class_='btn btn-default')}}
-         </form>
-        {% if user == conversation.request.stuff.owner%}
-            {% if conversation.request.status == 0%}
-                <button class="btn btn-danger" onclick="updateRequestStatus(1)">Verdim</button>
-            {% elif conversation.request.status == 1 %}
-                <button class="btn btn-warning" onclick="updateRequestStatus(2)">Geri aldım</button>
-            {% endif%}
-        {%endif%}
+        <a href="/show_stuff/{{conversation.request.stuff.id}}">
+            <img class="img-responsive" src="/photos/{{ wanted_stuff.filename}}"/>
+        </a>
+        <div class="row">
+            <div class="row" style="margin:10px auto;">
+                <div class="col-md-12 text-right" style="font-size:14px;">
+                    <a href="/profile/{{conversation.request.stuff.owner.id}}">{{conversation.request.stuff.owner.name}}</a> paylaştı.
+                </div>
+            </div>
+            <div class="col-md-12">
+                {% if user.id == conversation.request.stuff.owner.id%}
+                    {% if conversation.request.status == 0%}
+                        <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1)">Ödünç verdim</button>
+                    {% elif conversation.request.status == 1 %}
+                        <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2)">Geri aldım</button>
+                    {% endif%}
+                {%endif%}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="col-md-12">
+            <h3 style="margin-top: 0px;">{{conversation.title}}</h3>
+        </div>
+        <div class="col-md-12 text-right" style="margin-bottom:5px;">
+            <div style="background-color: #fcf8e3; padding:5px 10px;">
+                <span style="float:left; color:red;">
+                    {% if conversation.request.status==1 %}
+                        Eşya ödünç verildi :)
+                    {% elif conversation.request.status==2 %}
+                        Eşya geri alındı.
+                    {% endif %}
+                </span>
+                <strong>Ödünç istenme süresi : </strong>{{conversation.request.duration}} gün
+            </div>
+        </div>
+        <div class="col-md-12">
+            <form action="/conversations/{{ conversation.id }}" method="post">
+                 {{ form.hidden_tag() }}
+                <div class="form-group">
+                {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
+                </div>
+
+                {{ form.submit(class_='btn btn-info pull-right')}}
+            </form>
+        </div>
+
         {% for message in conversation.messages | reverse %}
-            <div class="row">
-                <div class="col-md-4">
-                    {{ message.user.name }}
-                </div>
-                <div class="col-md-8">
-                    {{ message}}
-                </div>
+            <div class="col-md-12" style="margin-top:10px;">
+                <dl class="dl-horizontal">
+                  <dt>{{ message.user.name }}</dt>
+                  <dd>{{ message}}</dd>
+                </dl>
             </div>
         {% endfor %}
     </div>

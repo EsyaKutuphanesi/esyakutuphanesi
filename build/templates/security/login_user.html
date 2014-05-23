@@ -11,9 +11,16 @@
           {{ login_user_form.hidden_tag() }}
           {{ render_field_with_errors(login_user_form.email) }}
           {{ render_field_with_errors(login_user_form.password) }}
-          {{ render_field_with_errors(login_user_form.remember) }}
           {{ render_field(login_user_form.next) }}
-          {{ render_field(login_user_form.submit) }}
+
+          <!--{{ render_field_with_errors(login_user_form.remember) }}-->
+            <div >
+                <label for="remember" class="control-label"><label for="remember">Beni hatırla</label></label>
+                <input id="remember" name="remember" type="checkbox" value="y">
+                <a class="pull-right" href="/reset">Şifremi unuttum</a>
+            </div>
+          <!--{{ render_field(login_user_form.submit) }}-->
+          {{ login_user_form.submit(class_='btn btn-success width100')}}
         </form>
     </div>
 {% endblock %}

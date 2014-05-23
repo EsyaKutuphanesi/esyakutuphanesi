@@ -33,7 +33,7 @@ class EditUserForm(Form):
     ])
     confirm = PasswordField(u'Şifreyi Onayla')
 
-    submit = SubmitField(u"Kaydet")
+    submit = SubmitField(u"Güncelle")
 
     def fill_form(self, user):
         self.name.data = user.name
@@ -58,7 +58,7 @@ class EditUserForm(Form):
         return True
 
 class EditStuffForm(Form):
-    stuffid = HiddenField('stuffid');
+    stuffid = HiddenField('stuffid')
     photo = FileField(u'Resim Yükle')
     title = TextField(u'Başlık', [
         validators.Length(min=4, max=255),
@@ -66,6 +66,7 @@ class EditStuffForm(Form):
     ])
     detail = TextAreaField(u'Detaylar', [
         validators.Length(min=0, max=1000),
+        validators.Required()
     ])
     address = SelectField(u'Adres', coerce=int, validators=[validators.Required()])
     group = SelectField(u'Grup', coerce=int, validators=[validators.Required()])
@@ -75,10 +76,10 @@ class EditStuffForm(Form):
     ])
     category = SelectField('Kategori', coerce=int, validators=[validators.Required()])
     stuff_type = SelectField(u'Eşya Türü', coerce=int, validators=[validators.Required()])
-    is_wanted = SelectField(u'İstiyorum?', choices=[('False', u'Vermek'),
-                                          ('True', u'Almak')])
+    is_wanted = SelectField(u'İstiyorum?', choices=[('False', u'Vermek'), ('True', u'Almak')])
+
     def fill_form(self, stuff):
-        self.tags.data=''
+        self.tags.data = ''
         self.title.data = stuff.title
         self.detail.data = stuff.detail
         self.stuffid.data = stuff.id
@@ -95,11 +96,11 @@ class EditStuffForm(Form):
         return True
 
 class SeachForm(Form):
-    stuff = TextField(u'Ne Arıyorsun?', [
+    stuff = TextField(u'Ne arıyorsun?', [
         validators.Length(min=0, max=255)
     ])
 
-    address = TextField(u'Nerede Arıyorsun?', [
+    address = TextField(u'Nerede arıyorsun?', [
         validators.Length(min=0, max=255)
     ])
     submit = SubmitField("Ara")
@@ -120,20 +121,58 @@ class ConversationForm(Form):
 
         return True
 
-class RequestForm(Form):
-    message = TextAreaField(u'Mesaj Yaz', [
+class InvitationForm(Form):
+    emails = TextField(u'a@b.com, ...', [
+        validators.email(),
+        validators.Required()
+    ])
+
+    message = TextAreaField(u'Eşyakütüphanesine sen de katıl :)', [
         validators.Length(min=0, max=1000),
         validators.Required()
     ])
 
-    duration = TextAreaField(u'Ne zamana kadar?', [
+    submit = SubmitField(u"Davet et")
+
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        return True
+
+class RequestForm(Form):
+    message = TextField(u'Mesaj yaz', [
+        validators.Length(min=0, max=1000),
+        validators.Required()
+    ])
+
+    duration = TextField('', [
         validators.Length(min=0, max=4),
     ])
 
-    unit = SelectField('',
-                            coerce=int,
-                            choices=[(1, u'Gün'),
-                                     (7, u'Hafta')])
+    unit = SelectField('', coerce=int, choices=[(1, u'Gün'),
+                                                (7, u'Hafta')])
     stuff_id = HiddenField()
 
     submit = SubmitField(u"Gönder")
+
+class CreateGroupForm(Form):
+    group_name = TextField(u'Grup adı', [
+        validators.Length(min=2, max=100),
+        validators.Required()
+    ])
+
+    text = TextAreaField(u'Bu grubu neden kurmak istiyorsun?', [
+        validators.Length(min=0, max=1000),
+        validators.Required()
+    ])
+
+    submit = SubmitField(u"Gönder")
+
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        return True

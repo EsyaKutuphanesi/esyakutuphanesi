@@ -1,4 +1,5 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
 {% include "security/_messages.html" %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
@@ -65,36 +66,16 @@
     <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
 
         <div id="container" class="row fluid">
-            <div class="col-md-4 item">
+            <div class="col-md-3 item">
                 <div class="thumbnail" style="border: 5px solid #81d4df; background-color:#fffff8;">
                     <a href="/new_stuff">
-                        <img src="/photos/esyaekle.png"/>
+                        <img src="/static/images/esyaekle.png"/>
                     </a>
                 </div>
             </div>
 
             {%for stuff in user.stuff_list%}
-
-                <div class="col-md-4 item">
-                    <div class="thumbnail">
-                        <a href="{{stuff.url}}">
-                            {%if stuff.photos%}
-                            <img src="/photos/{{stuff.photos[0].filename}}"/>
-                            {%else%}
-                            <img src="/photos/logosari1.png"/>
-                            {%endif%}
-                        </a>
-                        <div class="caption">
-                            <a href="{{stuff.url}}">
-                                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                            </a>
-                        <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
-                        <p>
-                            <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='{{stuff.edit_url}}'">Düzenle</button>
-                        </p>
-                      </div>
-                    </div>
-                </div>
+                {{ render_item_box(stuff, user, True) }}
             {%endfor%}
         </div>
     </div>

@@ -19,12 +19,8 @@
                   }
               });
           });
-
-
         });
-
     });
-
 </script>
     {%if not user.is_authenticated()%}
     <div class="row">
@@ -70,10 +66,12 @@
     <!--<div class="col-md-12 grayLine"></div>-->
 
     <div class="row">
-        <div class="col-md-12">
-            <h3 style="border-bottom: 1px solid #dddddd;
-padding-bottom: 10px;">Son Paylaşılanlar</h3>
-        </div>
+        {% if last_objects_shared[0] %}
+            <div class="col-md-12">
+                <h3 style="border-bottom: 1px solid #dddddd;
+    padding-bottom: 10px;">Son Paylaşılanlar</h3>
+            </div>
+        {% endif %}
 
         <div class="col-md-12">
             <div id="container" class="row fluid">
@@ -87,11 +85,12 @@ padding-bottom: 10px;">Son Paylaşılanlar</h3>
     <!--<div class="col-md-12 grayLine"></div>-->
     {%if user.is_authenticated()%}
         <div class="row">
-            <div class="col-md-12">
-                <h3 style="border-bottom: 1px solid #dddddd;
-    padding-bottom: 10px;">Son Arananlar</h3>
-            </div>
-
+            {% if last_objects_wanted[0] %}
+                <div class="col-md-12">
+                    <h3 style="border-bottom: 1px solid #dddddd;
+        padding-bottom: 10px;">Son Arananlar</h3>
+                </div>
+            {% endif %}
             <div class="col-md-12">
                 <div id="container" class="row fluid">
                     {% for stuff in last_objects_wanted %}
@@ -108,21 +107,21 @@ padding-bottom: 10px;">Son Paylaşılanlar</h3>
         <div class="col-md-4">
             <a href="#">
                 <div>
-                    <img src="/photos/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
+                    <img src="/static/images/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
             </a>
         </div>
         <div class="col-md-4">
             <a href="#">
                 <div>
-                    <img src="/photos/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
+                    <img src="/static/images/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
             </a>
         </div>
         <div class="col-md-4">
             <a href="#">
                 <div>
-                    <img src="/photos/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
+                    <img src="/static/images/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
             </a>
         </div>

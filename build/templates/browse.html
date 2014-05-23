@@ -1,4 +1,6 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
+{% from "macros/request_modal.html" import request_modal %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
@@ -106,34 +108,7 @@
             </div>
         {%endif%}
         {% for stuff in stuff_list %}
-              <div class="col-md-3">
-                <div class="thumbnail">
-                    <a href="/show_stuff/{{stuff.id}}">
-                        {%if stuff.photos%}
-                        <img src="/photos/{{stuff.photos[0].filename}}"  style="height: 150px;"/>
-                        {%else%}
-                        <img src="/photos/logosari1.png"  style="height: 150px;"/>
-                        {%endif%}
-                    </a>
-                    <div class="caption">
-                        <a href="/{{stuff.url}}">
-                            <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                        </a>
-                    <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
-                    <p>
-                        {% if not stuff.owner_id == user.id %}
-                            {% if stuff.is_wanted %}
-                                <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/show_stuff/{{stuff.id}}'">Bende var!</button>
-                            {% else %}
-                                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/show_stuff/{{stuff.id}}'">Ödünç iste</button>
-                            {% endif %}
-                        {% else %}
-                            <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
-                        {% endif %}
-                    </p>
-                  </div>
-                </div>
-              </div>
+            {{ render_item_box(stuff, user, stuff.is_wanted) }}
         {%endfor%}
     </div>
 {% endblock %}

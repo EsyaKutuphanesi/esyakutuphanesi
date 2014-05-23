@@ -1,4 +1,6 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
+{% from "macros/request_modal.html" import request_modal %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
@@ -18,74 +20,19 @@
                 {%endif%}
             </div>
         </div>
-
-
         <div class="row">
             <div class="col-md-12">
-                {% for obj in last_objects%}
-                    {% if obj.is_wanted==0 %}
-                      <div class="col-md-3">
-                        <div class="thumbnail">
-                            <a href="{{obj.url}}">
-                                {%if obj.photos%}
-                                <img src="/photos/{{obj.photos[0].filename}}" style="height: 150px;"/>
-                                {%else%}
-                                <img src="/photos/logosari1.png" style="height: 150px;"/>
-                                {%endif%}
-                            </a>
-                            <div class="caption">
-                                <a href="{{obj.url}}">
-                                    <h3 style="font-size:18px; margin-top:0;">{{obj}}</h3>
-                                </a>
-                            <p style="font-size:12px; height: 100px; overflow: hidden;">{{obj.detail}}</p>
-                            <p>
-                                {% if obj.is_wanted %}
-                                    <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='{{obj.url}}'">Bende var!</button>
-                                {% else %}
-                                    <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='{{obj.url}}'">Ödünç iste</button>
-                                {% endif %}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    {% endif %}
-                {%endfor%}
-            </div>
-        </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    {% for obj in last_objects%}
-                        {% if obj.is_wanted==1 %}
-                          <div class="col-md-3">
-                            <div class="thumbnail">
-                                <a href="{{obj.url}}">
-                                    {%if obj.photos%}
-                                    <img src="/photos/{{obj.photos[0].filename}}" style="height: 150px;"/>
-                                    {%else%}
-                                    <img src="/photos/logosari1.png" style="height: 150px;"/>
-                                    {%endif%}
-                                </a>
-                                <div class="caption">
-                                    <a href="{{obj.url}}">
-                                        <h3 style="font-size:18px; margin-top:0;">{{obj}}</h3>
-                                    </a>
-                                <p style="font-size:12px; height: 100px; overflow: hidden;">{{obj.detail}}</p>
-                                <p>
-                                    {% if obj.is_wanted %}
-                                        <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='{{obj.url}}'">Bende var!</button>
-                                    {% else %}
-                                        <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='{{obj.url}}'">Ödünç iste</button>
-                                    {% endif %}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                <div id="container" class="row fluid">
+                    {% for stuff in last_objects %}
+                        {% if stuff.is_wanted %}
+                            {{ render_item_box(stuff, user, True ) }}
+                        {% else %}
+                            {{ render_item_box(stuff, user ) }}
                         {% endif %}
                     {%endfor%}
                 </div>
             </div>
-
+        </div>
     </div>
 {% endblock %}
 

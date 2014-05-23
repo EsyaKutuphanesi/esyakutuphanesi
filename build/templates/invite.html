@@ -1,4 +1,4 @@
-{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_textarea_with_errors  %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
@@ -37,10 +37,11 @@
         </div>
         <div class="col-md-8">
             <h5>Email ile davet et</h5>
-            <form action="{{url_for('invite')}}" method="POST" name="invite_form" enctype="multipart/form-data">
-                <input type="text" class="form-control" placeholder="a@b.com, ..." name="invited_emails"/>
-                <textarea class="form-control" rows="3" style="margin:10px auto;" name="invite_message">Eşyakütüphanesi'ne sen de katıl :)</textarea>
-                <button type="submit" class="btn btn-success pull-right">Davet et</button>
+            <form action="{{url_for('invite')}}" method="POST" name="invitation_form" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                {{ render_field_with_errors(form.emails, label_visible=False, placeholder=form.emails.label.text) }}
+                {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
+                {{ form.submit(class_='btn btn-success pull-right')}}
             </form>
         </div>
     </div>

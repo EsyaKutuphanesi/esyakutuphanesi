@@ -154,8 +154,7 @@ def register():
         new_user = users.create_user(email=form.email.data,
                                      password=form.password.data,
                                      name=form.name.data,
-                                     nickname=form.nickname.data,
-                                    )
+                                     nickname=form.nickname.data)
         role_db = Role.query.filter_by(name='member').first()
         new_user.roles.append(role_db)
         db.session.add(new_user)

@@ -14,9 +14,11 @@
           {% if register_user_form.password_confirm %}
             {{ render_field_with_errors(register_user_form.password_confirm) }}
           {% endif %}
-          {{ render_field(register_user_form.submit) }}
+          <!--{{ render_field(register_user_form.submit) }}-->
+          {{ register_user_form.submit(class_='btn btn-success width100')}}
+
         </form>
-        <div class="row">
+        <div class="col-md-12">
             Zaten üye misin?
             <a href="/login">
                 <button class="btn btn-default">Giriş Yap</button>

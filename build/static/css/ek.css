@@ -127,3 +127,7 @@ margin-top: 20px;
 .footerUl li {
     color:#333333;
 }
+.width100 {
+    width:100%;
+    margin:10px auto;
+}
