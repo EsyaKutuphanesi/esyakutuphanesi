@@ -79,7 +79,7 @@ def edit_stuff(stuff_id=None):
     if current_user.addresses:
         address_choices = [(address.id, address.detail)
                            for address in current_user.addresses]
-    address_choices += [(20, u'Yeni adres: Haritadan sağ tıklayarak seçebilirsiniz.')]
+    address_choices += [(-1, u'Yeni adres: Haritadan sağ tıklayarak seçebilirsiniz.')]
     #else:
     #    flash('Adres girmeniz gerekiyor')
     #    return redirect(url_for("new_address",
@@ -118,14 +118,9 @@ def edit_stuff(stuff_id=None):
         stuff_type_choices = [(stuff_type.id, stuff_type.name)
                               for stuff_type in stuff_types]
         form.stuff_type.choices = stuff_type_choices
-
-        # print unicode(request.form.get('address_str'))
-        # print "hebebeeeee"
-        # print request.form.get('lat')
-        # print request.form.get('lng')
-
+        
         if form.validate_on_submit():
-            if form.address.data == 20:
+            if form.address.data == -1:
                 address = Address(user=current_user,
                                   lat=request.form.get('lat'),
                                   lng=request.form.get('lng'),

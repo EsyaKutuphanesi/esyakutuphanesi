@@ -49,8 +49,6 @@ class EditUserForm(Form):
 
         user = User.query.filter_by(
             email=self.email.data).first()
-        print self.userid.data
-        print user.id
         if user and user.id <> int(self.userid.data):
             self.email.errors.append(u'Bu email adresi ile kayıtlı bir kullanıcı bulunuyor.')
             return False
@@ -77,7 +75,11 @@ class EditStuffForm(Form):
     category = SelectField('Kategori', coerce=int, validators=[validators.Required()])
     stuff_type = SelectField(u'Eşya Türü', coerce=int, validators=[validators.Required()])
     is_wanted = SelectField(u'İstiyorum?', choices=[('False', u'Vermek'), ('True', u'Almak')])
-
+    address_str = TextField('', [
+        validators.Length(min=4, max=255)
+    ])
+    lat = HiddenField('lat')
+    lng = HiddenField('lng')
     def fill_form(self, stuff):
         self.tags.data = ''
         self.title.data = stuff.title
@@ -93,6 +95,16 @@ class EditStuffForm(Form):
         if not rv:
             return False
 
+        if self.address.data == -1:
+            if not (self.lat.data and
+                    self.lng.data and
+                    self.address_str.data):
+                print 'sec'
+                message = u'Haritada bir nokta işaretlemeniz lazım. ' \
+                          u'Adres girip ara\'ya basın veya ' \
+                          u'sağ tıklayıp bir nokta seçin'
+                self.address_str.errors.append(message)
+                return False
         return True
 
 class SeachForm(Form):

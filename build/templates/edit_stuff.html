@@ -7,7 +7,7 @@
     <script type="text/javascript" src="{{ url_for('static',filename='js/ek.js') }}"></script>
     <script>
         $(function(){
-            if($("select#address").val() == 20){
+            if($("select#address").val() == -1){
                 $("#new_address").show();
             } else {
                 $("#new_address").hide();
@@ -23,7 +23,7 @@
                 });
             });
             $("select#address").change(function(e){
-                if($("select#address").val() == 20){
+                if($("select#address").val() == -1){
                     $("#new_address").show();
                 } else {
                     $("#new_address").hide();
@@ -51,11 +51,11 @@
             </div>
           {{ render_field_with_errors(form.address) }}
             <div id="new_address">
-                <input type="text" id="address_str" class="form-group" name="address_str"/>
+                {{ render_field_with_errors(form.address_str) }}
                 <input id ='search' type="button" class="btn" value="Ara" />
                 <div id="map"></div>
-                <input type="hidden" id="lat" name="lat"/>
-                <input type="hidden" id="lng" name="lng"/>
+                {{ render_field_with_errors(form.lat) }}
+                {{ render_field_with_errors(form.lng) }}
             </div>
             {{ render_field_with_errors(form.group) }}
 
