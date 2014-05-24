@@ -8,6 +8,8 @@ from flask_login import current_user, login_required
 from forms import *
 from oauth_handler import *
 import os.path
+from pip._vendor.distlib._backport.shutil import ReadError
+from setuptools.command.sdist import re_finder
 
 
 @app.route('/')
@@ -278,6 +280,7 @@ def get_file_extension(filename):
 
 @app.route('/category/<category_name>/')
 def category_view(category_name=None):
+    request_form = RequestForm()
     is_wanted = request.args.get('is_wanted')
 
     category = Category.query.\
@@ -310,7 +313,8 @@ def category_view(category_name=None):
     }
 
     return render_template("browse.html", user=current_user,
-                           stuff_list=stuff_list, params=params)
+                           stuff_list=stuff_list, params=params,
+                           request_form=request_form)
 
 #@app.route('/stuff_type/<type_name>/')
 #def stuff_type_view(type_name=None):
@@ -328,6 +332,7 @@ def category_view(category_name=None):
 
 @app.route('/category/<category_name>/type/<type_name>')
 def category_stuff_type_view(category_name, type_name):
+    request_form = RequestForm()
     is_wanted = request.args.get('is_wanted')
     stuff_type = StuffType.query.\
         filter(StuffType.name == type_name).first()
@@ -365,7 +370,8 @@ def category_stuff_type_view(category_name, type_name):
     }
 
     return render_template("browse.html", user=current_user,
-                           stuff_list=stuff_list, params=params)
+                           stuff_list=stuff_list, params=params,
+                           request_form=request_form)
 
 @app.route('/my_messages')
 @login_required
@@ -486,6 +492,7 @@ def moderation():
 
 @app.route('/profile/<user_id>')
 def get_profile(user_id):
+    request_form = RequestForm()
     user_profile = User.query.filter(User.id == user_id).first()
     user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 0, Stuff.approved == 1).limit(8)
     user_stuff_wanted = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 1, Stuff.approved == 1).limit(8)
@@ -495,7 +502,8 @@ def get_profile(user_id):
                GroupMembership.user_id == user_id)
 
     return render_template("profile.html", user_stuff_shared=user_stuff_shared, user_stuff_wanted=user_stuff_wanted,
-                           users_group=users_group, user_profile=user_profile, user=current_user)
+                           users_group=users_group, user_profile=user_profile, user=current_user,
+                           request_form=request_form)
 
 @app.route('/groups')
 @login_required
