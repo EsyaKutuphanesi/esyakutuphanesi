@@ -161,6 +161,7 @@ class RequestForm(Form):
 
     duration = TextField('', [
         validators.Length(min=0, max=4),
+        validators.Required()
     ])
 
     unit = SelectField('', coerce=int, choices=[(1, u'Gün'),

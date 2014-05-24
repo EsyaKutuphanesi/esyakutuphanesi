@@ -118,7 +118,7 @@ def edit_stuff(stuff_id=None):
         stuff_type_choices = [(stuff_type.id, stuff_type.name)
                               for stuff_type in stuff_types]
         form.stuff_type.choices = stuff_type_choices
-        
+
         if form.validate_on_submit():
             if form.address.data == -1:
                 address = Address(user=current_user,
@@ -424,14 +424,15 @@ def show_conversation(conversation_id):
 def make_request(stuff_id=None):
     form = RequestForm()
     message = None
+    return_url =  request.form['return_url'];
     if form.validate_on_submit():
         message = form.message.data
         stuff_id = form.stuff_id.data
         duration = int(form.duration.data)
         unit = int(form.unit.data)
         if stuff_id is None or not (stuff_id > ''):
-            flash(u'İstek gönderilemedi.s');
-            redirect('/')
+            flash(u'İstek gönderilemedi.');
+            return redirect(return_url)
         stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
         new_request = Request(stuff_id=stuff_id,
                               user_id=current_user.id,
@@ -449,8 +450,8 @@ def make_request(stuff_id=None):
 
         db.session.commit()
         return redirect(url_for('my_messages'))
-    flash(u'İstek gönderilemedi.s');
-    redirect('/')
+    flash(u'İstek gönderilemedi.');
+    return redirect(return_url)
 
 @app.route('/moderation')
 @login_required

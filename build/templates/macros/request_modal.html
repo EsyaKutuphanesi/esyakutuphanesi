@@ -11,6 +11,7 @@
                 <div class="modal-body" style="overflow:hidden;">
 
                     {{ request_form.hidden_tag() }}
+                    <input type="hidden" id="return_url" name="return_url" value="/"/>
                     <div class="form-group">
                         {{ request_form.stuff_id(class_='form-control') }}
                     </div>
