@@ -30,6 +30,7 @@ def home():
 @app.route('/search')
 def search():
     form = SeachForm()
+    request_form = RequestForm()
     last_objects = list()
 
     if request.method == 'GET':
@@ -43,7 +44,8 @@ def search():
                    Address.detail.like('%'+address_key+'%')).limit(8)
 
     return render_template("search.html", user=current_user,
-                           last_objects=last_objects, form=form)
+                           last_objects=last_objects, form=form,
+                           request_form=request_form)
 
 @app.route('/new_address', methods=["GET", "POST"])
 @login_required
