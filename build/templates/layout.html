@@ -21,13 +21,13 @@
     </div>
 
     <div class="contanier">
-        <div class="col-md-12" style="margin-bottom:30px;">
-            <div id="flashing" class="col-md-8 col-md-offset-2">
+        <div class="col-md-12 col-sm-12" style="margin-bottom:30px;">
+            <div id="flashing" class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
                 {% include 'security/_messages.html' %}
             </div>
         </div>
-        <div class="col-md-12" style=" overflow:hidden;">
-            <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12 col-sm-12" style=" overflow:hidden;">
+            <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
     	        {% block content %}
                 {% endblock %}
             </div>
@@ -36,10 +36,10 @@
     </div>
     <div id="footer" class="container">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1" style="margin-top:50px; padding-top: 20px; border-top: 1px solid #dddddd;">
+            <div class="col-md-10 col-sm-12 col-md-offset-1" style="margin-top:50px; padding-top: 20px; border-top: 1px solid #dddddd;">
             {% block footer %}
                 <div class="col-md-12 text-center">
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-sm-3">
                         <h5>BİZ KİMİZ?</h5>
                         <ul class="footerUl">
                              <a href="#">
@@ -56,7 +56,7 @@
                             </a>
                         </ul>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-sm-3">
                         <h5>BİRLİKTE ÇALIŞALIM</h5>
                         <ul class="footerUl">
                             <a href="#">
@@ -73,7 +73,7 @@
                             </a>
                         </ul>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-sm-3">
                         <h5>EŞYA KÜTÜPHANESİ</h5>
                         <ul class="footerUl">
                             <a href="#">
@@ -90,13 +90,13 @@
                             </a>
                         </ul>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-sm-3">
                         <h5>SOSYAL MEDYA</h5>
                         <ul class="footerUl">
-                            <a href="#">
+                            <a href="https://www.facebook.com/EsyaKutuphanesi">
                                 <li>Facebook</li>
                             </a>
-                             <a href="#">
+                             <a href="https://twitter.com/esyakutuphanesi">
                                 <li>Twitter</li>
                             </a>
                              <a href="#">
@@ -105,7 +105,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-12 text-center" style="margin:30px;">
+                <div class="col-md-12 col-sm-12 text-center" style="margin:30px;">
                     &copy; Copyright 2013 by Eşya Kütüphanesi.
                 </div>
             {% endblock %}

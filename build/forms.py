@@ -75,9 +75,8 @@ class EditStuffForm(Form):
     category = SelectField('Kategori', coerce=int, validators=[validators.Required()])
     stuff_type = SelectField(u'Eşya Türü', coerce=int, validators=[validators.Required()])
     is_wanted = SelectField(u'İstiyorum?', choices=[('False', u'Vermek'), ('True', u'Almak')])
-    address_str = TextField('', [
-        validators.Length(min=4, max=255)
-    ])
+    address_str = TextField('')
+
     lat = HiddenField('lat')
     lng = HiddenField('lng')
     def fill_form(self, stuff):
@@ -102,7 +101,7 @@ class EditStuffForm(Form):
                 print 'sec'
                 message = u'Haritada bir nokta işaretlemeniz lazım. ' \
                           u'Adres girip ara\'ya basın veya ' \
-                          u'sağ tıklayıp bir nokta seçin'
+                          u'sağ tıklayıp bir nokta seçin.'
                 self.address_str.errors.append(message)
                 return False
         return True

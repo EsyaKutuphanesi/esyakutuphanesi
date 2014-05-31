@@ -13,17 +13,17 @@ function send(){
 </script>
     <h1> Adres Ekle </h1>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 col-sm-8">
           <div id="map"></div>
         </div>
-        <div class="col-md-4" >
+        <div class="col-md-4 col-sm-4" >
             <form method="post" id="geocoding_form" action="/new_address">
                 <div class="row">
-                    <label for="address_name">Adres İsmi:</label>
+                    <label for="address_name">Adres İsmi:</label><br/>
                     <input type="text" id="address_name" class="form-group" name="address_name" />
                 </div>
                 <div class="row">
-                    <label for="address_str">Adres:</label>
+                    <label for="address_str">Adres:</label><br/>
                     <input type="text" id="address_str" class="form-group" name="address_str" diasble/>
                     <input type="hidden" id="lat" name="lat"/>
                     <input type="hidden" id="lng" name="lng"/>

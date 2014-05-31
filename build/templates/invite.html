@@ -30,12 +30,12 @@
     </div>
 
     <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
-        <div class="col-md-4">
+        <div class="col-md-5 col-sm-4">
             <h5>Facebook ile davet et</h5>
             <div id="fb-root"></div>
             <button type="button" class="btn" onclick="FacebookInviteFriends();" style="color:white; background-color:#3c599f;">Facebook arkadaşlarını davet et</button>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-7 col-sm-8">
             <h5>Email ile davet et</h5>
             <form action="{{url_for('invite')}}" method="POST" name="invitation_form" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}

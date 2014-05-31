@@ -418,13 +418,13 @@ def show_conversation(conversation_id):
     return render_template("conversation.html", user=current_user, wanted_stuff=wanted_stuff,
                            form=form, action='Edit', conversation=conversation)
 
-@app.route('/make_request/<stuff_id>', methods=['GET','POST'])
+@app.route('/make_request/<stuff_id>', methods=['GET', 'POST'])
 @app.route('/make_request', methods=['POST'])
 @login_required
 def make_request(stuff_id=None):
     form = RequestForm()
     message = None
-    return_url =  request.form['return_url'];
+    return_url = request.form['return_url'];
     if form.validate_on_submit():
         message = form.message.data
         stuff_id = form.stuff_id.data
@@ -499,30 +499,42 @@ def get_profile(user_id):
         filter(GroupMembership.group_id == Group.id,
                GroupMembership.user_id == user_id)
 
+    returned_request = Request.query.filter(Request.from_user_id == user_id).join(Conversation).\
+        filter(Conversation.request_id == Request.id).join(Message).filter(Message.conversation_id == Conversation.id,
+                                                                           Message.user_id == user_id).count()
+
+    if returned_request > 0 :
+        returned_request = int(returned_request)
+        # print returned_request
+
+        request_from_me = Request.query.filter(Request.from_user_id == user_id).count()
+        request_from_me = int(request_from_me)
+        # print request_from_me.count()
+
+        return_ratio = (returned_request*100 / request_from_me)
+
+        # print return_ratio
+    else :
+        return_ratio = 0
+
     return render_template("profile.html", user_stuff_shared=user_stuff_shared, user_stuff_wanted=user_stuff_wanted,
                            users_group=users_group, user_profile=user_profile, user=current_user,
-                           request_form=request_form)
+                           request_form=request_form, return_ratio=return_ratio)
 
-@app.route('/groups')
+@app.route('/groups', methods=['GET', 'POST'])
 @login_required
 def groups():
 
     form = CreateGroupForm()
-    print request.form.get('text')
-    print request.form.get('group_name')
-
     if request.method == 'POST' and form.validate_on_submit():
-        # invite_info = Invitations(user_id=current_user.id,
-        #                           emails=request.form.get('emails'),
-        #                           message=request.form.get('message'))
-        # db.session.add(invite_info)
-        # db.session.commit()
-
-        print request.form.get('text')
-        print request.form.get('group_name')
+        group_info = Group(name=request.form.get('group_name'),
+                            description=request.form.get('text'),
+                            logo="logo")
+        db.session.add(group_info)
+        db.session.commit()
+        # mail gelsin tabi burda bize.
 
         flash(u"Grup kurma isteğiniz gönderildi :)")
-        return redirect(url_for('/'))
 
     return render_template("groups.html", form=form, user=current_user)
 
@@ -556,5 +568,7 @@ def invite():
 
         flash(u"Davetiniz gönderildi :)")
         return redirect(url_for('invite'))
+
+    # mail gelsin tabi burda bize.
 
     return render_template("invite.html", form=form, user=current_user)

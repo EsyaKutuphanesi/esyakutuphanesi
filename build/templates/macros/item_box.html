@@ -1,7 +1,7 @@
 {% macro render_item_box(stuff, user, is_wanted=False) -%}
-<div class="col-md-3 item">
+<div class="col-md-4 col-sm-4 item">
     <div class="thumbnail">
-        <a href="{{stuff.url}}">
+        <a href="/show_stuff/{{stuff.id}}">
             {%if stuff.photos%}
             <img src="/static/photos/{{stuff.photos[0].filename}}"/>
             {%else%}
@@ -9,7 +9,7 @@
             {%endif%}
         </a>
         <div class="caption">
-            <a href="/{{stuff.url}}">
+            <a href="/show_stuff/{{stuff.id}}">
                 <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
             </a>
             <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>

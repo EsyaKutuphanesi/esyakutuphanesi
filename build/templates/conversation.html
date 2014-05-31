@@ -14,18 +14,18 @@
                 <li><a href="/my_messages">< Mesajlara geri dön</a></li>
             </ol>
         </div>
-    <div class="col-md-4">
+    <div class="col-md-4 col-sm-3">
 
         <a href="/show_stuff/{{conversation.request.stuff.id}}">
             <img class="img-responsive" src="/photos/{{ wanted_stuff.filename}}"/>
         </a>
         <div class="row">
             <div class="row" style="margin:10px auto;">
-                <div class="col-md-12 text-right" style="font-size:14px;">
+                <div class="col-md-12 col-sm-12 text-right" style="font-size:14px;">
                     <a href="/profile/{{conversation.request.stuff.owner.id}}">{{conversation.request.stuff.owner.name}}</a> paylaştı.
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12 col-sm-12">
                 {% if user.id == conversation.request.stuff.owner.id%}
                     {% if conversation.request.status == 0%}
                         <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1)">Ödünç verdim</button>
@@ -36,11 +36,11 @@
             </div>
         </div>
     </div>
-    <div class="col-md-8">
-        <div class="col-md-12">
+    <div class="col-md-8 col-sm-9">
+        <div class="col-md-12 col-sm-12">
             <h3 style="margin-top: 0px;">{{conversation.title}}</h3>
         </div>
-        <div class="col-md-12 text-right" style="margin-bottom:5px;">
+        <div class="col-md-12 col-sm-12 text-right" style="margin-bottom:5px;">
             <div style="background-color: #fcf8e3; padding:5px 10px;">
                 <span style="float:left; color:red;">
                     {% if conversation.request.status==1 %}
@@ -52,7 +52,7 @@
                 <strong>Ödünç istenme süresi : </strong>{{conversation.request.duration}} gün
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12 col-sm-12">
             <form action="/conversations/{{ conversation.id }}" method="post">
                  {{ form.hidden_tag() }}
                 <div class="form-group">
@@ -64,7 +64,7 @@
         </div>
 
         {% for message in conversation.messages | reverse %}
-            <div class="col-md-12" style="margin-top:10px;">
+            <div class="col-md-12 col-sm-12" style="margin-top:10px;">
                 <dl class="dl-horizontal">
                   <dt>{{ message.user.name }}</dt>
                   <dd>{{ message}}</dd>

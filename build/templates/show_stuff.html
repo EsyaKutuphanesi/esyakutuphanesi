@@ -27,8 +27,8 @@
         });
     });
 </script>
-    <div class="col-md-12">
-        <div class="col-md-7">
+    <div class="col-md-12 col-sm-12">
+        <div class="col-md-7 col-sm-8">
            <div class="row"><h1>{{stuff.title}}</h1></div>
             <div class="row">
                 <ol class="breadcrumb">
@@ -49,7 +49,7 @@
                 {%if stuff%}
                 <div class="row">
                     {%for photo in stuff.photos%}
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             <img class="img-responsive" src="/photos/{{photo.filename}}" />
                         </div>
                     {%endfor%}
@@ -58,7 +58,7 @@
             </div>
 
         </div>
-        <div class="col-md-4 pull-right" style="margin-top:25px;">
+        <div class="col-md-4 pull-right col-sm-4" style="margin-top:25px;">
             {% if not stuff.owner_id == user.id %}
                 {% if stuff.is_wanted %}
                     <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Bende var!</button>
@@ -92,12 +92,12 @@
         </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12 col-sm-12">
         <h3 style="margin-bottom:10px;">Paylaşımın adresi:</h3>
         <div id="map" style="height: 200px;"></div>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12 col-sm-12">
         <h3 style="margin: 60px auto 30px;">Değerlendirmeler</h3>
 
 <!--        <div class="media">
@@ -132,6 +132,5 @@
         </div>
 
     </div>
-
 {% endblock %}
 

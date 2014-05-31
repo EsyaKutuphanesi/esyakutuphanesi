@@ -47,7 +47,10 @@
             <ul class="dropdown-menu">
               <li><a href="/profile/{{user.id}}">Profilim</a></li>
               <li><a href="/edit_profile">Ayarlar</a></li>
+              <li><a href="/my_messages">Mesajlar</a></li>
               <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
+              <li><a href="/groups">Gruplar</a></li>
+
               {% if 'admin' in user.roles or 'moderator' in user.roles %}
                   <li><a href="/moderation">Moderasyon</a></li>
               {% endif %}
@@ -55,7 +58,7 @@
               <li><a href="/logout">Çıkış Yap</a></li>
             </ul>
         </li>
-        <li><a href="/my_messages">Mesajlar</a></li>
+        <li class="nodisplay"><a href="/my_messages">Mesajlar</a></li>
         {%else%}
         <li><a href="/login">Giriş Yap</a></li>
         <li><a href="/register">Kaydol</a></li>

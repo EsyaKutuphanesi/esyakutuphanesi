@@ -131,3 +131,8 @@ margin-top: 20px;
     width:100%;
     margin:10px auto;
 }
+@media (min-width: 992px) and (max-width:1200px) {
+  .nodisplay {
+    display: none !important;
+  }
+}

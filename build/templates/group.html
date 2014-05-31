@@ -23,24 +23,24 @@
 </script>
 
     <div class="row">
-        <div class="col-md-2" style="margin-top: 20px;"><img src="/photos/cigdemim.png" class="img-responsive"/></div>
-        <div class="col-md-10">
+        <div class="col-md-2 col-sm-2" style="margin-top: 20px;"><img src="/photos/cigdemim.png" class="img-responsive"/></div>
+        <div class="col-md-10 col-sm-10">
             <h2>{{group_info.name}}</h2>
             <div>{{group_info.description}}</div>
         </div>
     </div>
 
     <div class="row" style="margin-top:20px;">
-        <div class="col-md-10">
+        <div class="col-md-10 col-sm-10">
             {% if group_shares[0]%}
-                <div class="col-md-12">
+                <div class="col-md-12 col-sm-12">
                     <h3 style="border-bottom: 1px solid #dddddd;
         padding-bottom: 10px;">Son Paylaşılanlar</h3>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 col-sm-12">
                     <div id="container" class="row fluid">
                         {% for stuff in group_shares %}
-                          <div class="col-md-4 item">
+                          <div class="col-md-4 item col-sm-4">
                             <div class="thumbnail">
                                 <a href="{{stuff.url}}">
                                     {%if stuff.photos%}
@@ -71,7 +71,7 @@
                 PAYLAŞIM YAPILMADI
             {% endif %}
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-2">
             <h3 style="border-bottom: 1px solid #dddddd;
         padding-bottom: 10px;">Üyeler</h3>
             <div style="width:100%;">
@@ -84,6 +84,7 @@
                     </div>
                 {% endfor %}
             </div>
+            <button class="btn btn-info" style="width:100%; margin:10px auto;">Davet et</button>
         </div>
     </div>
 

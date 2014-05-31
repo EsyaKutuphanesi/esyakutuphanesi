@@ -15,7 +15,7 @@
 
     <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
         <div class="row">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">
               Grup kur
             </button>
 
@@ -28,7 +28,7 @@
                         <h4 class="modal-title" id="myModalLabel">Kurmak istediğin grup ile ilgili bilgileri bize iletebilirsin</h4>
                       </div>
 
-                      <form action="{{url_for('groups')}}" method="POST" name="creategroup_form" enctype="multipart/form-data">
+                      <form action="{{url_for('groups')}}" method="POST" id="form" name="creategroup_form" enctype="multipart/form-data">
                           <div class="modal-body">
                                 {{ form.hidden_tag() }}
                                 {{ render_field_with_errors(form.group_name) }}

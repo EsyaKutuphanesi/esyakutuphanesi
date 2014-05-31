@@ -3,7 +3,7 @@
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
 
-    <div class="col-md-4 col-md-offset-4">
+    <div class="col-md-6 col-sm-6 col-sm-offset-3 col-md-offset-3">
         <div class="row text-center">{{ social_login('facebook', 'Facebook' )}}</div>
         <div class="row text-center" style="margin:20px auto;">--------------veya--------------</div>
         <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
@@ -18,7 +18,7 @@
           {{ register_user_form.submit(class_='btn btn-success width100')}}
 
         </form>
-        <div class="col-md-12">
+        <div class="col-md-12 col-sm-12">
             Zaten üye misin?
             <a href="/login">
                 <button class="btn btn-default">Giriş Yap</button>

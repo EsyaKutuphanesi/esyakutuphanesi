@@ -6,14 +6,14 @@
 {% block content %}
 
     <div class="row" style="margin:20px auto;">
-        <div class="col-md-5">
+        <div class="col-md-5 col-sm-5">
             {% if user_profile.photo %}
-                <img src="/photos/{{user_profile.photo}}" class="img-responsive">
+                <img src="/photos/{{user_profile.photo}}" class="img-responsive" style="margin:0 auto;">
             {% else %}
                 <img src="/static/images/ek.png" class="img-responsive">
             {% endif %}
         </div>
-        <div class="col-md-6 pull-right">
+        <div class="col-md-6 col-sm-6 pull-right">
             <div class="row">
                 <span class="pull-left" style="font-size:24px; font-weight:500;"> {{user_profile.name}}</span>
                 <div class="pull-right" style=" margin-top:7px;">
@@ -26,11 +26,11 @@
             </div>
             <div class="row" style="margin-top:20px;">
                 <div class="row">
-                    <div class="col-md-6">Geri dönüş yüzdesi</div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-sm-6">Geri dönüş yüzdesi</div>
+                    <div class="col-md-6 col-sm-6">
                         <div class="progress">
-                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{success_rate}}" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                <!--<span class="sr-only">40% Complete (success)</span>-->
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{return_ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{return_ratio}}%">
+                            {% if return_ratio<20 %}<span style="color:black; margin-left:10px;"> {% else %}<span> {% endif %}{{return_ratio}}%</span>
                             </div>
                        </div>
                     </div>

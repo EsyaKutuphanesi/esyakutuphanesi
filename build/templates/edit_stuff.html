@@ -31,7 +31,7 @@
             });
         })
     </script>
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
         {% if is_new %}
         <h2>Eşya Ekle</h2>
         {% else %}
@@ -52,7 +52,7 @@
           {{ render_field_with_errors(form.address) }}
             <div id="new_address">
                 {{ render_field_with_errors(form.address_str) }}
-                <input id ='search' type="button" class="btn" value="Ara" />
+                <input id ='search' type="button" class="btn pull-right" value="Ara" />
                 <div id="map"></div>
                 {{ render_field_with_errors(form.lat) }}
                 {{ render_field_with_errors(form.lng) }}
@@ -62,9 +62,9 @@
             {% if not is_wanted==true %}
                 {{ render_field_with_errors(form.photo) }}
                 {%if stuff%}
-                    <div class="col-md-12">
+                    <div class="col-md-12 col-sm-12">
                         {%for photo in stuff.photos%}
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             <img class="img-responsive" src="/photos/{{photo.filename}}" />
                          </div>
                         {%endfor%}
