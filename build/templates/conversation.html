@@ -1,4 +1,4 @@
-{% from "security/_macros.html" import render_field_with_errors, render_field, render_textarea_with_errors  %}
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_textarea_with_errors, render_radio  %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
@@ -33,6 +33,9 @@
                         <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2)">Geri aldım</button>
                     {% endif%}
                 {%endif%}
+                {% if conversation.request.status == 2%}
+                    <button class="btn btn-warning pull-right" data-toggle="modal" data-target="#reviewModal">Yorum yapmak ister misin?</button>
+                {%endif%}
             </div>
         </div>
     </div>
@@ -54,9 +57,9 @@
         </div>
         <div class="col-md-12 col-sm-12">
             <form action="/conversations/{{ conversation.id }}" method="post">
-                 {{ form.hidden_tag() }}
+                {{ form.hidden_tag() }}
                 <div class="form-group">
-                {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
+                    {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
                 </div>
 
                 {{ form.submit(class_='btn btn-info pull-right')}}
@@ -72,5 +75,30 @@
             </div>
         {% endfor %}
     </div>
+
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Değerlendir</h4>
+            </div>
+            <form action="/review" method="post">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ render_radio(review_form.rating) }}
+                </div>
+                <div class="form-group">
+                    {{ render_field_with_errors(review_form.comment, label_visible=False, placeholder=review_form.comment.label.text) }}
+                </div>{{ render_field_with_errors(review_form.request_id) }}
+                <div class="modal-footer">
+                    {{ form.submit(class_='btn btn-info pull-right')}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 

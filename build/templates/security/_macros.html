@@ -21,6 +21,17 @@
     </div>
 {%- endmacro %}
 
+{% macro render_radio(field, label_visible=false) -%}
+<div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+
+    {% for subfield in field %}
+    <span class="checkbox-inline">
+        {{ subfield }}{{ subfield.label }}
+    </span>
+    {% endfor %}
+</div>
+{%- endmacro %}
+
 {% macro show_provider_button(provider_id, display_name, conn) %}
     {% if conn %}
         <form action="{{ url_for('social.remove_connection', provider_id=conn.provider_id, provider_user_id=conn.provider_user_id) }}" method="DELETE">

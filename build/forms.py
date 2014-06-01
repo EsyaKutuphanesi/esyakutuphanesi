@@ -2,7 +2,7 @@
 from flask_security.forms import RegisterForm
 from flask.ext.wtf import Form
 from wtforms import TextField, HiddenField, PasswordField, validators, SubmitField
-from wtforms import TextAreaField, SelectField, FileField
+from wtforms import TextAreaField, SelectField, FileField, RadioField
 from wtforms.validators import Required
 
 from models import User
@@ -179,6 +179,29 @@ class CreateGroupForm(Form):
         validators.Length(min=0, max=1000),
         validators.Required()
     ])
+
+    submit = SubmitField(u"Gönder")
+
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        return True
+
+class ReviewForm(Form):
+    comment = TextAreaField(u'Yorum', [
+        validators.Length(min=2, max=1000)
+    ])
+
+    rating = RadioField(u'Puan', coerce=int,
+                        choices=[(1, u'1'),
+                                 (2, u'2'),
+                                 (3, u'3'),
+                                 (4, u'4'),
+                                 (5, u'5')])
+
+    request_id = HiddenField()
 
     submit = SubmitField(u"Gönder")
 

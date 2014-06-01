@@ -275,5 +275,28 @@ class Invitations(db.Model):
     message = db.Column(db.String(1000))
     datetime = db.Column(db.DateTime, default=datetime.now)
 
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', backref='reviews', foreign_keys=[user_id])
+    reviewed_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    reviewed_user = db.relationship('User', backref='reviews_about', foreign_keys=[reviewed_user_id])
+    request_id = db.Column(db.Integer, db.ForeignKey('request.id'))
+    request = db.relationship('Request', backref='reviews')
+    comment = db.Column(db.String(1000))
+    rating = db.Column(db.Integer)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+
+    def __repr__(self):
+        return self.txt
+
+    @property
+    def admin_url(self):
+        return "%s/%s/%s" % (app.config['ADMIN_URL'], 'review', self.id)
+
+    @property
+    def url(self):
+        return "%s/%s/" % ('review', self.id)
+
 users = SQLAlchemyUserDatastore(db, User, Role)
 # social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))

@@ -392,6 +392,7 @@ def show_conversation(conversation_id):
         db.session.add(new_message)
         db.session.commit()
     form.message.data = None
+    review_form = ReviewForm()
     if request.args.get('status'):
         status = int(request.args.get('status'))
     else:
@@ -414,9 +415,10 @@ def show_conversation(conversation_id):
             flash(u'Eşya zaten başkasına verilmiş.')
 
     wanted_stuff = StuffPhoto.query.filter(StuffPhoto.stuff_id == conversation.request.stuff_id).first()
-
+    review_form.request_id.data = conversation.request_id
     return render_template("conversation.html", user=current_user, wanted_stuff=wanted_stuff,
-                           form=form, action='Edit', conversation=conversation)
+                           form=form, action='Edit',
+                           conversation=conversation, review_form=review_form)
 
 @app.route('/make_request/<stuff_id>', methods=['GET', 'POST'])
 @app.route('/make_request', methods=['POST'])
@@ -572,3 +574,26 @@ def invite():
     # mail gelsin tabi burda bize.
 
     return render_template("invite.html", form=form, user=current_user)
+
+@app.route('/review', methods=["GET", "POST"])
+@login_required
+def review():
+    form = ReviewForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+
+        rq = Request.query. \
+            filter(Request.id == form.request_id.data).first()
+        reviewed_user_id = rq.user_id if rq.user_id == current_user.id \
+            else rq.from_user_id
+        new_review = Review(user_id=current_user.id,
+                        reviewed_user_id=reviewed_user_id,
+                        request_id=rq.id,
+                        comment=form.comment.data,
+                        rating=form.rating.data)
+        db.session.add(new_review)
+        db.session.commit()
+        flash(u"Yorumunuz eklendi :)")
+        return redirect('/show_stuff/%s' % rq.stuff_id)
+
+    return redirect(url_for('/'))
