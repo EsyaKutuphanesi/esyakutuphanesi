@@ -572,3 +572,39 @@ def invite():
     # mail gelsin tabi burda bize.
 
     return render_template("invite.html", form=form, user=current_user)
+
+@app.route('/fairytail')
+def fairytail():
+    return render_template("fairytail.html", user=current_user)
+
+@app.route('/purpose')
+def purpose():
+    return render_template("purpose.html", user=current_user)
+
+@app.route('/press')
+def press():
+    return render_template("press.html", user=current_user)
+
+@app.route('/contact')
+def contact():
+    return render_template("contact.html", user=current_user)
+
+@app.route('/companies')
+def companies():
+    return render_template("for_companies.html", user=current_user)
+
+@app.route('/universities')
+def universities():
+    return render_template("for_universities.html", user=current_user)
+
+@app.route('/events')
+def events():
+    return render_template("events.html", user=current_user)
+
+@app.route('/sos')
+def sos():
+    return render_template("sos.html", user=current_user)
+
+@app.route('/privacy_policy')
+def privacy_policy():
+    return render_template("privacy_policy.html", user=current_user)
