@@ -8,8 +8,11 @@
             });
              $("ul#categories").html(htmlString);
         });
-    })
+    });
      function showRequestModal(stuffid, title, owner) {
+         console.log(stuffid);
+         console.log(title);
+         console.log(owner);
          $('#requestModal').modal('show');
          $('#message').val('Merhaba, '+owner+' senden '+title+ ' eşyanı ödünç istiyorum.');
          $('#stuff_id').val(stuffid);

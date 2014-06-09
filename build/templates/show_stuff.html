@@ -25,6 +25,14 @@
                 alert('You clicked in this marker');
             }
         });
+        map.addMarker({
+            lat: {{stuff_address.lat}}+1,
+            lng: {{stuff_address.lng}},
+            title: 'Lima',
+            click: function(e) {
+                alert('You clicked in this marker');
+            }
+        });
     });
 </script>
     <div class="col-md-12 col-sm-12">
