@@ -26,15 +26,21 @@
                 </div>
             </div>
             <div class="col-md-12 col-sm-12">
-                {% if user.id == conversation.request.stuff.owner.id%}
+                {% if conversation.request.stuff.is_wanted == 1 and user.id == conversation.request.from_user_id %}
+                    {% if conversation.request.status == 0%}
+                        <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1)">Ödünç verdim</button>
+                    {% elif conversation.request.status == 1 %}
+                        <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2)">Geri aldım</button>
+                    {% endif %}
+                {% elif conversation.request.stuff.is_wanted == 0 and user.id == conversation.request.stuff.owner.id %}
                     {% if conversation.request.status == 0%}
                         <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1)">Ödünç verdim</button>
                     {% elif conversation.request.status == 1 %}
                         <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2)">Geri aldım</button>
                     {% endif%}
-                {%endif%}
+                {% endif %}
                 {% if conversation.request.status == 2%}
-                    <button class="btn btn-warning pull-right" data-toggle="modal" data-target="#reviewModal">Yorum yapmak ister misin?</button>
+                    <button class="btn btn-success pull-right" data-toggle="modal" data-target="#reviewModal">Yorum yapmak ister misin?</button>
                 {%endif%}
             </div>
         </div>
@@ -86,12 +92,14 @@
             <form action="/review" method="post">
                 {{ form.hidden_tag() }}
 
-                <div class="form-group">
-                    {{ render_radio(review_form.rating) }}
+                <div class="form-group" style="margin: 15px;">
+                    <div name="rating" id="star-area" style="margin-left:8px; margin-top:-4px;"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin:auto 15px;">
                     {{ render_field_with_errors(review_form.comment, label_visible=False, placeholder=review_form.comment.label.text) }}
-                </div>{{ render_field_with_errors(review_form.request_id) }}
+                </div>
+                {{ render_field_with_errors(review_form.request_id) }}
+                <input type="hidden" value="{{conversation.id}}" name="conversation_id"/>
                 <div class="modal-footer">
                     {{ form.submit(class_='btn btn-info pull-right')}}
                 </div>
@@ -99,6 +107,8 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript" charset="utf-8">
+    $('#star-area').raty();
+</script>
 {% endblock %}
 

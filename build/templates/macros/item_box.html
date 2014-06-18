@@ -1,37 +1,44 @@
 {% macro render_item_box(stuff, user, is_wanted=False) -%}
-<div class="col-md-4 col-sm-4 item">
-    <div class="thumbnail">
-        <a href="/show_stuff/{{stuff.id}}">
-            {%if stuff.photos%}
-            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
-            {%else%}
-            <img src="/static/images/ek.png"/>
-            {%endif%}
-        </a>
-        <div class="caption">
+{% if stuff.approved != -1 %}
+    <div class="col-md-4 col-sm-4">
+        <!--item-->
+        <div class="thumbnail">
             <a href="/show_stuff/{{stuff.id}}">
-                <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                {%if stuff.photos%}
+                <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                {%else%}
+                <img src="/static/images/ek.png"/>
+                {%endif%}
             </a>
-            <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
-            <p>
-                {% if stuff.status == 1%}
-                    {% if user.id != stuff.owner_id %}
-                        {% if not is_wanted %}
-                            <button type="button" style="width:100%;" class="btn btn-success" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Ödünç iste</button>
+            <div class="caption">
+                <a href="/show_stuff/{{stuff.id}}">
+                    <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                </a>
+                <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+                <p>
+                {%if user.is_authenticated()%}
+                    {% if stuff.status == 1%}
+                        {% if user.id != stuff.owner_id %}
+                            {% if not is_wanted %}
+                                <button type="button" style="width:100%;" class="btn btn-success" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Ödünç iste</button>
+                            {%else%}
+                                <button type="button" style="width:100%;" class="btn btn-info" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Bende Var!</button>
+                            {%endif%}
                         {%else%}
-                            <button type="button" style="width:100%;" class="btn btn-info" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Bende Var!</button>
+                            {% if stuff.approved==0 %}
+                                <p class="alert-danger">Henüz onaylanmadı.</p>
+                            {% endif %}
+                            <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
                         {%endif%}
-                    {%else%}
-                        {% if stuff.approved==0 %}
-                            <p class="alert-danger">Henüz onaylanmadı.</p>
-                        {% endif %}
-                        <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
-                    {%endif%}
+                    {% else %}
+                            <button type="button" style="width:100%;" class="btn btn-success disabled">Ödünç verildi</button>
+                    {% endif %}
                 {% else %}
-                        <button type="button" style="width:100%;" class="btn btn-success disabled">Ödünç verildi</button>
+                    <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login'">Ödünç iste</button>
                 {% endif %}
-            </p>
+                </p>
+            </div>
         </div>
     </div>
-</div>
+{% endif %}
 {% endmacro %}

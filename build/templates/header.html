@@ -9,12 +9,26 @@
              $("ul#categories").html(htmlString);
         });
     });
-     function showRequestModal(stuffid, title, owner) {
+     function showRequestModal(stuffid, title, owner, is_wanted) {
+         var htmlString = '';
          console.log(stuffid);
          console.log(title);
          console.log(owner);
+         console.log(is_wanted);
+         var title = decodeURI(title);
+
+         if (is_wanted=="True") {
+            $('#message').val('Merhaba, '+owner+' sana '+title+ ' eşyasını ödünç vermek istiyorum.');
+            htmlString += "Ödünç Ver";
+            $("h4.modal-title").html(htmlString);
+            $("button.request-button-in-modal").html(htmlString);
+         } else {
+            $('#message').val('Merhaba, '+owner+' senden '+title+ ' eşyanı ödünç istiyorum.');
+            htmlString += "Ödünç İste";
+            $("h4.modal-title").html(htmlString);
+            $("button.request-button-in-modal").html(htmlString);
+         }
          $('#requestModal').modal('show');
-         $('#message').val('Merhaba, '+owner+' senden '+title+ ' eşyanı ödünç istiyorum.');
          $('#stuff_id').val(stuffid);
          $('#return_url').val(window.location.pathname+window.location.search);
      }

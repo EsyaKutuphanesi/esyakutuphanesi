@@ -75,8 +75,8 @@ stuff_types =  {
                                   u'DVD Oynatıcı', u'Taşınabilir DVD Yazıcı'],
     u'Spor ve Dış Aktiviteler': [u'Bisiklet' ,u'Koşu Bandı',
                                  u'Bisiklet Kaskı', u'Oksijen Tüpü'],
-    u'Kitap': [u'Sosyoloji/Felsefe', u'Tarih/Araştırma',
-               u'Roman/Öykü', u'Teknik Kitaplar'],
+    u'Kitap': [u'Sosyoloji, Felsefe', u'Tarih, Araştırma',
+               u'Roman, Öykü', u'Teknik Kitaplar'],
     u'Müzik': [u'CD',u'Taş Plak',u'Kaset',u'Gitar',u'Flüt',u'Ney']
 }
 

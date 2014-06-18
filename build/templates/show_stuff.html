@@ -41,7 +41,8 @@
             <div class="row">
                 <ol class="breadcrumb">
                     <li><a href="/{{stuff.category.url}}">{{stuff.category}}</a></li>
-                    <li><a href="/{{stuff.stuff_type.url}}">{{stuff.stuff_type}}</a></li>
+                    <li><a href="/{{stuff.category.url}}type/{{stuff.stuff_type}}">{{stuff.stuff_type}}</a></li>
+                    <!--{{stuff.stuff_type.url}}-->
                     <span style="margin-right:20px;"></span>
                     {%for tag in stuff.tags%}
                         <span class="label label-warning">{{tag}}</span>
@@ -67,14 +68,18 @@
 
         </div>
         <div class="col-md-4 pull-right col-sm-4" style="margin-top:25px;">
-            {% if not stuff.owner_id == user.id %}
-                {% if stuff.is_wanted %}
-                    <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Bende var!</button>
+            {%if user.is_authenticated()%}
+                {% if not stuff.owner_id == user.id %}
+                    {% if stuff.is_wanted %}
+                        <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Bende var!</button>
+                    {% else %}
+                        <button type="button" class="btn btn-success" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Ödünç iste</button>
+                    {% endif %}
                 {% else %}
-                    <button type="button" class="btn btn-success" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title}}','{{stuff.owner}}')">Ödünç iste</button>
+                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
                 {% endif %}
             {% else %}
-                <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
+                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login'">Ödünç iste</button>
             {% endif %}
 
             <div class="row" style="margin:10px 0px;">
@@ -105,40 +110,21 @@
         <div id="map" style="height: 200px;"></div>
     </div>
 
-    <div class="col-md-12 col-sm-12">
-        <h3 style="margin: 60px auto 30px;">Değerlendirmeler</h3>
-
-<!--        <div class="media">
-            <a class="pull-left" href="#">
-            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSIjZWVlIj48L3JlY3Q+PHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzIiIHk9IjMyIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEycHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9zdmc+" style="width: 64px; height: 64px;">
-            </a>
-            <div class="media-body">
-                <div class="input-group">
-                  <input type="text" class="form-control" style="height:64px;">
-                  <span class="input-group-btn" >
-                    <button class="btn btn-default" type="button" style="height:64px;">Gönder</button>
-                  </span>
+    {% if reviews[0]%}
+        <div class="col-md-12 col-sm-12">
+            <h3 style="margin: 60px auto 30px;">Değerlendirmeler</h3>
+            {% for review in reviews %}
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="/photos/{{review.user.photo}}" style="width: 64px; height: 64px;">
+                </a>
+                <div class="media-body">
+                    <a href="/profile/{{review.user.id}}"><span style="font-weight:bold;">{{review.user.name}}</span></a> {{review.comment}}
                 </div>
             </div>
-        </div>-->
-
-        <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="" style="width: 64px; height: 64px;">
-          </a>
-          <div class="media-body">
-            <a href="#"><span style="font-weight:bold;">Didem Yeni</span></a> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-          </div>
+            {%endfor%}
         </div>
-        <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="+" style="width: 64px; height: 64px;">
-          </a>
-          <div class="media-body">
-            <a href="#"><span style="font-weight:bold;">Aysu Erdoğdu</span></a> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-          </div>
-        </div>
-
-    </div>
+    {% endif %}
+{{ request_modal(request_form) }}
 {% endblock %}
 

@@ -7,21 +7,17 @@
 
     <div class="row" style="margin:20px auto;">
         <div class="col-md-5 col-sm-5">
-            {% if user_profile.photo %}
+            <!--{% if user_profile.photo %}-->
                 <img src="/photos/{{user_profile.photo}}" class="img-responsive" style="margin:0 auto;">
-            {% else %}
-                <img src="/static/images/ek.png" class="img-responsive">
-            {% endif %}
+            <!--{% else %}-->
+                <!--<img src="/static/images/ek.png" class="img-responsive">-->
+            <!--{% endif %}-->
         </div>
         <div class="col-md-6 col-sm-6 pull-right">
             <div class="row">
                 <span class="pull-left" style="font-size:24px; font-weight:500;"> {{user_profile.name}}</span>
                 <div class="pull-right" style=" margin-top:7px;">
-                    <span class="glyphicon glyphicon-heart"></span>
-                    <span class="glyphicon glyphicon-heart"></span>
-                    <span class="glyphicon glyphicon-heart"></span>
-                    <span class="glyphicon glyphicon-heart"></span>
-                    <span class="glyphicon glyphicon-heart-empty"></span>
+                    <div name="rating" id="star-area" style="margin-left:8px; margin-top:-4px;"></div>
                 </div>
             </div>
             <div class="row" style="margin-top:20px;">
@@ -86,6 +82,10 @@
             </div>
         {% endif %}
     </div>
-
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+            $('#star-area').raty({ readOnly: true, score: {{rating}} });
+        });
+</script>
 {{ request_modal(request_form) }}
 {% endblock %}

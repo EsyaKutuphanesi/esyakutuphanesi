@@ -46,6 +46,6 @@
 
 {% macro social_login(provider_id, display_name) %}
     <form action="{{ url_for('provider_login', provider_id=provider_id) }}" method="POST">
-        <button type="submit" class="btn" value="Login with {{ display_name }}" style="color:white; background-color:#3c599f;">Facebook ile bağlan</button>
+        <button type="submit" class="btn" value="Login with {{ display_name }}" style="color:white; background-color:#3c599f; width: 90%;">Facebook ile bağlan</button>
     </form>
 {% endmacro %}

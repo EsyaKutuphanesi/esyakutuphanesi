@@ -64,11 +64,12 @@ class EditStuffForm(Form):
     ])
     detail = TextAreaField(u'Detaylar', [
         validators.Length(min=0, max=1000),
-        validators.Required()
+        # validators.Required()
     ])
     address = SelectField(u'Adres', coerce=int, validators=[validators.Required()])
     group = SelectField(u'Grup', coerce=int, validators=[validators.Required()])
     submit = SubmitField("Kaydet")
+    delete = SubmitField("Eşyayı kaldır")
     tags = TextField(u'Etiketler',[
         validators.Length(min=0, max=255)
     ])
@@ -106,7 +107,7 @@ class EditStuffForm(Form):
                 return False
         return True
 
-class SeachForm(Form):
+class SearchForm(Form):
     stuff = TextField(u'Ne arıyorsun?', [
         validators.Length(min=0, max=255)
     ])
@@ -153,7 +154,7 @@ class InvitationForm(Form):
         return True
 
 class RequestForm(Form):
-    message = TextField(u'Mesaj yaz', [
+    message = TextAreaField(u'Mesaj yaz', [
         validators.Length(min=0, max=1000),
         validators.Required()
     ])
@@ -166,6 +167,7 @@ class RequestForm(Form):
     unit = SelectField('', coerce=int, choices=[(1, u'Gün'),
                                                 (7, u'Hafta')])
     stuff_id = HiddenField()
+    is_wanted = HiddenField()
 
     submit = SubmitField(u"Gönder")
 
@@ -191,15 +193,15 @@ class CreateGroupForm(Form):
 
 class ReviewForm(Form):
     comment = TextAreaField(u'Yorum', [
-        validators.Length(min=2, max=1000)
+        validators.Length(min=2, max=1000),
     ])
 
-    rating = RadioField(u'Puan', coerce=int,
-                        choices=[(1, u'1'),
-                                 (2, u'2'),
-                                 (3, u'3'),
-                                 (4, u'4'),
-                                 (5, u'5')])
+    # rating = RadioField(u'Puan', coerce=int,
+    #                     choices=[(1, u'1'),
+    #                              (2, u'2'),
+    #                              (3, u'3'),
+    #                              (4, u'4'),
+    #                              (5, u'5')])
 
     request_id = HiddenField()
 

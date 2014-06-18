@@ -30,11 +30,24 @@
                 }
             });
         })
+
+        function deleteStuffReq(status){
+            if (confirm("Emin misiniz?")) {
+                window.location = "/edit_stuff/{{stuff.id}}?status="+status;
+            }
+        }
     </script>
+    <div class="row">
+        <ol class="breadcrumb" style="background:none;">
+            <li><a href="/my_stuff">< Eşya kütüphaneme geri dön</a></li>
+        </ol>
+    </div>
     <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+
         {% if is_new %}
         <h2>Eşya Ekle</h2>
         {% else %}
+            <a href="#" onclick="deleteStuffReq(-1)" class="pull-right">Eşyayı kaldır</a>
             {% if not stuff.approved %}
                 <p class="alert-danger">Eşya henüz onaylanmadı.</p>
             {% endif %}
@@ -77,10 +90,7 @@
                 <span class="label label-warning">{{tag}}</span>
             {%endfor%}
             <div style="margin-top:20px;">
-                <div class="form-group  ">
-                    <input class="form-control btn-success" id="submit" name="submit" type="submit" value="Kaydet">
-                </div>
-                <!--{{ render_field(form.submit) }}-->
+                {{ form.submit(class_='btn btn-success width100')}}
             </div>
 
         </form>

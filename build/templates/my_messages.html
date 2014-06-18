@@ -22,11 +22,19 @@
                     <a href="/conversations/{{conversation.id}}" class="list-group-item" style="border:0px;">
                         <h4 class="list-group-item-heading">
                             {{conversation.title}}
-<!--                            {% for other_user in conversation.users %}
-                                {% if other_user != user %}
-                                    {{other_user.name}}
+                            {% if conversation.request.user_id == user.id%}
+                                {% if conversation.request.status == 1 %}
+                                    <span class="label label-warning pull-right">Eşyayı ödünç verdin</span>
+                                {% elif conversation.request.status == 2 %}
+                                    <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
                                 {% endif %}
-                            {% endfor %}-->
+                            {% elif conversation.request.from_user_id == user.id %}
+                                {% if conversation.request.status == 1 %}
+                                    <span class="label label-warning pull-right">Eşya sana ödünç verildi</span>
+                                {% elif conversation.request.status == 2 %}
+                                    <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
+                                {% endif %}
+                            {% endif %}
                         </h4>
                         <p class="list-group-item-text">
                             {{conversation.messages[-1]}}

@@ -15,7 +15,7 @@ from setuptools.command.sdist import re_finder
 @app.route('/')
 @app.route('/categories')
 def home():
-    form = SeachForm()
+    form = SearchForm()
     request_form = RequestForm()
     last_objects_shared = Stuff.query.filter(Stuff.approved == 1,
                                              Stuff.is_wanted == 0).order_by(Stuff.id.desc()).limit(8)
@@ -29,7 +29,7 @@ def home():
 
 @app.route('/search')
 def search():
-    form = SeachForm()
+    form = SearchForm()
     request_form = RequestForm()
     last_objects = list()
 
@@ -110,6 +110,16 @@ def edit_stuff(stuff_id=None):
                           for stuff_type in stuff_types]
     form.stuff_type.choices = stuff_type_choices
 
+    if request.args.get('status'):
+        status = int(request.args.get('status'))
+
+        if status:
+            Stuff.query.filter(Stuff.id == stuff_id).\
+                update({Stuff.approved: status})
+            db.session.commit()
+
+            return redirect(url_for('my_stuff'))
+
     if request.method == 'POST':
         category = Category.query.\
             filter(Category.id == form.category.data).first()
@@ -150,20 +160,26 @@ def edit_stuff(stuff_id=None):
                               group_id=form.group.data,
                               is_wanted=form.is_wanted.data == 'True')
                 db.session.add(stuff)
-                flash(u"Eşya kaydedildi.")
 
-            photo_file = form.photo.data
-            if photo_file:
-                file_ext = get_file_extension(photo_file.filename)
-                generated_name = str(uuid.uuid1())+'.'+file_ext
-                filepath = os.path.join(app.config['UPLOADS_FOLDER'],
-                                        generated_name)
-                photo_file.save(filepath)
+                photo_file = form.photo.data
+
+                if photo_file:
+                    file_ext = get_file_extension(photo_file.filename)
+                    generated_name = str(uuid.uuid1())+'.'+file_ext
+                    filepath = os.path.join(app.config['UPLOADS_FOLDER'],
+                                            generated_name)
+                    photo_file.save(filepath)
+                else:
+                    generated_name = str(form.category.data)+'.jpg'
+
                 new_photo = StuffPhoto(owner=current_user,
                                        filename=generated_name,
                                        stuff=stuff)
                 db.session.add(new_photo)
                 db.session.commit()
+
+                flash(u"Eşya kaydedildi.")
+
             tags = form.tags.data.split(',')
             for t in tags:
                 if t > '':
@@ -226,10 +242,15 @@ def get_categories(type_id=None):
 
 @app.route('/show_stuff/<stuff_id>')
 def show_stuff(stuff_id):
+    request_form = RequestForm()
+    is_wanted = request.args.get('is_wanted')
+
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
     stuff_address = Address.query.filter(Address.id == stuff.address_id).first()
+    reviews = Review.query.filter(Review.request_id == Request.id, Request.stuff_id == stuff_id)
 
-    return render_template("show_stuff.html", stuff_address=stuff_address, user=current_user, stuff=stuff)
+    return render_template("show_stuff.html", stuff_address=stuff_address, user=current_user,
+                           request_form=request_form, is_wanted=is_wanted, stuff=stuff, reviews=reviews)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -397,7 +418,8 @@ def show_conversation(conversation_id):
         status = int(request.args.get('status'))
     else:
         status = 0
-    if status > 0 and conversation.request.stuff.owner == current_user:
+    if status > 0 and \
+            (conversation.request.stuff.owner == current_user or conversation.request.from_user_id == current_user.id):
         if conversation.request.stuff.status == 1:
             if status == 1 and conversation.request.status == 0:
                 flash(u'Eşyayı vermeyi kabul ettiniz.')
@@ -432,28 +454,44 @@ def make_request(stuff_id=None):
         stuff_id = form.stuff_id.data
         duration = int(form.duration.data)
         unit = int(form.unit.data)
-        if stuff_id is None or not (stuff_id > ''):
-            flash(u'İstek gönderilemedi.');
-            return redirect(return_url)
-        stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
-        new_request = Request(stuff_id=stuff_id,
-                              user_id=current_user.id,
-                              from_user_id=stuff.owner_id,
-                              duration=(duration * unit))
-        db.session.add(new_request)
-        new_conversation = Conversation(title='%s' % stuff.title,
-                                        users=[current_user, stuff.owner],
-                                        request=new_request)
-        db.session.add(new_conversation)
-        new_message = Message(user=current_user,
-                              conversation=new_conversation,
-                              txt=message)
-        db.session.add(new_message)
 
-        db.session.commit()
-        return redirect(url_for('my_messages'))
-    flash(u'İstek gönderilemedi.');
-    return redirect(return_url)
+        address = Address.query.filter(Address.user_id == current_user.id).first()
+
+        if address:
+            if stuff_id is None or not (stuff_id > ''):
+                flash(u'İstek gönderilemedi.')
+                return redirect(return_url)
+            stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
+
+            if stuff.is_wanted == 1:
+                user_id = stuff.owner_id
+                from_user_id = current_user.id
+            else:
+                user_id = current_user.id
+                from_user_id = stuff.owner_id
+
+            new_request = Request(stuff_id=stuff_id,
+                                  user_id=user_id,
+                                  from_user_id=from_user_id,
+                                  duration=(duration * unit))
+            db.session.add(new_request)
+            new_conversation = Conversation(title='%s' % stuff.title,
+                                            users=[current_user, stuff.owner],
+                                            request=new_request)
+            db.session.add(new_conversation)
+            new_message = Message(user=current_user,
+                                  conversation=new_conversation,
+                                  txt=message)
+            db.session.add(new_message)
+
+            db.session.commit()
+            return redirect(url_for('my_messages'))
+        else :
+            flash(u'Ödünç istemek için adres girmelisin.')
+            return redirect(return_url)
+    else:
+        flash(u'İstek gönderilemedi. Kaç gün için ödünç istediğini girmelisin.')
+        return redirect(return_url)
 
 @app.route('/moderation')
 @login_required
@@ -497,6 +535,18 @@ def get_profile(user_id):
     user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 0, Stuff.approved == 1).limit(8)
     user_stuff_wanted = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 1, Stuff.approved == 1).limit(8)
 
+    reviews = Review.query.filter(Review.reviewed_user_id == user_id)
+    reviews_count = reviews.count()
+
+    total_rating = 0
+    if reviews_count>0:
+        for review in reviews:
+            if review.rating:
+                total_rating += review.rating
+        avg_rate = total_rating/reviews_count
+    else :
+        avg_rate = 0
+
     users_group = Group.query.join(GroupMembership).\
         filter(GroupMembership.group_id == Group.id,
                GroupMembership.user_id == user_id)
@@ -520,13 +570,12 @@ def get_profile(user_id):
         return_ratio = 0
 
     return render_template("profile.html", user_stuff_shared=user_stuff_shared, user_stuff_wanted=user_stuff_wanted,
-                           users_group=users_group, user_profile=user_profile, user=current_user,
+                           users_group=users_group, user_profile=user_profile, user=current_user, rating=avg_rate,
                            request_form=request_form, return_ratio=return_ratio)
 
 @app.route('/groups', methods=['GET', 'POST'])
 @login_required
 def groups():
-
     form = CreateGroupForm()
     if request.method == 'POST' and form.validate_on_submit():
         group_info = Group(name=request.form.get('group_name'),
@@ -579,24 +628,28 @@ def invite():
 @login_required
 def review():
     form = ReviewForm()
+    conversation_id = request.form.get('conversation_id')
 
     if request.method == 'POST' and form.validate_on_submit():
+        rating=request.form.get('rate')
 
         rq = Request.query. \
             filter(Request.id == form.request_id.data).first()
         reviewed_user_id = rq.user_id if rq.user_id == current_user.id \
             else rq.from_user_id
+
         new_review = Review(user_id=current_user.id,
                         reviewed_user_id=reviewed_user_id,
                         request_id=rq.id,
                         comment=form.comment.data,
-                        rating=form.rating.data)
+                        rating=rating)
         db.session.add(new_review)
         db.session.commit()
         flash(u"Yorumunuz eklendi :)")
         return redirect('/show_stuff/%s' % rq.stuff_id)
 
-    return redirect(url_for('/'))
+    flash(u"Mesaj alanını boş bıraktınız.")
+    return redirect('/conversations/%s' % conversation_id)
 
 @app.route('/fairytail')
 def fairytail():
