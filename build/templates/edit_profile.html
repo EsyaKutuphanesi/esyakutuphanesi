@@ -18,11 +18,7 @@
             {{ form.hidden_tag() }}
             <div class="col-md-6 col-sm-6">
                 <div class="col-md-12 text-center" style="overflow:hidden; margin-bottom:10px;">
-                    {%if user.photos%}
-                    <img height="250" src="/photos/{{user.photos[-1].filename}}"/>
-                    {%else%}
-                    <img height="250" src="/static/images/ek.png"/>
-                    {%endif%}
+                    <img height="250" src="/photos/{{user.photo}}"/>
                </div>
                 <div class="col-md-12">{{ render_field_with_errors(form.photo) }}</div>
             </div>
