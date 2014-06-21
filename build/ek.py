@@ -28,11 +28,9 @@ app.config.from_pyfile(os.path.dirname(os.path.realpath(__file__)) + '/ek.cfg')
 db = SQLAlchemy(app)
 mail = Mail(app)
 
-from models import *
 from views import *
 from admin import *
-from forms import *
-security = Security(app, users, register_form=ExtendedRegisterForm)
+from oauth_handler import *
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

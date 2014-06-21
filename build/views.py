@@ -1,15 +1,19 @@
 # -*- coding: utf-8 -*-
 import uuid
 import json
-import datetime
-
-from flask import render_template, send_from_directory, flash
-from flask_login import current_user, login_required
-from forms import *
-from oauth_handler import *
 import os.path
-from ek import mail
-from flask.ext.mail import Message
+import datetime
+from flask import render_template, send_from_directory, flash,\
+    url_for, redirect, request
+from flask_login import current_user, login_required
+
+from ek import app, db
+from forms import SearchForm, EditStuffForm, ConversationForm,\
+    CreateGroupForm, EditUserForm, InvitationForm, RequestForm,\
+    ReviewForm
+from models import Address, Category, Conversation,\
+    Group, Invitations, GroupMembership, Message, Photo, Request,\
+    Review, Stuff, StuffPhoto, StuffType, Tag, User
 
 @app.route('/')
 @app.route('/categories')

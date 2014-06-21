@@ -1,15 +1,10 @@
 # coding=utf-8
-from flask_security.forms import RegisterForm
+
 from flask.ext.wtf import Form
 from wtforms import TextField, HiddenField, PasswordField, validators, SubmitField
 from wtforms import TextAreaField, SelectField, FileField, RadioField
-from wtforms.validators import Required
 
 from models import User
-
-class ExtendedRegisterForm(RegisterForm):
-    name = TextField(u'İsim Soyisim', [Required()])
-
 
 class EditUserForm(Form):
     userid = HiddenField('userid');
