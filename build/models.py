@@ -68,7 +68,6 @@ class Address(db.Model):
     name = db.Column(db.String(255), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref="addresses")
-    detail = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
@@ -86,7 +85,7 @@ class Address(db.Model):
 class Stuff(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
-    detail = db.Column(db.String(1000))
+    detail = db.Column(db.String(10000))
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     owner = db.relationship('User', backref='stuff_list')
     address_id = db.Column(db.Integer, db.ForeignKey('address.id'))

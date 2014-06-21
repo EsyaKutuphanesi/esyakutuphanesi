@@ -3,8 +3,8 @@ from flask_oauth import OAuth
 from flask.ext.security import login_user
 from models import *
 
-FACEBOOK_APP_ID = '1478430419047146'
-FACEBOOK_APP_SECRET = 'a4e998278e99029f86abaa2eb4ef95df'
+FACEBOOK_APP_ID = app.config['FACEBOOK_APP_ID'] #'1478430419047146'
+FACEBOOK_APP_SECRET = app.config['FACEBOOK_APP_SECRET']#'a4e998278e99029f86abaa2eb4ef95df'
 
 oauth = OAuth()
 

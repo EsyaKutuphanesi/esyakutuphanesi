@@ -8,20 +8,18 @@ from flask_login import current_user, login_required
 from forms import *
 from oauth_handler import *
 import os.path
-from pip._vendor.distlib._backport.shutil import ReadError
-from setuptools.command.sdist import re_finder
-
+from ek import mail
+from flask.ext.mail import Message
 
 @app.route('/')
 @app.route('/categories')
 def home():
     form = SearchForm()
     request_form = RequestForm()
-    last_objects_shared = Stuff.query.filter(Stuff.approved == 1,
-                                             Stuff.is_wanted == 0).order_by(Stuff.id.desc()).limit(8)
+    last_objects_shared = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == False).order_by(Stuff.id.desc()).limit(8)
     last_objects_wanted = Stuff.query.filter(Stuff.approved == 1,
-                                             Stuff.is_wanted == 1).order_by(Stuff.id.desc()).limit(8)
-
+                                             Stuff.is_wanted == True).order_by(Stuff.id.desc()).limit(8)
+    
     return render_template("index.html", user=current_user,
                            last_objects_wanted=last_objects_wanted,
                            last_objects_shared=last_objects_shared,
@@ -151,13 +149,14 @@ def edit_stuff(stuff_id=None):
                 stuff.is_wanted = form.is_wanted.data == 'True'
                 flash(u"Eşya güncellendi.")
             else:
+                group_id = None if form.group.data == -1 else form.group.data
                 stuff = Stuff(title=form.title.data,
                               detail=form.detail.data,
                               stuff_address=address,
                               owner=current_user,
                               category_id=form.category.data,
                               type_id=form.stuff_type.data,
-                              group_id=form.group.data,
+                              group_id=group_id,
                               is_wanted=form.is_wanted.data == 'True')
                 db.session.add(stuff)
 
