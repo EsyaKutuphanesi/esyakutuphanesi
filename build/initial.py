@@ -81,9 +81,10 @@ stuff_types =  {
 for category in categories:
     new_category = Category(name=category)
     db.session.add(new_category)
-    for stuff_type in stuff_types[category]:
-        new_type = StuffType(name=stuff_type)
-        db.session.add(new_type)
-        new_category.type_list.append(new_type)
+    if category in stuff_types:
+        for stuff_type in stuff_types[category]:
+            new_type = StuffType(name=stuff_type)
+            db.session.add(new_type)
+            new_category.type_list.append(new_type)
 
 db.session.commit()
