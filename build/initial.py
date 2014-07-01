@@ -10,6 +10,7 @@ roles = {'admin': 'admin',
          'moderator': 'moderator'
          }
 # şifre 3 kere ek
+"""
 users_list = [
     {'email': 'yigiit@gmail.com',
      'password': "$5$rounds=80000$Yj2S6AtoBQ7mOmuZ$gevIsEG8fTUw92bAfRJw9YQxdyq.0VRkKB3xvoi3cb/",
@@ -24,15 +25,13 @@ users_list = [
      'password': "$5$rounds=80000$Yj2S6AtoBQ7mOmuZ$gevIsEG8fTUw92bAfRJw9YQxdyq.0VRkKB3xvoi3cb/",
      'name': 'ayse', 'roles': [roles['admin']]},
     ]
-
 """
-adress_list = [
-    {'lat':'40.996427', 'lng':'29.033614','user':['umutcan']}
+users_list = [
+    {'email': 'bilgi@esyakutuphanesi.com',
+     'password': "$5$rounds=80000$Yj2S6AtoBQ7mOmuZ$gevIsEG8fTUw92bAfRJw9YQxdyq.0VRkKB3xvoi3cb/",
+     'name': 'admin', 'roles': [roles['admin']]}
 ]
-addresses = {
-    'umutcan':[{'lat':'40.996427', 'lng':'29.033614','name':'acibadem','detail':u'acıbadem mh. ömer cemalbey sokak istanbul'}]
-}
-"""
+
 db.create_all()
 
 for role_name in roles.values():
@@ -55,18 +54,6 @@ for user in users_list:
     db.session.add(new_user)
 
 db.session.commit()
-"""
-for email in addresses:
-    owner = User.query.filter(User.email==email).one()
-    for address in addresses[email]:
-        new_address = Address(user=owner,
-                              lat=address.get('lat'),
-                              lng=address.get('lng'),
-                              detail=unicode(address.get('detail')),
-                              name=address.get('name'))
-    db.session.add(new_address)
-"""
-db.session.commit()
 
 categories = [u'Bebek ve çocuk', u'Doğada ve sporda', u'Elektronik', u'Giysi dolabı', u'Hırdavat', u'Keyiflik',
               u'Kütüphane', u'Mobilya', u'Mutfak']
@@ -86,5 +73,9 @@ for category in categories:
             new_type = StuffType(name=stuff_type)
             db.session.add(new_type)
             new_category.type_list.append(new_type)
+    else:
+        new_type = StuffType(name=category)
+        db.session.add(new_type)
+        new_category.type_list.append(new_type)
 
 db.session.commit()
