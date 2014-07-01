@@ -156,7 +156,8 @@ def edit_stuff(stuff_id=None):
                 stuff.category_id = form.category.data
                 stuff.type_id = form.stuff_type.data
                 stuff.is_wanted = form.is_wanted.data == 'True'
-                flash(u"Eşya güncellendi.")
+                flash(u"Eşya güncellen"
+                      u"di.")
             else:
                 group_id = None if form.group.data == -1 else form.group.data
                 stuff = Stuff(title=form.title.data,
