@@ -8,7 +8,7 @@
           <li><a href="/edit_profile">Ayarlar</a></li>
           <li class="active"><a href="/my_messages">Mesajlar</a></li>
           <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
-          <li><a href="/groups">Gruplarım</a></li>
+          <!--<li><a href="/groups">Gruplarım</a></li>-->
           <li><a href="/invite">Davet Et</a></li>
         </ul>
     </div>
@@ -24,13 +24,13 @@
                             {{conversation.title}}
                             {% if conversation.request.user_id == user.id%}
                                 {% if conversation.request.status == 1 %}
-                                    <span class="label label-warning pull-right">Eşyayı ödünç verdin</span>
+                                    <span class="label label-warning pull-right">Eşya sana ödünç verildi</span>
                                 {% elif conversation.request.status == 2 %}
                                     <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
                                 {% endif %}
                             {% elif conversation.request.from_user_id == user.id %}
                                 {% if conversation.request.status == 1 %}
-                                    <span class="label label-warning pull-right">Eşya sana ödünç verildi</span>
+                                    <span class="label label-warning pull-right">Eşyayı ödünç verdin</span>
                                 {% elif conversation.request.status == 2 %}
                                     <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
                                 {% endif %}

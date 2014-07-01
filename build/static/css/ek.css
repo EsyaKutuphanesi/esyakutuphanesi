@@ -131,8 +131,38 @@ margin-top: 20px;
     width:100%;
     margin:10px auto;
 }
+
+.specialstyle {
+    margin-top:50px;
+}
+
+.displaywhen767 {
+    display:none;
+}
+
 @media (min-width: 992px) and (max-width:1200px) {
   .nodisplay {
     display: none !important;
   }
+}
+@media (min-width: 320px) and (max-width:767px) {
+    .displaywhen767 {
+        display:block !important;
+    }
+    .hideInfo {
+        display: none !important;
+    }
+}
+@media (min-width: 320px) and (max-width:991px) {
+  .nodisplay600 {
+    display: none !important;
+  }
+  .specialstyle {
+    margin-top:0px !important;
+  }
+}
+@media (min-width: 320px) and (max-width:599px) {
+   #hideInfo {
+        display: none !important;
+    }
 }

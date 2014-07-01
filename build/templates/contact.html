@@ -1,5 +1,32 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_textarea_with_errors  %}
 {% extends "layout.html" %}
 {%block title%}Esya Kutuphanesi{%endblock%}
 {% block content %}
 
+    <div class="col-md-5 col-sm-6 col-xs-12 specialstyle">
+        <h5>Mektup adresi</h5>
+        <address>
+          <strong>Eşya Kütüphanesi</strong><br>
+          Büyükdere Caddesi Ecza Sokak Safter İş Merkesi No:6<br>
+          Levent İstanbul<br>
+        </address>
+
+        <address>
+          <strong>E-posta adresi</strong><br>
+          <a href="#">bilgi@esyakutuphanesi.com</a>
+          <!--mailto:-->
+        </address>
+    </div>
+    <div class="nodisplay600 col-md-7 text-center">
+        <img class="nodisplay600" src="/photos/biz.jpg"/>
+    </div>
+    <div class="col-md-7 col-sm-6 col-xs-12">
+        <h5>Bize e-posta gönder :)</h5>
+        <form action="{{url_for('contact')}}" method="POST" name="contact_form" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ render_field_with_errors(form.user_email, label_visible=False, placeholder=form.user_email.label.text) }}
+            {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
+            {{ form.submit(class_='btn btn-success pull-right')}}
+        </form>
+    </div>
 {% endblock %}

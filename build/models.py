@@ -1,7 +1,11 @@
+# coding=utf-8
 from datetime import datetime
 
 from flask.ext.security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Security
 from ek import app, db
+from flask_security.forms import RegisterForm
+from wtforms.validators import Required
+from wtforms import TextField
 
 roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
@@ -68,7 +72,6 @@ class Address(db.Model):
     name = db.Column(db.String(255), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref="addresses")
-    detail = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
@@ -86,7 +89,7 @@ class Address(db.Model):
 class Stuff(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
-    detail = db.Column(db.String(1000))
+    detail = db.Column(db.String(10000))
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     owner = db.relationship('User', backref='stuff_list')
     address_id = db.Column(db.Integer, db.ForeignKey('address.id'))
@@ -300,3 +303,8 @@ class Review(db.Model):
 
 users = SQLAlchemyUserDatastore(db, User, Role)
 # social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
+
+class ExtendedRegisterForm(RegisterForm):
+    name = TextField(u'İsim Soyisim', [Required()])
+
+security = Security(app, users, register_form=ExtendedRegisterForm)

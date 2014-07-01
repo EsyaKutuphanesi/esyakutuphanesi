@@ -8,7 +8,7 @@
           <li class="active"><a href="/edit_profile">Ayarlar</a></li>
           <li><a href="/my_messages">Mesajlar</a></li>
           <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
-          <li><a href="/groups">Gruplarım</a></li>
+          <!--<li><a href="/groups">Gruplarım</a></li>-->
           <li><a href="/invite">Davet Et</a></li>
         </ul>
     </div>
@@ -16,23 +16,25 @@
     <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
         <form action="{{ url_for('edit_profile') }}" method="POST" name="edit_user_form" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="col-md-12 text-center" style="overflow:hidden; margin-bottom:10px;">
                     <img height="250" src="/photos/{{user.photo}}"/>
                </div>
                 <div class="col-md-12">{{ render_field_with_errors(form.photo) }}</div>
             </div>
 
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-6 col-sm-6 col-xs-12">
               {{ render_field_with_errors(form.name) }}
               {{ render_field_with_errors(form.email) }}
               {{ render_field_with_errors(form.phone_number) }}
               {{ render_field_with_errors(form.about) }}
-              {{ form.submit(class_='btn btn-success pull-right')}}
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                {{ form.submit(class_='btn btn-success pull-right')}}
+              </div>
             </div>
         </form>
-        <div class="col-md-12">
-            <div class="col-md-6 col-sm-6">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
                 <h3>Adreslerim</h3>
                 {%for address in user.addresses%}
                     <p>{{address.detail}}</p>

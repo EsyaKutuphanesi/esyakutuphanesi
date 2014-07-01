@@ -7,16 +7,16 @@
 
     <div class="row" style="margin:20px auto;">
         <div class="col-md-5 col-sm-5">
-            <img src="/photos/{{user_profile.photo}}" class="img-responsive" style="margin:0 auto;">
+            <img src="/photos/{{user_profile.photo}}" class="img-responsive" style="margin:0 auto; max-height:400px;">
         </div>
-        <div class="col-md-6 col-sm-6 pull-right">
-            <div class="row">
-                <span class="pull-left" style="font-size:24px; font-weight:500;"> {{user_profile.name}}</span>
-                <div class="pull-right" style=" margin-top:7px;">
-                    <div name="rating" id="star-area" style="margin-left:8px; margin-top:-4px;"></div>
+        <div class="col-md-6 col-sm-7 pull-right">
+            <div class="row col-xs-12">
+                <span class="text-left" style="font-size:24px; font-weight:500;"> {{user_profile.name}}</span>
+                <div class="pull-right popover-dismiss" style=" margin-top:7px;" id="popover-area" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Diğer kullanıcıların ödünç alıp/verme süreci ile ilgili değerlendirmesi.">
+                    <div name="rating" id="star-area"></div>
                 </div>
             </div>
-            <div class="row" style="margin-top:20px;">
+            <div class="row col-xs-12" style="margin-top:20px;">
                 <div class="row">
                     <div class="col-md-6 col-sm-6">Geri dönüş yüzdesi</div>
                     <div class="col-md-6 col-sm-6">
@@ -28,11 +28,11 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style="margin-top:10px;">
+            <div class="row col-xs-12" style="margin-top:10px;">
                 <h4>Sevdikleri</h4>
                 <div>{% if user_profile.about %}{{user_profile.about}}{% else %}-{% endif %}</div>
             </div>
-            <div class="row" style="margin-top:10px;">
+<!--            <div class="row" style="margin-top:10px;">
                 <h4>Grupları</h4>
                 {%  if users_group[0] %}
                    |{% for groups in users_group %}
@@ -41,7 +41,7 @@
                 {% else %}
                     <span>-</span>
                 {% endif %}
-            </div>
+            </div>-->
         </div>
     </div>
     <div class="row">
@@ -79,8 +79,11 @@
         {% endif %}
     </div>
 <script type="text/javascript" charset="utf-8">
-    $(document).ready(function(){
-            $('#star-area').raty({ readOnly: true, score: {{rating}} });
+    $(function(){
+        $('#star-area').raty({readOnly: true, start:{{rating}}});
+        });
+    $(function(){
+        $('#popover-area').popover('toogle')
         });
 </script>
 {{ request_modal(request_form) }}

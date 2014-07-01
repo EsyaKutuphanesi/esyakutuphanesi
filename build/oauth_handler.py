@@ -1,7 +1,9 @@
 from flask import url_for, request, session, redirect
 from flask_oauth import OAuth
 from flask.ext.security import login_user
-from models import *
+from models import users, Connection, User
+from ek import app, db
+import os
 
 import urllib
 import uuid
@@ -51,10 +53,6 @@ def facebook_authorized(resp):
     profile_picture = 'https://graph.facebook.com/'+data['id']+'/picture?width=1000'
     # profile_picture = facebook.get('/me/picture').data
 
-    generated_name = str(uuid.uuid1())+'.jpg'
-
-    urllib.urlretrieve(profile_picture, 'static/photos/'+generated_name )
-
     if 'id' in data and 'name' in data \
         and 'email' in data and 'link' in data:
 
@@ -65,14 +63,30 @@ def facebook_authorized(resp):
         profile_url = data['link']
         # profile_picture = profile_picture['url']
 
+        generated_name = str(uuid.uuid1())+'.jpg'
+
         user = User.query.filter(User.email == user_email).first()
         if not user:
             user = users.create_user(name=name,
                                      email=user_email,
-                                     photo=generated_name,
                                      password=None,
                                      active=True)
             users.commit()
+
+            current_user_id = str(user.id)
+            folder_path = app.config['UPLOADS_FOLDER']+'/user/'+current_user_id+'/'
+            new_folder = os.path.dirname(folder_path)
+            if not os.path.exists(new_folder):
+                os.makedirs(new_folder)
+
+            filepath = os.path.join(folder_path,generated_name)
+            urllib.urlretrieve(profile_picture, filepath)
+
+            new_photo = 'user/'+current_user_id+'/'+generated_name
+
+            User.query.filter(User.id == user.id).\
+                    update({User.photo: new_photo})
+
         connection = Connection.query.filter(Connection.user_id == user.id,
                                              Connection.provider_id == 'facebook').first()
         if not connection:

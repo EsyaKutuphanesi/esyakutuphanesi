@@ -68,16 +68,14 @@ for email in addresses:
 """
 db.session.commit()
 
-categories = [u'Elektronik ve Bilgisayar', u'Spor ve Dış Aktiviteler',
-              u'Kitap', u'Müzik']
+categories = [u'Bebek ve çocuk', u'Doğada ve sporda', u'Elektronik', u'Giysi dolabı', u'Hırdavat', u'Keyiflik',
+              u'Kütüphane', u'Mobilya', u'Mutfak']
 stuff_types =  {
-    u'Elektronik ve Bilgisayar': [u'Tablet', u'HDD',
-                                  u'DVD Oynatıcı', u'Taşınabilir DVD Yazıcı'],
-    u'Spor ve Dış Aktiviteler': [u'Bisiklet' ,u'Koşu Bandı',
-                                 u'Bisiklet Kaskı', u'Oksijen Tüpü'],
-    u'Kitap': [u'Sosyoloji, Felsefe', u'Tarih, Araştırma',
-               u'Roman, Öykü', u'Teknik Kitaplar'],
-    u'Müzik': [u'CD',u'Taş Plak',u'Kaset',u'Gitar',u'Flüt',u'Ney']
+    u'Doğada ve Sporda': [u' Hayvan dostu', u'Spor malzemeleri', u'Ulaşım', u'Yolda'],
+    u'Elektronik': [u'Ev elektroniği' ,u'Bilgisayar', u'Beyaz eşya', u'Telefon'],
+    u'Giysi dolabı': [u'Ayakkabı', u'Giysi', u'Gelinlik', u'Özel günlerde'],
+    u'Keyiflik': [u'Film',u'Müzik',u'Oyun',u'Konsol oyunları'],
+    u'Kütüphane': [u'Roman', u'Dergi', u'Teknik kitap']
 }
 
 for category in categories:

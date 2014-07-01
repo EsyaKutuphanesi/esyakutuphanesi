@@ -36,7 +36,7 @@
     });
 </script>
     <div class="col-md-12 col-sm-12">
-        <div class="col-md-7 col-sm-8">
+        <div class="col-md-7 col-sm-8 col-xs-8">
            <div class="row"><h1>{{stuff.title}}</h1></div>
             <div class="row">
                 <ol class="breadcrumb">
@@ -67,7 +67,7 @@
             </div>
 
         </div>
-        <div class="col-md-4 pull-right col-sm-4" style="margin-top:25px;">
+        <div class="col-md-4 pull-right col-sm-4 col-xs-4" style="margin-top:25px;">
             {%if user.is_authenticated()%}
                 {% if not stuff.owner_id == user.id %}
                     {% if stuff.is_wanted %}
@@ -90,22 +90,18 @@
                 {% endif %}
             </div>
             <div class="row" style=" margin: auto auto 10px;">
-                <div style="font-size:14px; float:left;">
-                    <a href="/profile/{{stuff.owner.id}}">{{stuff.owner.name}}</a> paylaştı.
+                <div class="text-right">
+                    <a href="/profile/{{stuff.owner.id}}">{{stuff.owner.name}}</a> ödünç {% if stuff.is_wanted %}istiyor.{% else %} veriyor.{% endif %}
                 </div>
-                <div style="float:right;">
-                    <span class="glyphicon glyphicon-heart"></span>
-                    <span class="glyphicon glyphicon-heart"></span>
-                    <span class="glyphicon glyphicon-heart"></span>
-                    <span class="glyphicon glyphicon-heart"></span>
-                    <span class="glyphicon glyphicon-heart-empty"></span>
+                <div class="pull-right">
+                    <div name="rating" id="star-area" style="margin-top:10px;"></div>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <div class="col-md-12 col-sm-12">
+    <div class="col-md-12 col-sm-12 col-xs-12">
         <h3 style="margin-bottom:10px;">Paylaşımın adresi:</h3>
         <div id="map" style="height: 200px;"></div>
     </div>
@@ -125,6 +121,13 @@
             {%endfor%}
         </div>
     {% endif %}
+
+<script type="text/javascript" charset="utf-8">
+    $(function(){
+        $('#star-area').raty({readOnly: true, start:{{rating}} });
+        });
+</script>
+
 {{ request_modal(request_form) }}
 {% endblock %}
 

@@ -22,7 +22,8 @@
         <div class="row">
             <div class="row" style="margin:10px auto;">
                 <div class="col-md-12 col-sm-12 text-right" style="font-size:14px;">
-                    <a href="/profile/{{conversation.request.stuff.owner.id}}">{{conversation.request.stuff.owner.name}}</a> paylaştı.
+                    <a href="/profile/{{conversation.request.stuff.owner.id}}">{{conversation.request.stuff.owner.name}}</a>
+                    ödünç {% if conversation.request.stuff.is_wanted %}istiyor.{% else %} veriyor.{% endif %}
                 </div>
             </div>
             <div class="col-md-12 col-sm-12">

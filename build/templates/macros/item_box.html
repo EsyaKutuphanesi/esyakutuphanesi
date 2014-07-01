@@ -1,6 +1,6 @@
 {% macro render_item_box(stuff, user, is_wanted=False) -%}
 {% if stuff.approved != -1 %}
-    <div class="col-md-4 col-sm-4">
+    <div class="item col-md-4 col-sm-4 col-xs-12">
         <!--item-->
         <div class="thumbnail">
             <a href="/show_stuff/{{stuff.id}}">

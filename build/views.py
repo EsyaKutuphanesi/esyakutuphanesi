@@ -1,26 +1,33 @@
 # -*- coding: utf-8 -*-
 import uuid
 import json
-import datetime
-
-from flask import render_template, send_from_directory, flash
+# import os.path
+import os
+from datetime import datetime
+from flask import render_template, send_from_directory, flash,\
+url_for, redirect, request
 from flask_login import current_user, login_required
-from forms import *
-from oauth_handler import *
-import os.path
-from pip._vendor.distlib._backport.shutil import ReadError
-from setuptools.command.sdist import re_finder
 
+from ek import app, db
+from forms import SearchForm, EditStuffForm, ConversationForm,\
+    CreateGroupForm, EditUserForm, InvitationForm, RequestForm,\
+    ReviewForm, ContactForm
+from models import Address, Category, Conversation,\
+    Group, Invitations, GroupMembership, Message, Photo, Request,\
+    Review, Stuff, StuffPhoto, StuffType, Tag, User
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('/404.html', user=current_user), 404
 
 @app.route('/')
 @app.route('/categories')
 def home():
     form = SearchForm()
     request_form = RequestForm()
-    last_objects_shared = Stuff.query.filter(Stuff.approved == 1,
-                                             Stuff.is_wanted == 0).order_by(Stuff.id.desc()).limit(8)
+    last_objects_shared = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == False).order_by(Stuff.id.desc()).limit(8)
     last_objects_wanted = Stuff.query.filter(Stuff.approved == 1,
-                                             Stuff.is_wanted == 1).order_by(Stuff.id.desc()).limit(8)
+                                             Stuff.is_wanted == True).order_by(Stuff.id.desc()).limit(8)
 
     return render_template("index.html", user=current_user,
                            last_objects_wanted=last_objects_wanted,
@@ -151,29 +158,43 @@ def edit_stuff(stuff_id=None):
                 stuff.is_wanted = form.is_wanted.data == 'True'
                 flash(u"Eşya güncellendi.")
             else:
+                group_id = None if form.group.data == -1 else form.group.data
                 stuff = Stuff(title=form.title.data,
                               detail=form.detail.data,
                               stuff_address=address,
                               owner=current_user,
                               category_id=form.category.data,
                               type_id=form.stuff_type.data,
-                              group_id=form.group.data,
+                              group_id=group_id,
                               is_wanted=form.is_wanted.data == 'True')
                 db.session.add(stuff)
+                db.session.commit()
 
                 photo_file = form.photo.data
+
+                stuff_id = str(stuff.id)
 
                 if photo_file:
                     file_ext = get_file_extension(photo_file.filename)
                     generated_name = str(uuid.uuid1())+'.'+file_ext
-                    filepath = os.path.join(app.config['UPLOADS_FOLDER'],
-                                            generated_name)
+
+                    folder_path = app.config['UPLOADS_FOLDER']+'/stuff/'+stuff_id+'/'
+
+                    new_folder = os.path.dirname(folder_path)
+                    if not os.path.exists(new_folder):
+                        os.makedirs(new_folder)
+
+                    filepath = os.path.join(folder_path,generated_name)
                     photo_file.save(filepath)
+
+                    file_new_name = 'stuff/'+stuff_id+'/'+generated_name
+
                 else:
                     generated_name = str(form.category.data)+'.jpg'
+                    file_new_name = generated_name
 
                 new_photo = StuffPhoto(owner=current_user,
-                                       filename=generated_name,
+                                       filename=file_new_name,
                                        stuff=stuff)
                 db.session.add(new_photo)
                 db.session.commit()
@@ -249,7 +270,19 @@ def show_stuff(stuff_id):
     stuff_address = Address.query.filter(Address.id == stuff.address_id).first()
     reviews = Review.query.filter(Review.request_id == Request.id, Request.stuff_id == stuff_id)
 
-    return render_template("show_stuff.html", stuff_address=stuff_address, user=current_user,
+    user_rates = Review.query.filter(Review.reviewed_user_id == stuff.owner_id)
+    rating_count = user_rates.count()
+
+    total_rating = 0
+    if rating_count>0:
+        for rate in user_rates:
+            if rate.rating:
+                total_rating += rate.rating
+        avg_rate = total_rating/rating_count
+    else :
+        avg_rate = 0
+
+    return render_template("show_stuff.html", stuff_address=stuff_address, user=current_user, rating=avg_rate,
                            request_form=request_form, is_wanted=is_wanted, stuff=stuff, reviews=reviews)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
@@ -264,10 +297,18 @@ def edit_profile():
             if photo_file:
                 file_ext = get_file_extension(photo_file.filename)
                 generated_name = str(uuid.uuid1())+'.'+file_ext
-                filepath = os.path.join(app.config['UPLOADS_FOLDER'],
-                                        generated_name)
+
+                current_user_id = str(current_user.id)
+                folder_path = app.config['UPLOADS_FOLDER']+'/user/'+current_user_id+'/'
+                new_folder = os.path.dirname(folder_path)
+                if not os.path.exists(new_folder):
+                    os.makedirs(new_folder)
+
+                filepath = os.path.join(folder_path,generated_name)
+
                 photo_file.save(filepath)
-                new_photo = Photo(owner=current_user, filename=generated_name)
+
+                new_photo = Photo(owner=current_user, filename='user/'+current_user_id+'/'+generated_name)
                 db.session.add(new_photo)
                 db.session.commit()
 
@@ -281,7 +322,7 @@ def edit_profile():
                         User.about: form.about.data})
             db.session.commit()
 
-            flash(u"Profil güncellendi.")
+            flash(u"Profil güncellendi.",current_user.id)
 
     form.fill_form(current_user)
     return render_template('edit_profile.html',
@@ -529,7 +570,11 @@ def moderation():
                            last_objects=last_objects)
 
 @app.route('/profile/<user_id>')
-def get_profile(user_id):
+@app.route('/profile')
+def get_profile(user_id=None):
+    if user_id is None:
+        user_id = current_user.id
+
     request_form = RequestForm()
     user_profile = User.query.filter(User.id == user_id).first()
     user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 0, Stuff.approved == 1).limit(8)
@@ -556,7 +601,8 @@ def get_profile(user_id):
                                                                            Message.user_id == user_id).count()
 
     if returned_request > 0 :
-        returned_request = int(returned_request)
+        # returned_request = int(returned_request)
+        returned_request = 1
         # print returned_request
 
         request_from_me = Request.query.filter(Request.from_user_id == user_id).count()
@@ -569,9 +615,11 @@ def get_profile(user_id):
     else :
         return_ratio = 0
 
+
     return render_template("profile.html", user_stuff_shared=user_stuff_shared, user_stuff_wanted=user_stuff_wanted,
-                           users_group=users_group, user_profile=user_profile, user=current_user, rating=avg_rate,
-                           request_form=request_form, return_ratio=return_ratio)
+                       users_group=users_group, user_profile=user_profile, user=current_user, rating=avg_rate,
+                       request_form=request_form, return_ratio=return_ratio)
+
 
 @app.route('/groups', methods=['GET', 'POST'])
 @login_required
@@ -663,9 +711,12 @@ def purpose():
 def press():
     return render_template("press.html", user=current_user)
 
-@app.route('/contact')
+@app.route('/contact', methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html", user=current_user)
+    form = ContactForm()
+
+    # mail gelsin tabi burda bize.
+    return render_template("contact.html", form=form, user=current_user)
 
 @app.route('/companies')
 def companies():

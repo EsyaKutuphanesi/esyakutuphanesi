@@ -22,7 +22,7 @@
         });
     });
 </script>
-    {%if not user.is_authenticated()%}
+<!--    {%if not user.is_authenticated()%}
     <div class="row">
         <div class="col-md-6 mm-8">
             <div style="padding:15px;  border:1px solid #d2d2d2; cursor:pointer;">
@@ -37,9 +37,11 @@
                 </form>
         </div>
     </div>
-    {%endif%}
-
-    <div class="row" style="background:rgba(0,0,0,0.5); margin:30px auto; padding:30px 15px; color:white; border-radius:10px;">
+    {%endif%}-->
+    <div class="row" id="hideInfo">
+        <img class="img-responsive" src="/static/images/eknedir.png"/>
+    </div>
+    <div class="col-md-12 row" style="background:url('/static/images/search.png'); margin:30px auto; padding:30px 15px; color:white; border-radius:10px;">
         <form role="search" name="search" action="/search" method="get">
             <table class="table searchTable">
                 <tr>
@@ -65,7 +67,7 @@
 
     <!--<div class="col-md-12 grayLine"></div>-->
 
-    <div class="row">
+    <div class="row" style="margin-left:-16px;">
         {% if last_objects_shared[0] %}
             <div class="col-md-12 col-sm-12">
                 <h3 style="border-bottom: 1px solid #dddddd;
@@ -104,21 +106,21 @@
     <div class="col-md-12 col-sm-12 grayLine" style="margin-bottom:50px;"></div>
 
     <div class="row">
-        <div class="col-md-4 col-sm-4">
+        <div class="col-md-4 col-sm-4 col-xs-4">
             <a href="#">
                 <div>
-                    <img src="/static/images/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
+                    <img src="/static/images/paylasimhikayeleri.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
             </a>
         </div>
-        <div class="col-md-4 col-sm-4">
+        <div class="col-md-4 col-sm-4 col-xs-4">
             <a href="#">
                 <div>
-                    <img src="/static/images/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
+                    <img src="/static/images/destekciolun.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
             </a>
         </div>
-        <div class="col-md-4 col-sm-4">
+        <div class="col-md-4 col-sm-4 col-xs-4">
             <a href="#">
                 <div>
                     <img src="/static/images/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>

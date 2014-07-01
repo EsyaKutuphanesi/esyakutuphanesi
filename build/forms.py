@@ -1,15 +1,10 @@
 # coding=utf-8
-from flask_security.forms import RegisterForm
+
 from flask.ext.wtf import Form
 from wtforms import TextField, HiddenField, PasswordField, validators, SubmitField
 from wtforms import TextAreaField, SelectField, FileField, RadioField
-from wtforms.validators import Required
 
 from models import User
-
-class ExtendedRegisterForm(RegisterForm):
-    name = TextField(u'İsim Soyisim', [Required()])
-
 
 class EditUserForm(Form):
     userid = HiddenField('userid');
@@ -204,6 +199,26 @@ class ReviewForm(Form):
     #                              (5, u'5')])
 
     request_id = HiddenField()
+
+    submit = SubmitField(u"Gönder")
+
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        return True
+
+class ContactForm(Form):
+    user_email = TextField(u'mail adresin', [
+        validators.email(),
+        validators.Required()
+    ])
+
+    message = TextAreaField(u'...', [
+        validators.Length(min=0, max=1000),
+        validators.Required()
+    ])
 
     submit = SubmitField(u"Gönder")
 

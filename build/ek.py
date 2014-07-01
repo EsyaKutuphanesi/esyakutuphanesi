@@ -24,14 +24,13 @@ app.config['UPLOADS_FOLDER'] = os.path.dirname(os.path.realpath(__file__)) + '/s
 #app.config['MAIL_USERNAME'] = 'username'
 #app.config['MAIL_PASSWORD'] = 'password'
 
+app.config.from_pyfile(os.path.dirname(os.path.realpath(__file__)) + '/ek.cfg')
 db = SQLAlchemy(app)
+mail = Mail(app)
 
+from views import *
+from admin import *
+from oauth_handler import *
 
 if __name__ == '__main__':
-    from models import *
-    from views import *
-    from admin import *
-    from forms import *
-    security = Security(app, users, register_form=ExtendedRegisterForm)
-    mail = Mail(app)
     app.run(host='0.0.0.0')
