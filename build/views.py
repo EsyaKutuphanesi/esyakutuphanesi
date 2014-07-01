@@ -505,7 +505,7 @@ def make_request(stuff_id=None):
                 return redirect(return_url)
             stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
 
-            if stuff.is_wanted == 1:
+            if stuff.is_wanted == True:
                 user_id = stuff.owner_id
                 from_user_id = current_user.id
             else:
@@ -578,8 +578,8 @@ def get_profile(user_id=None):
 
     request_form = RequestForm()
     user_profile = User.query.filter(User.id == user_id).first()
-    user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 0, Stuff.approved == 1).limit(8)
-    user_stuff_wanted = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == 1, Stuff.approved == 1).limit(8)
+    user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == False, Stuff.approved == 1).limit(8)
+    user_stuff_wanted = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == True, Stuff.approved == 1).limit(8)
 
     reviews = Review.query.filter(Review.reviewed_user_id == user_id)
     reviews_count = reviews.count()
