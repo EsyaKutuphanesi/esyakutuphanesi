@@ -4,8 +4,8 @@ from datetime import datetime
 from flask.ext.security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Security
 from ek import app, db
 from flask_security.forms import RegisterForm
-from wtforms.validators import Required
-from wtforms import TextField
+from wtforms.validators import Required, Length
+from wtforms import TextField, TextAreaField
 
 roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
@@ -43,7 +43,7 @@ class User(db.Model, UserMixin):
     phone_number = db.Column(db.String(255))
     photo = db.Column(db.String(255))
     about = db.Column(db.String(1000))
-    # why = db.Column(db.String(1000))
+    why = db.Column(db.String(1000))
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
@@ -307,9 +307,9 @@ users = SQLAlchemyUserDatastore(db, User, Role)
 
 class ExtendedRegisterForm(RegisterForm):
     name = TextField(u'İsim Soyisim', [Required()])
-    # why = TextAreaField(u'Neden Ek?', [
-    #     Length(min=0, max=1000),
-    #     Required()
-    # ])
+    why = TextAreaField(u'Neden Ek?', [
+        Length(min=0, max=1000),
+        Required()
+    ])
 
 security = Security(app, users, register_form=ExtendedRegisterForm)
