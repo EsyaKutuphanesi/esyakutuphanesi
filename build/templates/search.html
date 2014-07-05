@@ -8,15 +8,15 @@
     <div class="row">
         <div class="col-md-12 col-sm-12" style="background:rgba(0,0,0,0.5); margin:20px auto; padding:15px; line-height:34px;color:white; border-radius:10px;">
             {%if last_objects[0]%}
-                <div class="col-md-6 col-sm-6">Aramana uygun şu ürünler bulundu:</div>
+                <div class="col-md-6 col-sm-6">Senin için şu eşyaları bulduk:</div>
             {%else%}
-                <div class="col-md-6 col-sm-8">Bu kategoride henüz paylaşılmış ürün bulunmuyor.</div>
+                <div class="col-md-6 col-sm-8">Henüz böyle bir eşya paylaşılmamış.</div>
             {%endif%}
             <div class="col-md-6 col-sm-4">
-                <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/new_stuff?is_wanted=true'">İstediğin eşyayı listele</button>
+                <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/new_stuff?is_wanted=true'">Aranıyor ilanı ver</button>
 
                 {%if last_objects[0]%}
-                    <span class="pull-right" style="font-size:12px; margin-right:5px;">Aradığın ürün bu değil miydi?</span>
+                    <span class="pull-right" style="font-size:12px; margin-right:5px;">Aradığın burada yok mu?</span>
                 {%endif%}
             </div>
         </div>

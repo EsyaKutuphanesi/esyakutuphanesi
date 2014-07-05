@@ -45,11 +45,11 @@
     <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
 
         {% if is_new %}
-        <h2>Eşya Ekle</h2>
+        <h2>Eşya Paylaş</h2>
         {% else %}
             <a href="#" onclick="deleteStuffReq(-1)" class="pull-right">Eşyayı kaldır</a>
             {% if not stuff.approved %}
-                <p class="alert-danger">Eşya henüz onaylanmadı.</p>
+                <p class="alert-danger">Eşyan şu anda onay bekliyor. Onaylandığında e-posta ile sana haber vereceğiz.</p>
             {% endif %}
         {% endif %}
         <form action="{{ form_action }}" method="POST" name="edit_stuff_form" enctype="multipart/form-data">

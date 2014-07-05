@@ -76,7 +76,7 @@
                         <button type="button" class="btn btn-success" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Ödünç iste</button>
                     {% endif %}
                 {% else %}
-                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
+                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle/Kaldır</button>
                 {% endif %}
             {% else %}
                 <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login'">Ödünç iste</button>
@@ -111,8 +111,8 @@
             <h3 style="margin: 60px auto 30px;">Değerlendirmeler</h3>
             {% for review in reviews %}
             <div class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="/photos/{{review.user.photo}}" style="width: 64px; height: 64px;">
+                <a class="pull-left" href="#" style="width: 64px; height: auto; max-height:64px; overflow:hidden;">
+                    <img class="media-object" src="/photos/{{review.user.photo}}" style="width: 64px; height: auto;">
                 </a>
                 <div class="media-body">
                     <a href="/profile/{{review.user.id}}"><span style="font-weight:bold;">{{review.user.name}}</span></a> {{review.comment}}

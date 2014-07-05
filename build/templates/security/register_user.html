@@ -16,6 +16,14 @@
           {% endif %}
           {{ render_field_with_errors(register_user_form.why) }}
           <!--{{ render_field(register_user_form.submit) }}-->
+            <div>
+                <input id="user_aggreement" name="remember" type="checkbox" value="y">
+                <label for="user_aggreement" class="control-label">
+                    <label for="user_aggreement">
+                        <a href="/privacy_policy" target="_blank"> Kullanıcı sözleşmesini </a> okudum, onaylıyorum.
+                    </label>
+                </label>
+            </div>
           {{ register_user_form.submit(class_='btn btn-success width100')}}
 
         </form>

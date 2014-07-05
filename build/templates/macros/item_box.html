@@ -7,7 +7,7 @@
                 {%if stuff.photos%}
                 <img src="/static/photos/{{stuff.photos[0].filename}}"/>
                 {%else%}
-                <img src="/static/images/ek.png"/>
+                <img src="/static/images/{{stuff.category_id}}.png"/>
                 {%endif%}
             </a>
             <div class="caption">
@@ -28,7 +28,7 @@
                             {% if stuff.approved==0 %}
                                 <p class="alert-danger">Henüz onaylanmadı.</p>
                             {% endif %}
-                            <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle</button>
+                            <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle/Kaldır</button>
                         {%endif%}
                     {% else %}
                             <button type="button" style="width:100%;" class="btn btn-success disabled">Ödünç verildi</button>

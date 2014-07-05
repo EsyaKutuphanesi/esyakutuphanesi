@@ -210,12 +210,16 @@ class ReviewForm(Form):
         return True
 
 class ContactForm(Form):
-    user_email = TextField(u'mail adresin', [
+    user_name = TextField(u'İsmin Soyismin', [
+        validators.Required()
+    ])
+
+    user_email = TextField(u'E-posta adresin', [
         validators.email(),
         validators.Required()
     ])
 
-    message = TextAreaField(u'...', [
+    message = TextAreaField(u'Sen yaz biz okuyalım', [
         validators.Length(min=0, max=1000),
         validators.Required()
     ])

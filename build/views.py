@@ -156,8 +156,7 @@ def edit_stuff(stuff_id=None):
                 stuff.category_id = form.category.data
                 stuff.type_id = form.stuff_type.data
                 stuff.is_wanted = form.is_wanted.data == 'True'
-                flash(u"Eşya güncellen"
-                      u"di.")
+                flash(u"Eşya güncellendi.")
             else:
                 group_id = None if form.group.data == -1 else form.group.data
                 stuff = Stuff(title=form.title.data,
@@ -190,15 +189,15 @@ def edit_stuff(stuff_id=None):
 
                     file_new_name = 'stuff/'+stuff_id+'/'+generated_name
 
-                else:
-                    generated_name = str(form.category.data)+'.jpg'
-                    file_new_name = generated_name
+                # else:
+                #     generated_name = str(form.category.data)+'.jpg'
+                #     file_new_name = generated_name
 
-                new_photo = StuffPhoto(owner=current_user,
-                                       filename=file_new_name,
-                                       stuff=stuff)
-                db.session.add(new_photo)
-                db.session.commit()
+                    new_photo = StuffPhoto(owner=current_user,
+                                           filename=file_new_name,
+                                           stuff=stuff)
+                    db.session.add(new_photo)
+                    db.session.commit()
 
                 flash(u"Eşya kaydedildi.")
 
@@ -263,6 +262,7 @@ def get_categories(type_id=None):
     return category_list_json
 
 @app.route('/show_stuff/<stuff_id>')
+@login_required
 def show_stuff(stuff_id):
     request_form = RequestForm()
     is_wanted = request.args.get('is_wanted')
@@ -572,6 +572,7 @@ def moderation():
 
 @app.route('/profile/<user_id>')
 @app.route('/profile')
+@login_required
 def get_profile(user_id=None):
     if user_id is None:
         user_id = current_user.id

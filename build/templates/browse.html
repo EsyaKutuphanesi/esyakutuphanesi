@@ -87,8 +87,8 @@
             <div class="col-md-3 col-sm-3 col-xs-3 form-group">
                 <select class="form-control" id="is_wanted">
                     <option value="2">Hepsi</option>
-                    <option value="0">Paylaşılan</option>
-                    <option value="1">İstenilen</option>
+                    <option value="0">Ödünç verilen</option>
+                    <option value="1">Aranan</option>
                 </select>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-2">
@@ -101,9 +101,9 @@
 
         {% if not stuff_list[0]%}
             <div class="col-md-12" style="background:rgba(0,0,0,0.5); margin:20px auto; padding:15px; line-height:34px;color:white; border-radius:10px;">
-                <div class="col-md-6">Bu kategoride henüz paylaşılmış ürün bulunmuyor.</div>
+                <div class="col-md-6">Henüz böyle bir eşya paylaşılmamış.</div>
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/new_stuff?is_wanted=true'">İstediğin eşyayı listele</button>
+                    <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/new_stuff?is_wanted=true'">Aranıyor ilanı ver</button>
                 </div>
             </div>
         {%endif%}
