@@ -76,7 +76,7 @@
         {% for message in conversation.messages | reverse %}
             <div class="col-md-12 col-sm-12" style="margin-top:10px;">
                 <dl class="dl-horizontal">
-                  <dt>{{ message.user.name }}</dt>
+                  <dt>{{ message.from_user.name }}</dt>
                   <dd>{{ message}}</dd>
                 </dl>
             </div>
