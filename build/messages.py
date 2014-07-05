@@ -1,3 +1,36 @@
 # -*- coding: utf-8 -*-
-security_messages = dict()
-security_messages['SECURITY_MSG_INVALID_PASSWORD'] = (u'yanlış şifre','error')
+# security_messages = dict()
+security_messages = {
+    'UNAUTHORIZED': ('You do not have permission to view this resource.', 'error'),
+    'CONFIRM_REGISTRATION': ('Thank you. Confirmation instructions have been sent to %(email)s.', 'success'),
+    'EMAIL_CONFIRMED': ('Thank you. Your email has been confirmed.', 'success'),
+    'ALREADY_CONFIRMED': ('Your email has already been confirmed.', 'info'),
+    'INVALID_CONFIRMATION_TOKEN': ('Invalid confirmation token.', 'error'),
+    'EMAIL_ALREADY_ASSOCIATED': ('%(email)s is already associated with an account.', 'error'),
+    'PASSWORD_MISMATCH': ('Password does not match', 'error'),
+    'RETYPE_PASSWORD_MISMATCH': ('Passwords do not match', 'error'),
+    'INVALID_REDIRECT': ('Redirections outside the domain are forbidden', 'error'),
+    'PASSWORD_RESET_REQUEST': ('Instructions to reset your password have been sent to %(email)s.', 'info'),
+    'PASSWORD_RESET_EXPIRED': ('You did not reset your password within %(within)s. New instructions have been sent to %(email)s.', 'error'),
+    'INVALID_RESET_PASSWORD_TOKEN': ('Invalid reset password token.', 'error'),
+    'CONFIRMATION_REQUIRED': ('Email requires confirmation.', 'error'),
+    'CONFIRMATION_REQUEST': ('Confirmation instructions have been sent to %(email)s.', 'info'),
+    'CONFIRMATION_EXPIRED': ('You did not confirm your email within %(within)s. New instructions to confirm your email have been sent to %(email)s.', 'error'),
+    'LOGIN_EXPIRED': ('You did not login within %(within)s. New instructions to login have been sent to %(email)s.', 'error'),
+    'LOGIN_EMAIL_SENT': ('Instructions to login have been sent to %(email)s.', 'success'),
+    'INVALID_LOGIN_TOKEN': ('Invalid login token.', 'error'),
+    'DISABLED_ACCOUNT': ('Account is disabled.', 'error'),
+    'EMAIL_NOT_PROVIDED': ('Email not provided', 'error'),
+    'INVALID_EMAIL_ADDRESS': ('Invalid email address', 'error'),
+    'PASSWORD_NOT_PROVIDED': ('Password not provided', 'error'),
+    'PASSWORD_NOT_SET': ('No password is set for this user', 'error'),
+    'PASSWORD_INVALID_LENGTH': ('Password must be at least 6 characters', 'error'),
+    'USER_DOES_NOT_EXIST': ('Specified user does not exist', 'error'),
+    'INVALID_PASSWORD': (u'Geçersiz Şifre', 'error'),
+    'PASSWORDLESS_LOGIN_SUCCESSFUL': ('You have successfuly logged in.', 'success'),
+    'PASSWORD_RESET': ('You successfully reset your password and you have been logged in automatically.', 'success'),
+    'PASSWORD_IS_THE_SAME': ('Your new password must be different than your previous password.', 'error'),
+    'PASSWORD_CHANGE': ('You successfully changed your password.', 'success'),
+    'LOGIN': (u'Bu sayfaya ulaşmak için lütfen giriş yapın.', 'info'),
+    'REFRESH': ('Please reauthenticate to access this page.', 'info'),
+}

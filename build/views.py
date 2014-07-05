@@ -615,7 +615,7 @@ def get_profile(user_id=None):
 
     returned_request = Request.query.filter(Request.from_user_id == user_id).join(Conversation).\
         filter(Conversation.request_id == Request.id).join(Message).filter(Message.conversation_id == Conversation.id,
-                                                                           Message.user_id == user_id).count()
+                                                                           Message.from_user_id == user_id).count()
 
     if returned_request > 0 :
         # returned_request = int(returned_request)

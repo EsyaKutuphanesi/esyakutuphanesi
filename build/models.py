@@ -310,7 +310,7 @@ users = SQLAlchemyUserDatastore(db, User, Role)
 
 class ExtendedRegisterForm(RegisterForm):
     name = TextField(u'İsim Soyisim', [Required()])
-    why = TextAreaField(u'Neden Ek?', [
+    why = TextAreaField(u'Neden Eşya Kütüphanesi?', [
         Length(min=0, max=1000),
         Required()
     ])

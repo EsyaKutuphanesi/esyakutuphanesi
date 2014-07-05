@@ -63,7 +63,7 @@ class EditStuffForm(Form):
     ])
     address = SelectField(u'Adres', coerce=int, validators=[validators.Required()])
     group = SelectField(u'Grup', coerce=int, validators=[validators.Required()])
-    submit = SubmitField("Kaydet")
+    submit = SubmitField(u"Eşyayı paylaş")
     delete = SubmitField("Eşyayı kaldır")
     tags = TextField(u'Etiketler',[
         validators.Length(min=0, max=255)

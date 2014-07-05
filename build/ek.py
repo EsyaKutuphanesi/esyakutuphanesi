@@ -32,7 +32,7 @@ mail = Mail(app)
 from messages import security_messages
 
 for key,value in security_messages.iteritems():
-    app.config[key]=value
+    app.config['SECURITY_MSG_'+key]=value
 
 from views import *
 from admin import *
