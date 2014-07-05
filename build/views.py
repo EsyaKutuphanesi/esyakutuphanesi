@@ -6,9 +6,9 @@ import os
 from datetime import datetime
 from flask import render_template, send_from_directory, flash,\
 url_for, redirect, request, jsonify
-from flask_login import current_user, login_required
-
-from ek import app, db
+from flask_login import current_user, login_required, logout_user
+from flask_mail import Message as MailMessage
+from ek import app, db, mail
 from forms import SearchForm, EditStuffForm, ConversationForm,\
     CreateGroupForm, EditUserForm, InvitationForm, RequestForm,\
     ReviewForm, ContactForm
@@ -20,8 +20,8 @@ from models import Address, Category, Conversation,\
 def page_not_found(error):
     return render_template('/404.html', user=current_user), 404
 
-@app.route('/')
 @app.route('/categories')
+@app.route('/')
 def home():
     form = SearchForm()
     request_form = RequestForm()
@@ -33,6 +33,20 @@ def home():
                            last_objects_wanted=last_objects_wanted,
                            last_objects_shared=last_objects_shared,
                            form=form, request_form=request_form)
+
+@app.route('/check_approved')
+@app.route('/check_approved/<source>')
+@login_required
+def check_approved(source=None):
+    if current_user.approved:
+        return redirect(url_for('home'))
+    else:
+        if source == 'register':
+            flash(u'Üyeliğiniz onaylandıktan sonra tamamlanacaktır.')
+        elif source == 'login':
+            flash(u'Üyeliğiniz henüz onay beklemektedir.')
+        logout_user()
+        return redirect(url_for('home'))
 
 @app.route('/search')
 def search():
