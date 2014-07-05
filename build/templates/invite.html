@@ -36,7 +36,7 @@
             <button type="button" class="btn" onclick="FacebookInviteFriends();" style="color:white; background-color:#3c599f;">Facebook arkadaşlarını davet et</button>
         </div>
         <div class="col-md-7 col-sm-7 col-xs-12">
-            <h5>Email ile davet et</h5>
+            <h5>E-posta ile arkadaşını davet et</h5>
             <form action="{{url_for('invite')}}" method="POST" name="invitation_form" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 {{ render_field_with_errors(form.emails, label_visible=False, placeholder=form.emails.label.text) }}

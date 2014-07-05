@@ -75,7 +75,7 @@ $(document).ready(function(){
                         map.addMarker({
                             lat: e.latLng.lat(),
                             lng: e.latLng.lng(),
-                            title: 'My Address',
+                            title: 'Adresim',
                             infoWindow: {
                               content: '<p>'+adrStr+'</p>'
                             }

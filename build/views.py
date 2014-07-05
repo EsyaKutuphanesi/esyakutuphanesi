@@ -682,7 +682,7 @@ def invite():
         db.session.add(invite_info)
         db.session.commit()
 
-        flash(u"Davetiniz gönderildi :)")
+        flash(u"Davetini ilettik!")
         return redirect(url_for('invite'))
 
     # mail gelsin tabi burda bize.
