@@ -565,7 +565,34 @@ def make_request(stuff_id=None):
             db.session.add(new_message)
 
             db.session.commit()
+
+            if stuff.is_wanted:
+                msg_body = u'%s sana %s eşyanı ödünç vermek istiyor. <br><br> esyakutuphanesi.com'\
+                           % (current_user.name, stuff.title)
+                html_msg = u'%s sana %s eşyanı ödünç vermek istiyor. <br><br> Ödünç almak için ' \
+                           u' <a href="http://esyakutuphanesi.com/my_messages">tıkla!</a>' \
+                           % (current_user.name, stuff.title)
+
+                msg_subject = u"%s sana ödünç vermek istiyor" % current_user.name
+
+            else:
+                msg_body = u'%s senden %s eşyanı ödünç istiyor. <br><br> esyakutuphanesi.com'\
+                           % (current_user.name, stuff.title)
+                html_msg = u'%s senden %s eşyanı ödünç istiyor. <br><br> Ödünç vermek için ' \
+                           u'<a href="http://esyakutuphanesi.com/my_messages">tıkla!</a>' \
+                           % (current_user.name, stuff.title)
+
+                msg_subject = u"%s senden ödünç istiyor" % current_user.name
+
+            msg = MailMessage(body=msg_body,
+                              html=html_msg,
+                              subject=msg_subject,
+                              sender="no-reply@esyakutuphanesi.com",
+                              recipients=[stuff.owner.email])
+            mail.send(msg)
+
             return redirect(url_for('my_messages'))
+
         else :
             flash(u'Ödünç istemek için adres girmelisin.')
             return redirect(return_url)
@@ -671,6 +698,7 @@ def groups():
                             logo="logo")
         db.session.add(group_info)
         db.session.commit()
+
         # mail gelsin tabi burda bize.
 
         flash(u"Grup kurma isteğiniz gönderildi :)")
@@ -699,16 +727,33 @@ def invite():
     form = InvitationForm()
 
     if request.method == 'POST' and form.validate_on_submit():
+
+        emails = request.form.get('emails')
+        message = request.form.get('message')
+
         invite_info = Invitations(user_id=current_user.id,
-                                  emails=request.form.get('emails'),
-                                  message=request.form.get('message'))
+                                  emails=emails,
+                                  message=message)
         db.session.add(invite_info)
         db.session.commit()
 
+        email_list = emails.split()
+
+        for email in email_list:
+            msg_body = '%s <br><br> %s <br><br> esyakutuphanesi.com'\
+                       % (current_user.name, message)
+            html_msg = '%s <br><br> %s <br><br> <a href="http://esyakutuphanesi.com/">esyakutuphanesi.com</a>' \
+                       % (current_user.name, message)
+            msg_subject = u"%s seni Eşya Kütüphanesi'ne davet ediyor!" % current_user.name
+            msg = MailMessage(body=msg_body,
+                              html=html_msg,
+                              subject=msg_subject,
+                              sender="no-reply@esyakutuphanesi.com",
+                              recipients=[email])
+            mail.send(msg)
+
         flash(u"Davetini ilettik!")
         return redirect(url_for('invite'))
-
-    # mail gelsin tabi burda bize.
 
     return render_template("invite.html", form=form, user=current_user)
 
@@ -755,7 +800,22 @@ def press():
 def contact():
     form = ContactForm()
 
-    # mail gelsin tabi burda bize.
+    if request.method == 'POST' and form.validate_on_submit():
+        name = request.form.get('user_name')
+        email = request.form.get('user_email')
+        message = request.form.get('message')
+
+        msg_body = "%s %s <br><br> %s" % (name, email, message)
+        msg = MailMessage(body=msg_body,
+                          html=msg_body,
+                          subject=u"İletişime geçmek isteyen var",
+                          sender="no-reply@esyakutuphanesi.com",
+                          recipients=["bilgi@esyakutuphanesi.com"])
+        mail.send(msg)
+
+        flash(u"E-postan gönderildi!")
+        return redirect(url_for('contact'))
+
     return render_template("contact.html", form=form, user=current_user)
 
 @app.route('/companies')

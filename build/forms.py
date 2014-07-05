@@ -211,17 +211,17 @@ class ReviewForm(Form):
 
 class ContactForm(Form):
     user_name = TextField(u'İsmin Soyismin', [
-        validators.Required()
+        validators.Required(u'İsmini girmelisin.')
     ])
 
     user_email = TextField(u'E-posta adresin', [
         validators.email(),
-        validators.Required()
+        validators.Required(u'E-posta adresini girmelisin.')
     ])
 
     message = TextAreaField(u'Sen yaz biz okuyalım', [
-        validators.Length(min=0, max=1000),
-        validators.Required()
+        validators.Length(min=0, max=1000, message=u'En fazla 1000 karakter girebilirsin.'),
+        validators.Required(u'Bu alanı doldurmalısın.')
     ])
 
     submit = SubmitField(u"Gönder")
