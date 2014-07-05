@@ -220,12 +220,15 @@ class Conversation(db.Model):
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', backref='messages')
+    to_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    to_user = db.relationship('User', backref='incoming_messages', foreign_keys=[to_user_id])
+    from_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    from_user = db.relationship('User', backref='messages', foreign_keys=[from_user_id])
     conversation_id = db.Column(db.Integer, db.ForeignKey('conversation.id'))
     conversation = db.relationship('Conversation', backref='messages')
     txt = db.Column(db.String(1000))
     created_at = db.Column(db.DateTime, default=datetime.now)
+    status = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return self.txt

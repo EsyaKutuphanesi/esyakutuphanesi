@@ -5,7 +5,7 @@ import json
 import os
 from datetime import datetime
 from flask import render_template, send_from_directory, flash,\
-url_for, redirect, request
+url_for, redirect, request, jsonify
 from flask_login import current_user, login_required
 
 from ek import app, db
@@ -438,6 +438,13 @@ def category_stuff_type_view(category_name, type_name):
 def my_messages():
     return render_template("my_messages.html", user=current_user)
 
+@app.route('/unread_messages')
+@login_required
+def get_unread_messages():
+    message_count = Message.query.filter(Message.to_user == current_user,
+                                         Message.status == 0).count()
+    return jsonify(count=message_count)
+
 @app.route('/conversations/<conversation_id>', methods=["GET", "POST"])
 @login_required
 def show_conversation(conversation_id):
@@ -449,11 +456,18 @@ def show_conversation(conversation_id):
 
     form = ConversationForm()
     if request.method == 'POST' and form.validate_on_submit():
-        new_message = Message(user=current_user,
+        new_message = Message(from_user=current_user,
+                              to_user=conversation.request.user,
                               conversation=conversation,
                               txt=form.message.data)
         db.session.add(new_message)
         db.session.commit()
+
+    Message.query.filter(Message.conversation_id == conversation_id,
+                         Message.status == 0,
+                         Message.to_user == current_user). \
+        update({Message.status: 1})
+    db.session.commit()
     form.message.data = None
     review_form = ReviewForm()
     if request.args.get('status'):
@@ -521,7 +535,8 @@ def make_request(stuff_id=None):
                                             users=[current_user, stuff.owner],
                                             request=new_request)
             db.session.add(new_conversation)
-            new_message = Message(user=current_user,
+            new_message = Message(from_user=current_user,
+                                  to_user=stuff.owner,
                                   conversation=new_conversation,
                                   txt=message)
             db.session.add(new_message)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import Security
@@ -27,6 +28,11 @@ app.config['UPLOADS_FOLDER'] = os.path.dirname(os.path.realpath(__file__)) + '/s
 app.config.from_pyfile(os.path.dirname(os.path.realpath(__file__)) + '/ek.cfg')
 db = SQLAlchemy(app)
 mail = Mail(app)
+
+from messages import security_messages
+
+for key,value in security_messages.iteritems():
+    app.config[key]=value
 
 from views import *
 from admin import *
