@@ -42,7 +42,16 @@ def check_approved(source=None):
         return redirect(url_for('home'))
     else:
         if source == 'register':
+
             flash(u'Üyeliğin onay bekliyor. Onaylandığı zaman e-posta ile sana haber vereceğiz.')
+            msg_body = "%s %s <br><br> %s" % (current_user.name, current_user.email, current_user.why)
+            msg = MailMessage(body=msg_body,
+                              html=msg_body,
+                              subject=u"Yeni Üye",
+                              sender="no-reply@esyakutuphanesi.com",
+                              recipients=["bilgi@esyakutuphanesi.com"])
+            mail.send(msg)
+
         elif source == 'login':
             flash(u'Üyeliğin onay bekliyor.')
         logout_user()
