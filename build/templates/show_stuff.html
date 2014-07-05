@@ -71,7 +71,7 @@
             {%if user.is_authenticated()%}
                 {% if not stuff.owner_id == user.id %}
                     {% if stuff.is_wanted %}
-                        <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Bende var!</button>
+                        <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Ödünç ver</button>
                     {% else %}
                         <button type="button" class="btn btn-success" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Ödünç iste</button>
                     {% endif %}

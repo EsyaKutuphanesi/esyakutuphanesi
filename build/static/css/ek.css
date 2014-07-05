@@ -132,6 +132,10 @@ margin-top: 20px;
     margin:10px auto;
 }
 
+.message-div:hover {
+    background-color: #f7b5a9 !important;
+}
+
 .specialstyle {
     margin-top:40px;
 }

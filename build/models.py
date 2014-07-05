@@ -5,7 +5,7 @@ from flask.ext.security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Se
 from ek import app, db
 from flask_security.forms import RegisterForm
 from wtforms.validators import Required, Length
-from wtforms import TextField, TextAreaField
+from wtforms import TextField, TextAreaField, BooleanField
 
 roles_users = db.Table('roles_users',
         db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
@@ -310,10 +310,11 @@ users = SQLAlchemyUserDatastore(db, User, Role)
 # social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
 
 class ExtendedRegisterForm(RegisterForm):
-    name = TextField(u'İsim Soyisim', [Required()])
+    name = TextField(u'İsim Soyisim', [Required(u'İsmini girmen gerekli')])
     why = TextAreaField(u'Neden Eşya Kütüphanesi?', [
         Length(min=0, max=1000),
-        Required()
+        Required(u'Seni daha yakından tanımayı istiyoruz.')
     ])
+    agreement = BooleanField('', [Required(u'Kullanıcı sözleşmesini onaylamalısın.')])
 
 security = Security(app, users, register_form=ExtendedRegisterForm)

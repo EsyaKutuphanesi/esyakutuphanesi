@@ -54,8 +54,8 @@ class EditStuffForm(Form):
     stuffid = HiddenField('stuffid')
     photo = FileField(u'Resim Yükle')
     title = TextField(u'Başlık', [
-        validators.Length(min=4, max=255),
-        validators.Required()
+        validators.Length(min=4, max=255, message=u'Eşyanın başlığı en az 4 karakter olmalı.'),
+        validators.Required(u'Eşya için başlık girmelisin.')
     ])
     detail = TextAreaField(u'Detaylar', [
         validators.Length(min=0, max=1000),
@@ -64,9 +64,9 @@ class EditStuffForm(Form):
     address = SelectField(u'Adres', coerce=int, validators=[validators.Required()])
     group = SelectField(u'Grup', coerce=int, validators=[validators.Required()])
     submit = SubmitField(u"Eşyayı paylaş")
-    delete = SubmitField("Eşyayı kaldır")
+    delete = SubmitField(u"Eşyayı kaldır")
     tags = TextField(u'Etiketler',[
-        validators.Length(min=0, max=255)
+        validators.Length(min=0, max=255, message=u'En fazla 255 karaktere kadar etiket girebilirsin.')
     ])
     category = SelectField('Kategori', coerce=int, validators=[validators.Required()])
     stuff_type = SelectField(u'Eşya Türü', coerce=int, validators=[validators.Required()])
@@ -95,27 +95,27 @@ class EditStuffForm(Form):
                     self.lng.data and
                     self.address_str.data):
                 print 'sec'
-                message = u'Haritada bir nokta işaretlemeniz lazım. ' \
-                          u'Adres girip ara\'ya basın veya ' \
-                          u'sağ tıklayıp bir nokta seçin.'
+                message = u'Haritada bir nokta işaretlemen lazım. ' \
+                          u'Adres girip ara\'ya bas veya ' \
+                          u'sağ tıklayıp bir nokta seç.'
                 self.address_str.errors.append(message)
                 return False
         return True
 
 class SearchForm(Form):
     stuff = TextField(u'Ne arıyorsun?', [
-        validators.Length(min=0, max=255)
+        validators.Length(min=0, max=255, message=u'En fazla 255 karakter girebilirsin.')
     ])
 
     address = TextField(u'Nerede arıyorsun?', [
-        validators.Length(min=0, max=255)
+        validators.Length(min=0, max=255, message=u'En fazla 255 karakter girebilirsin.')
     ])
     submit = SubmitField("Ara")
 
 class ConversationForm(Form):
     message = TextAreaField(u'Mesaj Yaz', [
-        validators.Length(min=0, max=1000),
-        validators.Required()
+        validators.Length(min=0, max=1000, message=u'En fazla 1000 karakter girebilirsin.'),
+        validators.Required(u'Mesajını girmelisin.')
     ])
 
     submit = SubmitField(u"Gönder")
@@ -131,12 +131,12 @@ class ConversationForm(Form):
 class InvitationForm(Form):
     emails = TextField(u'a@b.com, ...', [
         validators.email(),
-        validators.Required()
+        validators.Required(u'E-posta adresini girmelisin.')
     ])
 
     message = TextAreaField(u'Eşyakütüphanesine sen de katıl :)', [
-        validators.Length(min=0, max=1000),
-        validators.Required()
+        validators.Length(min=0, max=1000, message=u'En fazla 1000 karakter girebilirsin.'),
+        validators.Required(u'Mesajını girmelisin.')
     ])
 
     submit = SubmitField(u"Davet et")
@@ -150,13 +150,13 @@ class InvitationForm(Form):
 
 class RequestForm(Form):
     message = TextAreaField(u'Mesaj yaz', [
-        validators.Length(min=0, max=1000),
-        validators.Required()
+        validators.Length(min=0, max=1000, message=u'En fazla 1000 karakter girebilirsin.'),
+        validators.Required(u'Mesajını girmelisin.')
     ])
 
     duration = TextField('', [
         validators.Length(min=0, max=4),
-        validators.Required()
+        validators.Required(u'Ne kadar süre istediğini girmelisin.')
     ])
 
     unit = SelectField('', coerce=int, choices=[(1, u'Gün'),
@@ -188,7 +188,7 @@ class CreateGroupForm(Form):
 
 class ReviewForm(Form):
     comment = TextAreaField(u'Yorum', [
-        validators.Length(min=2, max=1000),
+        validators.Length(min=2, max=1000, message=u'En fazla 1000 karakter girebilirsin.'),
     ])
 
     # rating = RadioField(u'Puan', coerce=int,

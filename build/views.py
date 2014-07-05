@@ -42,9 +42,9 @@ def check_approved(source=None):
         return redirect(url_for('home'))
     else:
         if source == 'register':
-            flash(u'Üyeliğiniz onaylandıktan sonra tamamlanacaktır.')
+            flash(u'Üyeliğin onay bekliyor. Onaylandığı zaman e-posta ile sana haber vereceğiz.')
         elif source == 'login':
-            flash(u'Üyeliğiniz henüz onay beklemektedir.')
+            flash(u'Üyeliğin onay bekliyor.')
         logout_user()
         return redirect(url_for('home'))
 
