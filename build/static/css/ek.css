@@ -165,7 +165,7 @@ margin-top: 20px;
     margin-top:0px !important;
   }
 }
-@media (min-width: 320px) and (max-width:599px) {
+@media (min-width: 320px) and (max-width:600px) {
    #hideInfo {
         display: none !important;
     }

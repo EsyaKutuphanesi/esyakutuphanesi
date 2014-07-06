@@ -59,12 +59,12 @@
                 <div class="row">
                     {% if stuff.photos[0] %}
                         {%for photo in stuff.photos%}
-                            <div class="col-md-3 col-sm-3">
+                            <div class="col-md-3 col-sm-3 col-xs-4">
                                 <img class="img-responsive" src="/photos/{{photo.filename}}" />
                             </div>
                         {%endfor%}
                     {% else %}
-                        <div class="col-md-3 col-sm-3">
+                        <div class="col-md-3 col-sm-3 col-xs-4">
                             <img class="img-responsive" src="/static/images/{{stuff.category_id}}.png"/>
                         </div>
                     {% endif %}

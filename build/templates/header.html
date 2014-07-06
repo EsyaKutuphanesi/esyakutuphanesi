@@ -39,22 +39,22 @@
 </script>
 <nav class="navbar navbar-inverse" role="navigation" style="border-radius:0;">
   <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header">
+  <div class="navbar-header col-sm-4 col-md-3 col-xs-12">
     <a class="navbar-brand" href="/"><img src="/static/images/logo.png"/></a>
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <div class=" navbar-collapse" id="bs-example-navbar-collapse-1">
     <form class="navbar-form navbar-left padding15" role="search" name="search" action="/search" method="get">
-      <div class="form-group">
+      <div class="form-group col-xs-5">
         <input type="text" class="form-control" name="stuff" placeholder="Ne Arıyorsun?">
       </div>
-      <div class="form-group">
+      <div class="form-group col-xs-5">
         <input type="text" class="form-control" name="address" placeholder="Nerede Arıyorsun?">
       </div>
       <button type="submit" class="btn btn-default">Ara</button>
     </form>
-    <ul class="nav navbar-nav padding15">
+    <ul class="nav navbar-nav hideInfo" style="padding: 15px 0px;">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kategoriler <b class="caret"></b></a>
         <ul id="categories" class="dropdown-menu">
@@ -79,13 +79,13 @@
               <li><a href="/logout">Çıkış Yap</a></li>
             </ul>
         </li>
-        <li class="nodisplay"><a href="/my_messages">Mesajlar</a></li>
-        <li><span id="unread_messages" class="badge" style="margin:15px auto auto -8px; background-color:#ed9c28"></span></li>
+        <li class="hideInfo"><a href="/my_messages">Mesajlar</a></li>
+        <li class="hideInfo"><span id="unread_messages" class="badge" style="margin:15px auto auto -8px; background-color:#ed9c28"></span></li>
         {%else%}
         <li><a href="/login">Giriş Yap</a></li>
         <li><a href="/register">Kaydol</a></li>
         {%endif%}
-        <li><a href="/new_stuff">Eşya Paylaş</a></li>
+        <li class="hideInfo"><a href="/new_stuff">Eşya Paylaş</a></li>
 
     </ul>
   </div><!-- /.navbar-collapse -->
