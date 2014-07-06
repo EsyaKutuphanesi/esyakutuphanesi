@@ -134,7 +134,7 @@ class InvitationForm(Form):
         validators.Required(u'E-posta adresini girmelisin.')
     ])
 
-    message = TextAreaField(u'Eşyakütüphanesine sen de katıl :)', [
+    message = TextAreaField(u'Eşya Kütüphanesine sen de katıl :)', [
         validators.Length(min=0, max=1000, message=u'En fazla 1000 karakter girebilirsin.'),
         validators.Required(u'Mesajını girmelisin.')
     ])

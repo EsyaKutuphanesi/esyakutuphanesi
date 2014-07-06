@@ -46,10 +46,10 @@
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class=" navbar-collapse" id="bs-example-navbar-collapse-1">
     <form class="navbar-form navbar-left padding15" role="search" name="search" action="/search" method="get">
-      <div class="form-group col-xs-5">
+      <div class="form-group width-40">
         <input type="text" class="form-control" name="stuff" placeholder="Ne Arıyorsun?">
       </div>
-      <div class="form-group col-xs-5">
+      <div class="form-group width-40">
         <input type="text" class="form-control" name="address" placeholder="Nerede Arıyorsun?">
       </div>
       <button type="submit" class="btn btn-default">Ara</button>
@@ -64,12 +64,13 @@
     <ul class="nav navbar-nav navbar-right padding15">
         {%if user.is_authenticated()%}
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.name}} <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.name |truncate(16)}} <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="/profile/{{user.id}}">Profilim</a></li>
               <li><a href="/edit_profile">Ayarlar</a></li>
               <li><a href="/my_messages">Mesajlar</a></li>
               <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
+              <li><a href="/invite">Davet Et</a></li>
               <!--<li><a href="/groups">Gruplar</a></li>-->
 
               {% if 'admin' in user.roles or 'moderator' in user.roles %}

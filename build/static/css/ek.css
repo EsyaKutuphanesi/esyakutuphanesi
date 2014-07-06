@@ -156,6 +156,11 @@ margin-top: 20px;
     .hideInfo {
         display: none !important;
     }
+    .width-40 {
+        width:40%;
+        float:left;
+        margin-right:10px;
+    }
 }
 @media (min-width: 320px) and (max-width:991px) {
   .nodisplay600 {
