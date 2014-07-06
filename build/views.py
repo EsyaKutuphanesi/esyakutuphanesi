@@ -766,18 +766,21 @@ def review():
     conversation_id = request.form.get('conversation_id')
 
     if request.method == 'POST' and form.validate_on_submit():
-        rating=request.form.get('rate')
+        rating = request.form.get('rate')
 
         rq = Request.query. \
             filter(Request.id == form.request_id.data).first()
-        reviewed_user_id = rq.user_id if rq.user_id == current_user.id \
-            else rq.from_user_id
+
+        # reviewed_user_id = rq.user_id if rq.user_id == current_user.id \
+        #     else rq.from_user_id
+
+        reviewed_user_id = rq.from_user_id
 
         new_review = Review(user_id=current_user.id,
-                        reviewed_user_id=reviewed_user_id,
-                        request_id=rq.id,
-                        comment=form.comment.data,
-                        rating=rating)
+                            reviewed_user_id=reviewed_user_id,
+                            request_id=rq.id,
+                            comment=form.comment.data,
+                            rating=rating)
         db.session.add(new_review)
         db.session.commit()
         flash(u"Yorumunuz eklendi :)")

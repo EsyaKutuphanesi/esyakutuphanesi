@@ -91,10 +91,9 @@
     <script type="text/javascript" charset="utf-8">
         $(function(){
             $('#star-area').raty({readOnly: true, start:{{rating}}});
-            });
-        $(function(){
             $('#popover-area').popover('toogle')
-            });
+        });
+
     </script>
     {{ request_modal(request_form) }}
 {% endblock %}
