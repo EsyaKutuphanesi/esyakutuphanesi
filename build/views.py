@@ -25,9 +25,9 @@ def page_not_found(error):
 def home():
     form = SearchForm()
     request_form = RequestForm()
-    last_objects_shared = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == False).order_by(Stuff.id.desc()).limit(8)
+    last_objects_shared = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == False).order_by(Stuff.id.desc()).limit(9)
     last_objects_wanted = Stuff.query.filter(Stuff.approved == 1,
-                                             Stuff.is_wanted == True).order_by(Stuff.id.desc()).limit(8)
+                                             Stuff.is_wanted == True).order_by(Stuff.id.desc()).limit(9)
 
     return render_template("index.html", user=current_user,
                            last_objects_wanted=last_objects_wanted,
@@ -64,14 +64,15 @@ def search():
     last_objects = list()
 
     if request.method == 'GET':
-        stuff_key = unicode(request.args.get('stuff'))
-        address_key = unicode(request.args.get('address'))
+        stuff_key = unicode(request.args.get('stuff')).lower()
+        address_key = unicode(request.args.get('address')).lower()
         print stuff_key
+
         last_objects = Stuff.query.join(Address).\
             filter(Stuff.approved == 1,
                    Address.id == Stuff.address_id,
-                   Stuff.title.like('%'+stuff_key+'%'),
-                   Address.detail.like('%'+address_key+'%')).limit(8)
+                   Stuff.title.ilike('%'+stuff_key+'%'),
+                   Address.detail.ilike('%'+address_key+'%'))
 
     return render_template("search.html", user=current_user,
                            last_objects=last_objects, form=form,
@@ -376,14 +377,12 @@ def category_view(category_name=None):
     if is_wanted is None:
         stuff_list = Stuff.query.\
             filter(Stuff.category == category,
-                   Stuff.approved == 1).\
-            limit(20)
+                   Stuff.approved == 1)
     else:
         stuff_list = Stuff.query.\
             filter(Stuff.category == category,
                    Stuff.is_wanted == is_wanted,
-                   Stuff.approved == 1).\
-            limit(20)
+                   Stuff.approved == 1)
     params = {
         'category': {
             'type': 'category',
@@ -430,16 +429,14 @@ def category_stuff_type_view(category_name, type_name):
             join(Category).\
             join(StuffType).\
             filter(StuffType.id == stuff_type.id).\
-            filter(Category.id == category.id).\
-            limit(8)
+            filter(Category.id == category.id)
     else:
         stuff_list = Stuff.query.\
             join(Category).\
             join(StuffType).\
             filter(StuffType.id == stuff_type.id).\
             filter(Category.id == category.id).\
-            filter(Stuff.is_wanted == is_wanted).\
-            limit(8)
+            filter(Stuff.is_wanted == is_wanted)
 
     params = {
         'category': {
@@ -648,8 +645,8 @@ def get_profile(user_id=None):
 
     request_form = RequestForm()
     user_profile = User.query.filter(User.id == user_id).first()
-    user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == False, Stuff.approved == 1).limit(8)
-    user_stuff_wanted = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == True, Stuff.approved == 1).limit(8)
+    user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == False, Stuff.approved == 1)
+    user_stuff_wanted = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == True, Stuff.approved == 1)
 
     reviews = Review.query.filter(Review.reviewed_user_id == user_id)
     reviews_count = reviews.count()
@@ -660,7 +657,7 @@ def get_profile(user_id=None):
             if review.rating:
                 total_rating += review.rating
         avg_rate = total_rating/reviews_count
-    else :
+    else:
         avg_rate = 0
 
     users_group = Group.query.join(GroupMembership).\
@@ -669,11 +666,12 @@ def get_profile(user_id=None):
 
     returned_request = Request.query.filter(Request.from_user_id == user_id).join(Conversation).\
         filter(Conversation.request_id == Request.id).join(Message).filter(Message.conversation_id == Conversation.id,
-                                                                           Message.from_user_id == user_id).count()
+                                                                           Message.from_user_id == user_id)\
+        .group_by(Message.conversation_id).count()
 
-    if returned_request > 0 :
+    if returned_request > 0:
         # returned_request = int(returned_request)
-        returned_request = 1
+        # returned_request = 1
         # print returned_request
 
         request_from_me = Request.query.filter(Request.from_user_id == user_id).count()
