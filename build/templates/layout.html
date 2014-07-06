@@ -83,7 +83,7 @@
                              <a href="#">
                                 <li>Video</li>
                             </a>-->
-                             <a href="/privacy_policy">
+                             <a href="/user_agreement">
                                 <li>Kullanıcı Sözleşmesi</li>
                             </a>
                         </ul>
@@ -91,6 +91,9 @@
                     <div class="col-md-4 col-sm-4 col-xs-4">
                         <h5>SOSYAL MEDYA</h5>
                         <ul class="footerUl">
+                            <a href="http://esyakutuphanesi.com/blog" target="_blank">
+                                <li>Blog</li>
+                            </a>
                             <a href="https://www.facebook.com/EsyaKutuphanesi" target="_blank">
                                 <li>Facebook</li>
                             </a>
@@ -110,5 +113,21 @@
             </div>
         </div>
     </div>
+<script>
+$.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',function(){
+    $.getScript('http://cdn.jsdelivr.net/jquery.lazyload/1.8.4/jquery.lazyload.js',function(){
+
+      var $container = $('#container');
+      $container.imagesLoaded(function(){
+          $container.masonry({
+              itemSelector: '.item',
+              columnWidth: function(containerWidth){
+                  return containerWidth / 12;
+              }
+          });
+      });
+    });
+});
+</script>
   </body>
 </html>

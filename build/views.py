@@ -290,24 +290,28 @@ def show_stuff(stuff_id):
     request_form = RequestForm()
     is_wanted = request.args.get('is_wanted')
 
-    stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
-    stuff_address = Address.query.filter(Address.id == stuff.address_id).first()
-    reviews = Review.query.filter(Review.request_id == Request.id, Request.stuff_id == stuff_id)
+    stuff = Stuff.query.filter(Stuff.id == stuff_id, Stuff.approved == 1).first()
+    if stuff:
+        stuff_address = Address.query.filter(Address.id == stuff.address_id).first()
+        reviews = Review.query.filter(Review.request_id == Request.id, Request.stuff_id == stuff_id)
 
-    user_rates = Review.query.filter(Review.reviewed_user_id == stuff.owner_id)
-    rating_count = user_rates.count()
+        user_rates = Review.query.filter(Review.reviewed_user_id == stuff.owner_id)
+        rating_count = user_rates.count()
 
-    total_rating = 0
-    if rating_count>0:
-        for rate in user_rates:
-            if rate.rating:
-                total_rating += rate.rating
-        avg_rate = total_rating/rating_count
-    else :
-        avg_rate = 0
+        total_rating = 0
+        if rating_count>0:
+            for rate in user_rates:
+                if rate.rating:
+                    total_rating += rate.rating
+            avg_rate = total_rating/rating_count
+        else:
+            avg_rate = 0
 
-    return render_template("show_stuff.html", stuff_address=stuff_address, user=current_user, rating=avg_rate,
-                           request_form=request_form, is_wanted=is_wanted, stuff=stuff, reviews=reviews)
+        return render_template("show_stuff.html", stuff_address=stuff_address, user=current_user, rating=avg_rate,
+                               request_form=request_form, is_wanted=is_wanted, stuff=stuff, reviews=reviews)
+    else:
+        flash(u"Eşya kaldırılmış.")
+        return render_template('/404.html', user=current_user)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -834,6 +838,18 @@ def events():
 def sos():
     return render_template("sos.html", user=current_user)
 
-@app.route('/privacy_policy')
-def privacy_policy():
-    return render_template("privacy_policy.html", user=current_user)
+@app.route('/user_agreement')
+def user_agreement():
+    return render_template("user_agreement.html", user=current_user)
+
+@app.route('/kurulus')
+def organization():
+    return render_template("organization.html", user=current_user)
+
+@app.route('/girisim_yolu')
+def enterprise_path():
+    return render_template("enterprise_path.html", user=current_user)
+
+@app.route('/ekip_ve_gonulluluk')
+def team_and_volunteering():
+    return render_template("team_and_volunteering.html", user=current_user)

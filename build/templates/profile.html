@@ -7,7 +7,11 @@
 
     <div class="row" style="margin:20px auto;">
         <div class="col-md-5 col-sm-5">
-            <img src="/photos/{{user_profile.photo}}" class="img-responsive" style="margin:0 auto; max-height:400px;">
+            {% if user_profile.photo %}
+                <img src="/photos/{{user_profile.photo}}" class="img-responsive" style="margin:0 auto; max-height:400px;">
+            {% else %}
+                <img src="/static/images/ek.png" class="img-responsive" style="margin:0 auto; max-height:400px;">
+            {% endif %}
         </div>
         <div class="col-md-6 col-sm-7 pull-right">
             <div class="row col-xs-12">
@@ -22,7 +26,7 @@
                     <div class="col-md-6 col-sm-6">
                         <div class="progress">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{return_ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{return_ratio}}%">
-                            {% if return_ratio<20 %}<span style="color:black; margin-left:10px;"> {% else %}<span> {% endif %}{{return_ratio}}%</span>
+                                {% if return_ratio<20 %}<span style="color:black; margin-left:10px;"> {% else %}<span> {% endif %}{{return_ratio}}%</span></span>
                             </div>
                        </div>
                     </div>
@@ -44,13 +48,12 @@
             </div>-->
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-left: -16px;">
+
         {% if user_stuff_shared[0] %}
             <div class="col-md-12">
-                <h3 style="border-bottom: 1px solid #dddddd;
-    padding-bottom: 10px;">Son Paylaştıkları:</h3>
+                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Son Paylaştıkları:</h3>
             </div>
-
             <div class="col-md-12">
                 <div id="container" class="row fluid">
                     {% for stuff in user_stuff_shared%}
@@ -59,7 +62,14 @@
                 </div>
             </div>
         {% else %}
-            HENÜZ EŞYA PAYLAŞILMAMIŞ
+            <div class="col-md-12">
+                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Hemen paylaşabilirsin ^^</h3>
+            </div>
+            <div class="col-md-12">
+                <a href="/new_stuff">
+                    <img src="/static/images/esyapaylashadi.png" class="img-responsive"/>
+                </a>
+            </div>
         {% endif %}
     </div>
     <div class="row">
@@ -78,13 +88,13 @@
             </div>
         {% endif %}
     </div>
-<script type="text/javascript" charset="utf-8">
-    $(function(){
-        $('#star-area').raty({readOnly: true, start:{{rating}}});
-        });
-    $(function(){
-        $('#popover-area').popover('toogle')
-        });
-</script>
-{{ request_modal(request_form) }}
+    <script type="text/javascript" charset="utf-8">
+        $(function(){
+            $('#star-area').raty({readOnly: true, start:{{rating}}});
+            });
+        $(function(){
+            $('#popover-area').popover('toogle')
+            });
+    </script>
+    {{ request_modal(request_form) }}
 {% endblock %}

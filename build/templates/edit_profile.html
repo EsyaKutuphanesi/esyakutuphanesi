@@ -18,7 +18,11 @@
             {{ form.hidden_tag() }}
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="col-md-12 text-center" style="overflow:hidden; margin-bottom:10px;">
-                    <img height="250" src="/photos/{{user.photo}}"/>
+                    {% if user.photo %}
+                        <img height="250" src="/photos/{{user.photo}}"/>
+                    {% else %}
+                        <img height="250" src="/static/images/ek.png"/>
+                    {% endif %}
                </div>
                 <div class="col-md-12">{{ render_field_with_errors(form.photo) }}</div>
             </div>
@@ -27,6 +31,11 @@
               {{ render_field_with_errors(form.name) }}
               {{ render_field_with_errors(form.email) }}
               {{ render_field_with_errors(form.phone_number) }}
+                <div class="row">
+                    <div class="label label-default" style="float:right; margin:-10px 10px 10px; font-size:12px;">
+                        Eşya ödünç istediğin kişi ile numaran paylaşılır.
+                    </div>
+                </div>
               {{ render_field_with_errors(form.about) }}
               <div class="col-md-12 col-sm-12 col-xs-12">
                 {{ form.submit(class_='btn btn-success pull-right')}}

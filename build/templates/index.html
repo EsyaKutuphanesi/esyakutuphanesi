@@ -6,22 +6,7 @@
 {% block content %}
 
 <script src="http://connect.facebook.net/en_US/all.js"></script>
-<script>
-    $.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',function(){
-        $.getScript('http://cdn.jsdelivr.net/jquery.lazyload/1.8.4/jquery.lazyload.js',function(){
 
-          var $container = $('#container');
-          $container.imagesLoaded(function(){
-              $container.masonry({
-                  itemSelector: '.item',
-                  columnWidth: function(containerWidth){
-                      return containerWidth / 12;
-                  }
-              });
-          });
-        });
-    });
-</script>
 <!--    {%if not user.is_authenticated()%}
     <div class="row">
         <div class="col-md-6 mm-8">
@@ -39,9 +24,10 @@
     </div>
     {%endif%}-->
     <div class="row" id="hideInfo">
-        <img class="img-responsive" src="/static/images/eknedir.png"/>
+        <img class="img-responsive" src="/static/images/eknedir.png" style="margin:0 auto;"/>
+        <!--<img class="img-responsive" src="/static/images/banner.png" style="margin:0 auto;"/>-->
     </div>
-    <div class="col-md-12 row" style="background:url('/static/images/search.png'); margin:30px auto; width:810px; padding:30px 15px; color:white; border-radius:10px;">
+    <div class="row" style="background:url('/static/images/search.png'); margin:30px auto; max-width:810px; padding:30px 15px; color:white; border-radius:10px;">
         <form role="search" name="search" action="/search" method="get">
             <table class="table searchTable">
                 <tr>
@@ -106,24 +92,24 @@
     <div class="col-md-12 col-sm-12 grayLine" style="margin-bottom:50px;"></div>
 
     <div class="row">
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <a href="#">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <a href="/kurulus">
                 <div>
-                    <img src="/static/images/paylasimhikayeleri.png" class="img-responsive" style="margin:0 auto;"/>
+                    <img src="/static/images/kurulus.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
             </a>
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <a href="#">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <a href="/girisim_yolu">
                 <div>
-                    <img src="/static/images/destekciolun.png" class="img-responsive" style="margin:0 auto;"/>
+                    <img src="/static/images/girisimyolu.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
             </a>
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <a href="#">
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <a href="/ekip_ve_gonulluluk">
                 <div>
-                    <img src="/static/images/hikayenipaylas.png" class="img-responsive" style="margin:0 auto;"/>
+                    <img src="/static/images/ekip.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
             </a>
         </div>

@@ -97,7 +97,7 @@
         {%endif%}
     </div>
 
-    <div class="row">
+    <div class="row" style="margin-left:-16px;">
 
         {% if not stuff_list[0]%}
             <div class="col-md-12" style="background:rgba(0,0,0,0.5); margin:20px auto; padding:15px; line-height:34px;color:white; border-radius:10px;">
@@ -107,9 +107,14 @@
                 </div>
             </div>
         {%endif%}
-        {% for stuff in stuff_list %}
-            {{ render_item_box(stuff, user, stuff.is_wanted) }}
-        {%endfor%}
+        <div class="col-md-12 col-sm-12">
+            <div id="container" class="row fluid">
+                {% for stuff in stuff_list %}
+                    {{ render_item_box(stuff, user, stuff.is_wanted) }}
+                {%endfor%}
+            </div>
+        </div>
+
     </div>
 
 {{ request_modal(request_form) }}
