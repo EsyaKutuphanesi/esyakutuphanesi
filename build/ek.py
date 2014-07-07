@@ -23,7 +23,7 @@ app.config['SECURITY_POST_REGISTER_VIEW'] = '/check_approved/register'
 app.config['SECURITY_POST_LOGIN_VIEW'] = '/check_approved/login'
 app.config['MAIL_SERVER'] = 'localhost'
 app.config['MAIL_PORT'] = 25
-app.config['SECURITY_EMAIL_SENDER'] = 'bilgi@esyakutuphanesi.com'
+app.config['SECURITY_EMAIL_SENDER'] = (u'Eşya Kütüphanesi', 'bilgi@esyakutuphanesi.com')
 
 app.config['UPLOADS_FOLDER'] = os.path.dirname(os.path.realpath(__file__)) + '/static/photos'
 #app.config['MAIL_USE_SSL'] = True
