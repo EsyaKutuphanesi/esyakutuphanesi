@@ -1,0 +1,4 @@
+<p>Parolanız değiştirildi.</p>
+{% if security.recoverable %}
+<p>Parolanızı siz değiştirmediyseniz <a href="{{ url_for_security('forgot_password', _external=True) }}">buraya tıklayarak sıfırlayabilirsiniz</a>.</p>
+{% endif %}

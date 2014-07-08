@@ -1,0 +1,3 @@
+Parolanızı sıfırlamak için tıklayınız:
+
+{{ reset_link }}

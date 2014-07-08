@@ -1,0 +1,5 @@
+Parolanız değiştirildi.
+{% if security.recoverable %}
+Parolanızı siz değiştirmediyseniz aşağıdaki bağlantıya tıklayarak sıfırlayabilirsiniz.
+{{ url_for_security('forgot_password', _external=True) }}
+{% endif %}

@@ -1,0 +1,3 @@
+Aşağıdaki bağlantıya giderek e-posta adresinizi onaylayabilirsiniz:
+
+{{ confirmation_link }}

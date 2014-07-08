@@ -1,0 +1,5 @@
+Merhaba {{ user.email }}!
+
+Aşağıdaki adresi kullanarak giriş yapabilirsiniz:
+
+{{ login_link }}
