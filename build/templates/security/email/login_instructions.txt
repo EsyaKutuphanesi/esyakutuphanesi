@@ -1,5 +1,5 @@
 Merhaba {{ user.email }}!
 
-Aşağıdaki adresi kullanarak giriş yapabilirsiniz:
+Aşağıdaki adresi kullanarak giriş yapabilirsin:
 
 {{ login_link }}

@@ -1,3 +1,3 @@
-Aşağıdaki bağlantıya giderek e-posta adresinizi onaylayabilirsiniz:
+Aşağıdaki bağlantıya giderek e-posta adresini onaylayabilirsin:
 
 {{ confirmation_link }}

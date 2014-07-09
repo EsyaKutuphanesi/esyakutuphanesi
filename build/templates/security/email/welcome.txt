@@ -1,7 +1,7 @@
 Merhaba {{ user.email }}!
 
 {% if security.confirmable %}
-Aşağıdaki bağlantıya giderek üyeliğinizi onaylayabilirsiniz:
+Aşağıdaki bağlantıya giderek üyeliğini onaylayabilirsin:
 
 {{ confirmation_link }}
 {% endif %}

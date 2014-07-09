@@ -7,15 +7,15 @@ from wtforms import TextAreaField, SelectField, FileField, RadioField
 from models import User
 
 class EditUserForm(Form):
-    userid = HiddenField('userid');
+    userid = HiddenField('userid')
     photo = FileField(u'Resim Yükle')
     name = TextField(u'İsim', [
-        validators.Length(min=4, max=25),
-        validators.Required()
+        validators.Length(min=4, max=25, message=u'En az 4, en fazla 25 karakter girebilirsin.'),
+        validators.Required(u'İsmini girmelisin.')
     ])
     email = TextField(u'Email Adresi', [
         validators.Length(min=6, max=35),
-        validators.Required()
+        validators.Required(u'Email adresini girmelisin.')
     ])
     phone_number = TextField(u'Telefon', [
         validators.Length(min=0, max=35),

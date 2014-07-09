@@ -16,9 +16,15 @@ from models import Address, Category, Conversation,\
     Group, Invitations, GroupMembership, Message, Photo, Request,\
     Review, Stuff, StuffPhoto, StuffType, Tag, User
 
+from flask import g
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('/404.html', user=current_user), 404
+
+@app.before_request
+def before_request():
+    g.user = current_user
 
 @app.route('/categories')
 @app.route('/')
