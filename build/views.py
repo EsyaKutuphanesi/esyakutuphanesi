@@ -31,9 +31,14 @@ def before_request():
 def home():
     form = SearchForm()
     request_form = RequestForm()
-    last_objects_shared = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == False).order_by(Stuff.id.desc()).limit(9)
-    last_objects_wanted = Stuff.query.filter(Stuff.approved == 1,
-                                             Stuff.is_wanted == True).order_by(Stuff.id.desc()).limit(9)
+    last_objects_shared = Stuff.query.join(User).filter(Stuff.approved == 1,
+                                                        Stuff.is_wanted == False,
+                                                        Stuff.owner_id == User.id,
+                                                        User.approved == True).order_by(Stuff.id.desc()).limit(9)
+    last_objects_wanted = Stuff.query.join(User).filter(Stuff.approved == 1,
+                                                        Stuff.is_wanted == True,
+                                                        Stuff.owner_id == User.id,
+                                                        User.approved == True).order_by(Stuff.id.desc()).limit(9)
 
     return render_template("index.html", user=current_user,
                            last_objects_wanted=last_objects_wanted,
@@ -74,8 +79,10 @@ def search():
         address_key = unicode(request.args.get('address')).lower()
         print stuff_key
 
-        last_objects = Stuff.query.join(Address).\
-            filter(Stuff.approved == 1,
+        last_objects = Stuff.query.join(Address).join(User).\
+            filter(Stuff.owner_id == User.id,
+                   User.approved == True,
+                   Stuff.approved == 1,
                    Address.id == Stuff.address_id,
                    Stuff.title.ilike('%'+stuff_key+'%'),
                    Address.detail.ilike('%'+address_key+'%'))
@@ -297,7 +304,10 @@ def show_stuff(stuff_id):
     request_form = RequestForm()
     is_wanted = request.args.get('is_wanted')
 
-    stuff = Stuff.query.filter(Stuff.id == stuff_id, Stuff.approved == 1).first()
+    stuff = Stuff.query.join(User).filter(Stuff.id == stuff_id,
+                                          Stuff.approved == 1,
+                                          Stuff.owner_id == User.id,
+                                          User.approved == True).first()
     if stuff:
         stuff_address = Address.query.filter(Address.id == stuff.address_id).first()
         reviews = Review.query.filter(Review.request_id == Request.id, Request.stuff_id == stuff_id)
@@ -381,14 +391,18 @@ def category_view(category_name=None):
         filter(Category.name == category_name).first()
     #stuff_list = category.stuff_list
     if is_wanted is None:
-        stuff_list = Stuff.query.\
+        stuff_list = Stuff.query.join(User).\
             filter(Stuff.category == category,
-                   Stuff.approved == 1)
+                   Stuff.approved == 1,
+                   Stuff.owner_id == User.id,
+                   User.approved == True)
     else:
-        stuff_list = Stuff.query.\
+        stuff_list = Stuff.query.join(User).\
             filter(Stuff.category == category,
                    Stuff.is_wanted == is_wanted,
-                   Stuff.approved == 1)
+                   Stuff.approved == 1,
+                   Stuff.owner_id == User.id,
+                   User.approved == True)
     params = {
         'category': {
             'type': 'category',
@@ -431,7 +445,7 @@ def category_stuff_type_view(category_name, type_name):
     category = Category.query.\
         filter(Category.name == category_name).first()
     if is_wanted is None:
-        stuff_list = Stuff.query.\
+        stuff_list = Stuff.query.join(User).\
             join(Category).\
             join(StuffType).\
             filter(StuffType.id == stuff_type.id).\
@@ -634,6 +648,21 @@ def moderation():
             stuff.approved = 1
             db.session.commit()
 
+            msg_body = u'Eşyan onaylandı.<br><br> ' \
+                       u'esyakutuphanesi.com'
+            html_msg = u'Eşyan onaylandı.<br><br> ' \
+                       u'<a href="http://esyakutuphanesi.com/">esyakutuphanesi.com</a>' \
+
+            msg_subject = u"Eşyan onaylandı!"
+            msg = MailMessage(body=msg_body,
+                              html=html_msg,
+                              subject=msg_subject,
+                              sender="no-reply@esyakutuphanesi.com",
+                              recipients=[stuff.owner.email])
+            mail.send(msg)
+
+            flash(u"Eşya onaylandı ve e-posta gönderildi!")
+
     if user_action == 'approve_user' and user_id > 0:
         unapproved_user = User.query.filter(User.approved == False, User.id == user_id). \
             order_by(User.id.desc()).first()
@@ -642,15 +671,14 @@ def moderation():
             unapproved_user.approved = True
             db.session.commit()
 
-            msg_body = u'Merhaba %s <br><br> ' \
+            msg_body = u'Merhabalar!<br><br> ' \
                        u'Eşya Kütüphanesine hoşgeldin! Artık herhangi bir eşyaya ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin. :) ' \
                        u'<br><br> Alet edevat, kitap, film, gece elbisesi, takım elbise, müzik aletleri, spor eşyaları ve kamp malzemeleri ' \
                        u'her daim sitemizde aranılan eşyalar. Sen de paylaşmak istediğin eşyalarını görünür kılmak ve ' \
                        u'ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, "Eşya Paylaş"a tıklayarak eşyalarını listeleyebilirsin.' \
                        u'<br><br>Unutmadan, arkadaşlarını da aramızda görmeyi çok isteriz!' \
-                       u'<br><br>Güzel günler! <br><br> Didem <br>esyakutuphanesi.com"'\
-                       % u'unapproved_user.name'
-            html_msg = u'Merhaba %s <br><br> ' \
+                       u'<br><br>Güzel günler! <br><br> Didem <br>esyakutuphanesi.com'
+            html_msg = u'Merhabalar!<br><br> ' \
                        u'Eşya Kütüphanesine hoşgeldin! Artık herhangi bir eşyaya ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin. :) ' \
                        u'<br><br> Alet edevat, kitap, film, gece elbisesi, takım elbise, müzik aletleri, spor eşyaları ve kamp malzemeleri ' \
                        u'her daim sitemizde aranılan eşyalar. Sen de paylaşmak istediğin eşyalarını görünür kılmak ve ' \
@@ -660,8 +688,8 @@ def moderation():
                        u'<br><br><a href="http://esyakutuphanesi.com/">esyakutuphanesi.com</a>' \
                        u'<br>Twitter:<a href="http://esyakutuphanesi.com/">@EsyaKutuphanesi</a>' \
                        u'<br>Facebook:<a href="http://esyakutuphanesi.com/">facebook.com/EsyaKutuphanesi</a>' \
-                       u'<br>Zumbara:<a href="http://esyakutuphanesi.com/">zumbara.com/profil/12340</a>"'\
-                       % u'unapproved_user.name'
+                       u'<br>Zumbara:<a href="http://esyakutuphanesi.com/">zumbara.com/profil/12340</a>'
+                       #  %s % u'unapproved_user.name'
 
             msg_subject = u"Hoşgeldin!"
             msg = MailMessage(body=msg_body,
@@ -671,7 +699,7 @@ def moderation():
                               recipients=[unapproved_user.email])
             mail.send(msg)
 
-            flash(u"Kullanıcı onaylandı!")
+            flash(u"Kullanıcı onaylandı ve e-posta gönderildi!")
 
     if 'admin' in current_user.roles:
         last_objects = Stuff.query.filter(Stuff.approved == 0).\
@@ -696,50 +724,58 @@ def get_profile(user_id=None):
 
     request_form = RequestForm()
     user_profile = User.query.filter(User.id == user_id).first()
-    user_stuff_shared = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == False, Stuff.approved == 1)
-    user_stuff_wanted = Stuff.query.filter(Stuff.owner_id == user_id, Stuff.is_wanted == True, Stuff.approved == 1)
 
-    reviews = Review.query.filter(Review.reviewed_user_id == user_id)
-    reviews_count = reviews.count()
+    if user_profile.approved:
 
-    total_rating = 0
-    if reviews_count > 0:
-        for review in reviews:
-            if review.rating:
-                total_rating += review.rating
-        avg_rate = total_rating/reviews_count
+        user_stuff_shared = Stuff.query.join(User).\
+            filter(Stuff.owner_id == user_id, Stuff.is_wanted == False, Stuff.approved == 1,
+                   Stuff.owner_id == User.id, User.approved == True)
+        user_stuff_wanted = Stuff.query.join(User).\
+            filter(Stuff.owner_id == user_id, Stuff.is_wanted == True, Stuff.approved == 1,
+                   Stuff.owner_id == User.id, User.approved == True)
+
+        reviews = Review.query.filter(Review.reviewed_user_id == user_id)
+        reviews_count = reviews.count()
+
+        total_rating = 0
+        if reviews_count > 0:
+            for review in reviews:
+                if review.rating:
+                    total_rating += review.rating
+            avg_rate = total_rating/reviews_count
+        else:
+            avg_rate = 0
+
+        users_group = Group.query.join(GroupMembership).\
+            filter(GroupMembership.group_id == Group.id,
+                   GroupMembership.user_id == user_id)
+
+        returned_request = Request.query.filter(Request.from_user_id == user_id).join(Conversation).\
+            filter(Conversation.request_id == Request.id).join(Message).filter(Message.conversation_id == Conversation.id,
+                                                                               Message.from_user_id == user_id)\
+            .group_by(Message.conversation_id, Request.id).count()
+
+        if returned_request > 0:
+            # returned_request = int(returned_request)
+            # returned_request = 1
+            # print returned_request
+
+            request_from_me = Request.query.filter(Request.from_user_id == user_id).count()
+            request_from_me = int(request_from_me)
+            # print request_from_me.count()
+
+            return_ratio = (returned_request*100 / request_from_me)
+
+            # print return_ratio
+        else:
+            return_ratio = 0
+
+        return render_template("profile.html", user_stuff_shared=user_stuff_shared, user_stuff_wanted=user_stuff_wanted,
+                           users_group=users_group, user_profile=user_profile, user=current_user, rating=avg_rate,
+                           request_form=request_form, return_ratio=return_ratio)
+
     else:
-        avg_rate = 0
-
-    users_group = Group.query.join(GroupMembership).\
-        filter(GroupMembership.group_id == Group.id,
-               GroupMembership.user_id == user_id)
-
-    returned_request = Request.query.filter(Request.from_user_id == user_id).join(Conversation).\
-        filter(Conversation.request_id == Request.id).join(Message).filter(Message.conversation_id == Conversation.id,
-                                                                           Message.from_user_id == user_id)\
-        .group_by(Message.conversation_id, Request.id).count()
-
-    if returned_request > 0:
-        # returned_request = int(returned_request)
-        # returned_request = 1
-        # print returned_request
-
-        request_from_me = Request.query.filter(Request.from_user_id == user_id).count()
-        request_from_me = int(request_from_me)
-        # print request_from_me.count()
-
-        return_ratio = (returned_request*100 / request_from_me)
-
-        # print return_ratio
-    else:
-        return_ratio = 0
-
-
-    return render_template("profile.html", user_stuff_shared=user_stuff_shared, user_stuff_wanted=user_stuff_wanted,
-                       users_group=users_group, user_profile=user_profile, user=current_user, rating=avg_rate,
-                       request_form=request_form, return_ratio=return_ratio)
-
+        return render_template('/404.html', user=current_user)
 
 @app.route('/groups', methods=['GET', 'POST'])
 @login_required
