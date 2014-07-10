@@ -34,6 +34,10 @@ security_messages = {
     'PASSWORD_CHANGE': (u'Şifreni başarıyla değiştirdin.', 'success'),
     'LOGIN': (u'Bu sayfaya ulaşmak için lütfen giriş yapın.', 'info'),
     'REFRESH': (u'Bu sayfaya ulaşmak için lütfen yeniden giriş yapın.', 'info'),
+
+}
+
+security_config = {
     # reautanticate
     'DEFAULT_HTTP_AUTH_REALM': 'Login Required',
     'EMAIL_SUBJECT_REGISTER': u'Hoşgeldin!',

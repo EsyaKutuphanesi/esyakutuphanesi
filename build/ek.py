@@ -34,10 +34,13 @@ app.config.from_pyfile(os.path.dirname(os.path.realpath(__file__)) + '/ek.cfg')
 db = SQLAlchemy(app)
 mail = Mail(app)
 
-from messages import security_messages
+from messages import security_messages, security_config
 
-for key,value in security_messages.iteritems():
-    app.config['SECURITY_MSG_'+key]=value
+for key, value in security_messages.iteritems():
+    app.config['SECURITY_MSG_'+key] = value
+
+for key, value in security_config.iteritems():
+    app.config['SECURITY_'+key] = value
 
 from views import *
 from admin import *
