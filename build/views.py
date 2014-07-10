@@ -327,7 +327,7 @@ def show_stuff(stuff_id):
         return render_template("show_stuff.html", stuff_address=stuff_address, user=current_user, rating=avg_rate,
                                request_form=request_form, is_wanted=is_wanted, stuff=stuff, reviews=reviews)
     else:
-        flash(u"Eşya kaldırılmış.")
+        # flash(u"Eşya kaldırılmış.")
         return render_template('/404.html', user=current_user)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
