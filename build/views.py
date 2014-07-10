@@ -635,7 +635,7 @@ def moderation():
             db.session.commit()
 
     if user_action == 'approve_user' and user_id > 0:
-        unapproved_user = User.query.filter(User.approved == True, User.id == user_id). \
+        unapproved_user = User.query.filter(User.approved == False, User.id == user_id). \
             order_by(User.id.desc()).first()
 
         if unapproved_user:
