@@ -448,15 +448,17 @@ def category_stuff_type_view(category_name, type_name):
         stuff_list = Stuff.query.join(User).\
             join(Category).\
             join(StuffType).\
-            filter(StuffType.id == stuff_type.id).\
-            filter(Category.id == category.id)
+            filter(StuffType.id == stuff_type.id, Stuff.owner_id == User.id, Stuff.approved == 1,
+                   User.approved == True, Category.id == category.id)
+            # filter(Category.id == category.id)
     else:
-        stuff_list = Stuff.query.\
+        stuff_list = Stuff.query.join(User).\
             join(Category).\
             join(StuffType).\
-            filter(StuffType.id == stuff_type.id).\
-            filter(Category.id == category.id).\
-            filter(Stuff.is_wanted == is_wanted)
+            filter(StuffType.id == stuff_type.id, Stuff.owner_id == User.id, Stuff.approved == 1,
+                   Stuff.is_wanted == is_wanted, User.approved == True, Category.id == category.id)
+            # filter(Category.id == category.id).\
+            # filter(Stuff.is_wanted == is_wanted)
 
     params = {
         'category': {
