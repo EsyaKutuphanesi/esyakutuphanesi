@@ -448,15 +448,16 @@ def category_stuff_type_view(category_name, type_name):
         stuff_list = Stuff.query.join(User).\
             join(Category).\
             join(StuffType).\
-            filter(StuffType.id == stuff_type.id, Stuff.owner_id == User.id, Stuff.approved == 1,
-                   User.approved == True, Category.id == category.id)
+            filter(Category.id == category.id, StuffType.id == stuff_type.id,
+                   Stuff.approved == 1, Stuff.owner_id == User.id, User.approved == True)
             # filter(Category.id == category.id)
     else:
         stuff_list = Stuff.query.join(User).\
             join(Category).\
             join(StuffType).\
-            filter(StuffType.id == stuff_type.id, Stuff.owner_id == User.id, Stuff.approved == 1,
-                   Stuff.is_wanted == is_wanted, User.approved == True, Category.id == category.id)
+            filter(Category.id == category.id, StuffType.id == stuff_type.id,
+                   Stuff.approved == 1, Stuff.is_wanted == is_wanted, Stuff.owner_id == User.id,
+                   User.approved == True, )
             # filter(Category.id == category.id).\
             # filter(Stuff.is_wanted == is_wanted)
 
@@ -727,7 +728,7 @@ def get_profile(user_id=None):
     request_form = RequestForm()
     user_profile = User.query.filter(User.id == user_id).first()
 
-    if user_profile.approved:
+    if user_profile:
 
         user_stuff_shared = Stuff.query.join(User).\
             filter(Stuff.owner_id == user_id, Stuff.is_wanted == False, Stuff.approved == 1,
