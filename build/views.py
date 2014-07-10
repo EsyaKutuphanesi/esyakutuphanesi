@@ -613,6 +613,11 @@ def moderation():
     action = request.args.get("action")
     id = request.args.get("id")
 
+    user_action = request.args.get("user_action")
+    user_id = request.args.get("user_id")
+
+    new_user = User.query.filter(User.id).order_by(User.id.desc()).limit(20)
+
     if action == 'approve' and id>0:
         if 'admin' in current_user.roles:
             stuff = Stuff.query.filter(Stuff.approved == 0,
@@ -629,17 +634,57 @@ def moderation():
             stuff.approved = 1
             db.session.commit()
 
+    if user_action == 'approve_user' and user_id>0:
+        unapproved_user = User.query.filter(User.approved == 0, User.id == user_id). \
+            order_by(User.id.desc()).first()
+
+        if unapproved_user:
+            unapproved_user.approved = 1
+            db.session.commit()
+
+            msg_body = u'Merhaba %s <br><br> ' \
+                       u'Eşya Kütüphanesine hoşgeldin! Artık herhangi bir eşyaya ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin. :) ' \
+                       u'<br><br> Alet edevat, kitap, film, gece elbisesi, takım elbise, müzik aletleri, spor eşyaları ve kamp malzemeleri ' \
+                       u'her daim sitemizde aranılan eşyalar. Sen de paylaşmak istediğin eşyalarını görünür kılmak ve ' \
+                       u'ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, "Eşya Paylaş"a tıklayarak eşyalarını listeleyebilirsin.' \
+                       u'<br><br>Unutmadan, arkadaşlarını da aramızda görmeyi çok isteriz!' \
+                       u'<br><br>Güzel günler! <br><br> Didem <br>esyakutuphanesi.com"'\
+                       % u'unapproved_user.name'
+            html_msg = u'Merhaba %s <br><br> ' \
+                       u'Eşya Kütüphanesine hoşgeldin! Artık herhangi bir eşyaya ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin. :) ' \
+                       u'<br><br> Alet edevat, kitap, film, gece elbisesi, takım elbise, müzik aletleri, spor eşyaları ve kamp malzemeleri ' \
+                       u'her daim sitemizde aranılan eşyalar. Sen de paylaşmak istediğin eşyalarını görünür kılmak ve ' \
+                       u'ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, <a href="http://esyakutuphanesi.com/new_stuff">"Eşya Paylaş"</a>a tıklayarak eşyalarını listeleyebilirsin.' \
+                       u'<br><br>Unutmadan, <a href="http://esyakutuphanesi.com/invite">arkadaşlarını da aramızda görmeyi</a> çok isteriz!' \
+                       u'<br><br>Güzel günler! <br><br> Didem ' \
+                       u'<br><br><a href="http://esyakutuphanesi.com/">esyakutuphanesi.com</a>' \
+                       u'<br>Twitter:<a href="http://esyakutuphanesi.com/">@EsyaKutuphanesi</a>' \
+                       u'<br>Facebook:<a href="http://esyakutuphanesi.com/">facebook.com/EsyaKutuphanesi</a>' \
+                       u'<br>Zumbara:<a href="http://esyakutuphanesi.com/">zumbara.com/profil/12340</a>"'\
+                       % u'unapproved_user.name'
+
+            msg_subject = u"Hoşgeldin!"
+            msg = MailMessage(body=msg_body,
+                              html=html_msg,
+                              subject=msg_subject,
+                              sender="no-reply@esyakutuphanesi.com",
+                              recipients=[unapproved_user.email])
+            mail.send(msg)
+
+            flash(u"Kullanıcı onaylandı!")
+
     if 'admin' in current_user.roles:
         last_objects = Stuff.query.filter(Stuff.approved == 0).\
-            order_by(Stuff.id.desc()).limit(8)
+            order_by(Stuff.id.desc()).limit(20)
+
     else:
         last_objects = Stuff.query.join(Group).join(GroupMembership)\
             .filter(GroupMembership.user_id == current_user.id,
                     GroupMembership.is_moderator,
                     Stuff.approved == 0).\
-            order_by(Stuff.id.desc()).limit(8)
+            order_by(Stuff.id.desc()).limit(20)
 
-    return render_template("moderation.html", user=current_user,
+    return render_template("moderation.html", user=current_user, new_user=new_user,
                            last_objects=last_objects)
 
 @app.route('/profile/<user_id>')
@@ -687,7 +732,7 @@ def get_profile(user_id=None):
         return_ratio = (returned_request*100 / request_from_me)
 
         # print return_ratio
-    else :
+    else:
         return_ratio = 0
 
 
@@ -726,8 +771,8 @@ def group(group_id):
     for members_photos in group_members:
         photos = Photo.query.filter(Photo.owner_id == members_photos.id)
 
-    return render_template("group.html", group_info=group_info, group_shares=group_shares,
-                           group_members=group_members, photos=photos, user=current_user)
+        return render_template("group.html", group_info=group_info, group_shares=group_shares,
+                               group_members=group_members, photos=photos, user=current_user)
 
 @app.route('/invite', methods=["GET", "POST"])
 @login_required

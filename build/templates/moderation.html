@@ -7,16 +7,20 @@
             var url = '{{ url_for('moderation',action="approve") }}'
             window.location = url + '&id=' + id;
         }
+        function approve_user(user_id){
+            var url = '{{ url_for('moderation',user_action="approve_user") }}'
+            window.location = url + '&user_id=' + user_id;
+        }
     </script>
-    <div class="col-md-8 col-md-offset-2 col-sm-12">
-        <h1>Bekleyen Onaylar</h1>
+    <div class="col-md-12 col-sm-12">
+        <h1>Bekleyen Eşyalar</h1>
         <table class="table table-bordered">
         <tr>
-            <th>Group</th>
-            <th>User</th>
-            <th>Stuff</th>
-            <th>Detail</th>
-            <th>Action</th>
+            <th>Grup</th>
+            <th>Kullanıcı</th>
+            <th>Eşya</th>
+            <th>Detay</th>
+            <th>Aksiyon</th>
         </tr>
             {% for stuff in last_objects %}
                 <tr>
@@ -29,10 +33,37 @@
                     {% endif %}
                     <td>{{ stuff.owner.name }}</td>
                     <td>{{ stuff }}</td>
-                    <td>{{ stuff.about }}</td>
+                    <td>{{ stuff.detail }}</td>
                     <td>
-                        <button class="btn" onclick="approve({{ stuff.id }})">Onayla</button>
-                        <button class="btn">Reddet</button>
+                        <button class="btn btn-success" onclick="approve({{ stuff.id }})">Onayla</button>
+                        <!--<button class="btn btn-danger">Reddet</button>-->
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="col-md-12 col-sm-12">
+        <h1>Kullanıcılar</h1>
+        <table class="table table-bordered">
+        <tr>
+            <th>id</th>
+            <th>E-posta</th>
+            <th>İsim soyisim</th>
+            <th>Detay</th>
+            <th>Aksiyon</th>
+        </tr>
+            {% for users in new_user %}
+                <tr>
+                    <td>{{ users.id }}</td>
+                    <td>{{ users.email }}</td>
+                    <td>{{ users.name  }}</td>
+                    <td>{{ users.why }}</td>
+                    <td>
+                        {% if users.approved == 0%}
+                        <button class="btn btn-success" onclick="approve_user({{ users.id }})">Onayla</button>
+                        {% else %}
+                        Onaylandı
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
