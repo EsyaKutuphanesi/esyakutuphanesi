@@ -306,7 +306,7 @@ def show_stuff(stuff_id):
         rating_count = user_rates.count()
 
         total_rating = 0
-        if rating_count>0:
+        if rating_count > 0:
             for rate in user_rates:
                 if rate.rating:
                     total_rating += rate.rating
@@ -616,9 +616,9 @@ def moderation():
     user_action = request.args.get("user_action")
     user_id = request.args.get("user_id")
 
-    new_user = User.query.filter(User.id>0).order_by(User.id.desc()).limit(20)
+    new_user = User.query.filter(User.id > 0).order_by(User.id.desc()).limit(20)
 
-    if action == 'approve' and id>0:
+    if action == 'approve' and id > 0:
         if 'admin' in current_user.roles:
             stuff = Stuff.query.filter(Stuff.approved == 0,
                                        Stuff.id == id). \
@@ -634,12 +634,12 @@ def moderation():
             stuff.approved = 1
             db.session.commit()
 
-    if user_action == 'approve_user' and user_id>0:
+    if user_action == 'approve_user' and user_id > 0:
         unapproved_user = User.query.filter(User.approved == 0, User.id == user_id). \
             order_by(User.id.desc()).first()
 
         if unapproved_user:
-            unapproved_user.approved = 1
+            unapproved_user.approved = True
             db.session.commit()
 
             msg_body = u'Merhaba %s <br><br> ' \
@@ -703,7 +703,7 @@ def get_profile(user_id=None):
     reviews_count = reviews.count()
 
     total_rating = 0
-    if reviews_count>0:
+    if reviews_count > 0:
         for review in reviews:
             if review.rating:
                 total_rating += review.rating
