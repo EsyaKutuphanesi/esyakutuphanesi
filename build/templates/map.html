@@ -29,7 +29,7 @@ function send(){
                     <input type="hidden" id="lng" name="lng"/>
                     <input id ='search' type="button" class="btn" value="Ara" />
                 </div>
-                <input id='save' type="submit" class="btn btn-success pull-right" value="Kaydet" onclick="send()" />
+                <input id='save' type="submit" class="btn btn-success pull-right" value="Kaydet" onclick="send(), _gaq.push(['_trackEvent', 'Address', 'addAddress', 'Map Page'])" />
             </form>
         </div>
     </div>

@@ -43,7 +43,7 @@
                         <input type="text" class="form-control" name="address" placeholder="Nerede Arıyorsun?">
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-default">Ara</button>
+                        <button type="submit" class="btn btn-default" onclick="_gaq.push(['_trackEvent', 'Stuff', 'searchStuff', 'Landing Page'])">Ara</button>
                     </td>
                 </tr>
 
@@ -93,21 +93,21 @@
 
     <div class="row">
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <a href="/kurulus">
+            <a href="/kurulus" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK Kurulus'])">
                 <div>
                     <img src="/static/images/kurulus.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
             </a>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <a href="/girisim_yolu">
+            <a href="/girisim_yolu" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK Girisim yolu'])">
                 <div>
                     <img src="/static/images/girisimyolu.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>
             </a>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
-            <a href="/ekip_ve_gonulluluk">
+            <a href="/ekip_ve_gonulluluk" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK Ekip'])">
                 <div>
                     <img src="/static/images/ekip.png" class="img-responsive" style="margin:0 auto;"/>
                 </div>

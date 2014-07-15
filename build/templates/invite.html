@@ -21,11 +21,11 @@
 </script>
     <div class="row">
         <ul class="nav nav-tabs">
-          <li><a href="/edit_profile">Ayarlar</a></li>
-          <li><a href="/my_messages">Mesajlar</a></li>
-          <li><a href="/my_stuff">Eşya Kütüphanem</a></li>
+          <li><a href="/edit_profile" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'My_messages Page'])">Ayarlar</a></li>
+          <li class="active"><a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_messages Page'])">Mesajlar</a></li>
+          <li><a href="/my_stuff" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'My_messages Page'])">Eşya Kütüphanem</a></li>
           <!--<li><a href="/groups">Gruplarım</a></li>-->
-          <li class="active"><a href="/invite">Davet Et</a></li>
+          <li class="active"><a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_messages Page'])">Davet Et</a></li>
         </ul>
     </div>
 

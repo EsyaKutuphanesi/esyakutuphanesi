@@ -23,7 +23,7 @@
           {{ render_checkbox_with_errors(register_user_form.agreement, label_visible=False) }}
             <label for="user_aggreement" class="control-label">
                 <label for="user_aggreement">
-                    <a href="/user_agreement" target="_blank"> Kullanıcı sözleşmesini </a> okudum, onaylıyorum.
+                    <a href="/user_agreement" target="_blank" onclick="_gaq.push(['_trackEvent', 'User agreement link', 'click', 'Register_user Page'])"> Kullanıcı sözleşmesini </a> okudum, onaylıyorum.
                 </label>
             </label>
           {{ register_user_form.submit(class_='btn btn-success pull-right', value="Tamamla")}}
@@ -31,7 +31,7 @@
         </form>
         <div class="col-md-12 col-sm-12 text-right" style="margin-top:10px;">
             Zaten üye misin?
-            <a href="/login">
+            <a href="/login" onclick="_gaq.push(['_trackEvent', 'Login', 'loginButton', 'Register_user Page'])">
                 Giriş Yap
             </a>
         </div>

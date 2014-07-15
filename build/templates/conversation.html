@@ -16,7 +16,7 @@
         </div>
     <div class="col-md-4 col-sm-3">
 
-        <a href="/show_stuff/{{conversation.request.stuff.id}}">
+        <a href="/show_stuff/{{conversation.request.stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Conversation Page'])">
             {% if wanted_stuff.filename %}
                 <img class="img-responsive" src="/photos/{{ wanted_stuff.filename}}"/>
             {% else %}
@@ -26,7 +26,7 @@
         <div class="row">
             <div class="row" style="margin:10px auto;">
                 <div class="col-md-12 col-sm-12 text-right" style="font-size:14px;">
-                    <a href="/profile/{{conversation.request.stuff.owner.id}}">{{conversation.request.stuff.owner.name}}</a>
+                    <a href="/profile/{{conversation.request.stuff.owner.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Conversation Page'])">{{conversation.request.stuff.owner.name}}</a>
                     ödünç
                     {% if conversation.request.stuff.is_wanted %}istiyor.
                         <br/>
@@ -38,19 +38,19 @@
                 {% if conversation.request.stuff.approved == 1 %}
                     {% if conversation.request.stuff.is_wanted == 1 and user.id == conversation.request.from_user_id %}
                         {% if conversation.request.status == 0%}
-                            <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1)">Ödünç verdim</button>
+                            <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1), _gaq.push(['_trackEvent', 'Stuff', 'lentStuff', 'Conversation Page'])">Ödünç verdim</button>
                         {% elif conversation.request.status == 1 %}
-                            <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2)">Geri aldım</button>
+                            <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2), _gaq.push(['_trackEvent', 'Stuff', 'takeStuffBack', 'Conversation Page'])">Geri aldım</button>
                         {% endif %}
                     {% elif conversation.request.stuff.is_wanted == 0 and user.id == conversation.request.stuff.owner.id %}
                         {% if conversation.request.status == 0%}
-                            <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1)">Ödünç verdim</button>
+                            <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1), _gaq.push(['_trackEvent', 'Stuff', 'lentStuff', 'Conversation Page'])">Ödünç verdim</button>
                         {% elif conversation.request.status == 1 %}
-                            <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2)">Geri aldım</button>
+                            <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2), _gaq.push(['_trackEvent', 'Stuff', 'takeStuffBack', 'Conversation Page'])">Geri aldım</button>
                         {% endif%}
                     {% endif %}
                     {% if conversation.request.status == 2%}
-                        <button class="btn btn-success pull-right" data-toggle="modal" data-target="#reviewModal">Yorum yapmak ister misin?</button>
+                        <button class="btn btn-success pull-right" data-toggle="modal" data-target="#reviewModal" onclick="_gaq.push(['_trackEvent', 'Stuff', 'commentAboutStuff', 'Conversation Page'])">Yorum yapmak ister misin?</button>
                     {%endif%}
                 {% endif %}
             </div>
@@ -86,7 +86,7 @@
         {% for message in conversation.messages | reverse %}
             <div class="col-md-12 col-sm-12" style="margin-top:10px;">
                 <dl class="dl-horizontal">
-                  <dt><a href="/profile/{{ message.from_user.id }}"> {{ message.from_user.name }}</a></dt>
+                  <dt><a href="/profile/{{ message.from_user.id }}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Conversation Page'])"> {{ message.from_user.name }}</a></dt>
                   <dd>{{ message}}</dd>
                 </dl>
             </div>

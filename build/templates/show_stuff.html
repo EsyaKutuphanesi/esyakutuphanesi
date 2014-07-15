@@ -40,8 +40,8 @@
            <div class="row"><h1>{{stuff.title}}</h1></div>
             <div class="row">
                 <ol class="breadcrumb">
-                    <li><a href="/{{stuff.category.url}}">{{stuff.category}}</a></li>
-                    <li><a href="/{{stuff.category.url}}type/{{stuff.stuff_type}}">{{stuff.stuff_type}}</a></li>
+                    <li><a href="/{{stuff.category.url}}" onclick="_gaq.push(['_trackEvent', 'Stuff Category', 'seeStuffInThisCategory', 'Show_stuff Page'])">{{stuff.category}}</a></li>
+                    <li><a href="/{{stuff.category.url}}type/{{stuff.stuff_type}}" onclick="_gaq.push(['_trackEvent', 'Stuff Category', 'seeSutffInThisType', 'Show_stuff Page'])">{{stuff.stuff_type}}</a></li>
                     <!--{{stuff.stuff_type.url}}-->
                     <span style="margin-right:20px;"></span>
                     {%for tag in stuff.tags%}
@@ -78,15 +78,19 @@
             {%if user.is_authenticated()%}
                 {% if not stuff.owner_id == user.id %}
                     {% if stuff.is_wanted %}
-                        <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Ödünç ver</button>
+                        <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'lendStuff', 'Show_stuff Page'])">
+                            Ödünç ver
+                        </button>
                     {% else %}
-                        <button type="button" class="btn btn-success" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Ödünç iste</button>
+                        <button type="button" class="btn btn-success" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'borrowStuff', 'Show_stuff Page'])">
+                            Ödünç iste
+                        </button>
                     {% endif %}
                 {% else %}
-                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle/Kaldır</button>
+                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'editStuff', 'Show_stuff Page'])">Düzenle/Kaldır</button>
                 {% endif %}
             {% else %}
-                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login'">Ödünç iste</button>
+                <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'borrowStuff', 'Show_stuff Page'])">Ödünç iste</button>
             {% endif %}
 
             <div class="row" style="margin:10px 0px;">
@@ -98,7 +102,7 @@
             </div>
             <div class="row" style=" margin: auto auto 10px;">
                 <div class="text-right">
-                    <a href="/profile/{{stuff.owner.id}}">{{stuff.owner.name}}</a> ödünç {% if stuff.is_wanted %}istiyor.{% else %} veriyor.{% endif %}
+                    <a href="/profile/{{stuff.owner.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Show_stuff Page'])">{{stuff.owner.name}}</a> ödünç {% if stuff.is_wanted %}istiyor.{% else %} veriyor.{% endif %}
                 </div>
                 <div class="pull-right">
                     <div name="rating" id="star-area" style="margin-top:10px;"></div>
@@ -122,7 +126,7 @@
                     <img class="media-object" src="/photos/{{review.user.photo}}" style="width: 64px; height: auto;">
                 </a>
                 <div class="media-body">
-                    <a href="/profile/{{review.user.id}}"><span style="font-weight:bold;">{{review.user.name}}</span></a> {{review.comment}}
+                    <a href="/profile/{{review.user.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Show_stuff Page'])"><span style="font-weight:bold;">{{review.user.name}}</span></a> {{review.comment}}
                 </div>
             </div>
             {%endfor%}

@@ -13,7 +13,7 @@
                 <div class="col-md-6 col-sm-6 col-xs-8">Henüz böyle bir eşya paylaşılmamış.</div>
             {%endif%}
             <div class="col-md-6 col-sm-6 col-xs-4">
-                <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/new_stuff?is_wanted=true'">Aranıyor ilanı ver</button>
+                <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/new_stuff?is_wanted=true', _gaq.push(['_trackEvent', 'Stuff', 'listWantedStuff', 'Search Page'])">Aranıyor ilanı ver</button>
 
                 {%if last_objects[0]%}
                     <span class="pull-right hideInfo" style="font-size:12px; margin-right:5px;">Aradığın burada yok mu?</span>

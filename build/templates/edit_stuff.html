@@ -47,7 +47,7 @@
         {% if is_new %}
         <h2>Eşya Paylaş</h2>
         {% else %}
-            <a href="#" onclick="deleteStuffReq(-1)" class="pull-right">Eşyayı kaldır</a>
+            <a href="#" onclick="deleteStuffReq(-1), _gaq.push(['_trackEvent', 'Stuff', 'deleteStuff', 'Edit_stuff Page'])" class="pull-right">Eşyayı kaldır</a>
             {% if not stuff.approved %}
                 <p class="alert-danger">Eşyan şu anda onay bekliyor. Onaylandığında e-posta ile sana haber vereceğiz.</p>
             {% endif %}

@@ -10,6 +10,18 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.raty.min.js') }}" ></script>
 
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-36313569-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
     <title>{% block title %}{% endblock %}</title>
 
     {% endblock %}
@@ -43,16 +55,16 @@
                     <div class="col-md-4 col-sm-4 col-xs-4">
                         <h5>BİZ KİMİZ?</h5>
                         <ul class="footerUl">
-                             <a href="/fairytail">
+                             <a href="/fairytail" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK Hikayemiz'])">
                                 <li>Hikayemiz</li>
                             </a>
 <!--                             <a href="/purpose">
                                 <li>Amacımız</li>
                             </a>-->
-                             <a href="/press">
+                             <a href="/press" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK Basin'])">
                                 <li>Basında Biz</li>
                             </a>
-                             <a href="/contact">
+                             <a href="/contact" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK İletisim'])">
                                 <li>İletişim</li>
                             </a>
                         </ul>
@@ -74,7 +86,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-4">
                         <h5>EŞYA KÜTÜPHANESİ</h5>
                         <ul class="footerUl">
-                            <a href="/sos">
+                            <a href="/sos" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK SSS'])">
                                 <li>Sıkça Sorulan Sorular</li>
                             </a>
 <!--                             <a href="#">
@@ -83,7 +95,7 @@
                              <a href="#">
                                 <li>Video</li>
                             </a>-->
-                             <a href="/user_agreement">
+                             <a href="/user_agreement" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK Kullanici Sozlesmesi'])">
                                 <li>Kullanıcı Sözleşmesi</li>
                             </a>
                         </ul>
@@ -91,13 +103,13 @@
                     <div class="col-md-4 col-sm-4 col-xs-4">
                         <h5>SOSYAL MEDYA</h5>
                         <ul class="footerUl">
-                            <a href="http://esyakutuphanesi.com/blog" target="_blank">
+                            <a href="http://esyakutuphanesi.com/blog" target="_blank" onclick="_gaq.push(['_trackEvent', 'EK Sosyal', 'click', 'Blog'])">
                                 <li>Blog</li>
                             </a>
-                            <a href="https://www.facebook.com/EsyaKutuphanesi" target="_blank">
+                            <a href="https://www.facebook.com/EsyaKutuphanesi" target="_blank" onclick="_gaq.push(['_trackEvent', 'EK Sosyal', 'click', 'EK Facebook'])">
                                 <li>Facebook</li>
                             </a>
-                             <a href="https://twitter.com/esyakutuphanesi" target="_blank">
+                             <a href="https://twitter.com/esyakutuphanesi" target="_blank" onclick="_gaq.push(['_trackEvent', 'EK Sosyal', 'click', 'EK Twitter'])">
                                 <li>Twitter</li>
                             </a>
 <!--                             <a href="#">

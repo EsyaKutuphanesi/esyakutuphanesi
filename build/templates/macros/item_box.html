@@ -3,7 +3,7 @@
     <div class="item col-md-4 col-sm-4 col-xs-12">
         <!--item-->
         <div class="thumbnail">
-            <a href="/show_stuff/{{stuff.id}}">
+            <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                 {%if stuff.photos%}
                 <img src="/static/photos/{{stuff.photos[0].filename}}"/>
                 {%else%}
@@ -11,30 +11,34 @@
                 {%endif%}
             </a>
             <div class="caption">
-                <a href="/show_stuff/{{stuff.id}}">
+                <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                     <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
                 </a>
-                <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+                <p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">{{stuff.detail |truncate(100)}}</p>
                 <p>
                 {%if user.is_authenticated()%}
                     {% if stuff.status == 1%}
                         {% if user.id != stuff.owner_id %}
                             {% if not is_wanted %}
-                                <button type="button" style="width:100%;" class="btn btn-success" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Ödünç iste</button>
+                                <button type="button" style="width:100%;" class="btn btn-success" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'borrowStuffButton', 'Item_box Page'])">
+                                    Ödünç iste
+                                </button>
                             {%else%}
-                                <button type="button" style="width:100%;" class="btn btn-info" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}')">Bende Var!</button>
+                                <button type="button" style="width:100%;" class="btn btn-info" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'lendStuffButton', 'Item_box Page'])">
+                                    Ödünç ver!
+                                </button>
                             {%endif%}
                         {%else%}
                             {% if stuff.approved==0 %}
                                 <p class="alert-danger">Henüz onaylanmadı.</p>
                             {% endif %}
-                            <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle/Kaldır</button>
+                            <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'editStuff', 'Item_box Page'])">Düzenle/Kaldır</button>
                         {%endif%}
                     {% else %}
                             <button type="button" style="width:100%;" class="btn btn-success disabled">Ödünç verildi</button>
                     {% endif %}
                 {% else %}
-                    <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login'">Ödünç iste</button>
+                    <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'lendStuffButton', 'Item_box Page'])">Ödünç iste</button>
                 {% endif %}
                 </p>
             </div>

@@ -20,7 +20,7 @@
                 <!--<input id="remember" name="remember" type="checkbox" value="y">-->
                 {{ render_checkbox_with_errors(login_user_form.remember,label=False) }}
                 <label for="remember" class="control-label"><label for="remember">Beni hatırla</label></label>
-                <a class="pull-right" href="/reset">Şifremi unuttum</a>
+                <a class="pull-right" href="/reset" onclick="_gaq.push(['_trackEvent', 'Passwprd', 'forgotPass', 'Login_user Page'])">Şifremi unuttum</a>
             </div>
 
           {{ login_user_form.submit(class_='btn btn-success pull-right', value="Giriş yap")}}

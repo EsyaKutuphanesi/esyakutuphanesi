@@ -37,11 +37,11 @@
 
     <div class="row">
         <ul class="nav nav-tabs">
-          <li><a href="/edit_profile">Ayarlar</a></li>
-          <li><a href="/my_messages">Mesajlar</a></li>
-          <li class="active"><a href="/my_stuff">Eşya Kütüphanem</a></li>
+          <li><a href="/edit_profile" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'My_stuff Page'])">Ayarlar</a></li>
+          <li><a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_stuff Page'])">Mesajlar</a></li>
+          <li class="active"><a href="/my_stuff" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'My_stuff Page'])">Eşya Kütüphanem</a></li>
           <!--<li><a href="/groups">Gruplarım</a></li>-->
-          <li><a href="/invite">Davet Et</a></li>
+          <li><a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_stuff Page'])">Davet Et</a></li>
         </ul>
     </div>
 
@@ -51,7 +51,7 @@
             <div class="item col-md-4 col-sm-4">
                 <!--item-->
                 <div class="thumbnail" style="border:0;">
-                    <a href="/new_stuff">
+                    <a href="/new_stuff" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'My_stuff Page'])">
                         <img src="/static/images/esyaekle.png"/>
                     </a>
                 </div>
