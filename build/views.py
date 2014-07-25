@@ -633,7 +633,7 @@ def moderation():
     user_action = request.args.get("user_action")
     user_id = request.args.get("user_id")
 
-    new_user = User.query.filter(User.id > 0).order_by(User.id.desc()).limit(20)
+    new_user = User.query.filter(User.id > 0).order_by(User.id.desc()).limit(40)
 
     if action == 'approve' and id > 0:
         if 'admin' in current_user.roles:
@@ -675,23 +675,33 @@ def moderation():
             db.session.commit()
 
             msg_body = u'Merhabalar!<br><br> ' \
-                       u'Eşya Kütüphanesine hoşgeldin! Artık herhangi bir eşyaya ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin. :) ' \
-                       u'<br><br> Alet edevat, kitap, film, gece elbisesi, takım elbise, müzik aletleri, spor eşyaları ve kamp malzemeleri ' \
-                       u'her daim sitemizde aranılan eşyalar. Sen de paylaşmak istediğin eşyalarını görünür kılmak ve ' \
-                       u'ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, "Eşya Paylaş"a tıklayarak eşyalarını listeleyebilirsin.' \
+                       u'Eşya Kütüphanesine hoşgeldin! Artık herhangi bir eşyaya ' \
+                       u'ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin. :) ' \
+                       u'<br><br> Alet edevat, kitap, film, gece elbisesi, takım elbise, ' \
+                       u'müzik aletleri, spor eşyaları ve kamp malzemeleri ' \
+                       u'her daim sitemizde aranılan eşyalar. Sen de paylaşmak istediğin ' \
+                       u'eşyalarını görünür kılmak ve ' \
+                       u'ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, ' \
+                       u'"Eşya Paylaş"a tıklayarak eşyalarını listeleyebilirsin.' \
                        u'<br><br>Unutmadan, arkadaşlarını da aramızda görmeyi çok isteriz!' \
-                       u'<br><br>Güzel günler! <br><br> Didem <br>esyakutuphanesi.com'
+                       u'<br><br>Güzel günler! <br>esyakutuphanesi.com'
             html_msg = u'Merhabalar!<br><br> ' \
-                       u'Eşya Kütüphanesine hoşgeldin! Artık herhangi bir eşyaya ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin. :) ' \
-                       u'<br><br> Alet edevat, kitap, film, gece elbisesi, takım elbise, müzik aletleri, spor eşyaları ve kamp malzemeleri ' \
-                       u'her daim sitemizde aranılan eşyalar. Sen de paylaşmak istediğin eşyalarını görünür kılmak ve ' \
-                       u'ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, <a href="http://esyakutuphanesi.com/new_stuff">"Eşya Paylaş"</a>a tıklayarak eşyalarını listeleyebilirsin.' \
-                       u'<br><br>Unutmadan, <a href="http://esyakutuphanesi.com/invite">arkadaşlarını da aramızda görmeyi</a> çok isteriz!' \
-                       u'<br><br>Güzel günler! <br><br> Didem ' \
+                       u'Eşya Kütüphanesine hoşgeldin! Artık herhangi bir eşyaya ' \
+                       u'ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin. :) ' \
+                       u'<br><br> Alet edevat, kitap, film, gece elbisesi, takım elbise, ' \
+                       u'müzik aletleri, spor eşyaları ve kamp malzemeleri ' \
+                       u'her daim sitemizde aranılan eşyalar. Sen de paylaşmak istediğin ' \
+                       u'eşyalarını görünür kılmak ve ' \
+                       u'ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, ' \
+                       u'<a href="http://esyakutuphanesi.com/new_stuff">"Eşya Paylaş"</a>a' \
+                       u' tıklayarak eşyalarını listeleyebilirsin.' \
+                       u'<br><br>Unutmadan, <a href="http://esyakutuphanesi.com/invite">' \
+                       u'arkadaşlarını da aramızda görmeyi</a> çok isteriz!' \
+                       u'<br><br>Güzel günler!' \
                        u'<br><br><a href="http://esyakutuphanesi.com/">esyakutuphanesi.com</a>' \
-                       u'<br>Twitter:<a href="http://esyakutuphanesi.com/">@EsyaKutuphanesi</a>' \
-                       u'<br>Facebook:<a href="http://esyakutuphanesi.com/">facebook.com/EsyaKutuphanesi</a>' \
-                       u'<br>Zumbara:<a href="http://esyakutuphanesi.com/">zumbara.com/profil/12340</a>'
+                       u'<br>Twitter:<a href="twitter.com/esyakutuphanesi">@EsyaKutuphanesi</a>' \
+                       u'<br>Facebook:<a href="facebook.com/esyakutuphanesi">facebook.com/EsyaKutuphanesi</a>' \
+                       u'<br>Zumbara:<a href="http://zumbara.com/profil/12340">zumbara.com/profil/12340</a>'
                        #  %s % u'unapproved_user.name'
 
             msg_subject = u"Hoşgeldin!"
@@ -713,7 +723,7 @@ def moderation():
             .filter(GroupMembership.user_id == current_user.id,
                     GroupMembership.is_moderator,
                     Stuff.approved == 0).\
-            order_by(Stuff.id.desc()).limit(20)
+            order_by(Stuff.id.desc()).limit(40)
 
     return render_template("moderation.html", user=current_user, new_user=new_user,
                            last_objects=last_objects)

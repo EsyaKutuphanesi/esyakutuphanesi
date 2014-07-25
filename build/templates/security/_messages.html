@@ -2,7 +2,9 @@
   {% if messages %}
     <ul class="list-group flashes">
     {% for category, message in messages %}
-      <li class="text-center list-group-item success {{ category }}" style="background-color:#f0ad4e; color:white;">{{ message }}</li>
+      <li class="text-center list-group-item success {{ category }}" style="background-color:#f0ad4e; color:white;">
+          {{ message }}
+      </li>
     {% endfor %}
     </ul>
   {% endif %}

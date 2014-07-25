@@ -11,63 +11,115 @@
             var url = '{{ url_for('moderation',user_action="approve_user") }}'
             window.location = url + '&user_id=' + user_id;
         }
+
     </script>
-    <div class="col-md-12 col-sm-12">
-        <h1>Bekleyen Eşyalar</h1>
-        <table class="table table-bordered">
-        <tr>
-            <th>Grup</th>
-            <th>Kullanıcı</th>
-            <th>Eşya</th>
-            <th>Detay</th>
-            <th>Aksiyon</th>
-        </tr>
-            {% for stuff in last_objects %}
-                <tr>
-                    {% if stuff.group_id > 0 %}
-                        <td>{{ stuff.group.name }}</td>
-                    {% elif stuff.group_id == -1 %}
-                        <td>Herkese Açık</td>
-                    {% else %}
-                        <td>Geçersiz</td>
-                    {% endif %}
-                    <td>{{ stuff.owner.name }}</td>
-                    <td>{{ stuff }}</td>
-                    <td>{{ stuff.detail }}</td>
-                    <td>
-                        <button class="btn btn-success" onclick="approve({{ stuff.id }})">Onayla</button>
-                        <!--<button class="btn btn-danger">Reddet</button>-->
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <div class="col-md-12 col-sm-12">
-        <h1>Kullanıcılar</h1>
-        <table class="table table-bordered">
-        <tr>
-            <th>id</th>
-            <th>E-posta</th>
-            <th>İsim soyisim</th>
-            <th>Detay</th>
-            <th>Aksiyon</th>
-        </tr>
-            {% for users in new_user %}
-                <tr>
-                    <td>{{ users.id }}</td>
-                    <td>{{ users.email }}</td>
-                    <td>{{ users.name  }}</td>
-                    <td>{{ users.why }}</td>
-                    <td>
-                        {% if users.approved == 0%}
-                        <button class="btn btn-success" onclick="approve_user({{ users.id }})">Onayla</button>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="#waitingstuff" role="tab" data-toggle="tab">Onay bekleyen eşyalar</a></li>
+      <li><a href="#waitingusers" role="tab" data-toggle="tab">Onay bekleyen kullanıcılar</a></li>
+      <li><a href="#allusers" role="tab" data-toggle="tab">Onaylı kullanıcılar</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="waitingstuff">
+
+          <div class="col-md-12 col-sm-12" style="margin-top:20px;">
+            <table class="table table-bordered">
+            <tr>
+                <!--<th>Grup</th>-->
+                <th>id</th>
+                <th>Kullanıcı</th>
+                <th>Eşya</th>
+                <th>Detay</th>
+                <th>Kategori</th>
+                <th>Tarih</th>
+                <th>Aksiyon</th>
+            </tr>
+                {% for stuff in last_objects %}
+                    <tr>
+<!--                        {% if stuff.group_id > 0 %}
+                            <td>{{ stuff.group.name }}</td>
+                        {% elif stuff.group_id == -1 %}
+                            <td>Herkese Açık</td>
                         {% else %}
-                        Onaylandı
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+                            <td>Geçersiz</td>
+                        {% endif %}-->
+                        <td>{{ stuff.owner.id }} - {{ stuff.id }}</td>
+                        <td>{{ stuff.owner.name }}</td>
+                        <td>{{ stuff }}</td>
+                        <td>{% if stuff.is_wanted %} Aranıyor {% else %} Ödünç veriliyor {% endif %} - {{ stuff.detail }}</td>
+                        <td>{{ stuff.type_id }} - {{ stuff.category_id }}</td>
+                        <td>{{ stuff.date }}</td>
+                        <td>
+                            <button class="btn btn-success" onclick="approve({{ stuff.id }})">Onayla</button>
+                            <!--<button class="btn btn-danger">Reddet</button>-->
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+      </div>
+
+      <div class="tab-pane" id="waitingusers">
+
+          <div class="col-md-12 col-sm-12" style="margin-top:20px;">
+            <table class="table table-bordered">
+            <tr>
+                <th>id</th>
+                <th>E-posta</th>
+                <th>İsim soyisim</th>
+                <th>Detay</th>
+                <th>Tarih</th>
+                <th>Aksiyon</th>
+            </tr>
+                {% for users in new_user %}
+                    {% if new_user.approved==0 %}
+                    <tr>
+                        <td>{{ users.id }}</td>
+                        <td>{{ users.email }}</td>
+                        <td>{{ users.name  }}</td>
+                        <td>{{ users.why }}</td>
+                        <td>{{ users.registered_at }}</td>
+                        <td>
+                            <button class="btn btn-success" onclick="approve_user({{ users.id }})">Onayla</button>
+                        </td>
+                    </tr>
+                    {% endif%}
+                {% endfor %}
+            </table>
+        </div>
+
+      </div>
+
+      <div class="tab-pane" id="allusers">
+
+          <div class="col-md-12 col-sm-12" style="margin-top:20px;">
+            <table class="table table-bordered">
+            <tr>
+                <th>id</th>
+                <th>E-posta</th>
+                <th>İsim soyisim</th>
+                <th>Detay</th>
+                <th>Tarih</th>
+            </tr>
+                {% for users in new_user %}
+                    {% if users.approved==1 %}
+                    <tr>
+                        <td>{{ users.id }}</td>
+                        <td>{{ users.email }}</td>
+                        <td>{{ users.name  }}</td>
+                        <td>{{ users.why }}</td>
+                        <td>{{ users.registered_at }}</td>
+                    </tr>
+                    {% endif%}
+                {% endfor %}
+            </table>
+        </div>
+
+      </div>
     </div>
 
 {% endblock %}
