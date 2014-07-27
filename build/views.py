@@ -715,15 +715,13 @@ def moderation():
             flash(u"Kullanıcı onaylandı ve e-posta gönderildi!")
 
     if 'admin' in current_user.roles:
-        last_objects = Stuff.query.filter(Stuff.approved == 0).\
-            order_by(Stuff.id.desc()).limit(20)
+        last_objects = Stuff.query.filter(Stuff.id > 0).\
+            order_by(Stuff.id.desc()).limit(40)
 
     else:
         last_objects = Stuff.query.join(Group).join(GroupMembership)\
             .filter(GroupMembership.user_id == current_user.id,
-                    GroupMembership.is_moderator,
-                    Stuff.approved == 0).\
-            order_by(Stuff.id.desc()).limit(40)
+                    GroupMembership.is_moderator).order_by(Stuff.id.desc()).limit(40)
 
     return render_template("moderation.html", user=current_user, new_user=new_user,
                            last_objects=last_objects)
