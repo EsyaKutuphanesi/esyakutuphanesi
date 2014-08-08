@@ -1,5 +1,7 @@
 Merhaba {{ user.email }}!
 
+Kaydın alındı. Üyeliğin onaylandığında e-posta ile bilgilendirileceksin.
+
 {% if security.confirmable %}
 Aşağıdaki bağlantıya giderek üyeliğini onaylayabilirsin:
 

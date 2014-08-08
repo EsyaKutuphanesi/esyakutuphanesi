@@ -20,18 +20,14 @@
         map.addMarker({
             lat: {{stuff_address.lat}},
             lng: {{stuff_address.lng}},
-            title: 'Lima',
-            click: function(e) {
-                alert('You clicked in this marker');
-            }
+            title: '{{stuff_address.detail}}',
+
         });
         map.addMarker({
             lat: {{stuff_address.lat}}+1,
             lng: {{stuff_address.lng}},
-            title: 'Lima',
-            click: function(e) {
-                alert('You clicked in this marker');
-            }
+            title: '{{stuff_address.detail}}',
+
         });
     });
 </script>
@@ -114,6 +110,7 @@
 
     <div class="col-md-12 col-sm-12 col-xs-12">
         <h3 style="margin-bottom:10px;">Paylaşımın adresi:</h3>
+        <p>{{stuff_address.detail}}</p>
         <div id="map" style="height: 200px;"></div>
     </div>
 

@@ -161,8 +161,8 @@ def edit_stuff(stuff_id=None):
             Stuff.query.filter(Stuff.id == stuff_id).\
                 update({Stuff.approved: status})
             db.session.commit()
-
-            return redirect(url_for('my_stuff'))
+            flash(u"Eşya kaldırıldı.")
+            # return redirect(url_for("my_stuff.html"))
 
     if request.method == 'POST':
         category = Category.query.\
@@ -194,6 +194,7 @@ def edit_stuff(stuff_id=None):
                 stuff.type_id = form.stuff_type.data
                 stuff.is_wanted = form.is_wanted.data == 'True'
                 flash(u"Eşya güncellendi.")
+
             else:
                 group_id = None if form.group.data == -1 else form.group.data
                 stuff = Stuff(title=form.title.data,
@@ -221,7 +222,7 @@ def edit_stuff(stuff_id=None):
                     if not os.path.exists(new_folder):
                         os.makedirs(new_folder)
 
-                    filepath = os.path.join(folder_path,generated_name)
+                    filepath = os.path.join(folder_path, generated_name)
                     photo_file.save(filepath)
 
                     file_new_name = 'stuff/'+stuff_id+'/'+generated_name
@@ -245,6 +246,7 @@ def edit_stuff(stuff_id=None):
                     db.session.add(new_tag)
 
             db.session.commit()
+
             if stuff_id is None:
                 return redirect(url_for('edit_stuff', stuff_id=stuff.id))
 
@@ -510,6 +512,21 @@ def show_conversation(conversation_id):
         db.session.add(new_message)
         db.session.commit()
 
+        msg_body = u'%s sana mesaj gönderdi. <br><br> esyakutuphanesi.com'\
+                   % current_user.name
+        html_msg = u'%s sana mesaj gönderdi. <br><br> Mesajı okumak için' \
+                   u' <a href="http://esyakutuphanesi.com/my_messages">tıkla!</a>' \
+                   % current_user.name
+
+        msg_subject = u"Yeni mesajın var"
+
+        msg = MailMessage(body=msg_body,
+                          html=html_msg,
+                          subject=msg_subject,
+                          sender="no-reply@esyakutuphanesi.com",
+                          recipients=[conversation.request.user.email])
+        mail.send(msg)
+
     Message.query.filter(Message.conversation_id == conversation_id,
                          Message.status == 0,
                          Message.to_user == current_user). \
@@ -617,7 +634,7 @@ def make_request(stuff_id=None):
 
             return redirect(url_for('my_messages'))
 
-        else :
+        else:
             flash(u'Ödünç istemek için adres girmelisin.')
             return redirect(return_url)
     else:
