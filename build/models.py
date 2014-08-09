@@ -55,6 +55,10 @@ class User(db.Model, UserMixin):
     def is_logged_in(self):
         return False if self.is_anonymous() else True
 
+    @property
+    def is_admin(self):
+        return self.roles and self.roles[0].name == 'admin'
+
     def __repr__(self):
         return self.name
 
