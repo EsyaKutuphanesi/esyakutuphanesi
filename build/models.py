@@ -300,7 +300,7 @@ class Review(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
-        return self.txt
+        return str(self.id)
 
     @property
     def admin_url(self):
