@@ -506,11 +506,12 @@ def show_conversation(conversation_id):
     form = ConversationForm()
     if request.method == 'POST' and form.validate_on_submit():
 
-        if current_user.id == conversation.request.user:
+        if current_user.id == conversation.request.user.id:
             to_user = conversation.request.from_user
         else:
             to_user = conversation.request.user
 
+        print to_user.id
         new_message = Message(from_user=current_user,
                               to_user=to_user,
                               conversation=conversation,
