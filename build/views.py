@@ -505,8 +505,14 @@ def show_conversation(conversation_id):
 
     form = ConversationForm()
     if request.method == 'POST' and form.validate_on_submit():
+
+        if current_user.id == conversation.request.user:
+            to_user = conversation.request.from_user
+        else:
+            to_user = conversation.request.user
+
         new_message = Message(from_user=current_user,
-                              to_user=conversation.request.user,
+                              to_user=to_user,
                               conversation=conversation,
                               txt=form.message.data)
         db.session.add(new_message)
@@ -524,7 +530,7 @@ def show_conversation(conversation_id):
                           html=html_msg,
                           subject=msg_subject,
                           sender="no-reply@esyakutuphanesi.com",
-                          recipients=[new_message.to_user.email])
+                          recipients=[to_user.email])
         mail.send(msg)
 
     Message.query.filter(Message.conversation_id == conversation_id,
