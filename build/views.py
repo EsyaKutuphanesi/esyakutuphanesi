@@ -524,7 +524,7 @@ def show_conversation(conversation_id):
                           html=html_msg,
                           subject=msg_subject,
                           sender="no-reply@esyakutuphanesi.com",
-                          recipients=[conversation.messages.to_user.email])
+                          recipients=[new_message.to_user.email])
         mail.send(msg)
 
     Message.query.filter(Message.conversation_id == conversation_id,
