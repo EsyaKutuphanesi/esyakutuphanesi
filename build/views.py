@@ -59,7 +59,7 @@ def check_approved(source=None):
             msg = MailMessage(body=msg_body,
                               html=msg_body,
                               subject=u"Yeni Üye",
-                              sender="no-reply@esyakutuphanesi.com",
+                              sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
                               recipients=["bilgi@esyakutuphanesi.com"])
             mail.send(msg)
 
@@ -530,7 +530,7 @@ def show_conversation(conversation_id):
         msg = MailMessage(body=msg_body,
                           html=html_msg,
                           subject=msg_subject,
-                          sender="no-reply@esyakutuphanesi.com",
+                          sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
                           recipients=[to_user.email])
         mail.send(msg)
 
@@ -635,7 +635,7 @@ def make_request(stuff_id=None):
             msg = MailMessage(body=msg_body,
                               html=html_msg,
                               subject=msg_subject,
-                              sender="no-reply@esyakutuphanesi.com",
+                              sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
                               recipients=[stuff.owner.email])
             mail.send(msg)
 
@@ -684,7 +684,7 @@ def moderation():
             msg = MailMessage(body=msg_body,
                               html=html_msg,
                               subject=msg_subject,
-                              sender="no-reply@esyakutuphanesi.com",
+                              sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
                               recipients=[stuff.owner.email])
             mail.send(msg)
 
@@ -732,7 +732,7 @@ def moderation():
             msg = MailMessage(body=msg_body,
                               html=html_msg,
                               subject=msg_subject,
-                              sender="no-reply@esyakutuphanesi.com",
+                              sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
                               recipients=[unapproved_user.email])
             mail.send(msg)
 
@@ -872,7 +872,7 @@ def invite():
             msg = MailMessage(body=msg_body,
                               html=html_msg,
                               subject=msg_subject,
-                              sender="no-reply@esyakutuphanesi.com",
+                              sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
                               recipients=[email])
             mail.send(msg)
 
@@ -936,7 +936,7 @@ def contact():
         msg = MailMessage(body=msg_body,
                           html=msg_body,
                           subject=u"İletişime geçmek isteyen var",
-                          sender="no-reply@esyakutuphanesi.com",
+                          sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
                           recipients=["bilgi@esyakutuphanesi.com"])
         mail.send(msg)
 
