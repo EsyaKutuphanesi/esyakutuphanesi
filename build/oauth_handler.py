@@ -8,8 +8,8 @@ import os
 import urllib
 import uuid
 
-FACEBOOK_APP_ID = '1478430419047146'
-FACEBOOK_APP_SECRET = 'a4e998278e99029f86abaa2eb4ef95df'
+FACEBOOK_APP_ID = ''
+FACEBOOK_APP_SECRET = ''
 
 oauth = OAuth()
 
