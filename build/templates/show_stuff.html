@@ -72,18 +72,22 @@
         </div>
         <div class="col-md-4 pull-right col-sm-4 col-xs-4" style="margin-top:25px;">
             {%if user.is_authenticated()%}
-                {% if not stuff.owner_id == user.id %}
-                    {% if stuff.is_wanted %}
-                        <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'lendStuff', 'Show_stuff Page'])">
-                            Ödünç ver
-                        </button>
+                {% if stuff.status == 1%}
+                    {% if not stuff.owner_id == user.id %}
+                        {% if stuff.is_wanted %}
+                            <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'lendStuff', 'Show_stuff Page'])">
+                                Ödünç ver
+                            </button>
+                        {% else %}
+                            <button type="button" class="btn btn-success" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'borrowStuff', 'Show_stuff Page'])">
+                                Ödünç iste
+                            </button>
+                        {% endif %}
                     {% else %}
-                        <button type="button" class="btn btn-success" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'borrowStuff', 'Show_stuff Page'])">
-                            Ödünç iste
-                        </button>
+                        <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'editStuff', 'Show_stuff Page'])">Düzenle/Kaldır</button>
                     {% endif %}
                 {% else %}
-                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'editStuff', 'Show_stuff Page'])">Düzenle/Kaldır</button>
+                        <button type="button" style="width:100%;" class="btn btn-success disabled">Ödünç verildi</button>
                 {% endif %}
             {% else %}
                 <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'borrowStuff', 'Show_stuff Page'])">Ödünç iste</button>
