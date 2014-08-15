@@ -140,6 +140,20 @@ $.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',funct
       });
     });
 });
+$.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',function(){
+    $.getScript('http://cdn.jsdelivr.net/jquery.lazyload/1.8.4/jquery.lazyload.js',function(){
+
+      var $container1 = $('#container1');
+      $container1.imagesLoaded(function(){
+          $container1.masonry({
+              itemSelector: '.item',
+              columnWidth: function(containerWidth){
+                  return containerWidth / 12;
+              }
+          });
+      });
+    });
+});
 </script>
   </body>
 </html>

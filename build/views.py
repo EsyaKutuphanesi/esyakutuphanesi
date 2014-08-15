@@ -937,7 +937,7 @@ def contact():
                           html=msg_body,
                           subject=u"İletişime geçmek isteyen var",
                           sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
-                          recipients=["bilgi@esyakutuphanesi.com"])
+                          recipients=["bilgi@esyakutuphanesi.com", "ezgi@esyakutuphanesi.com"])
         mail.send(msg)
 
         flash(u"E-postan gönderildi!")

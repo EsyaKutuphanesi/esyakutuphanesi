@@ -52,7 +52,7 @@
                             <td>{{ stuff.owner.id }} - {{ stuff.id }}</td>
                             <td>{{ stuff.owner.name }}</td>
                             <td>{{ stuff }}</td>
-                            <td>{{ stuff.detail }}</td>
+                            <td>{% if stuff.is_wanted == True %} Aranıyor {% else %} Paylaşılıyor {% endif%} - {{ stuff.detail }}</td>
                             <td>{{ stuff.type_id }} - {{ stuff.category_id }}</td>
                             <td>
                                 {% if stuff.approved==1 %} Paylaşımda
