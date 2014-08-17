@@ -2,7 +2,7 @@ from flask import url_for, request, session, redirect
 from flask_oauth import OAuth
 from flask.ext.security import login_user
 from models import users, Connection, User
-from ek import app, db
+from manage import app, db
 import os
 
 import urllib

@@ -2,7 +2,7 @@
 from datetime import datetime
 
 from flask.ext.security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Security
-from ek import app, db
+from manage import app, db
 from flask_security.forms import RegisterForm
 from wtforms.validators import Required, Length
 from wtforms import TextField, TextAreaField, BooleanField
