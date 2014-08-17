@@ -6,6 +6,7 @@ from wtforms import TextAreaField, SelectField, FileField, RadioField
 
 from models import User
 
+
 class EditUserForm(Form):
     userid = HiddenField('userid')
     photo = FileField(u'Resim Yükle')
@@ -50,6 +51,7 @@ class EditUserForm(Form):
 
         return True
 
+
 class EditStuffForm(Form):
     stuffid = HiddenField('stuffid')
     photo = FileField(u'Resim Yükle')
@@ -65,7 +67,7 @@ class EditStuffForm(Form):
     group = SelectField(u'Grup', coerce=int, validators=[validators.Required()])
     submit = SubmitField(u"Eşyayı paylaş")
     delete = SubmitField(u"Eşyayı kaldır")
-    tags = TextField(u'Etiketler',[
+    tags = TextField(u'Etiketler', [
         validators.Length(min=0, max=255, message=u'En fazla 255 karaktere kadar etiket girebilirsin.')
     ])
     category = SelectField('Kategori', coerce=int, validators=[validators.Required()])
@@ -75,6 +77,7 @@ class EditStuffForm(Form):
 
     lat = HiddenField('lat')
     lng = HiddenField('lng')
+
     def fill_form(self, stuff):
         self.tags.data = ''
         self.title.data = stuff.title
@@ -102,6 +105,7 @@ class EditStuffForm(Form):
                 return False
         return True
 
+
 class SearchForm(Form):
     stuff = TextField(u'Ne arıyorsun?', [
         validators.Length(min=0, max=255, message=u'En fazla 255 karakter girebilirsin.')
@@ -111,6 +115,7 @@ class SearchForm(Form):
         validators.Length(min=0, max=255, message=u'En fazla 255 karakter girebilirsin.')
     ])
     submit = SubmitField("Ara")
+
 
 class ConversationForm(Form):
     message = TextAreaField(u'Mesaj Yaz', [
@@ -127,6 +132,7 @@ class ConversationForm(Form):
             return False
 
         return True
+
 
 class InvitationForm(Form):
     emails = TextField(u'a@b.com, ...', [
@@ -148,6 +154,7 @@ class InvitationForm(Form):
 
         return True
 
+
 class RequestForm(Form):
     message = TextAreaField(u'Mesaj yaz', [
         validators.Length(min=0, max=1000, message=u'En fazla 1000 karakter girebilirsin.'),
@@ -165,6 +172,7 @@ class RequestForm(Form):
     is_wanted = HiddenField()
 
     submit = SubmitField(u"Gönder")
+
 
 class CreateGroupForm(Form):
     group_name = TextField(u'Grup adı', [
@@ -185,6 +193,7 @@ class CreateGroupForm(Form):
             return False
 
         return True
+
 
 class ReviewForm(Form):
     comment = TextAreaField(u'Yorum', [
@@ -208,6 +217,7 @@ class ReviewForm(Form):
             return False
 
         return True
+
 
 class ContactForm(Form):
     user_name = TextField(u'İsmin Soyismin', [

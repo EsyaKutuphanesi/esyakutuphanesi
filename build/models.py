@@ -7,22 +7,30 @@ from flask_security.forms import RegisterForm
 from wtforms.validators import Required, Length
 from wtforms import TextField, TextAreaField, BooleanField
 
-roles_users = db.Table('roles_users',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+roles_users = db.Table(
+    'roles_users',
+    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+)
 
-conversation_users = db.Table('conversation_users',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('conversation_id', db.Integer(), db.ForeignKey('conversation.id')))
+conversation_users = db.Table(
+    'conversation_users',
+    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('conversation_id', db.Integer(), db.ForeignKey('conversation.id'))
+)
 
-categories_types = db.Table('categories_types',
-        db.Column('category_id', db.Integer(), db.ForeignKey('category.id')),
-        db.Column('stufftype_id', db.Integer(), db.ForeignKey('stufftype.id')))
+categories_types = db.Table(
+    'categories_types',
+    db.Column('category_id', db.Integer(), db.ForeignKey('category.id')),
+    db.Column('stufftype_id', db.Integer(), db.ForeignKey('stufftype.id'))
+)
+
 """
 stuff_type_stuff_list = db.Table('stuff_type_stuff_list',
         db.Column('stuff_id', db.Integer(), db.ForeignKey('stuff.id')),
         db.Column('stufftype_id', db.Integer(), db.ForeignKey('stufftype.id')))
 """
+
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
@@ -35,6 +43,7 @@ class Role(db.Model, RoleMixin):
     @property
     def admin_url(self):
         return "%s/%s/%s" % (app.config['ADMIN_URL'], 'role', self.id)
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -69,6 +78,7 @@ class User(db.Model, UserMixin):
     @property
     def url(self):
         return "%s/%s/" % ('profiles', self.name)
+
 
 class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -127,11 +137,13 @@ class Stuff(db.Model):
     def url(self):
         return "%s/%s" % ('show_stuff', self.id)
 
+
 class Photo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(255), nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     owner = db.relationship('User', backref='photos')
+
 
 class StuffPhoto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -141,6 +153,7 @@ class StuffPhoto(db.Model):
     stuff_id = db.Column(db.Integer, db.ForeignKey('stuff.id'))
     stuff = db.relationship('Stuff', backref='photos')
 
+
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
@@ -149,6 +162,7 @@ class Tag(db.Model):
 
     def __repr__(self):
         return "%s" % (self.name)
+
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -183,6 +197,7 @@ class StuffType(db.Model):
     def url(self):
         return "%s/%s/" % ('stuff_type', self.name)
 
+
 class Request(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     stuff_id = db.Column(db.Integer, db.ForeignKey('stuff.id'))
@@ -197,7 +212,6 @@ class Request(db.Model):
     given_at = db.Column(db.DateTime)
     returned_at = db.Column(db.DateTime)
 
-
     @property
     def admin_url(self):
         return "%s/%s/%s" % (app.config['ADMIN_URL'], 'request', self.id)
@@ -205,6 +219,7 @@ class Request(db.Model):
     @property
     def url(self):
         return "%s/%s/" % ('request', self.id)
+
 
 class Conversation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -222,6 +237,7 @@ class Conversation(db.Model):
     @property
     def url(self):
         return "%s/%s/" % ('conversation', self.id)
+
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -246,6 +262,7 @@ class Message(db.Model):
     def url(self):
         return "%s/%s/" % ('conversation', self.id)
 
+
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True)
@@ -256,6 +273,7 @@ class Group(db.Model):
     def __repr__(self):
         return self.name
 
+
 class GroupMembership(db.Model):
     __tablename__ = 'group_membership'
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
@@ -265,6 +283,7 @@ class GroupMembership(db.Model):
 
     def __repr__(self):
         return "%s[%s] " % (self.user.name, self.group.name)
+
 
 class Connection(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -280,12 +299,14 @@ class Connection(db.Model):
     rank = db.Column(db.Integer)
     user = db.relationship('User', backref='social_connections')
 
+
 class Invitations(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     emails = db.Column(db.String(255))
     message = db.Column(db.String(1000))
     datetime = db.Column(db.DateTime, default=datetime.now)
+
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -313,14 +334,15 @@ class Review(db.Model):
 users = SQLAlchemyUserDatastore(db, User, Role)
 # social = Social(app, SQLAlchemyConnectionDatastore(db, Connection))
 
+
 class ExtendedRegisterForm(RegisterForm):
     name = TextField(u'İsim Soyisim', [Required(u'İsmini girmen gerekli')])
-    why = TextAreaField(u'Kendinden ve/veya Eşya Kütüphanesi ne neden geldiğinden kısaca bahsedebilir misin? '
-                        u'Gerçekten tüm cevapları tek tek okuyoruz :) Hobilerin, '
-                        u'buradan beklentilerin, bir ejderhan olsa adını ne koyardın anlat bize!', [
-        Length(min=0, max=1000),
-        Required(u'Seni daha yakından tanımayı istiyoruz.')
-    ])
+    why = TextAreaField(
+        u'Kendinden ve/veya Eşya Kütüphanesi ne neden geldiğinden kısaca bahsedebilir misin? '
+        u'Gerçekten tüm cevapları tek tek okuyoruz :) Hobilerin, '
+        u'buradan beklentilerin, bir ejderhan olsa adını ne koyardın anlat bize!',
+        [Length(min=0, max=1000), Required(u'Seni daha yakından tanımayı istiyoruz.')]
+    )
     agreement = BooleanField('', [Required(u'Kullanıcı sözleşmesini onaylamalısın.')])
 
 security = Security(app, users, register_form=ExtendedRegisterForm)

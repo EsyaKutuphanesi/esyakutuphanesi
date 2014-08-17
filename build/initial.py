@@ -1,6 +1,6 @@
 # coding=utf-8
 from ek import db
-from models import users, Role, User,Address, Stuff,\
+from models import users, Role, User, Address, Stuff,\
     Conversation, Message, Request, Connection, Category, StuffType,\
     Group, GroupMembership
 
@@ -57,11 +57,11 @@ db.session.commit()
 
 categories = [u'Bebek ve çocuk', u'Doğada ve sporda', u'Elektronik', u'Giysi dolabı', u'Hırdavat', u'Keyiflik',
               u'Kütüphane', u'Mobilya', u'Mutfak']
-stuff_types =  {
+stuff_types = {
     u'Doğada ve Sporda': [u' Hayvan dostu', u'Spor malzemeleri', u'Ulaşım', u'Yolda'],
-    u'Elektronik': [u'Ev elektroniği' ,u'Bilgisayar', u'Beyaz eşya', u'Telefon'],
+    u'Elektronik': [u'Ev elektroniği', u'Bilgisayar', u'Beyaz eşya', u'Telefon'],
     u'Giysi dolabı': [u'Ayakkabı', u'Giysi', u'Gelinlik', u'Özel günlerde'],
-    u'Keyiflik': [u'Film',u'Müzik',u'Oyun',u'Konsol oyunları'],
+    u'Keyiflik': [u'Film', u'Müzik', u'Oyun', u'Konsol oyunları'],
     u'Kütüphane': [u'Roman', u'Dergi', u'Teknik kitap']
 }
 

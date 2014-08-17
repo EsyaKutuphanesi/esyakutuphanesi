@@ -4,8 +4,7 @@ import json
 # import os.path
 import os
 from datetime import datetime
-from flask import render_template, send_from_directory, flash,\
-url_for, redirect, request, jsonify
+from flask import render_template, send_from_directory, flash, url_for, redirect, request, jsonify
 from flask_login import current_user, login_required, logout_user
 from flask_mail import Message as MailMessage
 from ek import app, db, mail
@@ -18,13 +17,16 @@ from models import Address, Category, Conversation,\
 
 from flask import g
 
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('/404.html', user=current_user), 404
 
+
 @app.before_request
 def before_request():
     g.user = current_user
+
 
 @app.route('/categories')
 @app.route('/')
@@ -44,6 +46,7 @@ def home():
                            last_objects_wanted=last_objects_wanted,
                            last_objects_shared=last_objects_shared,
                            form=form, request_form=request_form)
+
 
 @app.route('/check_approved')
 @app.route('/check_approved/<source>')
@@ -68,6 +71,7 @@ def check_approved(source=None):
         logout_user()
         return redirect(url_for('home'))
 
+
 @app.route('/search')
 def search():
     form = SearchForm()
@@ -84,12 +88,13 @@ def search():
                    User.approved == True,
                    Stuff.approved == 1,
                    Address.id == Stuff.address_id,
-                   Stuff.title.ilike('%'+stuff_key+'%'),
-                   Address.detail.ilike('%'+address_key+'%'))
+                   Stuff.title.ilike('%' + stuff_key + '%'),
+                   Address.detail.ilike('%' + address_key + '%'))
 
     return render_template("search.html", user=current_user,
                            last_objects=last_objects, form=form,
                            request_form=request_form)
+
 
 @app.route('/new_address', methods=["GET", "POST"])
 @login_required
@@ -107,6 +112,7 @@ def new_address():
 
         return redirect(url_for("edit_profile"))
     return render_template("map.html", user=current_user)
+
 
 @app.route('/edit_stuff/<stuff_id>', methods=["GET", "POST"])
 @app.route('/new_stuff', methods=["GET", "POST"])
@@ -214,9 +220,9 @@ def edit_stuff(stuff_id=None):
 
                 if photo_file:
                     file_ext = get_file_extension(photo_file.filename)
-                    generated_name = str(uuid.uuid1())+'.'+file_ext
+                    generated_name = str(uuid.uuid1()) + '.' + file_ext
 
-                    folder_path = app.config['UPLOADS_FOLDER']+'/stuff/'+stuff_id+'/'
+                    folder_path = app.config['UPLOADS_FOLDER'] + '/stuff/' + stuff_id + '/'
 
                     new_folder = os.path.dirname(folder_path)
                     if not os.path.exists(new_folder):
@@ -225,7 +231,7 @@ def edit_stuff(stuff_id=None):
                     filepath = os.path.join(folder_path, generated_name)
                     photo_file.save(filepath)
 
-                    file_new_name = 'stuff/'+stuff_id+'/'+generated_name
+                    file_new_name = 'stuff/' + stuff_id + '/' + generated_name
 
                 # else:
                 #     generated_name = str(form.category.data)+'.jpg'
@@ -265,10 +271,12 @@ def edit_stuff(stuff_id=None):
                            form=form, action='Edit', stuff=stuff,
                            is_new=is_new)
 
+
 @app.route('/my_stuff')
 @login_required
 def my_stuff():
     return render_template("my_stuff.html", user=current_user)
+
 
 @app.route('/get_stuff_types/<category_id>')
 @app.route('/get_stuff_types')
@@ -285,6 +293,7 @@ def get_stuff_types(category_id=None):
 
     return stuff_type_choices_json
 
+
 @app.route('/get_categories')
 @app.route('/get_categories/<type_id>')
 def get_categories(type_id=None):
@@ -299,6 +308,7 @@ def get_categories(type_id=None):
     category_list_json = json.dumps(category_list)
 
     return category_list_json
+
 
 @app.route('/show_stuff/<stuff_id>')
 @login_required
@@ -322,7 +332,7 @@ def show_stuff(stuff_id):
             for rate in user_rates:
                 if rate.rating:
                     total_rating += rate.rating
-            avg_rate = total_rating/rating_count
+            avg_rate = total_rating / rating_count
         else:
             avg_rate = 0
 
@@ -331,6 +341,7 @@ def show_stuff(stuff_id):
     else:
         # flash(u"Eşya kaldırılmış.")
         return render_template('/404.html', user=current_user)
+
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -343,19 +354,19 @@ def edit_profile():
 
             if photo_file:
                 file_ext = get_file_extension(photo_file.filename)
-                generated_name = str(uuid.uuid1())+'.'+file_ext
+                generated_name = str(uuid.uuid1()) + '.' + file_ext
 
                 current_user_id = str(current_user.id)
-                folder_path = app.config['UPLOADS_FOLDER']+'/user/'+current_user_id+'/'
+                folder_path = app.config['UPLOADS_FOLDER'] + '/user/' + current_user_id + '/'
                 new_folder = os.path.dirname(folder_path)
                 if not os.path.exists(new_folder):
                     os.makedirs(new_folder)
 
-                filepath = os.path.join(folder_path,generated_name)
+                filepath = os.path.join(folder_path, generated_name)
 
                 photo_file.save(filepath)
 
-                new_photo = Photo(owner=current_user, filename='user/'+current_user_id+'/'+generated_name)
+                new_photo = Photo(owner=current_user, filename='user/' + current_user_id + '/' + generated_name)
                 db.session.add(new_photo)
                 db.session.commit()
 
@@ -369,20 +380,23 @@ def edit_profile():
                         User.about: form.about.data})
             db.session.commit()
 
-            flash(u"Profil güncellendi.",current_user.id)
+            flash(u"Profil güncellendi.", current_user.id)
 
     form.fill_form(current_user)
     return render_template('edit_profile.html',
                            form=form,
                            user=current_user)
 
+
 @app.route('/photos/<path:filename>')
 def photos_static(filename):
     return send_from_directory(app.root_path + '/static/photos/', filename)
 
+
 def get_file_extension(filename):
     if '.' in filename:
         return filename.rsplit('.', 1)[1]
+
 
 @app.route('/category/<category_name>/')
 def category_view(category_name=None):
@@ -438,6 +452,7 @@ def category_view(category_name=None):
 #    return render_template("browse.html", user=current_user,
 #                           stuff_list=stuff_list, params=params)
 
+
 @app.route('/category/<category_name>/type/<type_name>')
 def category_stuff_type_view(category_name, type_name):
     request_form = RequestForm()
@@ -482,10 +497,12 @@ def category_stuff_type_view(category_name, type_name):
                            stuff_list=stuff_list, params=params,
                            request_form=request_form)
 
+
 @app.route('/my_messages')
 @login_required
 def my_messages():
     return render_template("my_messages.html", user=current_user)
+
 
 @app.route('/unread_messages')
 @login_required
@@ -493,6 +510,7 @@ def get_unread_messages():
     message_count = Message.query.filter(Message.to_user == current_user,
                                          Message.status == 0).count()
     return jsonify(count=message_count)
+
 
 @app.route('/conversations/<conversation_id>', methods=["GET", "POST"])
 @login_required
@@ -568,6 +586,7 @@ def show_conversation(conversation_id):
     return render_template("conversation.html", user=current_user, wanted_stuff=wanted_stuff,
                            form=form, action='Edit',
                            conversation=conversation, review_form=review_form)
+
 
 @app.route('/make_request/<stuff_id>', methods=['GET', 'POST'])
 @app.route('/make_request', methods=['POST'])
@@ -647,6 +666,7 @@ def make_request(stuff_id=None):
     else:
         flash(u'İstek gönderilemedi. Kaç gün için ödünç istediğini girmelisin.')
         return redirect(return_url)
+
 
 @app.route('/moderation')
 @login_required
@@ -750,6 +770,7 @@ def moderation():
     return render_template("moderation.html", user=current_user, new_user=new_user,
                            last_objects=last_objects)
 
+
 @app.route('/profile/<user_id>')
 @app.route('/profile')
 @login_required
@@ -777,7 +798,7 @@ def get_profile(user_id=None):
             for review in reviews:
                 if review.rating:
                     total_rating += review.rating
-            avg_rate = total_rating/reviews_count
+            avg_rate = total_rating / reviews_count
         else:
             avg_rate = 0
 
@@ -799,27 +820,38 @@ def get_profile(user_id=None):
             request_from_me = int(request_from_me)
             # print request_from_me.count()
 
-            return_ratio = (returned_request*100 / request_from_me)
+            return_ratio = (returned_request * 100 / request_from_me)
 
             # print return_ratio
         else:
             return_ratio = 0
 
-        return render_template("profile.html", user_stuff_shared=user_stuff_shared, user_stuff_wanted=user_stuff_wanted,
-                           users_group=users_group, user_profile=user_profile, user=current_user, rating=avg_rate,
-                           request_form=request_form, return_ratio=return_ratio)
+        return render_template(
+            "profile.html",
+            user_stuff_shared=user_stuff_shared,
+            user_stuff_wanted=user_stuff_wanted,
+            users_group=users_group,
+            user_profile=user_profile,
+            user=current_user,
+            rating=avg_rate,
+            request_form=request_form,
+            return_ratio=return_ratio
+        )
 
     else:
         return render_template('/404.html', user=current_user)
+
 
 @app.route('/groups', methods=['GET', 'POST'])
 @login_required
 def groups():
     form = CreateGroupForm()
     if request.method == 'POST' and form.validate_on_submit():
-        group_info = Group(name=request.form.get('group_name'),
-                            description=request.form.get('text'),
-                            logo="logo")
+        group_info = Group(
+            name=request.form.get('group_name'),
+            description=request.form.get('text'),
+            logo="logo"
+        )
         db.session.add(group_info)
         db.session.commit()
 
@@ -828,6 +860,7 @@ def groups():
         flash(u"Grup kurma isteğiniz gönderildi :)")
 
     return render_template("groups.html", form=form, user=current_user)
+
 
 @app.route('/group/<group_id>')
 @login_required
@@ -844,6 +877,7 @@ def group(group_id):
 
         return render_template("group.html", group_info=group_info, group_shares=group_shares,
                                group_members=group_members, photos=photos, user=current_user)
+
 
 @app.route('/invite', methods=["GET", "POST"])
 @login_required
@@ -881,6 +915,7 @@ def invite():
 
     return render_template("invite.html", form=form, user=current_user)
 
+
 @app.route('/review', methods=["GET", "POST"])
 @login_required
 def review():
@@ -911,17 +946,21 @@ def review():
     flash(u"Mesaj alanını boş bıraktınız.")
     return redirect('/conversations/%s' % conversation_id)
 
+
 @app.route('/fairytail')
 def fairytail():
     return render_template("fairytail.html", user=current_user)
+
 
 @app.route('/purpose')
 def purpose():
     return render_template("purpose.html", user=current_user)
 
+
 @app.route('/press')
 def press():
     return render_template("press.html", user=current_user)
+
 
 @app.route('/contact', methods=["GET", "POST"])
 def contact():
@@ -945,33 +984,41 @@ def contact():
 
     return render_template("contact.html", form=form, user=current_user)
 
+
 @app.route('/companies')
 def companies():
     return render_template("for_companies.html", user=current_user)
+
 
 @app.route('/universities')
 def universities():
     return render_template("for_universities.html", user=current_user)
 
+
 @app.route('/events')
 def events():
     return render_template("events.html", user=current_user)
+
 
 @app.route('/sos')
 def sos():
     return render_template("sos.html", user=current_user)
 
+
 @app.route('/user_agreement')
 def user_agreement():
     return render_template("user_agreement.html", user=current_user)
+
 
 @app.route('/kurulus')
 def organization():
     return render_template("organization.html", user=current_user)
 
+
 @app.route('/girisim_yolu')
 def enterprise_path():
     return render_template("enterprise_path.html", user=current_user)
+
 
 @app.route('/ekip_ve_gonulluluk')
 def team_and_volunteering():

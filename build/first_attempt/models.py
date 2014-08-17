@@ -5,22 +5,29 @@ from flask.ext.security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Se
 from ek import app, db, RESPONSE_CHOICES
 
 
+roles_users = db.Table(
+    'roles_users',
+    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+)
 
-roles_users = db.Table('roles_users',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+categories_things = db.Table(
+    'categories_things',
+    db.Column('category_id', db.Integer(), db.ForeignKey('category.id')),
+    db.Column('thing_id', db.Integer(), db.ForeignKey('thing.id'))
+)
 
-categories_things = db.Table('categories_things',
-        db.Column('category_id', db.Integer(), db.ForeignKey('category.id')),
-        db.Column('thing_id', db.Integer(), db.ForeignKey('thing.id')))
+objects_things = db.Table(
+    'objects_things',
+    db.Column('object_id', db.Integer(), db.ForeignKey('object.id')),
+    db.Column('thing_id', db.Integer(), db.ForeignKey('thing.id'))
+)
 
-objects_things = db.Table('objects_things',
-        db.Column('object_id', db.Integer(), db.ForeignKey('object.id')),
-        db.Column('thing_id', db.Integer(), db.ForeignKey('thing.id')))
-
-users_things = db.Table('users_things',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('thing_id', db.Integer(), db.ForeignKey('thing.id')))
+users_things = db.Table(
+    'users_things',
+    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('thing_id', db.Integer(), db.ForeignKey('thing.id'))
+)
 
 
 class Role(db.Model, RoleMixin):

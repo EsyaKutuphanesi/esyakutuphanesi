@@ -7,13 +7,14 @@ from models import User, Role, Address, Stuff, Category, StuffType,\
 
 from flask.ext.admin.contrib.sqla import ModelView
 
-class DemoAdminIndexView(AdminIndexView):
 
+class DemoAdminIndexView(AdminIndexView):
     def is_accessible(self):
         return current_user.is_authenticated() and current_user.is_admin
 
 admin = Admin(app, url='/admin', base_template='admin_layout.html',
               index_view=DemoAdminIndexView())
+
 
 class ExtendedModelView(ModelView):
 
@@ -36,7 +37,6 @@ class ExtendedModelView(ModelView):
         super(ExtendedModelView, self).__init__(model, session, **kwargs)
 
 
-
 class UserView(ExtendedModelView):
 
     @expose('/userview/approve/<id>')
@@ -49,21 +49,31 @@ class UserView(ExtendedModelView):
         super(UserView, self).__init__(User, session, **kwargs)
 
 
-admin.add_view(UserView(db.session,
-                        column_list=('id', 'email', 'why', 'approved'),
-                        list_template='admin_user_list.html',
-                        column_searchable_list=('email',),
-                        column_sortable_list=('id',),
-                        column_filters=('id', 'email', 'approved'))
+admin.add_view(
+    UserView(
+        db.session,
+        column_list=('id', 'email', 'why', 'approved'),
+        list_template='admin_user_list.html',
+        column_searchable_list=('email',),
+        column_sortable_list=('id',),
+        column_filters=('id', 'email', 'approved')
+    )
 )
+
 admin.add_view(ExtendedModelView(Role, db.session))
-admin.add_view(ExtendedModelView(Stuff, db.session,
-                                 column_list=('id', 'owner', 'stuff_address', 'stuff_type',
-                                              'category', 'title', 'detail', 'create_at', 'approved'),
-                                 column_searchable_list=('title', 'detail',),
-                                 column_sortable_list=(('id', Stuff.id),),
-                                 column_filters=('id', 'stuff_type',
-                                                 'category', 'approved','owner')))
+
+admin.add_view(
+    ExtendedModelView(
+        Stuff,
+        db.session,
+        column_list=('id', 'owner', 'stuff_address', 'stuff_type', 'category', 'title', 'detail', 'create_at', 'approved'),
+        column_searchable_list=('title', 'detail',),
+        column_sortable_list=(('id', Stuff.id),),
+        column_filters=('id', 'stuff_type', 'category', 'approved', 'owner')
+    )
+)
+
+
 admin.add_view(ExtendedModelView(Category, db.session))
 admin.add_view(ExtendedModelView(StuffType, db.session))
 admin.add_view(ExtendedModelView(Request, db.session))

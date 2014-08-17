@@ -9,6 +9,7 @@ from forms import SearchForm, CategoryForm, RegistrationForm, EditUserForm
 from models import users, User, Category, Thing, Object, Response, Request, Role
 from flask_login import current_user
 
+
 @app.route('/')
 def home():
     form = SearchForm()
@@ -19,7 +20,7 @@ def home():
     if current_user.is_anonymous():
         waiting_requests = None
     else:
-        waiting_requests = Request.query.join(Object).filter(Object.owner==current_user, Request.responses == None)
+        waiting_requests = Request.query.join(Object).filter(Object.owner == current_user, Request.responses == None)
 
     return render_template('index.html',
                            user=current_user,
@@ -30,27 +31,27 @@ def home():
                            waiting_requests=waiting_requests,
                            form=form
                            )
-    
 
-@app.route('/search/<context>/',methods = ['GET'])
-@app.route('/search',methods = ['POST'])
+
+@app.route('/search/<context>/', methods=['GET'])
+@app.route('/search', methods=['POST'])
 def search(context=None):
     search_key = None
-    form=None
+    form = None
     if context is None:
         context = request.form["context"]
-        search_key = request.form["search_key"]    
+        search_key = request.form["search_key"]
     contexts = {
-             'category':Category,
-             'thing':Thing,
-             'user':User,
-             'Object':Object,
-             }
+        'category': Category,
+        'thing': Thing,
+        'user': User,
+        'Object': Object,
+    }
     print context
     if context in contexts:
         f = contexts[context]
         if search_key:
-            result = f.query.filter(f.name.like('%'+search_key+'%')).order_by(f.id.desc()).limit(5)
+            result = f.query.filter(f.name.like('%' + search_key + '%')).order_by(f.id.desc()).limit(5)
         else:
             if 'filter' in request.args:
                 search_key = request.args.get('filter')
@@ -68,17 +69,18 @@ def search(context=None):
         return render_template('404.html',
                                user=current_user)
 
+
 @app.route('/categories/<category_name>/')
 @app.route('/things/<thing_name>/')
-def categories(category_name=None,thing_name=None):
+def categories(category_name=None, thing_name=None):
     if category_name:
-        category = Category.query.filter(Category.name==category_name).first()
+        category = Category.query.filter(Category.name == category_name).first()
         return render_template('category.html',
                                user=current_user,
                                category=category,
                                thing=None)
     elif thing_name:
-        thing = Thing.query.filter(Thing.name==thing_name).first()
+        thing = Thing.query.filter(Thing.name == thing_name).first()
         return render_template('category.html',
                                user=current_user,
                                category=None,
@@ -86,7 +88,8 @@ def categories(category_name=None,thing_name=None):
     else:
         return render_template('404.html',
                                user=current_user)
-    
+
+
 @app.route('/profiles/<username>/')
 def profiles(username=None):
     if username:
@@ -99,11 +102,10 @@ def profiles(username=None):
                                user=current_user)
 
 
-
 @app.route('/profiles/<username>/objects/<object_id>/')
 def show_object(username, object_id):
     try:
-        object = Object.query.filter(Object.id==object_id).one()
+        object = Object.query.filter(Object.id == object_id).one()
     except NoResultFound:
         return render_template('404.html',
                                user=current_user)
@@ -114,10 +116,11 @@ def show_object(username, object_id):
                            owner_nick=username,
                            )
 
+
 @app.route('/profiles/<username>/objects/<object_id>/request/')
 def add_request(username, object_id):
-    object = Object.query.filter(Object.id==object_id).one()
-    request = Request(by=current_user, object=object )
+    object = Object.query.filter(Object.id == object_id).one()
+    request = Request(by=current_user, object=object)
     db.session.add(request)
     db.session.commit()
     flash('Requested object', 'info')
@@ -127,23 +130,26 @@ def add_request(username, object_id):
                            owner_nick=username,
                            )
 
+
 @app.route('/my_requests/')
 def my_requests():
-    requests = Request.query.join(Object).filter(Object.owner==current_user, Request.responses == None)
+    requests = Request.query.join(Object).filter(Object.owner == current_user, Request.responses == None)
     return render_template('my_requests.html',
                            requests=requests,
                            user=current_user)
 
+
 @app.route('/my_requests/<request_id>/<response>')
 def respond_to_request(request_id, response):
-    request = Request.query.join(Object).filter(Request.id==request_id, Object.owner == current_user).one()
-    response_object = Response(request=request, response=filter(lambda x: RESPONSE_CHOICES[x]==response, RESPONSE_CHOICES)[0])
+    request = Request.query.join(Object).filter(Request.id == request_id, Object.owner == current_user).one()
+    response_object = Response(request=request, response=filter(lambda x: RESPONSE_CHOICES[x] == response, RESPONSE_CHOICES)[0])
     db.session.add(response_object)
     db.session.commit()
 
-    flash("%s %s's request" %(response, request.by),'info')
+    flash("%s %s's request" % (response, request.by), 'info')
 
     return redirect('/my_requests')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -165,7 +171,8 @@ def register():
     return render_template('register.html',
                            form=form,
                            user=current_user)
-    
+
+
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     print current_user.is_anonymous()
@@ -175,11 +182,11 @@ def account():
     if request.method == 'POST' and form.validate_on_submit():
         if current_user.id == int(form.userid.data):
             User.query.filter(User.id == current_user.id).update({
-                                  User.name: form.name.data,
-                                  User.email: form.email.data,
-                                  User.nickname: form.nickname.data})
+                User.name: form.name.data,
+                User.email: form.email.data,
+                User.nickname: form.nickname.data})
             db.session.commit()
-            
+
     form.fill_form(current_user)
     return render_template('account.html',
                            form=form,

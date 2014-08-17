@@ -58,15 +58,15 @@ db.session.commit()
 for thing in things:
     new_thing = Thing(name=thing)
     for category in things[thing]:
-        new_category = Category.query.filter(Category.name==category).one()
+        new_category = Category.query.filter(Category.name == category).one()
         new_thing.categories.append(new_category)
     db.session.add(new_thing)
 db.session.commit()
 
 for user in objects:
-    owner = User.query.filter(User.nickname==user).one()
+    owner = User.query.filter(User.nickname == user).one()
     for object in objects[user]:
-        thing = Thing.query.filter(Thing.name==object).one()
+        thing = Thing.query.filter(Thing.name == object).one()
         new_object = Object(owner=owner, thing=thing)
     db.session.add(new_object)
 db.session.commit()

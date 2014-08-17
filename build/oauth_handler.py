@@ -13,15 +13,17 @@ FACEBOOK_APP_SECRET = ''
 
 oauth = OAuth()
 
-facebook = oauth.remote_app('facebook',
-                            base_url='https://graph.facebook.com/',
-                            request_token_url=None,
-                            access_token_url='/oauth/access_token',
-                            authorize_url='https://www.facebook.com/dialog/oauth',
-                            consumer_key=FACEBOOK_APP_ID,
-                            consumer_secret=FACEBOOK_APP_SECRET,
-                            request_token_params={'scope': ('email, ')}
+facebook = oauth.remote_app(
+    'facebook',
+    base_url='https://graph.facebook.com/',
+    request_token_url=None,
+    access_token_url='/oauth/access_token',
+    authorize_url='https://www.facebook.com/dialog/oauth',
+    consumer_key=FACEBOOK_APP_ID,
+    consumer_secret=FACEBOOK_APP_SECRET,
+    request_token_params={'scope': ('email, ')}
 )
+
 
 @app.route("/provider_login", methods=["GET", "POST"])
 @app.route("/provider_login/<provider_id>", methods=["GET", "POST"])
@@ -37,9 +39,11 @@ def provider_login(provider_id=None):
     return provider.authorize(callback=url_for(url, next=request.args.get('next'),
                                                _external=True))
 
+
 @facebook.tokengetter
 def get_facebook_token():
     return session.get('facebook_token')
+
 
 @app.route("/facebook_authorized")
 @facebook.authorized_handler
@@ -50,11 +54,10 @@ def facebook_authorized(resp):
 
     session['facebook_token'] = (resp['access_token'], '')
     data = facebook.get('/me').data
-    profile_picture = 'https://graph.facebook.com/'+data['id']+'/picture?width=1000'
+    profile_picture = 'https://graph.facebook.com/' + data['id'] + '/picture?width=1000'
     # profile_picture = facebook.get('/me/picture').data
 
-    if 'id' in data and 'name' in data \
-        and 'email' in data and 'link' in data:
+    if 'id' in data and 'name' in data and 'email' in data and 'link' in data:
 
         provider_user_id = data['id']
         name = data['name']
@@ -63,42 +66,44 @@ def facebook_authorized(resp):
         profile_url = data['link']
         # profile_picture = profile_picture['url']
 
-        generated_name = str(uuid.uuid1())+'.jpg'
+        generated_name = str(uuid.uuid1()) + '.jpg'
 
         user = User.query.filter(User.email == user_email).first()
         if not user:
-            user = users.create_user(name=name,
-                                     email=user_email,
-                                     password=None,
-                                     active=True)
+            user = users.create_user(
+                name=name,
+                email=user_email,
+                password=None,
+                active=True
+            )
             users.commit()
 
             current_user_id = str(user.id)
-            folder_path = app.config['UPLOADS_FOLDER']+'/user/'+current_user_id+'/'
+            folder_path = app.config['UPLOADS_FOLDER'] + '/user/' + current_user_id + '/'
             new_folder = os.path.dirname(folder_path)
             if not os.path.exists(new_folder):
                 os.makedirs(new_folder)
 
-            filepath = os.path.join(folder_path,generated_name)
+            filepath = os.path.join(folder_path, generated_name)
             urllib.urlretrieve(profile_picture, filepath)
 
-            new_photo = 'user/'+current_user_id+'/'+generated_name
+            new_photo = 'user/' + current_user_id + '/' + generated_name
 
-            User.query.filter(User.id == user.id).\
-                    update({User.photo: new_photo})
+            User.query.filter(User.id == user.id).update({User.photo: new_photo})
 
         connection = Connection.query.filter(Connection.user_id == user.id,
                                              Connection.provider_id == 'facebook').first()
         if not connection:
             print "no prior connection"
-            connection = Connection(user=user,
-                                    provider_id='facebook',
-                                    provider_user_id=provider_user_id,
-                                    access_token=resp['access_token'],
-                                    profile_url=profile_url,
-                                    image_url=generated_name,
-                                    full_name=name,
-                                    display_name=username
+            connection = Connection(
+                user=user,
+                provider_id='facebook',
+                provider_user_id=provider_user_id,
+                access_token=resp['access_token'],
+                profile_url=profile_url,
+                image_url=generated_name,
+                full_name=name,
+                display_name=username
             )
             db.session.add(connection)
             db.session.commit()
@@ -112,6 +117,7 @@ def facebook_authorized(resp):
             return redirect(next_url)
 
     return redirect("/login")
+
 
 def get_file_extension(filename):
     if '.' in filename:
