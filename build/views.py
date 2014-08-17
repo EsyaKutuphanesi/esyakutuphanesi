@@ -594,7 +594,7 @@ def show_conversation(conversation_id):
 def make_request(stuff_id=None):
     form = RequestForm()
     message = None
-    return_url = request.form['return_url'];
+    return_url = request.form['return_url']
     if form.validate_on_submit():
         message = form.message.data
         stuff_id = form.stuff_id.data

@@ -45,7 +45,7 @@ class EditUserForm(Form):
 
         user = User.query.filter_by(
             email=self.email.data).first()
-        if user and user.id <> int(self.userid.data):
+        if user and user.id != int(self.userid.data):
             self.email.errors.append(u'Bu email adresi ile kayıtlı bir kullanıcı bulunuyor.')
             return False
 

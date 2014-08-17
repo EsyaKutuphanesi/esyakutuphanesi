@@ -99,13 +99,13 @@ class EditUserForm(Form):
             email=self.email.data).first()
         print self.userid.data
         print user.id
-        if user and user.id <> int(self.userid.data):
+        if user and user.id != int(self.userid.data):
             self.email.errors.append('There is already a user registered with this email')
             return False
 
         user = User.query.filter_by(
             nickname=self.nickname.data).first()
-        if user and user.id <> int(self.userid.data):
+        if user and user.id != int(self.userid.data):
             self.nickname.errors.append('This nickname is already taken')
             return False
 
