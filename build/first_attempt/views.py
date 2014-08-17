@@ -133,7 +133,10 @@ def add_request(username, object_id):
 
 @app.route('/my_requests/')
 def my_requests():
-    requests = Request.query.join(Object).filter(Object.owner == current_user, Request.responses == None)
+    requests = Request.query.join(Object).filter(
+        Object.owner == current_user,
+        Request.responses == None
+    )
     return render_template('my_requests.html',
                            requests=requests,
                            user=current_user)
@@ -142,7 +145,10 @@ def my_requests():
 @app.route('/my_requests/<request_id>/<response>')
 def respond_to_request(request_id, response):
     request = Request.query.join(Object).filter(Request.id == request_id, Object.owner == current_user).one()
-    response_object = Response(request=request, response=filter(lambda x: RESPONSE_CHOICES[x] == response, RESPONSE_CHOICES)[0])
+    response_object = Response(
+        request=request,
+        response=filter(lambda x: RESPONSE_CHOICES[x] == response, RESPONSE_CHOICES)[0]
+    )
     db.session.add(response_object)
     db.session.commit()
 

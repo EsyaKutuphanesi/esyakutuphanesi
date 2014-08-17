@@ -151,7 +151,12 @@ class Response(db.Model):
     response = db.Column(db.Integer, primary_key=False, default=0)
 
     def __repr__(self):
-        return "%s %s %s's %s request." % (self.request.object.owner, RESPONSE_CHOICES[self.response], self.request.by, self.request.object.thing)
+        return "%s %s %s's %s request." % (
+            self.request.object.owner,
+            RESPONSE_CHOICES[self.response],
+            self.request.by,
+            self.request.object.thing
+        )
 
     @property
     def admin_url(self):

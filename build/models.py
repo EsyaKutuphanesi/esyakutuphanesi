@@ -184,7 +184,11 @@ class StuffType(db.Model):
     __tablename__ = "stufftype"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True)
-    category_list = db.relationship('Category', secondary=categories_types, backref=db.backref('type_list', lazy='dynamic'))
+    category_list = db.relationship(
+        'Category',
+        secondary=categories_types,
+        backref=db.backref('type_list', lazy='dynamic')
+    )
 
     def __repr__(self):
         return self.name

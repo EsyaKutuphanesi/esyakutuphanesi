@@ -66,7 +66,8 @@ admin.add_view(
     ExtendedModelView(
         Stuff,
         db.session,
-        column_list=('id', 'owner', 'stuff_address', 'stuff_type', 'category', 'title', 'detail', 'create_at', 'approved'),
+        column_list=('id', 'owner', 'stuff_address', 'stuff_type', 'category',
+                     'title', 'detail', 'create_at', 'approved'),
         column_searchable_list=('title', 'detail',),
         column_sortable_list=(('id', Stuff.id),),
         column_filters=('id', 'stuff_type', 'category', 'approved', 'owner')

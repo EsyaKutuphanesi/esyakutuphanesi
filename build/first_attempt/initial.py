@@ -6,23 +6,47 @@ roles = {'admin': 'admin',
          }
 
 users_list = [
-    {'email': 'yigiit@gmail.com', 'password': 'ekek', 'name': 'yigit', 'roles': [roles['admin']], 'nickname':'yigit'},
-    {'email': 'umutcanonal@gmail.com', 'password': 'ekek', 'name': 'umut', 'roles': [roles['admin']], 'nickname':'umutcan'},
-    {'email': 'aysu@esyakutuphanesi.com', 'password': 'ekek', 'name': 'aysu', 'roles': [roles['admin']], 'nickname':'aysu'},
-    {'email': 'ayse@esyakutuphanesi.com', 'password': 'ekek', 'name': 'ayse', 'roles': [roles['admin']], 'nickname':'ayse'},
-    ]
+    {
+        'email': 'yigiit@gmail.com',
+        'password': 'ekek',
+        'name': 'yigit',
+        'roles': [roles['admin']],
+        'nickname':'yigit'
+    },
+    {
+        'email': 'umutcanonal@gmail.com',
+        'password': 'ekek',
+        'name': 'umut',
+        'roles': [roles['admin']],
+        'nickname':'umutcan'
+    },
+    {
+        'email': 'aysu@esyakutuphanesi.com',
+        'password': 'ekek',
+        'name': 'aysu',
+        'roles': [roles['admin']],
+        'nickname':'aysu'
+    },
+    {
+        'email': 'ayse@esyakutuphanesi.com',
+        'password': 'ekek',
+        'name': 'ayse',
+        'roles': [roles['admin']],
+        'nickname':'ayse'
+    },
+]
 
 categories = ['sports', 'music instruments']
 
 things = {
     'tandem bike': ['sports'],
     'didgeridoo': ['music instruments'],
-    }
+}
 
 objects = {
     'yigit': ['tandem bike'],
     'umutcan': ['didgeridoo'],
-    }
+}
 
 db.create_all()
 

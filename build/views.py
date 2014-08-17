@@ -806,10 +806,12 @@ def get_profile(user_id=None):
             filter(GroupMembership.group_id == Group.id,
                    GroupMembership.user_id == user_id)
 
-        returned_request = Request.query.filter(Request.from_user_id == user_id).join(Conversation).\
-            filter(Conversation.request_id == Request.id).join(Message).filter(Message.conversation_id == Conversation.id,
-                                                                               Message.from_user_id == user_id)\
-            .group_by(Message.conversation_id, Request.id).count()
+        returned_request = Request.query.filter(Request.from_user_id == user_id)\
+            .join(Conversation)\
+            .filter(Conversation.request_id == Request.id).join(Message)\
+            .filter(Message.conversation_id == Conversation.id, Message.from_user_id == user_id)\
+            .group_by(Message.conversation_id, Request.id)\
+            .count()
 
         if returned_request > 0:
             # returned_request = int(returned_request)

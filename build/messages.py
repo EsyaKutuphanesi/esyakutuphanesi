@@ -12,12 +12,15 @@ security_messages = {
     'RETYPE_PASSWORD_MISMATCH': (u'Şifreler eşleşmiyor', 'error'),
     'INVALID_REDIRECT': ('Redirections outside the domain are forbidden', 'error'),
     'PASSWORD_RESET_REQUEST': (u'Şifreni sıfırlamak için gerekli bilgi e-posta adresine gönderildi.', 'info'),
-    'PASSWORD_RESET_EXPIRED': ('You did not reset your password within %(within)s. New instructions have been sent to %(email)s.', 'error'),
+    'PASSWORD_RESET_EXPIRED': ('You did not reset your password within %(within)s.\
+        New instructions have been sent to %(email)s.', 'error'),
     'INVALID_RESET_PASSWORD_TOKEN': ('Invalid reset password token.', 'error'),
     'CONFIRMATION_REQUIRED': ('Email requires confirmation.', 'error'),
     'CONFIRMATION_REQUEST': ('Confirmation instructions have been sent to %(email)s.', 'info'),
-    'CONFIRMATION_EXPIRED': ('You did not confirm your email within %(within)s. New instructions to confirm your email have been sent to %(email)s.', 'error'),
-    'LOGIN_EXPIRED': ('You did not login within %(within)s. New instructions to login have been sent to %(email)s.', 'error'),
+    'CONFIRMATION_EXPIRED': ('You did not confirm your email within %(within)s.\
+        New instructions to confirm your email have been sent to %(email)s.', 'error'),
+    'LOGIN_EXPIRED': ('You did not login within %(within)s.\
+        New instructions to login have been sent to %(email)s.', 'error'),
     'LOGIN_EMAIL_SENT': ('Instructions to login have been sent to %(email)s.', 'success'),
     'INVALID_LOGIN_TOKEN': ('Invalid login token.', 'error'),
     'DISABLED_ACCOUNT': (u'Hesap aktif değil', 'error'),
