@@ -2,7 +2,7 @@
 
 from flask.ext.wtf import Form
 from wtforms import TextField, HiddenField, PasswordField, validators, SubmitField
-from wtforms import TextAreaField, SelectField, FileField, RadioField
+from wtforms import TextAreaField, SelectField, FileField
 
 from models import User
 

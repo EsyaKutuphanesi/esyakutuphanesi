@@ -1,8 +1,6 @@
 # coding=utf-8
 from ek import db
-from models import users, Role, User, Address, Stuff,\
-    Conversation, Message, Request, Connection, Category, StuffType,\
-    Group, GroupMembership
+from models import users, Role, Category, StuffType
 
 db.drop_all()
 roles = {'admin': 'admin',

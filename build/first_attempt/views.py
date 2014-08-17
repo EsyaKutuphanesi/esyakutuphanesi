@@ -4,7 +4,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 from ek import app, db, RESPONSE_CHOICES
 
-from forms import SearchForm, CategoryForm, RegistrationForm, EditUserForm
+from forms import SearchForm, RegistrationForm, EditUserForm
 
 from models import users, User, Category, Thing, Object, Response, Request, Role
 from flask_login import current_user
