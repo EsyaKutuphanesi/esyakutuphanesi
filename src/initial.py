@@ -25,9 +25,13 @@ users_list = [
     ]
 """
 users_list = [
-    {'email': 'bilgi@esyakutuphanesi.com',
-     'password': "$5$rounds=80000$Yj2S6AtoBQ7mOmuZ$gevIsEG8fTUw92bAfRJw9YQxdyq.0VRkKB3xvoi3cb/",
-     'name': 'admin', 'roles': [roles['admin']]}
+    {
+        'email': 'bilgi@esyakutuphanesi.com',
+        'password': "$5$rounds=80000$Yj2S6AtoBQ7mOmuZ$gevIsEG8fTUw92bAfRJw9YQxdyq.0VRkKB3xvoi3cb/",
+        'name': 'admin',
+        'roles': [roles['admin']],
+        'approved': 1
+    },
 ]
 
 db.create_all()
@@ -39,10 +43,12 @@ for role_name in roles.values():
 db.session.commit()
 
 for user in users_list:
-    new_user = users.create_user(email=user.get('email'),
-                                 password=user.get('password'),
-                                 name=user.get('name')
-                                 )
+    new_user = users.create_user(
+        email=user.get('email'),
+        password=user.get('password'),
+        name=user.get('name'),
+        approved=user.get('approved')
+    )
 
     for role in user.get('roles'):
         role_db = Role.query.filter_by(name=role).first()
