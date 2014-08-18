@@ -38,7 +38,11 @@
                             <button type="button" style="width:100%;" class="btn btn-success disabled">Ödünç verildi</button>
                     {% endif %}
                 {% else %}
-                    <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'lendStuffButton', 'Item_box Page'])">Ödünç iste</button>
+                    {% if not is_wanted %}
+                        <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'borrowStuffButton', 'Item_box Page'])">Ödünç iste</button>
+                    {%else%}
+                        <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'lendStuffButton', 'Item_box Page'])">Ödünç ver!</button>
+                    {%endif%}
                 {% endif %}
                 </p>
             </div>

@@ -56,8 +56,9 @@
     <div class="row" style="margin-left:-16px;">
         {% if last_objects_shared[0] %}
             <div class="col-md-12 col-sm-12">
-                <h3 style="border-bottom: 1px solid #dddddd;
-    padding-bottom: 10px;">Son Paylaşılanlar</h3>
+                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">
+                    Kütüphaneye Eklenenler
+                </h3>
             </div>
         {% endif %}
 
@@ -71,23 +72,23 @@
     </div>
 
     <!--<div class="col-md-12 grayLine"></div>-->
-    {%if user.is_authenticated()%}
-        <div class="row" style="margin-left:-16px;">
-            {% if last_objects_wanted[0] %}
-                <div class="col-md-12 col-sm-12">
-                    <h3 style="border-bottom: 1px solid #dddddd;
-        padding-bottom: 10px;">Son Arananlar</h3>
-                </div>
-            {% endif %}
+    <div class="row" style="margin-left:-16px;">
+        {% if last_objects_wanted[0] %}
             <div class="col-md-12 col-sm-12">
-                <div id="container1" class="row fluid">
-                    {% for stuff in last_objects_wanted %}
-                        {{ render_item_box(stuff, user, True) }}
-                    {%endfor%}
-                </div>
+                <h3 style="border-bottom: 1px solid #dddddd;
+    padding-bottom: 10px;">
+                    Aranıyor!
+                </h3>
+            </div>
+        {% endif %}
+        <div class="col-md-12 col-sm-12">
+            <div id="container1" class="row fluid">
+                {% for stuff in last_objects_wanted %}
+                    {{ render_item_box(stuff, user, stuff.is_wanted) }}
+                {%endfor%}
             </div>
         </div>
-    {% endif %}
+    </div>
 
     <div class="col-md-12 col-sm-12 grayLine" style="margin-bottom:50px;"></div>
 
