@@ -59,11 +59,14 @@ def check_approved(source=None):
 
             flash(u'Üyeliğin onay bekliyor. Onaylandığı zaman e-posta ile sana haber vereceğiz.')
             msg_body = "%s %s <br><br> %s" % (current_user.name, current_user.email, current_user.why)
-            msg = MailMessage(body=msg_body,
-                              html=msg_body,
-                              subject=u"Yeni Üye",
-                              sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
-                              recipients=["bilgi@esyakutuphanesi.com"])
+            msg = MailMessage(
+                body=msg_body,
+                html=msg_body,
+                subject=u"Yeni Üye",
+                sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+                recipients=["bilgi@esyakutuphanesi.com"]
+            )
+
             mail.send(msg)
 
         elif source == 'login':
@@ -203,14 +206,16 @@ def edit_stuff(stuff_id=None):
 
             else:
                 group_id = None if form.group.data == -1 else form.group.data
-                stuff = Stuff(title=form.title.data,
-                              detail=form.detail.data,
-                              stuff_address=address,
-                              owner=current_user,
-                              category_id=form.category.data,
-                              type_id=form.stuff_type.data,
-                              group_id=group_id,
-                              is_wanted=form.is_wanted.data == 'True')
+                stuff = Stuff(
+                    title=form.title.data,
+                    detail=form.detail.data,
+                    stuff_address=address,
+                    owner=current_user,
+                    category_id=form.category.data,
+                    type_id=form.stuff_type.data,
+                    group_id=group_id,
+                    is_wanted=form.is_wanted.data == 'True'
+                )
                 db.session.add(stuff)
                 db.session.commit()
 
@@ -267,9 +272,15 @@ def edit_stuff(stuff_id=None):
         form.group.choices = group_choices
         form.fill_form(stuff)
 
-    return render_template("edit_stuff.html", user=current_user, is_wanted=is_wanted,
-                           form=form, action='Edit', stuff=stuff,
-                           is_new=is_new)
+    return render_template(
+        "edit_stuff.html",
+        user=current_user,
+        is_wanted=is_wanted,
+        form=form,
+        action='Edit',
+        stuff=stuff,
+        is_new=is_new
+    )
 
 
 @app.route('/my_stuff')
@@ -316,10 +327,13 @@ def show_stuff(stuff_id):
     request_form = RequestForm()
     is_wanted = request.args.get('is_wanted')
 
-    stuff = Stuff.query.join(User).filter(Stuff.id == stuff_id,
-                                          Stuff.approved == 1,
-                                          Stuff.owner_id == User.id,
-                                          User.approved == True).first()
+    stuff = Stuff.query.join(User).filter(
+        Stuff.id == stuff_id,
+        Stuff.approved == 1,
+        Stuff.owner_id == User.id,
+        User.approved == True
+    ).first()
+
     if stuff:
         stuff_address = Address.query.filter(Address.id == stuff.address_id).first()
         reviews = Review.query.filter(Review.request_id == Request.id, Request.stuff_id == stuff_id)
@@ -336,8 +350,17 @@ def show_stuff(stuff_id):
         else:
             avg_rate = 0
 
-        return render_template("show_stuff.html", stuff_address=stuff_address, user=current_user, rating=avg_rate,
-                               request_form=request_form, is_wanted=is_wanted, stuff=stuff, reviews=reviews)
+        return render_template(
+            "show_stuff.html",
+            stuff_address=stuff_address,
+            user=current_user,
+            rating=avg_rate,
+            request_form=request_form,
+            is_wanted=is_wanted,
+            stuff=stuff,
+            reviews=reviews
+        )
+
     else:
         # flash(u"Eşya kaldırılmış.")
         return render_template('/404.html', user=current_user)
@@ -407,18 +430,22 @@ def category_view(category_name=None):
         filter(Category.name == category_name).first()
     #stuff_list = category.stuff_list
     if is_wanted is None:
-        stuff_list = Stuff.query.join(User).\
-            filter(Stuff.category == category,
-                   Stuff.approved == 1,
-                   Stuff.owner_id == User.id,
-                   User.approved == True)
+        stuff_list = Stuff.query.join(User).filter(
+            Stuff.category == category,
+            Stuff.approved == 1,
+            Stuff.owner_id == User.id,
+            User.approved == True
+        )
+
     else:
-        stuff_list = Stuff.query.join(User).\
-            filter(Stuff.category == category,
-                   Stuff.is_wanted == is_wanted,
-                   Stuff.approved == 1,
-                   Stuff.owner_id == User.id,
-                   User.approved == True)
+        stuff_list = Stuff.query.join(User).filter(
+            Stuff.category == category,
+            Stuff.is_wanted == is_wanted,
+            Stuff.approved == 1,
+            Stuff.owner_id == User.id,
+            User.approved == True
+        )
+
     params = {
         'category': {
             'type': 'category',
@@ -434,9 +461,13 @@ def category_view(category_name=None):
         }
     }
 
-    return render_template("browse.html", user=current_user,
-                           stuff_list=stuff_list, params=params,
-                           request_form=request_form)
+    return render_template(
+        "browse.html",
+        user=current_user,
+        stuff_list=stuff_list,
+        params=params,
+        request_form=request_form
+    )
 
 #@app.route('/stuff_type/<type_name>/')
 #def stuff_type_view(type_name=None):
@@ -462,19 +493,23 @@ def category_stuff_type_view(category_name, type_name):
     category = Category.query.\
         filter(Category.name == category_name).first()
     if is_wanted is None:
-        stuff_list = Stuff.query.join(User).\
-            join(Category).\
-            join(StuffType).\
-            filter(Category.id == category.id, StuffType.id == stuff_type.id,
-                   Stuff.approved == 1, Stuff.owner_id == User.id, User.approved == True)
+        stuff_list = Stuff.query.join(User).join(Category).join(StuffType).filter(
+            Category.id == category.id,
+            StuffType.id == stuff_type.id,
+            Stuff.approved == 1,
+            Stuff.owner_id == User.id,
+            User.approved == True
+        )
             # filter(Category.id == category.id)
     else:
-        stuff_list = Stuff.query.join(User).\
-            join(Category).\
-            join(StuffType).\
-            filter(Category.id == category.id, StuffType.id == stuff_type.id,
-                   Stuff.approved == 1, Stuff.is_wanted == is_wanted, Stuff.owner_id == User.id,
-                   User.approved == True, )
+        stuff_list = Stuff.query.join(User).join(Category).join(StuffType).filter(
+            Category.id == category.id,
+            StuffType.id == stuff_type.id,
+            Stuff.approved == 1,
+            Stuff.is_wanted == is_wanted,
+            Stuff.owner_id == User.id,
+            User.approved == True
+        )
             # filter(Category.id == category.id).\
             # filter(Stuff.is_wanted == is_wanted)
 
@@ -493,9 +528,13 @@ def category_stuff_type_view(category_name, type_name):
         }
     }
 
-    return render_template("browse.html", user=current_user,
-                           stuff_list=stuff_list, params=params,
-                           request_form=request_form)
+    return render_template(
+        "browse.html",
+        user=current_user,
+        stuff_list=stuff_list,
+        params=params,
+        request_form=request_form
+    )
 
 
 @app.route('/my_messages')
@@ -530,10 +569,12 @@ def show_conversation(conversation_id):
             to_user = conversation.request.user
 
         print to_user.id
-        new_message = Message(from_user=current_user,
-                              to_user=to_user,
-                              conversation=conversation,
-                              txt=form.message.data)
+        new_message = Message(
+            from_user=current_user,
+            to_user=to_user,
+            conversation=conversation,
+            txt=form.message.data
+        )
         db.session.add(new_message)
         db.session.commit()
 
@@ -545,20 +586,27 @@ def show_conversation(conversation_id):
 
         msg_subject = u"Yeni mesajın var"
 
-        msg = MailMessage(body=msg_body,
-                          html=html_msg,
-                          subject=msg_subject,
-                          sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
-                          recipients=[to_user.email])
+        msg = MailMessage(
+            body=msg_body,
+            html=html_msg,
+            subject=msg_subject,
+            sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+            recipients=[to_user.email]
+        )
+
         mail.send(msg)
 
-    Message.query.filter(Message.conversation_id == conversation_id,
-                         Message.status == 0,
-                         Message.to_user == current_user). \
-        update({Message.status: 1})
+    Message.query.filter(
+        Message.conversation_id == conversation_id,
+        Message.status == 0,
+        Message.to_user == current_user
+    ).update({Message.status: 1})
     db.session.commit()
+
     form.message.data = None
+
     review_form = ReviewForm()
+
     if request.args.get('status'):
         status = int(request.args.get('status'))
     else:
@@ -583,9 +631,15 @@ def show_conversation(conversation_id):
 
     wanted_stuff = StuffPhoto.query.filter(StuffPhoto.stuff_id == conversation.request.stuff_id).first()
     review_form.request_id.data = conversation.request_id
-    return render_template("conversation.html", user=current_user, wanted_stuff=wanted_stuff,
-                           form=form, action='Edit',
-                           conversation=conversation, review_form=review_form)
+    return render_template(
+        "conversation.html",
+        user=current_user,
+        wanted_stuff=wanted_stuff,
+        form=form,
+        action='Edit',
+        conversation=conversation,
+        review_form=review_form
+    )
 
 
 @app.route('/make_request/<stuff_id>', methods=['GET', 'POST'])
@@ -616,19 +670,29 @@ def make_request(stuff_id=None):
                 user_id = current_user.id
                 from_user_id = stuff.owner_id
 
-            new_request = Request(stuff_id=stuff_id,
-                                  user_id=user_id,
-                                  from_user_id=from_user_id,
-                                  duration=(duration * unit))
+            new_request = Request(
+                stuff_id=stuff_id,
+                user_id=user_id,
+                from_user_id=from_user_id,
+                duration=(duration * unit)
+            )
+
             db.session.add(new_request)
-            new_conversation = Conversation(title='%s' % stuff.title,
-                                            users=[current_user, stuff.owner],
-                                            request=new_request)
+            new_conversation = Conversation(
+                title='%s' % stuff.title,
+                users=[current_user, stuff.owner],
+                request=new_request
+            )
+
             db.session.add(new_conversation)
-            new_message = Message(from_user=current_user,
-                                  to_user=stuff.owner,
-                                  conversation=new_conversation,
-                                  txt=message)
+
+            new_message = Message(
+                from_user=current_user,
+                to_user=stuff.owner,
+                conversation=new_conversation,
+                txt=message
+            )
+
             db.session.add(new_message)
 
             db.session.commit()
@@ -651,11 +715,14 @@ def make_request(stuff_id=None):
 
                 msg_subject = u"%s senden ödünç istiyor" % current_user.name
 
-            msg = MailMessage(body=msg_body,
-                              html=html_msg,
-                              subject=msg_subject,
-                              sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
-                              recipients=[stuff.owner.email])
+            msg = MailMessage(
+                body=msg_body,
+                html=html_msg,
+                subject=msg_subject,
+                sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+                recipients=[stuff.owner.email]
+            )
+
             mail.send(msg)
 
             return redirect(url_for('my_messages'))
@@ -701,11 +768,15 @@ def moderation():
                        u'<a href="http://esyakutuphanesi.com/">esyakutuphanesi.com</a>' \
 
             msg_subject = u"Eşyan onaylandı!"
-            msg = MailMessage(body=msg_body,
-                              html=html_msg,
-                              subject=msg_subject,
-                              sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
-                              recipients=[stuff.owner.email])
+
+            msg = MailMessage(
+                body=msg_body,
+                html=html_msg,
+                subject=msg_subject,
+                sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+                recipients=[stuff.owner.email]
+            )
+
             mail.send(msg)
 
             flash(u"Eşya onaylandı ve e-posta gönderildi!")
@@ -749,11 +820,14 @@ def moderation():
                        #  %s % u'unapproved_user.name'
 
             msg_subject = u"Hoşgeldin!"
-            msg = MailMessage(body=msg_body,
-                              html=html_msg,
-                              subject=msg_subject,
-                              sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
-                              recipients=[unapproved_user.email])
+            msg = MailMessage(
+                body=msg_body,
+                html=html_msg,
+                subject=msg_subject,
+                sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+                recipients=[unapproved_user.email]
+            )
+
             mail.send(msg)
 
             flash(u"Kullanıcı onaylandı ve e-posta gönderildi!")
@@ -767,8 +841,12 @@ def moderation():
             .filter(GroupMembership.user_id == current_user.id,
                     GroupMembership.is_moderator).order_by(Stuff.id.desc()).limit(40)
 
-    return render_template("moderation.html", user=current_user, new_user=new_user,
-                           last_objects=last_objects)
+    return render_template(
+        "moderation.html",
+        user=current_user,
+        new_user=new_user,
+        last_objects=last_objects
+    )
 
 
 @app.route('/profile/<user_id>')
@@ -891,9 +969,12 @@ def invite():
         emails = request.form.get('emails')
         message = request.form.get('message')
 
-        invite_info = Invitations(user_id=current_user.id,
-                                  emails=emails,
-                                  message=message)
+        invite_info = Invitations(
+            user_id=current_user.id,
+            emails=emails,
+            message=message
+        )
+
         db.session.add(invite_info)
         db.session.commit()
 
@@ -905,11 +986,14 @@ def invite():
             html_msg = '%s <br><br> %s <br><br> <a href="http://esyakutuphanesi.com/">esyakutuphanesi.com</a>' \
                        % (current_user.name, message)
             msg_subject = u"%s seni Eşya Kütüphanesi'ne davet ediyor!" % current_user.name
-            msg = MailMessage(body=msg_body,
-                              html=html_msg,
-                              subject=msg_subject,
-                              sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
-                              recipients=[email])
+            msg = MailMessage(
+                body=msg_body,
+                html=html_msg,
+                subject=msg_subject,
+                sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+                recipients=[email]
+            )
+
             mail.send(msg)
 
         flash(u"Davetini ilettik!")
@@ -935,11 +1019,14 @@ def review():
 
         reviewed_user_id = rq.from_user_id
 
-        new_review = Review(user_id=current_user.id,
-                            reviewed_user_id=reviewed_user_id,
-                            request_id=rq.id,
-                            comment=form.comment.data,
-                            rating=rating)
+        new_review = Review(
+            user_id=current_user.id,
+            reviewed_user_id=reviewed_user_id,
+            request_id=rq.id,
+            comment=form.comment.data,
+            rating=rating
+        )
+
         db.session.add(new_review)
         db.session.commit()
         flash(u"Yorumunuz eklendi :)")
@@ -974,11 +1061,14 @@ def contact():
         message = request.form.get('message')
 
         msg_body = "%s %s <br><br> %s" % (name, email, message)
-        msg = MailMessage(body=msg_body,
-                          html=msg_body,
-                          subject=u"İletişime geçmek isteyen var",
-                          sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
-                          recipients=["bilgi@esyakutuphanesi.com", "ezgi@esyakutuphanesi.com"])
+        msg = MailMessage(
+            body=msg_body,
+            html=msg_body,
+            subject=u"İletişime geçmek isteyen var",
+            sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+            recipients=["bilgi@esyakutuphanesi.com", "ezgi@esyakutuphanesi.com"]
+        )
+
         mail.send(msg)
 
         flash(u"E-postan gönderildi!")

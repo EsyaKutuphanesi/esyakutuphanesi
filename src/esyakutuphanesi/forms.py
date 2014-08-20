@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 
 from flask.ext.wtf import Form
 from wtforms import TextField, HiddenField, PasswordField, validators, SubmitField
@@ -200,12 +200,16 @@ class ReviewForm(Form):
         validators.Length(min=2, max=1000, message=u'En fazla 1000 karakter girebilirsin.'),
     ])
 
-    # rating = RadioField(u'Puan', coerce=int,
-    #                     choices=[(1, u'1'),
-    #                              (2, u'2'),
-    #                              (3, u'3'),
-    #                              (4, u'4'),
-    #                              (5, u'5')])
+    # rating = RadioField(
+    #     u'Puan',
+    #     coerce=int,
+    #     choices=[(1, u'1'),
+    #           (2, u'2'),
+    #           (3, u'3'),
+    #           (4, u'4'),
+    #           (5, u'5')
+    #     ]
+    # )
 
     request_id = HiddenField()
 

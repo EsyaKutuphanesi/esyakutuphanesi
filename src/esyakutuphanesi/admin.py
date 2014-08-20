@@ -11,8 +11,12 @@ class DemoAdminIndexView(AdminIndexView):
     def is_accessible(self):
         return current_user.is_authenticated() and current_user.is_admin
 
-admin = Admin(app, url='/admin', base_template='admin_layout.html',
-              index_view=DemoAdminIndexView())
+admin = Admin(
+    app,
+    url='/admin',
+    base_template='admin_layout.html',
+    index_view=DemoAdminIndexView()
+)
 
 
 class ExtendedModelView(ModelView):
@@ -73,12 +77,9 @@ admin.add_view(
     )
 )
 
-
 admin.add_view(ExtendedModelView(Category, db.session))
 admin.add_view(ExtendedModelView(StuffType, db.session))
 admin.add_view(ExtendedModelView(Request, db.session))
-
-
 # admin.register(User, session=db.session)
 # admin.register(Role, session=db.session)
 # admin.register(Address, session=db.session)
