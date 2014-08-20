@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import OperationalError
 from flask_mail import Mail
 
-from settings import *
+from esyakutuphanesi.settings import *
 
 app = Flask(__name__)
 
@@ -21,7 +21,7 @@ except:
 db = SQLAlchemy(app)
 mail = Mail(app)
 
-from messages import security_messages, security_config
+from esyakutuphanesi.messages import security_messages, security_config
 
 for key, value in security_messages.iteritems():
     app.config['SECURITY_MSG_' + key] = value
@@ -29,9 +29,9 @@ for key, value in security_messages.iteritems():
 for key, value in security_config.iteritems():
     app.config['SECURITY_' + key] = value
 
-from views import *
-from admin import *
-from oauth_handler import *
+from esyakutuphanesi.views import *
+from esyakutuphanesi.admin import *
+from esyakutuphanesi.oauth_handler import *
 
 
 default_host, default_port = ('0.0.0.0', 5000)
