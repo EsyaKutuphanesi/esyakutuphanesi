@@ -19,7 +19,7 @@
         {% endif %}
         {{ field(class_='form-control', **kwargs) }}
     </div>
-{%- endmacro %}
+{% endmacro %}
 
 {% macro render_radio(field, label_visible=false) -%}
 <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
@@ -30,7 +30,7 @@
     </span>
     {% endfor %}
 </div>
-{%- endmacro %}
+{% endmacro %}
 
 {% macro show_provider_button(provider_id, display_name, conn) %}
     {% if conn %}
