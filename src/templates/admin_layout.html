@@ -2,8 +2,8 @@
 {% extends 'admin/base.html' %}
 
 {% block head_tail %}
-{{ super() }}
-<link href="{{ url_for('static', filename='layout.css') }}" rel="stylesheet">
+    {{ super() }}
+    <link href="{{ url_for('static', filename='layout.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block page_body %}
@@ -18,8 +18,8 @@
         <div class="span10">
             <div id="content">
                 {% block brand %}
-                <h2 id="brand">{{ admin_view.name|capitalize }}</h2>
-                <div class="clearfix"></div>
+                    <h2 id="brand">{{ admin_view.name|capitalize }}</h2>
+                    <div class="clearfix"></div>
                 {% endblock %}
                 {{ layout.messages() }}
                 {% block body %}{% endblock %}

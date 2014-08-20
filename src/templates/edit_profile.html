@@ -1,58 +1,64 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field, show_provider_button %}
 {% extends "layout.html" %}
-{%block title%}Esya Kutuphanesi{%endblock%}
+{% block title %}Esya Kutuphanesi{% endblock %}
 {% block content %}
 
-    <div class="row">
-        <ul class="nav nav-tabs">
-          <li class="active"><a href="/edit_profile" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'Settings Page'])">Ayarlar</a></li>
-          <li><a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_messages Page'])">Mesajlar</a></li>
-          <li><a href="/my_stuff" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'Settings Page'])">Eşya Kütüphanem</a></li>
-          <!--<li><a href="/groups">Gruplarım</a></li>-->
-          <li><a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_messages Page'])">Davet Et</a></li>
-        </ul>
-    </div>
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="/edit_profile" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'Settings Page'])">Ayarlar</a>
+        </li>
+        <li>
+            <a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_messages Page'])">Mesajlar</a>
+        </li>
+        <li>
+            <a href="/my_stuff" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'Settings Page'])">Eşya Kütüphanem</a>
+        </li>
+        <!--<li>
+            <a href="/groups">Gruplarım</a>
+        </li>-->
+        <li>
+            <a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_messages Page'])">Davet Et</a>
+        </li>
+    </ul>
+</div>
 
-    <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
-        <form action="{{ url_for('edit_profile') }}" method="POST" name="edit_user_form" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <div class="col-md-12 text-center" style="overflow:hidden; margin-bottom:10px;">
-                    {% if user.photo %}
-                        <img height="250" src="/photos/{{user.photo}}"/>
-                    {% else %}
-                        <img height="250" src="/static/images/ek.png"/>
-                    {% endif %}
-               </div>
-                <div class="col-md-12">{{ render_field_with_errors(form.photo) }}</div>
+<div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
+    <form action="{{ url_for('edit_profile') }}" method="POST" name="edit_user_form" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-12 text-center" style="overflow:hidden; margin-bottom:10px;">
+                {% if user.photo %}
+                    <img height="250" src="/photos/{{user.photo}}"/>
+                {% else %}
+                    <img height="250" src="/static/images/ek.png"/>
+                {% endif %}
             </div>
+            <div class="col-md-12">{{ render_field_with_errors(form.photo) }}</div>
+        </div>
 
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              {{ render_field_with_errors(form.name) }}
-              {{ render_field_with_errors(form.email) }}
-              {{ render_field_with_errors(form.phone_number) }}
-                <div class="row">
-                    <div class="label label-default" style="float:right; margin:-10px 10px 10px; font-size:12px;">
-                        Eşya ödünç istediğin kişi ile numaran paylaşılır.
-                    </div>
-                </div>
-              {{ render_field_with_errors(form.about) }}
-              <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ render_field_with_errors(form.name) }}
+            {{ render_field_with_errors(form.email) }}
+            {{ render_field_with_errors(form.phone_number) }}
+            <div class="row">
+                <div class="label label-default" style="float:right; margin:-10px 10px 10px; font-size:12px;">Eşya ödünç istediğin kişi ile numaran paylaşılır.</div>
+            </div>
+            {{ render_field_with_errors(form.about) }}
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <a href="/change" onclick="_gaq.push(['_trackEvent', 'Password', 'changePass', 'Settings Page'])">Şifreni değiştir</a>
                 {{ form.submit(class_='btn btn-success pull-right')}}
-              </div>
-            </div>
-        </form>
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <h3>Adreslerim</h3>
-                {%for address in user.addresses%}
-                    <p>{{address.detail}}</p>
-                {%endfor%}
-                <button type="button" class="btn btn-warning" onclick="window.location.href='/new_address', _gaq.push(['_trackEvent', 'Address', 'addAddress', 'Settings Page'])">Yeni adres ekle</button>
             </div>
         </div>
+    </form>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <h3>Adreslerim</h3>
+            {%for address in user.addresses%}
+                <p>{{address.detail}}</p>
+            {%endfor%}
+            <button type="button" class="btn btn-warning" onclick="window.location.href='/new_address', _gaq.push(['_trackEvent', 'Address', 'addAddress', 'Settings Page'])">Yeni adres ekle</button>
+        </div>
     </div>
-
+</div>
 {% endblock %}
-

@@ -1,50 +1,59 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
 {% extends "layout.html" %}
-{%block title%}Esya Kutuphanesi{%endblock%}
+{% block title %}Esya Kutuphanesi{% endblock %}
 {% block content %}
 
-    <div class="row">
-        <ul class="nav nav-tabs">
-          <li><a href="/edit_profile" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'My_messages Page'])">Ayarlar</a></li>
-          <li class="active"><a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_messages Page'])">Mesajlar</a></li>
-          <li><a href="/my_stuff" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'My_messages Page'])">Eşya Kütüphanem</a></li>
-          <!--<li><a href="/groups">Gruplarım</a></li>-->
-          <li><a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_messages Page'])">Davet Et</a></li>
-        </ul>
-    </div>
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="/edit_profile" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'My_messages Page'])">Ayarlar</a>
+        </li>
+        <li class="active">
+            <a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_messages Page'])">Mesajlar</a>
+        </li>
+        <li>
+            <a href="/my_stuff" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'My_messages Page'])">Eşya Kütüphanem</a>
+        </li>
+        <!--<li>
+            <a href="/groups">Gruplarım</a>
+        </li>-->
+        <li>
+            <a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_messages Page'])">Davet Et</a>
+        </li>
+    </ul>
+</div>
 
-    <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
-        {% if not user.conversations[0] %}
-            HENÜZ MESAJ YOK
-        {% else %}
-            <div class="list-group">
-                {% for conversation in user.conversations  | reverse %}
-                    <a href="/conversations/{{conversation.id}}" class="list-group-item message-div" style="border:0px; margin:4px auto; background-color: rgba(225,233,179,0.3);" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
-                        <h4 class="list-group-item-heading">
-                            {{conversation.title}}
-                            {% if conversation.request.user_id == user.id%}
-                                {% if conversation.request.status == 1 %}
-                                    <span class="label label-warning pull-right">Eşya sana ödünç verildi</span>
-                                {% elif conversation.request.status == 2 %}
-                                    <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
-                                {% endif %}
-                            {% elif conversation.request.from_user_id == user.id %}
-                                {% if conversation.request.status == 1 %}
-                                    <span class="label label-warning pull-right">Eşyayı ödünç verdin</span>
-                                {% elif conversation.request.status == 2 %}
-                                    <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
-                                {% endif %}
-                            {% endif %}
-                        </h4>
-                        <p class="list-group-item-text">
-                            {{conversation.messages[-1]}}
-                            <span class="pull-right" style="width: 77px; height: 17px; overflow: hidden;">{{conversation.created_at}}</span>
-                        </p>
-                    </a>
-                {% endfor %}
-            </div>
-        {% endif %}
+<div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
+    {% if not user.conversations[0] %}
+        HENÜZ MESAJ YOK
+    {% else %}
+    <div class="list-group">
+        {% for conversation in user.conversations  | reverse %}
+            <a href="/conversations/{{conversation.id}}" class="list-group-item message-div" style="border:0px; margin:4px auto; background-color: rgba(225,233,179,0.3);" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
+                <h4 class="list-group-item-heading">
+                    {{conversation.title}}
+                    {% if conversation.request.user_id == user.id%}
+                        {% if conversation.request.status == 1 %}
+                            <span class="label label-warning pull-right">Eşya sana ödünç verildi</span>
+                        {% elif conversation.request.status == 2 %}
+                            <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
+                        {% endif %}
+                    {% elif conversation.request.from_user_id == user.id %}
+                        {% if conversation.request.status == 1 %}
+                            <span class="label label-warning pull-right">Eşyayı ödünç verdin</span>
+                        {% elif conversation.request.status == 2 %}
+                            <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
+                        {% endif %}
+                    {% endif %}
+                </h4>
+                <p class="list-group-item-text">
+                    {{conversation.messages[-1]}}
+                    <span class="pull-right" style="width: 77px; height: 17px; overflow: hidden;">{{conversation.created_at}}</span>
+                </p>
+            </a>
+        {% endfor %}
     </div>
+{% endif %}
+</div>
 
 {% endblock %}
-

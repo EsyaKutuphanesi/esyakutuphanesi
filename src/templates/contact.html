@@ -1,34 +1,38 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field, render_textarea_with_errors  %}
 {% extends "layout.html" %}
-{%block title%}Esya Kutuphanesi{%endblock%}
+{% block title %}Esya Kutuphanesi{% endblock %}
 {% block content %}
 
-<!--    <div class="col-md-5 col-sm-6 col-xs-12 specialstyle">
-        <h4><strong>Mektup adresi:</strong></h4>
-        <address>
-          Eşya Kütüphanesi</br>
-          Girişim Fabrikası</br>
-          Büyükdere Caddesi Ecza Sokak Safter İş Merkesi No:6<br>
-          Levent İstanbul<br>
-        </address>
+<!--<div class="col-md-5 col-sm-6 col-xs-12 specialstyle">
+    <h4><strong>Mektup adresi:</strong></h4>
+    <address>
+        Eşya Kütüphanesi</br>
+        Girişim Fabrikası </br>
+        Büyükdere Caddesi Ecza Sokak Safter İş Merkesi No:6<br>
+        Levent İstanbul<br>
+    </address>
 
-        <address>
-          <strong>E-posta adresi</strong><br>
-          <a href="#">bilgi@esyakutuphanesi.com</a>
-        </address>
-    </div>-->
+    <address>
+        <strong>E-posta adresi</strong><br>
+        <a href="#">bilgi@esyakutuphanesi.com</a>
+    </address>
+</div>-->
 
-    <div class="col-md-5 col-sm-6 col-xs-12">
-        <h4><strong>Bize yaz:</strong></h4>
-        <form action="{{url_for('contact')}}" method="POST" name="contact_form" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            {{ render_field_with_errors(form.user_name, label_visible=True) }}
-            {{ render_field_with_errors(form.user_email, label_visible=True, placeholder=form.user_email.label.text) }}
-            {{ render_field_with_errors(form.message, label_visible=True) }}
-            {{ form.submit(class_='btn btn-success pull-right')}}
-        </form>
-    </div>
-    <div class=" col-md-7 col-sm-6 text-center" style="margin-top:30px;">
-        <img src="/static/images/biz.png" style="width:100%; max-width:446px;"/>
-    </div>
+<div class="col-md-5 col-sm-6 col-xs-12">
+    <h4>
+        <strong>Bize yaz:</strong>
+    </h4>
+    <form action="{{url_for('contact')}}" method="POST" name="contact_form" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ render_field_with_errors(form.user_name, label_visible=True) }}
+        {{ render_field_with_errors(form.user_email, label_visible=True, placeholder=form.user_email.label.text) }}
+        {{ render_field_with_errors(form.message, label_visible=True) }}
+        {{ form.submit(class_='btn btn-success pull-right')}}
+    </form>
+</div>
+
+<div class=" col-md-7 col-sm-6 text-center" style="margin-top:30px;">
+    <img src="/static/images/biz.png" style="width:100%; max-width:446px;"/>
+</div>
+
 {% endblock %}
