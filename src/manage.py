@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
+import json
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -84,30 +85,25 @@ def create_db():
 
 
 def init_data():
-    roles = {
-        'admin': 'admin',
-        'member': 'member',
-        'moderator': 'moderator'
+
+    files = {
+        "roles_file": "sample_data/roles.json",
+        "users_list_file": "sample_data/users_list.json",
+        "categories_file": "sample_data/categories.json",
+        "stuff_types_file": "sample_data/stuff_types.json",
     }
 
-    users_list = [{
-        'email': 'bilgi@esyakutuphanesi.com',
-        'password': "$5$rounds=80000$Yj2S6AtoBQ7mOmuZ$gevIsEG8fTUw92bAfRJw9YQxdyq.0VRkKB3xvoi3cb/",  # ekekek
-        'name': 'admin',
-        'roles': [roles['admin']],
-        'approved': 1
-    }, ]
+    with open(files["roles_file"]) as roles_file:
+        roles = json.loads(roles_file.read())
 
-    categories = [u'Bebek ve çocuk', u'Doğada ve sporda', u'Elektronik', u'Giysi dolabı', u'Hırdavat', u'Keyiflik',
-                  u'Kütüphane', u'Mobilya', u'Mutfak']
+    with open(files["users_list_file"]) as users_list_file:
+        users_list = json.loads(users_list_file.read())
 
-    stuff_types = {
-        u'Doğada ve Sporda': [u' Hayvan dostu', u'Spor malzemeleri', u'Ulaşım', u'Yolda'],
-        u'Elektronik': [u'Ev elektroniği', u'Bilgisayar', u'Beyaz eşya', u'Telefon'],
-        u'Giysi dolabı': [u'Ayakkabı', u'Giysi', u'Gelinlik', u'Özel günlerde'],
-        u'Keyiflik': [u'Film', u'Müzik', u'Oyun', u'Konsol oyunları'],
-        u'Kütüphane': [u'Roman', u'Dergi', u'Teknik kitap']
-    }
+    with open(files["categories_file"]) as categories_file:
+        categories = json.loads(categories_file.read())
+
+    with open(files["stuff_types_file"]) as stuff_types_file:
+        stuff_types = json.loads(stuff_types_file.read())
 
     try:
         for role_name in roles.values():
@@ -116,6 +112,7 @@ def init_data():
 
         db.session.commit()
 
+        # Sample user password is "ekekek"
         for user in users_list:
             new_user = users.create_user(
                 email=user.get('email'),
