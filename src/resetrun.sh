@@ -1,6 +1,6 @@
 #!/bin/sh
-python manage.py destroy_db
-python manage.py create_db
-python manage.py init_data
+python manage.py database drop
+python manage.py database create -s no
+python manage.py database populate
 
-python manage.py runserver
+python manage.py runserver -h 0.0.0.0 -p 5000
