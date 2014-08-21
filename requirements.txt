@@ -1,6 +1,7 @@
 # Core
 Flask==0.10.1
 Flask-SQLAlchemy==1.0
+Flask-script==2.0.5
 
 # User & Login
 Flask-Login==0.2.6
