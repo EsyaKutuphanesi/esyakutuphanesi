@@ -7,7 +7,7 @@ from datetime import datetime
 from flask import render_template, send_from_directory, flash, url_for, redirect, request, jsonify
 from flask_login import current_user, login_required, logout_user
 from flask_mail import Message as MailMessage
-from manage import app, db, mail
+from __init__ import app, db, mail
 from forms import SearchForm, EditStuffForm, ConversationForm,\
     CreateGroupForm, EditUserForm, InvitationForm, RequestForm,\
     ReviewForm, ContactForm

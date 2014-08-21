@@ -1,38 +1,10 @@
-# -*- coding: utf-8 -*-
 import sys
 import json
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import OperationalError
-from flask_mail import Mail
 
 from esyakutuphanesi.settings import *
-
-app = Flask(__name__)
-
-for config_var in all_settings:
-    app.config[config_var] = all_settings[config_var]
-
-try:
-    app.config.from_pyfile(path.dirname(path.realpath(__file__)) + '/ek.cfg')
-except:
-    pass
-
-db = SQLAlchemy(app)
-mail = Mail(app)
-
-from esyakutuphanesi.messages import security_messages, security_config
-
-for key, value in security_messages.iteritems():
-    app.config['SECURITY_MSG_' + key] = value
-
-for key, value in security_config.iteritems():
-    app.config['SECURITY_' + key] = value
-
-from esyakutuphanesi.views import *
-from esyakutuphanesi.admin import *
-from esyakutuphanesi.oauth_handler import *
+from esyakutuphanesi import *
 
 
 default_host, default_port = ('0.0.0.0', 5000)

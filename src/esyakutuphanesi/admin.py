@@ -1,7 +1,7 @@
 from flask.ext.login import current_user, flash, redirect, url_for
 from flask.ext.admin import Admin, AdminIndexView, expose
 
-from manage import app, db
+from __init__ import app, db
 from models import User, Role, Stuff, Category, StuffType, Request
 
 from flask.ext.admin.contrib.sqla import ModelView
