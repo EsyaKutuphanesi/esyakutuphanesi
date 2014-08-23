@@ -1,0 +1,31 @@
+{
+    "Doğada ve Sporda": [
+        "Hayvan dostu",
+        "Spor malzemeleri",
+        "Ulaşım",
+        "Yolda"
+    ],
+    "Elektronik": [
+        "Ev elektroniği",
+        "Bilgisayar",
+        "Beyaz eşya",
+        "Telefon"
+    ],
+    "Giysi dolabı": [
+        "Ayakkabı",
+        "Giysi",
+        "Gelinlik",
+        "Özel Günlerde"
+    ],
+    "Kütüphane": [
+        "Roman",
+        "Dergi",
+        "Teknik kitap"
+    ],
+    "Keyiflik": [
+        "Film",
+        "Müzik",
+        "Oyun",
+        "Konsol oyunları"
+    ]
+}

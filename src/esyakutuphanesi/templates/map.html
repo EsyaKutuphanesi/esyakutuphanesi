@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}Esya Kutuphanesi{% endblock %}
+{% block content %}
+
+<script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/ek.js') }}"></script>
+<!--<link rel="stylesheet" href="{{url_for('static',filename='css/ek.css')}}">
+-->
+<script>
+    function send(){
+        var address_str = document.getElementById('address').value;
+        console.log(address_str);
+        window.location = window.location + "?address="+JSON.stringify(addr_components);
+    }
+</script>
+
+<h1>Adres Ekle</h1>
+<div class="row">
+    <div class="col-md-8 col-sm-8">
+        <div id="map"></div>
+    </div>
+    <div class="col-md-4 col-sm-4" >
+        <form method="post" id="geocoding_form" action="/new_address">
+            <div class="row">
+                <label for="address_name">Adres İsmi:</label>
+                <br/>
+                <input type="text" id="address_name" class="form-group" name="address_name" />
+            </div>
+            <div class="row">
+                <label for="address_str">Adres:</label>
+                <br/>
+                <input type="text" id="address_str" class="form-group" name="address_str" diasble/>
+                <input type="hidden" id="lat" name="lat"/>
+                <input type="hidden" id="lng" name="lng"/>
+                <input id ='search' type="button" class="btn" value="Ara" />
+            </div>
+            <input id='save' type="submit" class="btn btn-success pull-right" value="Kaydet" onclick="send(), _gaq.push(['_trackEvent', 'Address', 'addAddress', 'Map Page'])" />
+        </form>
+    </div>
+</div>
+
+{% endblock %}

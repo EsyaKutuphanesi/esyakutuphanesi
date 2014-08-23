@@ -1,0 +1,15 @@
+"{% extends 'admin/model/list.html' %}
+{% import 'admin/model/layout.html' as model_layout with context %}
+
+{% block list_row_actions_header %}
+    <th class="span2">&nbsp;</th>
+{% endblock %}
+
+{% block list_row_actions %}
+    <span>
+        <a href="{{ url_for('.approval_view', id=get_pk_value(row)) }}">
+            <span class="icon-ok"></span>
+        </a>
+        {{ super() }}
+    </span>
+{% endblock %}"

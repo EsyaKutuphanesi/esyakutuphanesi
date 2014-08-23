@@ -1,0 +1,47 @@
+{% macro request_modal(request_form) -%}
+<!-- Modal -->
+<div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <form id="request-form" action="/make_request" method="post">
+                <div class="modal-body" style="overflow:hidden;">
+                    {{ request_form.hidden_tag() }}
+                    <input type="hidden" id="return_url" name="return_url" value="/"/>
+                    <div class="form-group">{{ request_form.stuff_id(class_='form-control') }}</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="message" class="control-label col-md-12">
+                                <label for="message">Ne kadar süre için?</label>
+                            </label>
+                            <div class="col-md-6">
+                                <div class="form-group">{{ request_form.duration(class_='form-control') }}</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <!--<label for="{{ request_form.unit.id }}" class="control-label">{{ request_form.unit.label }}</label>-->
+                                    {{ request_form.unit(class_='form-control') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="{{ request_form.message.id }}" class="control-label">{{ request_form.message.label}}</label>
+                        {{ request_form.message(class_='form-control')}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success request-button-in-modal" onclick="_gaq.push(['_trackEvent', 'Stuff', 'borrowLendStuff', 'Request Modal'])"></button>
+            </div>
+        </form>
+
+    </div>
+</div>
+</div>
+{% endmacro %}

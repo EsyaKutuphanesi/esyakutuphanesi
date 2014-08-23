@@ -1,0 +1,189 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% extends "layout.html" %}
+{% block title %}Esya Kutuphanesi{% endblock %}
+{% block content %}
+
+<script>
+    function approve(id){
+        var url = '{{ url_for('moderation',action="approve") }}'
+        window.location = url + '&id=' + id;
+    }
+    function approve_user(user_id){
+        var url = '{{ url_for('moderation',user_action="approve_user") }}'
+        window.location = url + '&user_id=' + user_id;
+    }
+</script>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active">
+        <a href="#waitingstuff" role="tab" data-toggle="tab">Onay bekleyen eşyalar</a>
+    </li>
+    <li>
+        <a href="#waitingusers" role="tab" data-toggle="tab">Onay bekleyen kullanıcılar</a>
+    </li>
+    <li>
+        <a href="#allstuff" role="tab" data-toggle="tab">Tüm eşyalar</a>
+    </li>
+    <li>
+        <a href="#allusers" role="tab" data-toggle="tab">Tüm kullanıcılar</a>
+    </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="waitingstuff">
+
+        <div class="col-md-12 col-sm-12" style="margin-top:20px;">
+            <table class="table table-bordered">
+                <tr>
+                        <!--<th>Grup</th>
+                    -->
+                    <th>id</th>
+                    <th>Kullanıcı</th>
+                    <th>Eşya başlık</th>
+                    <th>Detay</th>
+                    <th>Kategori</th>
+                    <th>Tarih</th>
+                    <th>Durum</th>
+                    <th>Aksiyon</th>
+                </tr>
+                {% for stuff in last_objects %}
+                    {% if stuff.approved==0 %}
+                        <tr>
+                            <!--{% if stuff.group_id > 0 %}
+                                <td>{{ stuff.group.name }}</td>
+                            {% elif stuff.group_id == -1 %}
+                                <td>Herkese Açık</td>
+                            {% else %}
+                                <td>Geçersiz</td>
+                            {% endif %}-->
+                            <td>{{ stuff.owner.id }} - {{ stuff.id }}</td>
+                            <td>{{ stuff.owner.name }}</td>
+                            <td>{{ stuff }}</td>
+                            <td>
+                                {% if stuff.is_wanted == True %} Aranıyor {% else %} Paylaşılıyor {% endif%} - {{ stuff.detail }}
+                            </td>
+                            <td>{{ stuff.type_id }} - {{ stuff.category_id }}</td>
+                            <td>
+                                {% if stuff.approved==1 %}
+                                    Paylaşımda
+                                {% elif stuff.approved==0 %}
+                                    Beklemede
+                                {% elif stuff.approved==-1 %}
+                                    Çöpte
+                                {% endif %}
+                            </td>
+
+                            <td>{{ stuff.date }}</td>
+                            <td>
+                                <button class="btn btn-success" onclick="approve({{ stuff.id }})">Onayla</button>
+                                <!--<br/><button class="btn btn-danger" onclick="cancel({{ stuff.id }})">Reddet</button>-->
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="waitingusers">
+
+        <div class="col-md-12 col-sm-12" style="margin-top:20px;">
+            <table class="table table-bordered">
+                <tr>
+                    <th>id</th>
+                    <th>E-posta</th>
+                    <th>İsim soyisim</th>
+                    <th>Detay</th>
+                    <th>Tarih</th>
+                    <th>Aksiyon</th>
+                </tr>
+                {% for users in new_user %}
+                    {% if users.approved==0 %}
+                        <tr>
+                            <td>{{ users.id }}</td>
+                            <td>{{ users.email }}</td>
+                            <td>{{ users.name  }}</td>
+                            <td>{{ users.why }}</td>
+                            <td>{{ users.registered_at }}</td>
+                            <td>
+                                <button class="btn btn-success" onclick="approve_user({{ users.id }})">Onayla</button>
+                            </td>
+                        </tr>
+                    {% endif%}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="allstuff">
+        <div class="col-md-12 col-sm-12" style="margin-top:20px;">
+            <table class="table table-bordered">
+                <tr>
+                    <!--<th>Grup</th>-->
+                    <th>id</th>
+                    <th>Kullanıcı</th>
+                    <th>Eşya başlık</th>
+                    <th>Detay</th>
+                    <th>Kategori</th>
+                    <th>Tarih</th>
+                    <th>Durum</th>
+                </tr>
+                {% for stuff in last_objects %}
+                    <tr>
+                        <td>{{ stuff.owner.id }} - {{ stuff.id }}</td>
+                        <td>{{ stuff.owner.name }}</td>
+                        <td>{{ stuff }}</td>
+                        <td>{{ stuff.detail }}</td>
+                        <td>{{ stuff.type_id }} - {{ stuff.category_id }}</td>
+                        <td>{{ stuff.date }}</td>
+                        <td>
+                            {% if stuff.approved==1 %}
+                                Paylaşımda
+                            {% elif stuff.approved==0 %}
+                                Beklemede
+                            {% elif stuff.approved==-1 %}
+                                Çöpte
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="allusers">
+        <div class="col-md-12 col-sm-12" style="margin-top:20px;">
+            <table class="table table-bordered">
+                <tr>
+                    <th>id</th>
+                    <th>E-posta</th>
+                    <th>İsim soyisim</th>
+                    <th>Detay</th>
+                    <th>Tarih</th>
+                    <th>Durum</th>
+                </tr>
+                {% for users in new_user %}
+                    {% if users.approved==1 %}
+                        <tr>
+                            <td>{{ users.id }}</td>
+                            <td>{{ users.email }}</td>
+                            <td>{{ users.name  }}</td>
+                            <td>{{ users.why }}</td>
+                            <td>{{ users.registered_at }}</td>
+                            <td>
+                                {% if users.approved==1 %}
+                                    Kayıtlı
+                                {% elif stuff.approved==0 %}
+                                    Beklemede
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif%}
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

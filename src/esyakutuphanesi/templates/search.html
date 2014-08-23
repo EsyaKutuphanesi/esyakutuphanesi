@@ -1,0 +1,39 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
+{% from "macros/request_modal.html" import request_modal %}
+{% extends "layout.html" %}
+{% block title %}Esya Kutuphanesi{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12" style="background:rgba(0,0,0,0.5); margin:20px auto; padding:15px; line-height:34px;color:white; border-radius:10px;">
+        {% if last_objects[0] %}
+            <div class="col-md-6 col-sm-6 col-xs-8">Senin için şu eşyaları bulduk:</div>
+        {% else %}
+            <div class="col-md-6 col-sm-6 col-xs-8">Henüz böyle bir eşya paylaşılmamış.</div>
+        {% endif %}
+        <div class="col-md-6 col-sm-6 col-xs-4">
+            <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/new_stuff?is_wanted=true', _gaq.push(['_trackEvent', 'Stuff', 'listWantedStuff', 'Search Page'])">Aranıyor ilanı ver</button>
+            {%if last_objects[0]%}
+                <span class="pull-right hideInfo" style="font-size:12px; margin-right:5px;">Aradığın burada yok mu?</span>
+            {%endif%}
+        </div>
+    </div>
+
+    <div class="row" style="margin-left:-16px;">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div id="container" class="row fluid">
+                {% for stuff in last_objects %}
+                    {% if stuff.is_wanted %}
+                        {{ render_item_box(stuff, user, True ) }}
+                    {% else %}
+                        {{ render_item_box(stuff, user ) }}
+                    {% endif %}
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+{{ request_modal(request_form) }}
+
+{% endblock %}

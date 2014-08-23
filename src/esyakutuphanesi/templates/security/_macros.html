@@ -1,0 +1,60 @@
+{% macro render_field_with_errors(field, label_visible=True) -%}
+     <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        {% if field.type != 'HiddenField' and label_visible %}
+            <label for="{{ field.id }}" class="control-label">{{ field.label }}</label>
+        {% endif %}
+        {{ field(class_='form-control', **kwargs) }}
+        {% if field.errors %}
+            {% for e in field.errors %}
+                <p class="help-block">{{ e }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro render_field(field, label_visible=false) -%}
+     <div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+        {% if field.type != 'HiddenField' and label_visible %}
+            <label for="{{ field.id }}" class="control-label">{{ field.label }}</label>
+        {% endif %}
+        {{ field(class_='form-control', **kwargs) }}
+    </div>
+{% endmacro %}
+
+{% macro render_radio(field, label_visible=false) -%}
+<div class="form-group {% if field.errors %}has-error{% endif %} {{ kwargs.pop('class_', '') }}">
+
+    {% for subfield in field %}
+    <span class="checkbox-inline">
+        {{ subfield }}{{ subfield.label }}
+    </span>
+    {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro show_provider_button(provider_id, display_name, conn) %}
+    {% if conn %}
+        <form action="{{ url_for('social.remove_connection', provider_id=conn.provider_id, provider_user_id=conn.provider_user_id) }}" method="DELETE">
+            <input type="submit" value="Disconnect {{ display_name }}" />
+        </form>
+    {% else %}
+        <form action="{{ url_for('social.connect', provider_id=provider_id) }}" method="POST">
+            <input type="submit" value="Connect {{ display_name }}" />
+        </form>
+    {% endif %}
+{% endmacro %}
+
+{% macro social_login(provider_id, display_name) %}
+    <form action="{{ url_for('provider_login', provider_id=provider_id) }}" method="POST">
+        <button type="submit" class="btn" value="Login with {{ display_name }}" style="color:white; background-color:#3c599f; width: 90%;">Facebook ile bağlan</button>
+    </form>
+{% endmacro %}
+
+{% macro render_checkbox_with_errors(field, label_visible=True) -%}
+    {{ field(**kwargs) }}
+    {% if field.errors %}
+        {% for e in field.errors %}
+            <p class="help-block">{{ e }}</p>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}

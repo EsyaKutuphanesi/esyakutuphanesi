@@ -1,0 +1,122 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
+{% from "macros/request_modal.html" import request_modal %}
+{% extends "layout.html" %}
+{% block title %}Esya Kutuphanesi{% endblock %}
+{% block content %}
+    <script>
+        /*
+          TODO:  There is some errors in logic of the filter. Use onclick instead of of change
+        */
+        $(function(){
+            var firstLoad = true;
+            $("select#categories").change(function(e){
+
+                $.getJSON('/get_stuff_types/'+$(this).val(),'',function(j){
+
+                    stuff_type = document.getElementById('stuff_types');
+                    stuff_type.innerHTML = ''
+                    stuff_type.innerHTML += "<option value='all'>Hepsi</option>";
+                    $.each(j, function(key,value){
+                        console.log(value);
+                        stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";
+                    });
+
+                    {%if params['stuff_type']%}
+                        if(firstLoad){
+                            firstLoad = false;
+                            console.log('selected:'+'{{params['stuff_type'].value}}');
+                            $("select#stuff_types").val('{{params['stuff_type'].value}}');
+                        }
+                    {%endif%}
+
+                });
+            });
+
+            {%if params['category']%}
+
+                var htmlString = '';
+                $.getJSON('/get_categories','',function(j){
+                    $.each(j, function(key,value){
+                        // console.log(value);
+                        htmlString += "<option value='"+value.id+"'>"+value.name+"</option>";
+                    });
+                     $("select#categories").html(htmlString);
+                     $("select#categories").val('{{params['category'].value}}');
+                     $("select#categories").trigger("change");
+                });
+            {%endif%}
+
+            {% if params['stuff_type'] %}
+                // console.log('**'+{{params['stuff_type'].value}});
+                // $("select#stuff_types").val('{{params['stuff_type'].value}}');
+            {%endif%}
+
+            {% if params['is_wanted'] %}
+                $("select#is_wanted").val('{{params['is_wanted'].value}}');
+            {%endif%}
+
+            $("#list_btn").click(function(){
+                var category = $("select#categories option:selected").text();
+                var stuff_type = $("select#stuff_types option:selected").text();
+                var is_wanted = $("select#is_wanted option:selected").val();
+                var host = window.location.host;
+                var url = '';
+                if(stuff_type == 'Hepsi'){
+                    url = "http://"+host+"/category/"+category;
+                } else {
+                    url = "http://"+host+"/category/"+category+"/type/"+stuff_type;
+                }
+                if(is_wanted != 2){
+                    url += "?is_wanted="+is_wanted;
+                }
+                window.location = url;
+            })
+        })
+    </script>
+    <div class="row">
+        {%  if params['category']  %}
+            <div class="col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-3 form-group">
+                <select class="form-control" id="categories">
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-3 form-group">
+                <select class="form-control" id="stuff_types">
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-3 form-group">
+                <select class="form-control" id="is_wanted">
+                    <option value="2">Hepsi</option>
+                    <option value="0">Kütüphaneye eklenen</option>
+                    <option value="1">Aranıyor!</option>
+                </select>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <button id="list_btn" class="btn" onclick="_gaq.push(['_trackEvent', 'Search', 'listAllStuff', 'Browse Page'])">Listele</button>
+            </div>
+        {%endif%}
+    </div>
+
+    <div class="row" style="margin-left:-16px;">
+
+        {% if not stuff_list[0]%}
+            <div class="col-md-12" style="background:rgba(0,0,0,0.5); margin:20px auto; padding:15px; line-height:34px;color:white; border-radius:10px;">
+                <div class="col-md-6">Henüz böyle bir eşya paylaşılmamış.</div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/new_stuff?is_wanted=true', _gaq.push(['_trackEvent', 'Stuff', 'listWantedStuff', 'Browse Page'])">Aranıyor ilanı ver</button>
+                </div>
+            </div>
+        {%endif%}
+        <div class="col-md-12 col-sm-12">
+            <div id="container" class="row fluid">
+                {% for stuff in stuff_list %}
+                    {{ render_item_box(stuff, user, stuff.is_wanted) }}
+                {%endfor%}
+            </div>
+        </div>
+
+    </div>
+
+{{ request_modal(request_form) }}
+{% endblock %}
+
