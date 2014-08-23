@@ -33,19 +33,28 @@ def before_request():
 def home():
     form = SearchForm()
     request_form = RequestForm()
-    last_objects_shared = Stuff.query.join(User).filter(Stuff.approved == 1,
-                                                        Stuff.is_wanted == False,
-                                                        Stuff.owner_id == User.id,
-                                                        User.approved == True).order_by(Stuff.id.desc()).limit(9)
-    last_objects_wanted = Stuff.query.join(User).filter(Stuff.approved == 1,
-                                                        Stuff.is_wanted == True,
-                                                        Stuff.owner_id == User.id,
-                                                        User.approved == True).order_by(Stuff.id.desc()).limit(9)
+    last_objects_shared = Stuff.query.join(User).filter(
+        Stuff.approved == 1,
+        Stuff.is_wanted == False,
+        Stuff.owner_id == User.id,
+        User.approved == True
+    ).order_by(Stuff.id.desc()).limit(9)
 
-    return render_template("index.html", user=current_user,
-                           last_objects_wanted=last_objects_wanted,
-                           last_objects_shared=last_objects_shared,
-                           form=form, request_form=request_form)
+    last_objects_wanted = Stuff.query.join(User).filter(
+        Stuff.approved == 1,
+        Stuff.is_wanted == True,
+        Stuff.owner_id == User.id,
+        User.approved == True
+    ).order_by(Stuff.id.desc()).limit(9)
+
+    return render_template(
+        "index.html",
+        user=current_user,
+        last_objects_wanted=last_objects_wanted,
+        last_objects_shared=last_objects_shared,
+        form=form,
+        request_form=request_form
+    )
 
 
 @app.route('/check_approved')
@@ -86,17 +95,22 @@ def search():
         address_key = unicode(request.args.get('address')).lower()
         print stuff_key
 
-        last_objects = Stuff.query.join(Address).join(User).\
-            filter(Stuff.owner_id == User.id,
-                   User.approved == True,
-                   Stuff.approved == 1,
-                   Address.id == Stuff.address_id,
-                   Stuff.title.ilike('%' + stuff_key + '%'),
-                   Address.detail.ilike('%' + address_key + '%'))
+        last_objects = Stuff.query.join(Address).join(User).filter(
+            Stuff.owner_id == User.id,
+            User.approved == True,
+            Stuff.approved == 1,
+            Address.id == Stuff.address_id,
+            Stuff.title.ilike('%' + stuff_key + '%'),
+            Address.detail.ilike('%' + address_key + '%')
+        )
 
-    return render_template("search.html", user=current_user,
-                           last_objects=last_objects, form=form,
-                           request_form=request_form)
+    return render_template(
+        "search.html",
+        user=current_user,
+        last_objects=last_objects,
+        form=form,
+        request_form=request_form
+    )
 
 
 @app.route('/new_address', methods=["GET", "POST"])
@@ -104,11 +118,13 @@ def search():
 def new_address():
     if request.method == 'POST':
         print unicode(request.form)
-        address = Address(user=current_user,
-                          lat=request.form.get('lat'),
-                          lng=request.form.get('lng'),
-                          detail=unicode(request.form.get('address_str')),
-                          name=request.form.get('address_name'))
+        address = Address(
+            user=current_user,
+            lat=request.form.get('lat'),
+            lng=request.form.get('lng'),
+            detail=unicode(request.form.get('address_str')),
+            name=request.form.get('address_name')
+        )
         db.session.add(address)
         db.session.commit()
         flash(u"Adres kaydedildi.")
@@ -184,11 +200,13 @@ def edit_stuff(stuff_id=None):
 
         if form.validate_on_submit():
             if form.address.data == -1:
-                address = Address(user=current_user,
-                                  lat=request.form.get('lat'),
-                                  lng=request.form.get('lng'),
-                                  detail=unicode(request.form.get('address_str')),
-                                  name="addr")
+                address = Address(
+                    user=current_user,
+                    lat=request.form.get('lat'),
+                    lng=request.form.get('lng'),
+                    detail=unicode(request.form.get('address_str')),
+                    name="addr"
+                )
                 db.session.add(address)
             else:
                 address = Address.query.\
@@ -242,9 +260,11 @@ def edit_stuff(stuff_id=None):
                 #     generated_name = str(form.category.data)+'.jpg'
                 #     file_new_name = generated_name
 
-                    new_photo = StuffPhoto(owner=current_user,
-                                           filename=file_new_name,
-                                           stuff=stuff)
+                    new_photo = StuffPhoto(
+                        owner=current_user,
+                        filename=file_new_name,
+                        stuff=stuff
+                    )
                     db.session.add(new_photo)
                     db.session.commit()
 
@@ -406,9 +426,12 @@ def edit_profile():
             flash(u"Profil güncellendi.", current_user.id)
 
     form.fill_form(current_user)
-    return render_template('edit_profile.html',
-                           form=form,
-                           user=current_user)
+
+    return render_template(
+        'edit_profile.html',
+        form=form,
+        user=current_user
+    )
 
 
 @app.route('/photos/<path:filename>')
