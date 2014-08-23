@@ -1,0 +1,22 @@
+# Core
+Flask==0.10.1
+Flask-SQLAlchemy==1.0
+Flask-script==2.0.5
+
+# User & Login
+Flask-Login==0.2.6
+Flask-Oauth==0.12
+Flask-Principal==0.4.0
+
+# Admin
+Flask-Admin==1.0.8
+Flask-SuperAdmin==1.7
+
+# Forms
+Flask-WTF==0.8.4
+
+# Communication
+Flask-Mail==0.9.0
+
+# Security
+Flask-Security==1.6.7

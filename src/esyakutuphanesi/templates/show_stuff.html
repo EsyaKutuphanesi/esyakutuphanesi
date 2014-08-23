@@ -1,0 +1,148 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
+{% from "macros/request_modal.html" import request_modal %}
+{% extends "layout.html" %}
+{% block title %}Esya Kutuphanesi{% endblock %}
+{% block content %}
+<script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script>
+<!--<script type="text/javascript" src="{{ url_for('static',filename='js/ek.js') }}"></script>
+-->
+<script>
+    var map;
+    var marker;
+    var addr_components;
+    $(document).ready(function(){
+        map = new GMaps({
+            el: '#map',
+            lat: 41.03806,
+            lng: 28.986648
+        });
+        map.setCenter({{stuff_address.lat}}, {{stuff_address.lng}});
+        map.addMarker({
+            lat: {{stuff_address.lat}},
+            lng: {{stuff_address.lng}},
+            title: '{{stuff_address.detail}}',
+
+        });
+        map.addMarker({
+            lat: {{stuff_address.lat}}+1,
+            lng: {{stuff_address.lng}},
+            title: '{{stuff_address.detail}}',
+
+        });
+    });
+</script>
+
+<div class="col-md-12 col-sm-12">
+    <div class="col-md-7 col-sm-8 col-xs-8">
+        <div class="row">
+            <h1>{{stuff.title}}</h1>
+        </div>
+        <div class="row">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="/{{stuff.category.url}}" onclick="_gaq.push(['_trackEvent', 'Stuff Category', 'seeStuffInThisCategory', 'Show_stuff Page'])">{{stuff.category}}</a>
+                </li>
+                <li>
+                    <a href="/{{stuff.category.url}}type/{{stuff.stuff_type}}" onclick="_gaq.push(['_trackEvent', 'Stuff Category', 'seeSutffInThisType', 'Show_stuff Page'])">{{stuff.stuff_type}}</a>
+                </li>
+                <!--{{stuff.stuff_type.url}}-->
+                <span style="margin-right:20px;"></span>
+                {%for tag in stuff.tags%}
+                    <span class="label label-warning">{{tag}}</span>
+                {%endfor%}
+            </ol>
+        </div>
+
+        <div class="row">
+            <p>{{stuff.detail}}</p>
+        </div>
+
+        <div class="row" style="margin:20px auto;">
+            {%if stuff%}
+                <div class="row">
+                    {% if stuff.photos[0] %}
+                        {%for photo in stuff.photos%}
+                            <div class="col-md-3 col-sm-3 col-xs-4">
+                                <img class="img-responsive" src="/photos/{{photo.filename}}" />
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col-md-3 col-sm-3 col-xs-4">
+                            <img class="img-responsive" src="/static/images/{{stuff.category_id}}.png"/>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4 pull-right col-sm-4 col-xs-4" style="margin-top:25px;">
+        {%if user.is_authenticated()%}
+            {% if stuff.status == 1%}
+                {% if not stuff.owner_id == user.id %}
+                    {% if stuff.is_wanted %}
+                        <button type="button" class="btn btn-info" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'lendStuff', 'Show_stuff Page'])">Ödünç ver</button>
+                    {% else %}
+                        <button type="button" class="btn btn-success" style="width:100%;" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'borrowStuff', 'Show_stuff Page'])">Ödünç iste</button>
+                    {% endif %}
+                {% else %}
+                    <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'editStuff', 'Show_stuff Page'])">Düzenle/Kaldır</button>
+                {% endif %}
+            {% else %}
+                <button type="button" style="width:100%;" class="btn btn-success disabled">Ödünç verildi</button>
+            {% endif %}
+        {% else %}
+            <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'borrowStuff', 'Show_stuff Page'])">Ödünç iste</button>
+        {% endif %}
+        <div class="row" style="margin:10px 0px;">
+            {% if stuff.owner.photo %}
+                <img class="img-responsive" src="/photos/{{stuff.owner.photo}}" style="max-height:250px; margin:0 auto;">
+            {% else %}
+                <img src="/static/images/ek.png" class="img-responsive">
+            {% endif %}
+        </div>
+        <div class="row" style=" margin: auto auto 10px;">
+            <div class="text-right">
+                <a href="/profile/{{stuff.owner.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Show_stuff Page'])">{{ stuff.owner.name }}</a> ödünç{% if stuff.is_wanted %} istiyor.{% else %} veriyor.{% endif %}
+            </div>
+            <div class="pull-right">
+                <div name="rating" id="star-area" style="margin-top:10px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <h3 style="margin-bottom:10px;">Paylaşımın adresi:</h3>
+    <p>{{stuff_address.detail}}</p>
+    <div id="map" style="height: 200px;"></div>
+</div>
+
+{% if reviews[0]%}
+    <div class="col-md-12 col-sm-12">
+        <h3 style="margin: 60px auto 30px;">Değerlendirmeler</h3>
+        {% for review in reviews %}
+            <div class="media">
+                <a class="pull-left" href="#" style="width: 64px; height: auto; max-height:64px; overflow:hidden;">
+                    <img class="media-object" src="/photos/{{review.user.photo}}" style="width: 64px; height: auto;">
+                </a>
+                <div class="media-body">
+                    <a href="/profile/{{review.user.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Show_stuff Page'])">
+                        <span style="font-weight:bold;">{{review.user.name}}</span>
+                    </a>
+                    {{review.comment}}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<script type="text/javascript" charset="utf-8">
+    $(function(){
+        $('#star-area').raty({readOnly: true, start:{{rating}} });
+        });
+</script>
+{{ request_modal(request_form) }}
+
+{% endblock %}

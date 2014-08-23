@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+    {% block head %}
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+        <link rel="stylesheet" href="{{url_for('static',filename='css/ek.css')}}">
+        <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-1.10.2.min.js') }}" ></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.js') }}" ></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.raty.min.js') }}" ></script>
+
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-36313569-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+
+        <title>{% block title %}{% endblock %}</title>
+
+    {% endblock %}
+</head>
+
+<body>
+    <div id="header">
+        {%block header%}
+          {% include 'header.html' %}
+        {% endblock %}
+    </div>
+
+    <div class="contanier">
+        <div class="col-md-12 col-sm-12" style="margin-bottom:30px;">
+            <div id="flashing" class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">{% include 'security/_messages.html' %}</div>
+        </div>
+        <div class="col-md-12 col-sm-12" style=" overflow:hidden;">
+            <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+
+    </div>
+    <div id="footer" class="container">
+        <div class="row">
+            <div class="col-md-10 col-sm-12 col-md-offset-1" style="margin-top:50px; padding-top: 20px; border-top: 1px solid #dddddd;">
+                {% block footer %}
+                    <div class="col-md-12 text-center">
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <h5>BİZ KİMİZ?</h5>
+                            <ul class="footerUl">
+                                <a href="/fairytail" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK Hikayemiz'])">
+                                    <li>Hikayemiz</li>
+                                </a>
+                                <!--<a href="/purpose">
+                                    <li>Amacımız</li>
+                                </a>-->
+                                <a href="/press" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK Basin'])">
+                                    <li>Basında Biz</li>
+                                </a>
+                                <a href="/contact" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK İletisim'])">
+                                    <li>İletişim</li>
+                                </a>
+                            </ul>
+                        </div>
+                        <!--<div class="col-md-3 col-sm-3">
+                            <h5>BİRLİKTE ÇALIŞALIM</h5>
+                            <ul class="footerUl">
+                                <a href="/companies">
+                                    <li>Şirketler</li>
+                                </a>
+                                <a href="/universities">
+                                    <li>Üniversiteler</li>
+                                </a>
+                                <a href="/events">
+                                    <li>Etkinlikler</li>
+                                </a>
+                            </ul>
+                        </div>-->
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <h5>EŞYA KÜTÜPHANESİ</h5>
+                            <ul class="footerUl">
+                                <a href="/sos" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK SSS'])">
+                                    <li>Sıkça Sorulan Sorular</li>
+                                </a>
+                                <!--<a href="#">
+                                    <li>Gruplarımız</li>
+                                </a>
+                                <a href="#">
+                                    <li>Video</li>
+                                </a>-->
+                                <a href="/user_agreement" onclick="_gaq.push(['_trackEvent', 'EK Info', 'click', 'EK Kullanici Sozlesmesi'])">
+                                    <li>Kullanıcı Sözleşmesi</li>
+                                </a>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <h5>SOSYAL MEDYA</h5>
+                            <ul class="footerUl">
+                                <a href="http://esyakutuphanesi.com/blog" target="_blank" onclick="_gaq.push(['_trackEvent', 'EK Sosyal', 'click', 'Blog'])">
+                                    <li>Blog</li>
+                                </a>
+                                <a href="https://www.facebook.com/EsyaKutuphanesi" target="_blank" onclick="_gaq.push(['_trackEvent', 'EK Sosyal', 'click', 'EK Facebook'])">
+                                    <li>Facebook</li>
+                                </a>
+                                <a href="https://twitter.com/esyakutuphanesi" target="_blank" onclick="_gaq.push(['_trackEvent', 'EK Sosyal', 'click', 'EK Twitter'])">
+                                    <li>Twitter</li>
+                                </a>
+                                <!--<a href="#">
+                                    <li>Google +</li>
+                                </a>-->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 text-center" style="margin:30px auto;">Tüm hakları saklıdır - 2014 - Eşya Kütüphanesi</div>
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <script>
+        $.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',function(){
+            $.getScript('http://cdn.jsdelivr.net/jquery.lazyload/1.8.4/jquery.lazyload.js',function(){
+                var $container = $('#container');
+                $container.imagesLoaded(function(){
+                    $container.masonry({
+                        itemSelector: '.item',
+                        columnWidth: function(containerWidth){
+                            return containerWidth / 12;
+                        }
+                    });
+                });
+            });
+        });
+        $.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',function(){
+            $.getScript('http://cdn.jsdelivr.net/jquery.lazyload/1.8.4/jquery.lazyload.js',function(){
+
+              var $container1 = $('#container1');
+              $container1.imagesLoaded(function(){
+                    $container1.masonry({
+                        itemSelector: '.item',
+                        columnWidth: function(containerWidth){
+                            return containerWidth / 12;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

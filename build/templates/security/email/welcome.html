@@ -1,9 +1,0 @@
-<p>Merhaba {{ user.email }}!</p>
-
-<p>Kaydın alındı. Üyeliğin onaylandığında e-posta ile bilgilendirileceksin.</p>
-
-{% if security.confirmable %}
-<p>Aşağıdaki bağlantıya tıklayarak üyeliğini onaylayabilirsin:</p>
-
-<p><a href="{{ confirmation_link }}">Hesabımı onayla</a></p>
-{% endif %}

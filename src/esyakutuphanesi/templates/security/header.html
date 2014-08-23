@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block header %}
+<nav class="navbar navbar-inverse" role="navigation" style="border-radius:0;">
+    <div class="navbar-header ">
+        <a class="navbar-brand" href="/">
+            <img src="/static/images/logo.png"/>
+        </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+        <form class="navbar-form navbar-left padding15" role="search" name="search" action="/search" method="get">
+            <div class="form-group width-40">
+                <input type="text" class="form-control" name="stuff" placeholder="Ne Arıyorsun?"></div>
+            <div class="form-group">
+                <input type="text" class="form-control" required="required" name="address" placeholder="Nerede Arıyorsun?"></div>
+            <button type="submit" class="btn btn-default" onclick="_gaq.push(['_trackEvent', 'Search', 'searchStuff', 'Header'])">Ara</button>
+        </form>
+        <ul class="nav navbar-nav navbar-right padding15">
+            {% if g.user.is_authenticated() %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        {{g.user.name |truncate(16)}} <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/profile/{{g.user.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Header'])">Profilim</a>
+                        </li>
+                        <li>
+                            <a href="/edit_profile" onclick="_gaq.push(['_trackEvent', 'Visit setting', 'click', 'Header'])">Ayarlar</a>
+                        </li>
+                        <li>
+                            <a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit messages', 'click', 'Header'])">Mesajlar</a>
+                        </li>
+                        <li>
+                            <a href="/my_stuff" onclick="_gaq.push(['_trackEvent', 'Visit my library', 'click', 'Header'])">Eşya Kütüphanem</a>
+                        </li>
+                        <li>
+                            <a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'Header'])">Davet Et</a>
+                        </li>
+                        <!--<li>
+                            <a href="/groups">Gruplar</a>
+                        </li>-->
+
+                        {% if 'admin' in g.user.roles or 'moderator' in g.user.roles %}
+                            <li>
+                                <a href="/moderation">Moderasyon</a>
+                            </li>
+                        {% endif %}
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/logout" onclick="_gaq.push(['_trackEvent', 'Logout', 'logoutButton', 'Header'])">Çıkış Yap</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="hideInfo">
+                    <a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit messages', 'click', 'Header'])">Mesajlar</a>
+                </li>
+                <li class="hideInfo">
+                    <span id="unread_messages" class="badge" style="margin:15px auto auto -8px; background-color:#ed9c28"></span>
+                </li>
+            {%else%}
+                <li>
+                    <a href="/login" onclick="_gaq.push(['_trackEvent', 'Login', 'loginButton', 'Header'])">Giriş Yap</a>
+                </li>
+                <li>
+                    <a href="/register" onclick="_gaq.push(['_trackEvent', 'Signup', 'signupButton', 'Header'])">Kaydol</a>
+                </li>
+            {%endif%}
+            <li class="hideInfo">
+                <a href="/new_stuff" onclick="_gaq.push(['_trackEvent', 'Share', 'shareButton', 'Header'])">Eşya Paylaş</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}

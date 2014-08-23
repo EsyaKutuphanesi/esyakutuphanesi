@@ -1,0 +1,76 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
+{% include "security/_messages.html" %}
+{% extends "layout.html" %}
+{% block title %}Esya Kutuphanesi{% endblock %}
+{% block content %}
+
+<style>
+    #map-canvas {
+        height: 300px;
+        width: 400px;
+        margin: 0px;
+        padding: 0px
+    }
+</style>
+
+<script>
+    var myLatlng = new google.maps.LatLng(40.996427,29.033614);
+    var mapOptions = {
+        zoom: 14,
+        center: myLatlng
+    }
+    var map;
+    var markers = [];
+    function loadMap() {
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions)
+    }
+    //google.maps.event.addDomListener(window, 'load', initialize);
+    function addMarker(lat,lng,title){
+        var location = new google.maps.LatLng(lat,lng);
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            title: title
+        });
+        markers.push(marker)
+    }
+</script>
+
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="/edit_profile" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'My_stuff Page'])">Ayarlar</a>
+        </li>
+        <li>
+            <a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_stuff Page'])">Mesajlar</a>
+        </li>
+        <li class="active">
+            <a href="/my_stuff" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'My_stuff Page'])">Eşya Kütüphanem</a>
+        </li>
+        <!--<li>
+            <a href="/groups">Gruplarım</a>
+        </li>-->
+        <li>
+            <a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_stuff Page'])">Davet Et</a>
+        </li>
+    </ul>
+</div>
+
+<div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
+    <div id="container" class="row fluid">
+        <div class="item col-md-4 col-sm-4">
+            <!--item-->
+            <div class="thumbnail" style="border:0;">
+                <a href="/new_stuff" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'My_stuff Page'])">
+                    <img src="/static/images/esyaekle.png"/>
+                </a>
+            </div>
+        </div>
+        {% for stuff in user.stuff_list %}
+            {{ render_item_box(stuff, user, True) }}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

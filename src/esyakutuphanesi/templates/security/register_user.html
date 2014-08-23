@@ -1,0 +1,45 @@
+{% extends "security/header.html" %}
+{% from "security/_macros.html" import render_field_with_errors, render_checkbox_with_errors, render_field, social_login %}
+{% block title %}Esya Kutuphanesi{% endblock %}
+{% block content %}
+
+<div class="col-md-6 col-sm-6 col-sm-offset-3 col-md-offset-3">
+    <!--<div class="row text-center">{{ social_login('facebook', 'Facebook' )}}</div>
+    <div class="row text-center" style="margin:20px auto;">--------------veya--------------</div>-->
+
+    <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
+        {{ register_user_form.hidden_tag() }}
+        <label for="name" class="control-label">
+            <label for="name">İsim soyisim</label>
+        </label>
+        {{ render_field_with_errors(register_user_form.name,label_visible=False) }}
+        <label for="email" class="control-label">
+            <label for="email">E-posta adresi</label>
+        </label>
+        {{ render_field_with_errors(register_user_form.email,label_visible=False) }}
+        <label for="password" class="control-label">
+            <label for="password">Şifre</label>
+        </label>
+        {{ render_field_with_errors(register_user_form.password,label_visible=False) }}
+        <label for="password_confirm" class="control-label">
+            <label for="password_confirm">Şifre tekrar</label>
+        </label>
+        {% if register_user_form.password_confirm %}
+            {{ render_field_with_errors(register_user_form.password_confirm,label_visible=False) }}
+        {% endif %}
+        {{ render_field_with_errors(register_user_form.why) }}
+        <!--{{ render_field(register_user_form.submit) }}-->
+        {{ render_checkbox_with_errors(register_user_form.agreement, label_visible=False) }}
+        <label for="user_aggreement" class="control-label">
+            <label for="user_aggreement">
+                <a href="/user_agreement" target="_blank" onclick="_gaq.push(['_trackEvent', 'User agreement link', 'click', 'Register_user Page'])">Kullanıcı sözleşmesini</a> okudum, onaylıyorum.
+            </label>
+        </label>
+        {{ register_user_form.submit(class_='btn btn-success pull-right', value="Tamamla")}}
+    </form>
+    <div class="col-md-12 col-sm-12 text-right" style="margin-top:10px;">
+        Zaten üye misin?
+        <a href="/login" onclick="_gaq.push(['_trackEvent', 'Login', 'loginButton', 'Register_user Page'])">Giriş Yap</a>
+    </div>
+</div>
+{% endblock %}

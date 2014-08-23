@@ -1,0 +1,67 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_textarea_with_errors  %}
+{% extends "layout.html" %}
+{% block title %}Esya Kutuphanesi{% endblock %}
+{% block content %}
+
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="/edit_profile">Ayarlar</a>
+        </li>
+        <li>
+            <a href="/my_messages">Mesajlar</a>
+        </li>
+        <li>
+            <a href="/my_stuff">Eşya Kütüphanem</a>
+        </li>
+        <li class="active">
+            <a href="/groups">Gruplarım</a>
+        </li>
+        <li>
+            <a href="/invite">Davet Et</a>
+        </li>
+    </ul>
+</div>
+
+<div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
+    <div class="row">
+        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Grup kur</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            Kurmak istediğin grup ile ilgili bilgileri bize iletebilirsin
+                        </h4>
+                    </div>
+
+                    <form action="{{url_for('groups')}}" method="POST" id="form" name="creategroup_form" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            {{ form.hidden_tag() }}
+                                {{ render_field_with_errors(form.group_name) }}
+                                {{ render_field_with_errors(form.text, label_visible=False, placeholder=form.text.label.text) }}
+                        </div>
+                        <div class="modal-footer">{{ form.submit(class_='btn btn-success pull-right')}}</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for membership in user.groups %}
+        <div class="media">
+            <a class="pull-left" href="#">
+                <img class="media-object" src="/photos/{{membership.group.logo}}" style="width: 64px; height: auto;"></a>
+            <div class="media-body">
+                <a href="/group/{{membership.group.id}}">
+                    <h4 class="media-heading">{{membership.group.name}}</h4>
+                </a>
+                {{membership.group.description}}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

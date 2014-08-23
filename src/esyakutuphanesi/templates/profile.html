@@ -1,0 +1,113 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
+{% from "macros/request_modal.html" import request_modal %}
+{% extends "layout.html" %}
+{% block title %}Esya Kutuphanesi{% endblock %}
+{% block content %}
+
+<div class="row" style="margin:20px auto;">
+    <div class="col-md-5 col-sm-5">
+        {% if user_profile.photo %}
+            <img src="/photos/{{user_profile.photo}}" class="img-responsive" style="margin:0 auto; max-height:400px;">
+        {% else %}
+            <img src="/static/images/ek.png" class="img-responsive" style="margin:0 auto; max-height:400px;">
+        {% endif %}
+    </div>
+    <div class="col-md-6 col-sm-7 pull-right">
+        <div class="row col-xs-12">
+            <span class="text-left" style="font-size:24px; font-weight:500;">{{user_profile.name}}</span>
+            <div class="pull-right popover-dismiss" style=" margin-top:7px;" id="popover-area" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Diğer kullanıcıların ödünç alıp/verme süreci ile ilgili değerlendirmesi.">
+                <div name="rating" id="star-area"></div>
+            </div>
+        </div>
+        <div class="row col-xs-12" style="margin-top:20px;">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">Geri dönüş yüzdesi</div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{return_ratio}}" aria-valuemin="0" aria-valuemax="100" style="width: {{return_ratio}}%">
+                            {% if return_ratio < 20 %}
+                                <span style="color:black; margin-left:10px;">
+                            {% else %}
+                                <span>
+                            {% endif %}
+                                {{return_ratio}}%
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row col-xs-12" style="margin-top:10px;">
+            <h4>Sevdikleri</h4>
+            <div>
+                {% if user_profile.about %}{{user_profile.about}}{% else %}-{% endif %}
+            </div>
+        </div>
+        <!--<div class="row" style="margin-top:10px;">
+            <h4>Grupları</h4>
+            {%  if users_group[0] %}
+                {% for groups in users_group %}
+                    <a href="/group/{{groups.id}}" style="color:#333333;">
+                        <span>{{groups.name}}</span>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <span>-</span>
+            {% endif %}
+        </div>-->
+    </div>
+</div>
+
+<div class="row" style="margin-left: -16px;">
+    {% if user_stuff_shared[0] %}
+        <div class="col-md-12">
+            <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Son Paylaştıkları:</h3>
+        </div>
+        <div class="col-md-12">
+            <div id="container" class="row fluid">
+                {% for stuff in user_stuff_shared%}
+                    {{ render_item_box(stuff, user) }}
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="col-md-12">
+            <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Hemen paylaşabilirsin ^^</h3>
+        </div>
+        <div class="col-md-12">
+            <a href="/new_stuff" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'Profile Page'])">
+                <img src="/static/images/esyapaylashadi.png" class="img-responsive"/>
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<div class="row">
+    {% if user_stuff_wanted[0] %}
+        <div class="col-md-12">
+            <h3 style="border-bottom: 1px solid #dddddd;
+            padding-bottom: 10px;">Son Aradıkları:</h3>
+        </div>
+
+        <div class="col-md-12">
+            <div id="container" class="row fluid">
+                {% for stuff in user_stuff_wanted %}
+                    {{ render_item_box(stuff, user, True) }}
+                {%endfor%}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    $(function(){
+        $('#star-area').raty({readOnly: true, start:{{rating}}});
+        $('#popover-area').popover('toogle')
+    });
+
+</script>
+{{ request_modal(request_form) }}
+
+{% endblock %}

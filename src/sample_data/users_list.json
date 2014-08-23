@@ -1,0 +1,11 @@
+[
+    {
+        "approved": 1,
+        "email": "bilgi@esyakutuphanesi.com",
+        "name": "admin",
+        "password": "$5$rounds=80000$Yj2S6AtoBQ7mOmuZ$gevIsEG8fTUw92bAfRJw9YQxdyq.0VRkKB3xvoi3cb/",
+        "roles": [
+            "admin"
+        ]
+    }
+]

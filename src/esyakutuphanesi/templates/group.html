@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block title %}Esya Kutuphanesi{% endblock %}
+{% block content %}
+
+<script>
+    $.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',function(){
+        $.getScript('http://cdn.jsdelivr.net/jquery.lazyload/1.8.4/jquery.lazyload.js',function(){
+          var $container = $('#container');
+          $container.imagesLoaded(function(){
+              $container.masonry({
+                  itemSelector: '.item',
+                  columnWidth: function(containerWidth){
+                      return containerWidth / 12;
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="col-md-2 col-sm-2" style="margin-top: 20px;"><img src="/photos/cigdemim.png" class="img-responsive"/></div>
+    <div class="col-md-10 col-sm-10">
+        <h2>{{group_info.name}}</h2>
+        <div>{{group_info.description}}</div>
+    </div>
+</div>
+
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-10 col-sm-10">
+        {% if group_shares[0]%}
+            <div class="col-md-12 col-sm-12">
+                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Son Paylaşılanlar</h3>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div id="container" class="row fluid">
+                    {% for stuff in group_shares %}
+                        <div class="col-md-4 item col-sm-4">
+                            <div class="thumbnail">
+                                <a href="{{stuff.url}}">
+                                    {% if stuff.photos %}
+                                        <img src="/photos/{{stuff.photos[0].filename}}"/>
+                                    {% else %}
+                                        <img src="/static/images/ek.png"/>
+                                    {% endif %}
+                                </a>
+                                <div class="caption">
+                                    <a href="{{stuff.url}}">
+                                        <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
+                                    </a>
+                                    <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
+                                    <p>
+                                        {% if not stuff.owner_id == user.id %}
+                                            <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
+                                        {% else %}
+                                            <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle/Kaldır</button>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            PAYLAŞIM YAPILMADI
+        {% endif %}
+    </div>
+    <div class="col-md-2 col-sm-2">
+        <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Üyeler</h3>
+        <div style="width:100%;">
+            {% for members in group_members %}
+                <!--{{members.name}}-->
+                <div style="width:46%; margin:2%; float:left;">
+                    <a href="/profile/{{members.id}}">
+                        <img src="/photos/{{members.photo}}" class="img-responsive"/>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="btn btn-info" style="width:100%; margin:10px auto;">Davet et</button>
+    </div>
+</div>
+
+{% endblock %}
