@@ -171,7 +171,7 @@ def edit_stuff(stuff_id=None):
                 update({Stuff.approved: status})
             db.session.commit()
             flash(u"Eşya kaldırıldı.")
-            # return redirect(url_for("my_stuff.html"))
+            return redirect(url_for("my_stuff"))
 
     if request.method == 'POST':
         category = Category.query.\
