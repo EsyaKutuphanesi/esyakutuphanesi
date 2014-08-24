@@ -1059,9 +1059,9 @@ def review():
     return redirect('/conversations/%s' % conversation_id)
 
 
-@app.route('/fairytail')
+@app.route('/masalgibi')
 def fairytail():
-    return render_template("fairytail.html", user=current_user)
+    return render_template("masalgibi.html", user=current_user)
 
 
 @app.route('/purpose')
