@@ -1,0 +1,15 @@
+Merhaba {{user.name}},
+
+Eşya Kütüphanesi'ne hoşgeldin! Artık herhangi bir eşyaya ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin.
+
+Sen de paylaşmak istediğin eşyalarını görünür kılmak ve ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, "Eşya Paylaş"a tıklayarak eşyalarını listeleyebilirsin.
+
+Unutmadan, arkadaşlarını da aramızda görmeyi çok isteriz!
+
+Güzel günler,
+Eşya Kütüphanesi Ekibi
+
+esyakutuphanesi.com
+Twitter:@EsyaKutuphanesi
+Facebook:facebook.com/EsyaKutuphanesi
+Zumbara:zumbara.com/profil/12340

@@ -1,0 +1,25 @@
+{% if stuff.is_wanted %}
+    <p>Merhaba {{to_user.name}}</p>
+    <p>
+        {{stuff}} aradığını gören {{from_user.name}} sana kendisinde bulunan bu eşyayı ödünç vermek istiyor!
+    </p>
+    <p>
+        Ödünç almak veya iletişime geçmek için <a href="http://esyakutuphanesi.com/{{conversation_url}}"> buraya tıkla.</a>
+        Kafana takılan herhangi birşey için <a href="http://esyakutuphanesi.com/"> esyakutuphanesi.com </a> sayfamızı ziyaret edebilir ya da bilgi@esyakutuphanesi.com adresinden bize ulaşabilirsin.
+    </p>
+{% else %}
+    <p>Merhaba {{from_user.name}}</p>
+    <p>
+        {{to_user.name}} senden {{stuff}} eşyanı ödünç almak istiyor. İletişime geçmek için <a href="http://esyakutuphanesi.com/{{conversation_url}}"> tıkla! </a>
+    </p>
+{%endif%}
+<p>
+    Bol paylaşımlı günler,
+    Eşya Kütüphanesi Ekibi
+</p>
+<p>
+    <a href="http://esyakutuphanesi.com/"> esyakutuphanesi.com </a><br/>
+    Twitter:<a href="https://twitter.com/esyakutuphanesi"> @EsyaKutuphanesi </a><br/>
+    Facebook:<a href="https://facebook.com/EsyaKutuphanesi"> facebook.com/EsyaKutuphanesi </a><br/>
+    Zumbara:<a href="http://zumbara.com/profil/12340"> zumbara.com/profil/12340</a>
+</p>

@@ -1,6 +1,21 @@
-Merhaba {{ user.email }}!
+Merhaba {{ user.name }}!
 
-Kaydın alındı. Üyeliğin onaylandığında e-posta ile bilgilendirileceksin.
+Bilgilerini bizimle paylaştığın için teşekkür ederiz, kaydını aldık.
+Site içerisinde organik bir topluluk oluşturmak ve kullanıcılarımızı
+yakından tanımak için tüm formları tek tek okuyoruz.
+Bu bazen biraz zaman alabiliyor, umarız ki anlayışla karşılarsın.
+
+Üyeliğin onaylandığında sana bir bilgilendirme e-postası ile haber vereceğiz.
+Sen de bizi beklerken hikayemizi okuyabilir ya da blogumuza göz atabilirsin.
+Seni aramızda göreceğimiz için çok heyecanlıyız!
+
+Bol paylaşımlı günler,
+Eşya Kütüphanesi Ekibi
+
+esyakutuphanesi.com
+Twitter:@EsyaKutuphanesi
+Facebook:facebook.com/EsyaKutuphanesi
+Zumbara:zumbara.com/profil/12340
 
 {% if security.confirmable %}
 Aşağıdaki bağlantıya giderek üyeliğini onaylayabilirsin:

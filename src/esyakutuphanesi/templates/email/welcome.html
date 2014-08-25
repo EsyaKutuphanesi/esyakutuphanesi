@@ -1,13 +1,17 @@
 <p>Merhaba {{user.name}},</p>
 
-<p>Parolan başarıyla değiştirildi.</p>
+<p>
+    Eşya Kütüphanesi'ne hoşgeldin!
+    Artık herhangi bir eşyaya ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin.
+</p>
 
 <p>
-{% if security.recoverable %}
-    Yoksa parolanı sen değiştirmedin mi? Sorun yok,
-    <a href="{{ url_for_security('forgot_password', _external=True) }}">buraya</a> tıklayarak parolanı sıfırla!
-{% endif %}
+    Sen de paylaşmak istediğin eşyalarını görünür kılmak ve ihtiyacı olanın seni kolayca bulmasını sağlamak istersen,
+    "Eşya Paylaş"a tıklayarak eşyalarını listeleyebilirsin.
 </p>
+
+<p>Unutmadan, arkadaşlarını da aramızda görmeyi çok isteriz!</p>
+
 <p>
     Güzel günler,
     Eşya Kütüphanesi Ekibi

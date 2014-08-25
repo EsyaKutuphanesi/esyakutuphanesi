@@ -343,9 +343,10 @@ users = SQLAlchemyUserDatastore(db, User, Role)
 class ExtendedRegisterForm(RegisterForm):
     name = TextField(u'İsim Soyisim', [Required(u'İsmini girmen gerekli')])
     why = TextAreaField(
-        u'Kendinden ve/veya Eşya Kütüphanesi ne neden geldiğinden kısaca bahsedebilir misin? '
-        u'Gerçekten tüm cevapları tek tek okuyoruz :) Hobilerin, '
-        u'buradan beklentilerin, bir ejderhan olsa adını ne koyardın anlat bize!',
+        u'Kendinden ve/veya Eşya Kütüphanesi\'ne neden geldiğinden kısaca bahsedebilir misin?</br> '
+        u'<span style="font-weight:normal;">Mesela hobilerin, buradan beklentilerin neler? '
+        u'Bir ejderhan olsa adını ne koyardın? En sevdiğin yemek ne? </br>'
+        u'Dipnot: Gerçekten tüm cevapları tek tek okuyoruz. :)</span>',
         [Length(min=0, max=1000), Required(u'Seni daha yakından tanımayı istiyoruz.')]
     )
     agreement = BooleanField('', [Required(u'Kullanıcı sözleşmesini onaylamalısın.')])

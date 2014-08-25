@@ -1,0 +1,20 @@
+{% if stuff.is_wanted %}
+    Merhaba {{to_user.name}}
+
+    {{stuff}} aradığını gören {{from_user.name}} sana kendisinde bulunan bu eşyayı ödünç vermek istiyor!
+
+    Ödünç almak veya iletişime geçmek için esyakutuphanesi.com/{{conversation_url}} adresini ziyaret edebilirsin.
+    Kafana takılan herhangi birşey için esyakutuphanesi.com sayfamızı ziyaret edebilir ya da bilgi@esyakutuphanesi.com adresinden bize ulaşabilirsin.
+
+{% else %}
+    Merhaba {{from_user.name}}
+    {{to_user.name}} senden {{stuff}} eşyanı ödünç almak istiyor. İletişime geçmek için esyakutuphanesi.com/{{conversation_url}} adresini ziyaret edebilirsin.
+{%endif%}
+
+Bol paylaşımlı günler,
+Eşya Kütüphanesi Ekibi
+
+esyakutuphanesi.com
+Twitter: @EsyaKutuphanesi
+Facebook: facebook.com/EsyaKutuphanesi
+Zumbara: zumbara.com/profil/12340

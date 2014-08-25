@@ -93,7 +93,6 @@ def search():
     if request.method == 'GET':
         stuff_key = unicode(request.args.get('stuff')).lower()
         address_key = unicode(request.args.get('address')).lower()
-        print stuff_key
 
         last_objects = Stuff.query.join(Address).join(User).filter(
             Stuff.owner_id == User.id,
@@ -687,16 +686,16 @@ def make_request(stuff_id=None):
             stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
 
             if stuff.is_wanted == True:
-                user_id = stuff.owner_id
-                from_user_id = current_user.id
+                user = stuff.owner
+                from_user = current_user
             else:
-                user_id = current_user.id
-                from_user_id = stuff.owner_id
+                user = current_user
+                from_user = stuff.owner
 
             new_request = Request(
                 stuff_id=stuff_id,
-                user_id=user_id,
-                from_user_id=from_user_id,
+                user_id=user.id,
+                from_user_id=from_user.id,
                 duration=(duration * unit)
             )
 
@@ -720,23 +719,16 @@ def make_request(stuff_id=None):
 
             db.session.commit()
 
-            if stuff.is_wanted:
-                msg_body = u'%s sana %s eşyanı ödünç vermek istiyor. <br><br> esyakutuphanesi.com'\
-                           % (current_user.name, stuff.title)
-                html_msg = u'%s sana %s eşyanı ödünç vermek istiyor. <br><br> Ödünç almak için ' \
-                           u' <a href="http://esyakutuphanesi.com/my_messages">tıkla!</a>' \
-                           % (current_user.name, stuff.title)
+            msg_body = render_template('email/request.txt', to_user=user, from_user=from_user,
+                                       stuff=stuff, conversation_url=new_conversation.url)
 
-                msg_subject = u"%s sana ödünç vermek istiyor" % current_user.name
+            html_msg = render_template('email/request.html', to_user=user, from_user=from_user,
+                                       stuff=stuff, conversation_url=new_conversation.url)
+            if stuff.is_wanted:
+                msg_subject = u"%s sana %s ödünç vermek istiyor" % (from_user.name, stuff.title)
 
             else:
-                msg_body = u'%s senden %s eşyanı ödünç istiyor. <br><br> esyakutuphanesi.com'\
-                           % (current_user.name, stuff.title)
-                html_msg = u'%s senden %s eşyanı ödünç istiyor. <br><br> Ödünç vermek için ' \
-                           u'<a href="http://esyakutuphanesi.com/my_messages">tıkla!</a>' \
-                           % (current_user.name, stuff.title)
-
-                msg_subject = u"%s senden ödünç istiyor" % current_user.name
+                msg_subject = u"%s için bir talip var!" % stuff.title
 
             msg = MailMessage(
                 body=msg_body,
@@ -812,35 +804,8 @@ def moderation():
             unapproved_user.approved = True
             db.session.commit()
 
-            msg_body = u'Merhabalar!<br><br> ' \
-                       u'Eşya Kütüphanesine hoşgeldin! Artık herhangi bir eşyaya ' \
-                       u'ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin. :) ' \
-                       u'<br><br> Alet edevat, kitap, film, gece elbisesi, takım elbise, ' \
-                       u'müzik aletleri, spor eşyaları ve kamp malzemeleri ' \
-                       u'her daim sitemizde aranılan eşyalar. Sen de paylaşmak istediğin ' \
-                       u'eşyalarını görünür kılmak ve ' \
-                       u'ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, ' \
-                       u'"Eşya Paylaş"a tıklayarak eşyalarını listeleyebilirsin.' \
-                       u'<br><br>Unutmadan, arkadaşlarını da aramızda görmeyi çok isteriz!' \
-                       u'<br><br>Güzel günler! <br>esyakutuphanesi.com'
-            html_msg = u'Merhabalar!<br><br> ' \
-                       u'Eşya Kütüphanesine hoşgeldin! Artık herhangi bir eşyaya ' \
-                       u'ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin. :) ' \
-                       u'<br><br> Alet edevat, kitap, film, gece elbisesi, takım elbise, ' \
-                       u'müzik aletleri, spor eşyaları ve kamp malzemeleri ' \
-                       u'her daim sitemizde aranılan eşyalar. Sen de paylaşmak istediğin ' \
-                       u'eşyalarını görünür kılmak ve ' \
-                       u'ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, ' \
-                       u'<a href="http://esyakutuphanesi.com/new_stuff">"Eşya Paylaş"</a>a' \
-                       u' tıklayarak eşyalarını listeleyebilirsin.' \
-                       u'<br><br>Unutmadan, <a href="http://esyakutuphanesi.com/invite">' \
-                       u'arkadaşlarını da aramızda görmeyi</a> çok isteriz!' \
-                       u'<br><br>Güzel günler!' \
-                       u'<br><br><a href="http://esyakutuphanesi.com/">esyakutuphanesi.com</a>' \
-                       u'<br>Twitter:<a href="twitter.com/esyakutuphanesi">@EsyaKutuphanesi</a>' \
-                       u'<br>Facebook:<a href="facebook.com/esyakutuphanesi">facebook.com/EsyaKutuphanesi</a>' \
-                       u'<br>Zumbara:<a href="http://zumbara.com/profil/12340">zumbara.com/profil/12340</a>'
-                       #  %s % u'unapproved_user.name'
+            msg_body = render_template('email/welcome.txt', user=unapproved_user)
+            html_msg = render_template('email/welcome.html', user=unapproved_user)
 
             msg_subject = u"Hoşgeldin!"
             msg = MailMessage(

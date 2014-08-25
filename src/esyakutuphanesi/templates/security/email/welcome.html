@@ -1,6 +1,25 @@
-<p>Merhaba {{ user.email }}!</p>
-<p>Kaydın alındı. Üyeliğin onaylandığında e-posta ile bilgilendirileceksin.</p>
-
+<p>Merhaba {{ user.name }}!</p>
+<p>
+    Bilgilerini bizimle paylaştığın için teşekkür ederiz, kaydını aldık.
+    Site içerisinde organik bir topluluk oluşturmak ve kullanıcılarımızı
+    yakından tanımak için tüm formları tek tek okuyoruz.
+    Bu bazen biraz zaman alabiliyor, umarız ki anlayışla karşılarsın.
+</p>
+<p>
+    Üyeliğin onaylandığında sana bir bilgilendirme e-postası ile haber vereceğiz.
+    Sen de bizi beklerken hikayemizi okuyabilir ya da blogumuza göz atabilirsin.
+    Seni aramızda göreceğimiz için çok heyecanlıyız!
+</p>
+<p>
+    Bol paylaşımlı günler,<br/>
+    Eşya Kütüphanesi Ekibi
+</p>
+<p>
+   <a href="http://esyakutuphanesi.com/">esyakutuphanesi.com</a><br/>
+   Twitter:<a href="twitter.com/esyakutuphanesi">@EsyaKutuphanesi</a><br/>
+   Facebook:<a href="facebook.com/esyakutuphanesi">facebook.com/EsyaKutuphanesi</a><br/>
+   Zumbara:<a href="http://zumbara.com/profil/12340">zumbara.com/profil/12340</a>
+</p>
 {% if security.confirmable %}
     <p>Aşağıdaki bağlantıya tıklayarak üyeliğini onaylayabilirsin:</p>
     <p><a href="{{ confirmation_link }}">Hesabımı onayla</a></p>
