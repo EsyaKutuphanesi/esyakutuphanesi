@@ -218,7 +218,7 @@ def edit_stuff(stuff_id=None):
                 stuff.stuff_address = address
                 stuff.category_id = form.category.data
                 stuff.type_id = form.stuff_type.data
-                stuff.is_wanted = form.is_wanted.data == 'True'
+                #stuff.is_wanted = form.is_wanted.data == 'True'
                 flash(u"Eşya güncellendi.")
 
             else:
