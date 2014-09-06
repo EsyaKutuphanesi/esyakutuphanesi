@@ -157,7 +157,7 @@ class StuffPhoto(db.Model):
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False, unique=True)
+    name = db.Column(db.String(255), nullable=False)
     stuff_id = db.Column(db.Integer, db.ForeignKey('stuff.id'))
     stuff = db.relationship('Stuff', backref='tags')
 
