@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="col-xs-12">
+            Kullanıcı Sayısı
+        </div>
+        <div class="col-xs-12">
+            {{ user_count }}
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="col-xs-12">
+            Paylaşılan Eşya Sayısı
+        </div>
+        <div class="col-xs-12">
+            {{ stuff_count }}
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="col-xs-12">
+            Eşya Paylaşan Kullanıcı Sayısı
+        </div>
+        <div class="col-xs-12">
+            {{ user_with_stuff_count }}
+        </div>
+    </div>
+    <div class="col-md-5 col-sm-6 col-xs-12">
+        <div class="col-xs-12">
+            Aktifleştirme Oranı
+        </div>
+        <div class="col-xs-12">
+            {{ '{0:0.2f}'.format(user_with_stuff_count / user_count) }}
+        </div>
+    </div>
+    <div class="col-md-5 col-sm-6 col-xs-12">
+        <div class="col-xs-12">
+            Ortalama Paylaşım Adedi
+        </div>
+        <div class="col-xs-12">
+            {{ '{0:0.2f}'.format(stuff_count / user_with_stuff_count) }}
+        </div>
+    </div>
+{% endblock %}

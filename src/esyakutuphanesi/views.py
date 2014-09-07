@@ -1122,3 +1122,12 @@ def enterprise_path():
 @app.route('/ekip_ve_gonulluluk')
 def team_and_volunteering():
     return render_template("team_and_volunteering.html", user=current_user)
+
+@app.route('/stats')
+def stats_view():
+    user_count = User.query.count()
+    stuff_count = Stuff.query.filter(Stuff.approved == 1).count()
+    user_with_stuff_count = Stuff.query.filter(Stuff.approved == 1).distinct(Stuff.owner_id).count()
+    return render_template("stats.html", user=current_user,
+                           user_count=user_count, stuff_count=stuff_count,
+                           user_with_stuff_count=user_with_stuff_count)
