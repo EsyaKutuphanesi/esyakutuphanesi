@@ -18,21 +18,52 @@
     </address>
 </div>-->
 
-<div class="col-md-5 col-sm-6 col-xs-12">
-    <h4>
-        <strong>Bize yaz:</strong>
+<div class="row">
+    <h4 class="col-md-12">
+        <strong>Bize ulaşın:</strong>
     </h4>
-    <form action="{{url_for('contact')}}" method="POST" name="contact_form" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        {{ render_field_with_errors(form.user_name, label_visible=True) }}
-        {{ render_field_with_errors(form.user_email, label_visible=True, placeholder=form.user_email.label.text) }}
-        {{ render_field_with_errors(form.message, label_visible=True) }}
-        {{ form.submit(class_='btn btn-success pull-right')}}
-    </form>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <p>
+            Yorumlarınız, hikayeleriniz ve geri bildirimleriniz bizim en büyük beslenme kaynağımız.
+            Her türlü konuda bize ulaşabilirsiniz. Sadece merhaba demek için bile!
+        </p>
+        <p>
+            bilgi[at]esyakutuphanesi.com
+        </p>
+        <p>
+            Sanayi Mah. Eski Büyükdere Cad. Tacirler İş Merkezi No:61 Kat:2 Kağıthane İstanbul
+        </p>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <p>
+            Aylık yapmaya çalıştığımız online sohbetlerden ve Eşya Kütüphanesi'nin günlük
+            hayatından haberdar olmak için bizi takip edin.
+        </p>
+        <p>
+            <a href="https://facebook.com/EsyaKutuphanesi">facebook/EsyaKutuphanesi</a>
+        </p>
+        <p>
+            <a href="https://twitter.com/esyakutuphanesi">@EsyaKutuphanesi</a>
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5 col-sm-6 col-xs-12">
+        <h4>
+            <strong>Bize yazın:</strong>
+        </h4>
+        <form action="{{url_for('contact')}}" method="POST" name="contact_form" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ render_field_with_errors(form.user_name, label_visible=True) }}
+            {{ render_field_with_errors(form.user_email, label_visible=True, placeholder=form.user_email.label.text) }}
+            {{ render_field_with_errors(form.message, label_visible=True) }}
+            {{ form.submit(class_='btn btn-success pull-right')}}
+        </form>
+    </div>
+    <div class=" col-md-7 col-sm-6 text-center" style="margin-top:30px;">
+        <img src="/static/images/biz.png" style="width:100%; max-width:439px;"/>
+    </div>
 </div>
 
-<div class=" col-md-7 col-sm-6 text-center" style="margin-top:30px;">
-    <img src="/static/images/biz.png" style="width:100%; max-width:446px;"/>
-</div>
 
 {% endblock %}

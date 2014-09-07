@@ -269,6 +269,18 @@ def edit_stuff(stuff_id=None):
 
                 flash(u"Eşya kaydedildi.")
 
+                msg_body = u"Eşya ekleyen: %s %s <br><br>Eşya başlık: %s<br> Eşya detay : %s" \
+                           % (current_user.name, current_user.email, stuff.title, stuff.detail)
+                msg = MailMessage(
+                    body=msg_body,
+                    html=msg_body,
+                    subject=u"Yeni Eşya",
+                    sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+                    recipients=["bilgi@esyakutuphanesi.com"]
+                )
+
+                mail.send(msg)
+
             tags = form.tags.data.split(',')
             for t in tags:
                 if t > '':
@@ -348,12 +360,11 @@ def show_stuff(stuff_id):
 
     stuff = Stuff.query.join(User).filter(
         Stuff.id == stuff_id,
-        Stuff.approved == 1,
         Stuff.owner_id == User.id,
         User.approved == True
     ).first()
 
-    if stuff:
+    if stuff.approved == 1:
         stuff_address = Address.query.filter(Address.id == stuff.address_id).first()
         reviews = Review.query.filter(Review.request_id == Request.id, Request.stuff_id == stuff_id)
 
@@ -379,6 +390,8 @@ def show_stuff(stuff_id):
             stuff=stuff,
             reviews=reviews
         )
+    elif stuff.approved == 0 and stuff.owner == current_user:
+        return redirect(url_for("edit_stuff", stuff_id=stuff_id))
 
     else:
         # flash(u"Eşya kaldırılmış.")
@@ -573,7 +586,7 @@ def get_unread_messages():
     return jsonify(count=message_count)
 
 
-@app.route('/conversations/<conversation_id>', methods=["GET", "POST"])
+@app.route('/conversation/<conversation_id>', methods=["GET", "POST"])
 @login_required
 def show_conversation(conversation_id):
     conversation = Conversation.query.\
@@ -600,11 +613,17 @@ def show_conversation(conversation_id):
         db.session.add(new_message)
         db.session.commit()
 
-        msg_body = u'%s sana mesaj gönderdi. <br><br> esyakutuphanesi.com'\
-                   % current_user.name
-        html_msg = u'%s sana mesaj gönderdi. <br><br> Mesajı okumak için' \
-                   u' <a href="http://esyakutuphanesi.com/my_messages">tıkla!</a>' \
-                   % current_user.name
+        msg_body = render_template('email/conversation.txt', user=to_user, from_user=current_user.name,
+                                   stuff_title=conversation.title, conversation=new_message)
+
+        html_msg = render_template('email/conversation.html', user=to_user, from_user=current_user.name,
+                                   stuff_title=conversation.title, conversation=new_message)
+
+        # msg_body = u'%s sana mesaj gönderdi. <br><br> esyakutuphanesi.com'\
+        #            % current_user.name
+        # html_msg = u'%s sana mesaj gönderdi. <br><br> Mesajı okumak için' \
+        #            u' <a href="http://esyakutuphanesi.com/conversation/{{conversation_id}}">tıkla!</a>' \
+        #            % current_user.name
 
         msg_subject = u"Yeni mesajın var"
 
@@ -744,7 +763,7 @@ def make_request(stuff_id=None):
 
         else:
             flash(u'Ödünç istemek için adres girmelisin.')
-            return redirect(return_url)
+            return redirect(url_for('new_address'))
     else:
         flash(u'İstek gönderilemedi. Kaç gün için ödünç istediğini girmelisin.')
         return redirect(return_url)
@@ -1021,7 +1040,7 @@ def review():
         return redirect('/show_stuff/%s' % rq.stuff_id)
 
     flash(u"Mesaj alanını boş bıraktınız.")
-    return redirect('/conversations/%s' % conversation_id)
+    return redirect('/conversation/%s' % conversation_id)
 
 
 @app.route('/masalgibi')

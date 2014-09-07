@@ -77,8 +77,10 @@
             {{ render_field_with_errors(form.lat) }}
             {{ render_field_with_errors(form.lng) }}
         </div>
-        {{ render_field_with_errors(form.group) }}
-
+        <!--{{ render_field_with_errors(form.group) }}-->
+        <div class="form-group">
+            <input type="hidden" id="group" name="group" value="-1"/>
+        </div>
         {% if not is_wanted==true %}
             {{ render_field_with_errors(form.photo) }}
             {%if stuff%}
@@ -91,7 +93,10 @@
                 </div>
             {%endif%}
         {% endif%}
-
+        <p>
+            * Resim çekemiyorsanız benzer bir eşyanın resmini internetten yükleyebilirsiniz.
+            Ödünç verdiğiniz eşyanın resimdeki eşyadan farklarını belirtmeyi unutmayın!
+        </p>
         {{ render_field_with_errors(form.tags) }}
         {%for tag in stuff.tags%}
             <span class="label label-warning">{{tag}}</span>

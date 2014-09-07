@@ -29,7 +29,7 @@
     {% else %}
     <div class="list-group">
         {% for conversation in user.conversations  | reverse %}
-            <a href="/conversations/{{conversation.id}}" class="list-group-item message-div" style="border:0px; margin:4px auto; background-color: rgba(225,233,179,0.3);" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
+            <a href="/conversation/{{conversation.id}}" class="list-group-item message-div" style="border:0px; margin:4px auto; background-color: rgba(225,233,179,0.3);" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
                 <h4 class="list-group-item-heading">
                     {{conversation.title}}
                     {% if conversation.request.user_id == user.id%}

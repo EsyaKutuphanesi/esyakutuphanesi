@@ -1,0 +1,15 @@
+Merhaba {{user.name}},
+
+{{from_user}} sana {{stuff_title}} eşyan için mesaj gönderdi:
+
+"{{conversation}}"
+
+Mesajı okumak için <a href="http://esyakutuphanesi.com/conversation/{{conversation.conversation_id}}"> tıkla!</a>
+
+Güzel günler,
+Eşya Kütüphanesi Ekibi
+
+esyakutuphanesi.com
+Twitter:@EsyaKutuphanesi
+Facebook:facebook.com/EsyaKutuphanesi
+Zumbara:zumbara.com/profil/12340

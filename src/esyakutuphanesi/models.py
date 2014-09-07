@@ -223,7 +223,7 @@ class Request(db.Model):
 
     @property
     def url(self):
-        return "%s/%s/" % ('request', self.id)
+        return "%s/%s" % ('request', self.id)
 
 
 class Conversation(db.Model):
@@ -241,7 +241,7 @@ class Conversation(db.Model):
 
     @property
     def url(self):
-        return "%s/%s/" % ('conversation', self.id)
+        return "%s/%s" % ('conversation', self.id)
 
 
 class Message(db.Model):
@@ -265,7 +265,7 @@ class Message(db.Model):
 
     @property
     def url(self):
-        return "%s/%s/" % ('conversation', self.id)
+        return "%s/%s" % ('conversation', self.id)
 
 
 class Group(db.Model):

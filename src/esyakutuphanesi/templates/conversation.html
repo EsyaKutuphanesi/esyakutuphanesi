@@ -6,7 +6,7 @@
 <script>
     function updateRequestStatus(status){
         if (confirm("Emin misiniz?")) {
-            window.location = "/conversations/{{ conversation.id }}?status="+status;
+            window.location = "/conversation/{{ conversation.id }}?status="+status;
         }
     }
 </script>
@@ -79,7 +79,7 @@
     </div>
 
     <div class="col-md-12 col-sm-12">
-        <form action="/conversations/{{ conversation.id }}" method="post">
+        <form action="/conversation/{{ conversation.id }}" method="post">
             {{ form.hidden_tag() }}
             <div class="form-group">
                 {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
