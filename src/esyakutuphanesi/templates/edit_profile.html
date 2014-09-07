@@ -55,7 +55,10 @@
         <div class="col-md-6 col-sm-6 col-xs-12">
             <h3>Adreslerim</h3>
             {%for address in user.addresses%}
-                <p><strong>{{address.name}}</strong> : {{address.detail}} <a href="#">Adresi düzenle</a></p>
+                <p>
+                    <strong>{{address.name}}</strong> : {{address.detail}}
+                    <!--<a href="#">Adresi düzenle</a>-->
+                </p>
             {%endfor%}
             <button type="button" class="btn btn-warning" onclick="window.location.href='/new_address', _gaq.push(['_trackEvent', 'Address', 'addAddress', 'Settings Page'])">Yeni adres ekle</button>
         </div>
