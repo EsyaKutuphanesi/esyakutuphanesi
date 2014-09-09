@@ -24,7 +24,7 @@
 {% endif %}-->
 
 <div class="row" id="hideInfo">
-    <img class="img-responsive" src="/static/images/eknedir1.png" style="margin:0 auto;"/>
+    <img class="img-responsive" src="/static/images/eknedir2.png" style="margin:0 auto;"/>
     <!--<img class="img-responsive" src="/static/images/banner.png" style="margin:0 auto;"/>-->
 </div>
 
@@ -67,22 +67,20 @@
 </div>
 
 <!--<div class="col-md-12 grayLine"></div>-->
-{% if user.is_authenticated() %}
-    <div class="row" style="margin-left:-16px;">
-        {% if last_objects_wanted[0] %}
-            <div class="col-md-12 col-sm-12">
-                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Aranıyor!</h3>
-            </div>
-        {% endif %}
+<div class="row" style="margin-left:-16px;">
+    {% if last_objects_wanted[0] %}
         <div class="col-md-12 col-sm-12">
-            <div id="container1" class="row fluid">
-                {% for stuff in last_objects_wanted %}
-                    {{ render_item_box(stuff, user, True) }}
-                {%endfor%}
-            </div>
+            <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Aranıyor!</h3>
+        </div>
+    {% endif %}
+    <div class="col-md-12 col-sm-12">
+        <div id="container1" class="row fluid">
+            {% for stuff in last_objects_wanted %}
+                {{ render_item_box(stuff, user, True) }}
+            {%endfor%}
         </div>
     </div>
-{% endif %}
+</div>
 
 <div class="col-md-12 col-sm-12 grayLine" style="margin-bottom:50px;"></div>
 

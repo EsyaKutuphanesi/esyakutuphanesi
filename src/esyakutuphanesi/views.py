@@ -625,7 +625,7 @@ def show_conversation(conversation_id):
         #            u' <a href="http://esyakutuphanesi.com/conversation/{{conversation_id}}">tıkla!</a>' \
         #            % current_user.name
 
-        msg_subject = u"Yeni mesajın var"
+        msg_subject = u"Mesajın var"
 
         msg = MailMessage(
             body=msg_body,
@@ -796,12 +796,11 @@ def moderation():
             stuff.approved = 1
             db.session.commit()
 
-            msg_body = u'Eşyan onaylandı.<br><br> ' \
-                       u'esyakutuphanesi.com'
-            html_msg = u'Eşyan onaylandı.<br><br> ' \
-                       u'<a href="http://esyakutuphanesi.com/">esyakutuphanesi.com</a>' \
+            msg_body = render_template('email/approved.txt', user=stuff.owner, stuff=stuff)
 
-            msg_subject = u"Eşyan onaylandı!"
+            html_msg = render_template('email/approved.html', user=stuff.owner, stuff=stuff)
+
+            msg_subject = u"Eşyan artık sitede!"
 
             msg = MailMessage(
                 body=msg_body,

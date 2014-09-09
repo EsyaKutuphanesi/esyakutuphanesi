@@ -4,9 +4,9 @@ Merhaba {{user.name}},
 
 "{{conversation}}"
 
-Mesajı okumak için <a href="http://esyakutuphanesi.com/conversation/{{conversation.conversation_id}}"> tıkla!</a>
+Mesajını görüntülemek için <a href="http://esyakutuphanesi.com/conversation/{{conversation.conversation_id}}"> tıkla!</a>
 
-Güzel günler,
+Bol paylaşımlı günler,
 Eşya Kütüphanesi Ekibi
 
 esyakutuphanesi.com

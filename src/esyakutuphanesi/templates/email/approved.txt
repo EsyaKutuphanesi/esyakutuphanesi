@@ -1,0 +1,13 @@
+Merhaba {{user}},
+
+Listelemek istediğin {{stuff}} onaylandı ve artık sitede!
+Listelemeni düzenlemek istersen esyakutuphanesi.com/edit_stuff/{{stuff.id}} adresini ziyaret etmen yeterli.
+Durma daha da listele, paylaştıkça hafifle!
+
+Güzel günler,
+Eşya Kütüphanesi Ekibi
+
+esyakutuphanesi.com
+Twitter:@EsyaKutuphanesi
+Facebook:facebook.com/EsyaKutuphanesi
+Zumbara:zumbara.com/profil/12340
