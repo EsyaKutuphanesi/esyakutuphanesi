@@ -593,94 +593,95 @@ def show_conversation(conversation_id):
         filter(Conversation.id == conversation_id).first()
 
     if current_user not in conversation.users:
-        redirect('/my_messages')
+        return redirect('/my_messages')
 
-    form = ConversationForm()
-    if request.method == 'POST' and form.validate_on_submit():
+    else:
+        form = ConversationForm()
+        if request.method == 'POST' and form.validate_on_submit():
 
-        if current_user.id == conversation.request.user.id:
-            to_user = conversation.request.from_user
-        else:
-            to_user = conversation.request.user
+            if current_user.id == conversation.request.user.id:
+                to_user = conversation.request.from_user
+            else:
+                to_user = conversation.request.user
 
-        print to_user.id
-        new_message = Message(
-            from_user=current_user,
-            to_user=to_user,
-            conversation=conversation,
-            txt=form.message.data
-        )
-        db.session.add(new_message)
+            print to_user.id
+            new_message = Message(
+                from_user=current_user,
+                to_user=to_user,
+                conversation=conversation,
+                txt=form.message.data
+            )
+            db.session.add(new_message)
+            db.session.commit()
+
+            msg_body = render_template('email/conversation.txt', user=to_user, from_user=current_user.name,
+                                       stuff_title=conversation.title, conversation=new_message)
+
+            html_msg = render_template('email/conversation.html', user=to_user, from_user=current_user.name,
+                                       stuff_title=conversation.title, conversation=new_message)
+
+            # msg_body = u'%s sana mesaj gönderdi. <br><br> esyakutuphanesi.com'\
+            #            % current_user.name
+            # html_msg = u'%s sana mesaj gönderdi. <br><br> Mesajı okumak için' \
+            #            u' <a href="http://esyakutuphanesi.com/conversation/{{conversation_id}}">tıkla!</a>' \
+            #            % current_user.name
+
+            msg_subject = u"Mesajın var"
+
+            msg = MailMessage(
+                body=msg_body,
+                html=html_msg,
+                subject=msg_subject,
+                sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+                recipients=[to_user.email]
+            )
+
+            mail.send(msg)
+
+        Message.query.filter(
+            Message.conversation_id == conversation_id,
+            Message.status == 0,
+            Message.to_user == current_user
+        ).update({Message.status: 1})
         db.session.commit()
 
-        msg_body = render_template('email/conversation.txt', user=to_user, from_user=current_user.name,
-                                   stuff_title=conversation.title, conversation=new_message)
+        form.message.data = None
 
-        html_msg = render_template('email/conversation.html', user=to_user, from_user=current_user.name,
-                                   stuff_title=conversation.title, conversation=new_message)
+        review_form = ReviewForm()
 
-        # msg_body = u'%s sana mesaj gönderdi. <br><br> esyakutuphanesi.com'\
-        #            % current_user.name
-        # html_msg = u'%s sana mesaj gönderdi. <br><br> Mesajı okumak için' \
-        #            u' <a href="http://esyakutuphanesi.com/conversation/{{conversation_id}}">tıkla!</a>' \
-        #            % current_user.name
-
-        msg_subject = u"Mesajın var"
-
-        msg = MailMessage(
-            body=msg_body,
-            html=html_msg,
-            subject=msg_subject,
-            sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
-            recipients=[to_user.email]
-        )
-
-        mail.send(msg)
-
-    Message.query.filter(
-        Message.conversation_id == conversation_id,
-        Message.status == 0,
-        Message.to_user == current_user
-    ).update({Message.status: 1})
-    db.session.commit()
-
-    form.message.data = None
-
-    review_form = ReviewForm()
-
-    if request.args.get('status'):
-        status = int(request.args.get('status'))
-    else:
-        status = 0
-    if status > 0 and \
-            (conversation.request.stuff.owner == current_user or conversation.request.from_user_id == current_user.id):
-        if conversation.request.stuff.status == 1:
-            if status == 1 and conversation.request.status == 0:
-                flash(u'Eşyayı vermeyi kabul ettiniz.')
-                conversation.request.stuff.status = 0
-                conversation.request.status = 1
-                conversation.request.given_at = datetime.utcnow()
-                db.session.commit()
-        elif status == 2 and conversation.request.status == 1:
-            flash(u'Eşyayı geri aldınız.')
-            conversation.request.stuff.status = 1
-            conversation.request.status = 2
-            conversation.request.returned_at = datetime.utcnow()
-            db.session.commit()
+        if request.args.get('status'):
+            status = int(request.args.get('status'))
         else:
-            flash(u'Eşya zaten başkasına verilmiş.')
+            status = 0
+        if status > 0 and \
+                (conversation.request.stuff.owner == current_user or conversation.request.from_user_id == current_user.id):
+            if conversation.request.stuff.status == 1:
+                if status == 1 and conversation.request.status == 0:
+                    flash(u'Eşyayı vermeyi kabul ettiniz.')
+                    conversation.request.stuff.status = 0
+                    conversation.request.status = 1
+                    conversation.request.given_at = datetime.utcnow()
+                    db.session.commit()
+            elif status == 2 and conversation.request.status == 1:
+                flash(u'Eşyayı geri aldınız.')
+                conversation.request.stuff.status = 1
+                conversation.request.status = 2
+                conversation.request.returned_at = datetime.utcnow()
+                db.session.commit()
+            else:
+                flash(u'Eşya zaten başkasına verilmiş.')
 
-    wanted_stuff = StuffPhoto.query.filter(StuffPhoto.stuff_id == conversation.request.stuff_id).first()
-    review_form.request_id.data = conversation.request_id
-    return render_template(
-        "conversation.html",
-        user=current_user,
-        wanted_stuff=wanted_stuff,
-        form=form,
-        action='Edit',
-        conversation=conversation,
-        review_form=review_form
-    )
+        wanted_stuff = StuffPhoto.query.filter(StuffPhoto.stuff_id == conversation.request.stuff_id).first()
+        review_form.request_id.data = conversation.request_id
+        return render_template(
+            "conversation.html",
+            user=current_user,
+            wanted_stuff=wanted_stuff,
+            form=form,
+            action='Edit',
+            conversation=conversation,
+            review_form=review_form
+        )
 
 
 @app.route('/make_request/<stuff_id>', methods=['GET', 'POST'])

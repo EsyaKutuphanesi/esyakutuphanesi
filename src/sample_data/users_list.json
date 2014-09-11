@@ -7,5 +7,21 @@
         "roles": [
             "admin"
         ]
+    },{
+        "approved": 1,
+        "email": "xyz@abc.com",
+        "name": "admin2",
+        "password": "$5$rounds=80000$Yj2S6AtoBQ7mOmuZ$gevIsEG8fTUw92bAfRJw9YQxdyq.0VRkKB3xvoi3cb/",
+        "roles": [
+            "member"
+        ]
+    },{
+        "approved": 1,
+        "email": "abc@xyz.com",
+        "name": "admin3",
+        "password": "$5$rounds=80000$Yj2S6AtoBQ7mOmuZ$gevIsEG8fTUw92bAfRJw9YQxdyq.0VRkKB3xvoi3cb/",
+        "roles": [
+            "member"
+        ]
     }
 ]
