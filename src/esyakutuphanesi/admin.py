@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+from flask import render_template
 from flask.ext.login import current_user, flash, redirect, url_for
 from flask.ext.admin import Admin, AdminIndexView, expose
+from flask_mail import Message as MailMessage
 
-from __init__ import app, db
+from __init__ import app, db, mail
 from models import User, Role, Stuff, Category, StuffType, Request
 
 from flask.ext.admin.contrib.sqla import ModelView
@@ -44,7 +47,24 @@ class UserView(ExtendedModelView):
 
     @expose('/userview/approve/<id>')
     def approval_view(self, id):
-        flash('%s is approved' % str(id))
+        unapproved_user = User.query.filter(User.approved == False, User.id == id).first()
+        unapproved_user.approved = True
+        db.session.commit()
+
+        msg_body = render_template('email/welcome.txt', user=unapproved_user)
+        html_msg = render_template('email/welcome.html', user=unapproved_user)
+
+        msg_subject = u"Hoşgeldin!"
+        msg = MailMessage(
+            body=msg_body,
+            html=html_msg,
+            subject=msg_subject,
+            sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+            recipients=[unapproved_user.email]
+        )
+
+        mail.send(msg)
+        flash(u"Kullanıcı onaylandı ve e-posta gönderildi!")
         return redirect(url_for('.index_view'))
 
     def __init__(self, session, **kwargs):
@@ -55,11 +75,11 @@ class UserView(ExtendedModelView):
 admin.add_view(
     UserView(
         db.session,
-        column_list=('id', 'email', 'why', 'approved'),
+        column_list=('id', 'name','email', 'why', 'approved'),
         list_template='admin_user_list.html',
-        column_searchable_list=('email',),
+        column_searchable_list=('email', 'name'),
         column_sortable_list=('id',),
-        column_filters=('id', 'email', 'approved')
+        column_filters=('id', 'name', 'email', 'approved')
     )
 )
 
