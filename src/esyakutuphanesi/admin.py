@@ -48,6 +48,10 @@ class UserView(ExtendedModelView):
     @expose('/userview/approve/<id>')
     def approval_view(self, id):
         unapproved_user = User.query.filter(User.approved == False, User.id == id).first()
+        if not unapproved_user:
+            flash(u"Kullanıcı zaten onaylı!")
+            return redirect(url_for('.index_view'))
+        
         unapproved_user.approved = True
         db.session.commit()
 
