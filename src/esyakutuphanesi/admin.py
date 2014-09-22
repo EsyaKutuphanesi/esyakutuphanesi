@@ -91,7 +91,7 @@ class UserView(ExtendedModelView):
         )
 
         mail.send(msg)
-        flash(u"Kullanıcı onaylandı ve e-posta gönderildi!")
+        flash(u"Kullanıcıya e-posta gönderilerek daha fazla bilgi vermesi talep edildi!")
         return redirect(url_for('.index_view'))
 
     def __init__(self, session, **kwargs):
