@@ -66,6 +66,29 @@ class UserView(ExtendedModelView):
         mail.send(msg)
         flash(u"Kullanıcı onaylandı ve e-posta gönderildi!")
         return redirect(url_for('.index_view'))
+    
+    @expose('/userview/request_detail/<id>')
+    def request_detail_view(self, id):
+        unapproved_user = User.query.filter(User.approved == False, User.id == id).first()
+        if not unapproved_user:
+            flash(u"Kullanıcı zaten onaylı!")
+            return redirect(url_for('.index_view'))
+        
+        msg_body = render_template('email/request_detail.txt', user=unapproved_user)
+        html_msg = render_template('email/request_detail.html', user=unapproved_user)
+
+        msg_subject = u"Ufak bir rica!"
+        msg = MailMessage(
+            body=msg_body,
+            html=html_msg,
+            subject=msg_subject,
+            sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+            recipients=[unapproved_user.email]
+        )
+
+        mail.send(msg)
+        flash(u"Kullanıcı onaylandı ve e-posta gönderildi!")
+        return redirect(url_for('.index_view'))
 
     def __init__(self, session, **kwargs):
         # You can pass name and other parameters if you want to

@@ -10,6 +10,9 @@
         <a href="{{ url_for('.approval_view', id=get_pk_value(row)) }}">
             <span class="icon-ok"></span>
         </a>
+        <a href="{{ url_for('.request_detail_view', id=get_pk_value(row)) }}">
+            <span class="icon-info-sign"></span>
+        </a>
         {{ super() }}
     </span>
 {% endblock %}"
