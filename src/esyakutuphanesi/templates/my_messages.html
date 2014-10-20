@@ -28,29 +28,33 @@
         HENÜZ MESAJ YOK
     {% else %}
     <div class="list-group">
-        {% for conversation in user.conversations  | reverse %}
-            <a href="/conversation/{{conversation.id}}" class="list-group-item message-div" style="border:0px; margin:4px auto; background-color: rgba(225,233,179,0.3);" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
-                <h4 class="list-group-item-heading">
-                    {{conversation.title}}
-                    {% if conversation.request.user_id == user.id%}
-                        {% if conversation.request.status == 1 %}
-                            <span class="label label-warning pull-right">Eşya sana ödünç verildi</span>
-                        {% elif conversation.request.status == 2 %}
-                            <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
+        {% for conversation in user.conversations %}
+            {% if conversation.messages[-1].status == 0 and conversation.messages[-1].to_user_id == user.id %}
+                <a href="/conversation/{{conversation.id}}" class="list-group-item message-div unread-message-bg" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
+            {% else %}
+                <a href="/conversation/{{conversation.id}}" class="list-group-item message-div message-div-bg" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
+            {% endif %}
+                    <h4 class="list-group-item-heading">
+                        {{conversation.title}}
+                        {% if conversation.request.user_id == user.id%}
+                            {% if conversation.request.status == 1 %}
+                                <span class="label label-warning pull-right">Eşya sana ödünç verildi</span>
+                            {% elif conversation.request.status == 2 %}
+                                <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
+                            {% endif %}
+                        {% elif conversation.request.from_user_id == user.id %}
+                            {% if conversation.request.status == 1 %}
+                                <span class="label label-warning pull-right">Eşyayı ödünç verdin</span>
+                            {% elif conversation.request.status == 2 %}
+                                <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
+                            {% endif %}
                         {% endif %}
-                    {% elif conversation.request.from_user_id == user.id %}
-                        {% if conversation.request.status == 1 %}
-                            <span class="label label-warning pull-right">Eşyayı ödünç verdin</span>
-                        {% elif conversation.request.status == 2 %}
-                            <span class="label label-success pull-right">Yorum yapmak ister misin?</span>
-                        {% endif %}
-                    {% endif %}
-                </h4>
-                <p class="list-group-item-text">
-                    {{conversation.messages[-1]}}
-                    <span class="pull-right" style="width: 77px; height: 17px; overflow: hidden;">{{conversation.created_at}}</span>
-                </p>
-            </a>
+                    </h4>
+                    <p class="list-group-item-text">
+                        {{conversation.messages[-1]}}
+                        <span class="pull-right" style="width: 77px; height: 17px; overflow: hidden;">{{conversation.created_at}}</span>
+                    </p>
+                </a>
         {% endfor %}
     </div>
 {% endif %}

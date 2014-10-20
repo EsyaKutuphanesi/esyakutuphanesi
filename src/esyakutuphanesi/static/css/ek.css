@@ -132,6 +132,16 @@ margin-top: 20px;
     margin:10px auto;
 }
 
+.unread-message-bg {
+    background-color: rgba(225,233,179,0.4);
+}
+.message-div-bg {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f3f3f3;
+}
+.message-div {
+    border:0px;
+}
 .message-div:hover {
     background-color: #e1e9b3 !important;
 }
