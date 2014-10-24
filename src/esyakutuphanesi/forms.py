@@ -65,7 +65,7 @@ class EditStuffForm(Form):
     ])
     address = SelectField(u'Adres', coerce=int, validators=[validators.Required()])
     group = SelectField(u'Grup', coerce=int, validators=[validators.Required()])
-    submit = SubmitField(u"Eşyayı paylaş")
+    submit = SubmitField(u"Tamamla")
     delete = SubmitField(u"Eşyayı kaldır")
     tags = TextField(u'Etiketler', [
         validators.Length(min=0, max=255, message=u'En fazla 255 karaktere kadar etiket girebilirsin.')

@@ -48,7 +48,11 @@
 </div>
 <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
     {% if is_new %}
-        <h2>Eşya Paylaş</h2>
+        {% if not is_wanted==true %}
+            <h2>Eşya Paylaş</h2>
+        {% else %}
+            <h2>Eşya İste</h2>
+        {% endif %}
     {% else %}
         <a href="#" onclick="deleteStuffReq(-1), _gaq.push(['_trackEvent', 'Stuff', 'deleteStuff', 'Edit_stuff Page'])" class="pull-right">Eşyayı kaldır</a>
         {% if not stuff.approved %}
@@ -92,11 +96,11 @@
                     {%endfor%}
                 </div>
             {%endif%}
+            <p>
+                * Resim çekemiyorsanız benzer bir eşyanın resmini internetten yükleyebilirsiniz.
+                Ödünç verdiğiniz eşyanın resimdeki eşyadan farklarını belirtmeyi unutmayın!
+            </p>
         {% endif%}
-        <p>
-            * Resim çekemiyorsanız benzer bir eşyanın resmini internetten yükleyebilirsiniz.
-            Ödünç verdiğiniz eşyanın resimdeki eşyadan farklarını belirtmeyi unutmayın!
-        </p>
         {{ render_field_with_errors(form.tags) }}
         {%for tag in stuff.tags%}
             <span class="label label-warning">{{tag}}</span>
