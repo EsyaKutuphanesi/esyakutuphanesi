@@ -20,9 +20,9 @@
                         {% if stuff.status == 1%}
                             {% if user.id != stuff.owner_id %}
                                 {% if not is_wanted %}
-                                    <button type="button" style="width:100%;" class="btn btn-success" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'borrowStuffButton', 'Item_box Page'])">Ödünç iste</button>
+                                    <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/show_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'borrowStuffButton', 'Item_box Page'])">Eşyayı gör</button>
                                 {% else %}
-                                    <button type="button" style="width:100%;" class="btn btn-info" onclick="showRequestModal({{stuff.id}},'{{stuff.title | urlencode}}','{{stuff.owner}}','{{stuff.is_wanted}}'), _gaq.push(['_trackEvent', 'Stuff', 'lendStuffButton', 'Item_box Page'])">Ödünç ver!</button>
+                                    <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/show_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'lendStuffButton', 'Item_box Page'])">Eşyayı gör</button>
                                 {% endif %}
                             {% else %}
                                 {% if stuff.approved==0 %}
@@ -31,13 +31,13 @@
                                 <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'editStuff', 'Item_box Page'])">Düzenle/Kaldır</button>
                             {%endif%}
                         {% else %}
-                            <button type="button" style="width:100%;" class="btn btn-success disabled">Ödünç verildi</button>
+                            <button type="button" style="width:100%;" class="btn btn-info disabled">Ödünç verildi</button>
                         {% endif %}
                     {% else %}
                         {% if not is_wanted %}
-                            <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'borromStuffButton', 'Item_box Page'])">Ödünç iste</button>
+                            <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'borromStuffButton', 'Item_box Page'])">Eşyayı gör</button>
                         {% else %}
-                            <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'lendStuffButton', 'Item_box Page'])">Ödünç ver!</button>
+                            <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'lendStuffButton', 'Item_box Page'])">Eşyayı gör</button>
                         {% endif %}
                     {% endif %}
                 </p>

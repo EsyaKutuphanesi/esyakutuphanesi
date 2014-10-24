@@ -55,7 +55,7 @@ class EditUserForm(Form):
 class EditStuffForm(Form):
     stuffid = HiddenField('stuffid')
     photo = FileField(u'Resim Yükle')
-    title = TextField(u'Başlık', [
+    title = TextField(u'Başlık *', [
         validators.Length(min=4, max=255, message=u'Eşyanın başlığı en az 4 karakter olmalı.'),
         validators.Required(u'Eşya için başlık girmelisin.')
     ])
@@ -63,15 +63,15 @@ class EditStuffForm(Form):
         validators.Length(min=0, max=1000),
         # validators.Required()
     ])
-    address = SelectField(u'Adres', coerce=int, validators=[validators.Required()])
+    address = SelectField(u'Adres *', coerce=int, validators=[validators.Required()])
     group = SelectField(u'Grup', coerce=int, validators=[validators.Required()])
     submit = SubmitField(u"Tamamla")
     delete = SubmitField(u"Eşyayı kaldır")
     tags = TextField(u'Etiketler', [
         validators.Length(min=0, max=255, message=u'En fazla 255 karaktere kadar etiket girebilirsin.')
     ])
-    category = SelectField('Kategori', coerce=int, validators=[validators.Required()])
-    stuff_type = SelectField(u'Eşya Türü', coerce=int, validators=[validators.Required()])
+    category = SelectField(u'Kategori *', coerce=int, validators=[validators.Required()])
+    stuff_type = SelectField(u'Eşya Türü', coerce=int)
     is_wanted = SelectField(u'İstiyorum?', choices=[('False', u'Vermek'), ('True', u'Almak')])
     address_str = TextField('')
 
