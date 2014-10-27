@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Esya Kutuphanesi{% endblock %}
+{% block title %}{{ super() }} - Aradığınız Sayfa Bulunamadı!{% endblock %}
 {% block content %}
     <div class="text-center">
         <img src="{{ url_for('static',filename='images/404.png') }}"/>

@@ -1,7 +1,7 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
 {% extends "layout.html" %}
 
-{% block title %}Esya Kutuphanesi{% endblock %}
+{% block title %}{{ super() }} - Eşyayı Düzenle{% endblock %}
 {% block content %}
 
 <script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script>
