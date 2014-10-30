@@ -575,6 +575,10 @@ def category_stuff_type_view(category_name, type_name):
 @app.route('/my_messages')
 @login_required
 def my_messages():
+    messages = Message.query.filter(Message.to_user == current_user, Message.from_user == current_user)
+    for message_times in messages:
+        message_times.txt
+
     return render_template("my_messages.html", user=current_user)
 
 
