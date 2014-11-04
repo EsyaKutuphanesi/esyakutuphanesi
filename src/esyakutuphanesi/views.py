@@ -294,7 +294,7 @@ def edit_stuff(stuff_id=None):
                     db.session.add(new_photo)
                     db.session.commit()
 
-                flash(u"Eşya kaydedildi.")
+                # flash(u"Eşya kaydedildi.")
 
                 msg_body = u"Eşya ekleyen: %s %s <br><br>Eşya başlık: %s<br> Eşya detay : %s" \
                            % (current_user.name, current_user.email, stuff.title, stuff.detail)
@@ -307,6 +307,7 @@ def edit_stuff(stuff_id=None):
                 )
 
                 mail.send(msg)
+                return render_template("onaybekliyor.html", user=current_user)
 
             tags = form.tags.data.split(',')
             for t in tags:
