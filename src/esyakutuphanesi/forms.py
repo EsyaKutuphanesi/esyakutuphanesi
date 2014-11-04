@@ -60,7 +60,7 @@ class EditStuffForm(Form):
         validators.Required(u'Eşya için başlık girmelisin.')
     ])
     detail = TextAreaField(u'Detaylar', [
-        validators.Length(min=0, max=1000),
+        validators.Length(min=0, max=1000, message=u'En fazla 1000 karaktere kadar açıklama girebilirsin.')
         # validators.Required()
     ])
     address = SelectField(u'Adres *', coerce=int, validators=[validators.Required()])

@@ -1,48 +1,88 @@
 {% macro render_item_box(stuff, user, is_wanted=False) -%}
 {% if stuff.approved != -1 %}
-    <div class="item col-md-4 col-sm-4 col-xs-12">
-        <!--item-->
-        <div class="thumbnail">
-            <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
-                {%if stuff.photos%}
-                    <img src="/static/photos/{{stuff.photos[0].filename}}"/>
-                {%else%}
-                    <img src="/static/images/{{stuff.category_id}}.png"/>
-                {%endif%}
-            </a>
-            <div class="caption">
-                <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
-                    <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                </a>
-                <p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">{{stuff.detail |truncate(100)}}</p>
-                <p>
-                    {%if user.is_authenticated()%}
-                        {% if stuff.status == 1%}
-                            {% if user.id != stuff.owner_id %}
-                                {% if not is_wanted %}
-                                    <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/show_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'borrowStuffButton', 'Item_box Page'])">Eşyayı gör</button>
+    {% if not is_wanted %}
+        <div class="item col-md-3 col-sm-3 col-xs-12" style="padding-right:7px; padding-left:7px;">
+            <!--item-->
+                <div class="thumbnail">
+                    <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                        {%if stuff.photos%}
+                            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                        {%else%}
+                            <img src="/static/images/{{stuff.category_id}}.png"/>
+                        {%endif%}
+                    </a>
+                    <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                        <div style="padding-left: 9px; line-height:34px; color:white; background-color:#626262;">{{stuff}}</div>
+                    </a>
+                    <div class="caption">
+                        <p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">{{stuff.detail |truncate(500)}}</p>
+                        <p>
+                            {%if user.is_authenticated()%}
+                                {% if stuff.status == 1%}
+                                    {% if user.id != stuff.owner_id %}
+                                        <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/show_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">Eşyayı gör</button>
+                                    {% else %}
+                                        {% if stuff.approved==0 %}
+                                            <p class="alert-danger">Henüz onaylanmadı.</p>
+                                        {% endif %}
+                                        <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'editStuff', 'Item_box Page'])">Düzenle/Kaldır</button>
+                                    {%endif%}
                                 {% else %}
-                                    <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/show_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'lendStuffButton', 'Item_box Page'])">Eşyayı gör</button>
+                                    <button type="button" style="width:100%;" class="btn btn-info disabled">Ödünç verildi</button>
                                 {% endif %}
                             {% else %}
-                                {% if stuff.approved==0 %}
-                                    <p class="alert-danger">Henüz onaylanmadı.</p>
+                                <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Visit stuff, unauthenticated user', 'seeStuffDetail', 'Item_box Page'])">Eşyayı gör</button>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+        </div>
+    {% else %}
+        <div class="item col-md-6 col-sm-6 col-xs-12" style="padding-right:7px; padding-left:7px;">
+            <div class="thumbnail" style="overflow:hidden;">
+                <div class="col-md-3 col-sm-3 col-xs-12" style="margin:0px; padding:0px;">
+                    <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                        {%if stuff.photos%}
+                            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                        {%else%}
+                            <img src="/static/images/{{stuff.category_id}}.png"/>
+                        {%endif%}
+                    </a>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-12" style="margin:0px; padding:0px;">
+                    <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                        <div style="padding-left: 9px; line-height:34px; color:white; background-color:#626262;">{{stuff}}</div>
+                    </a>
+                    <div class="caption">
+                        <p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                            {{stuff.detail |truncate(90)}}
+                            <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                                Eşyayı gör
+                            </a>
+                        </p>
+                        <!--<p>
+                            {%if user.is_authenticated()%}
+                                {% if stuff.status == 1%}
+                                    {% if user.id != stuff.owner_id %}
+                                        <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/show_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">Eşyayı gör</button>
+                                    {% else %}
+                                        {% if stuff.approved==0 %}
+                                            <p class="alert-danger">Henüz onaylanmadı.</p>
+                                        {% endif %}
+                                        <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'editStuff', 'Item_box Page'])">Düzenle/Kaldır</button>
+                                    {%endif%}
+                                {% else %}
+                                    <button type="button" style="width:100%;" class="btn btn-info disabled">Ödünç verildi</button>
                                 {% endif %}
-                                <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}', _gaq.push(['_trackEvent', 'Stuff', 'editStuff', 'Item_box Page'])">Düzenle/Kaldır</button>
-                            {%endif%}
-                        {% else %}
-                            <button type="button" style="width:100%;" class="btn btn-info disabled">Ödünç verildi</button>
-                        {% endif %}
-                    {% else %}
-                        {% if not is_wanted %}
-                            <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'borromStuffButton', 'Item_box Page'])">Eşyayı gör</button>
-                        {% else %}
-                            <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Stuff, unauthenticated user', 'lendStuffButton', 'Item_box Page'])">Eşyayı gör</button>
-                        {% endif %}
-                    {% endif %}
-                </p>
+                            {% else %}
+                                <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Visit stuff, unauthenticated user', 'seeStuffDetail', 'Item_box Page'])">Eşyayı gör</button>
+                            {% endif %}
+                        </p>-->
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+
+    {% endif %}
 {% endif %}
 {% endmacro %}

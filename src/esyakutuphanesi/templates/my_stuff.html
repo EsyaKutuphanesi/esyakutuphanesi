@@ -1,7 +1,7 @@
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
 {% from "macros/item_box.html" import render_item_box %}
 {% extends "layout.html" %}
-{% block title %}Esya Kutuphanesi{% endblock %}
+{% block title %}{{ super() }} - Eşyalarım{% endblock %}
 {% block content %}
 
 <style>
@@ -58,7 +58,7 @@
 
 <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
     <div id="container" class="row fluid">
-        <div class="item col-md-4 col-sm-4">
+        <div class="item col-md-3 col-sm-3">
             <!--item-->
             <div class="thumbnail" style="border:0;">
                 <a href="/new_stuff" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'My_stuff Page'])">
