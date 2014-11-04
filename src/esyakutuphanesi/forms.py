@@ -106,6 +106,34 @@ class EditStuffForm(Form):
         return True
 
 
+class EditAddressForm(Form):
+    addressid = HiddenField('addressid')
+    address_title = TextField(u'Adres ismi', [
+        validators.Length(min=1, max=255, message=u'Adresin ismi en az 4 karakter olmalı.'),
+        validators.Required(u'Adres için isim girmelisin.')
+    ])
+    lat = HiddenField('lat')
+    lng = HiddenField('lng')
+
+    address_str = TextField(u'Adres')
+    submit = SubmitField(u"Tamamla")
+
+    def fill_form(self, address):
+        self.address_title.data = address.name
+        self.address_str.data = address.detail
+        self.addressid.data = address.id
+        self.lat.data = address.lat
+        self.lng.data = address.lng
+        self.addressid.data = address.id
+
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        return True
+
+
 class SearchForm(Form):
     stuff = TextField(u'Ne arıyorsun?', [
         validators.Length(min=0, max=255, message=u'En fazla 255 karakter girebilirsin.')

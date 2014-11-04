@@ -10,7 +10,7 @@ from flask_mail import Message as MailMessage
 from __init__ import app, db, mail
 from forms import SearchForm, EditStuffForm, ConversationForm,\
     CreateGroupForm, EditUserForm, InvitationForm, RequestForm,\
-    ReviewForm, ContactForm
+    ReviewForm, ContactForm, EditAddressForm
 from models import Address, Category, Conversation,\
     Group, Invitations, GroupMembership, Message, Photo, Request,\
     Review, Stuff, StuffPhoto, StuffType, Tag, User
@@ -111,25 +111,52 @@ def search():
         request_form=request_form
     )
 
-
+@app.route('/edit_address/<address_id>', methods=["GET", "POST"])
 @app.route('/new_address', methods=["GET", "POST"])
 @login_required
-def new_address():
-    if request.method == 'POST':
-        print unicode(request.form)
-        address = Address(
-            user=current_user,
-            lat=request.form.get('lat'),
-            lng=request.form.get('lng'),
-            detail=unicode(request.form.get('address_str')),
-            name=request.form.get('address_name')
-        )
-        db.session.add(address)
-        db.session.commit()
-        flash(u"Adres kaydedildi.")
+def edit_address(address_id=None):
+    form = EditAddressForm()
+
+    address = Address.query.filter(Address.id == address_id, Address.user == current_user).first()
+
+    if request.args.get('status'):
+        status = int(request.args.get('status'))
+
+        if status:
+            Address.query.filter(Address.id == address_id, Address.user == current_user).delete()
+            db.session.commit()
+            flash(u"Adres silindi.")
+            return redirect(url_for("edit_profile"))
+
+    if request.method == 'POST' and form.validate_on_submit():
+        if address:
+            Address.query.filter(Address.id == address_id, Address.user == current_user)\
+                .update({Address.lat: form.lat.data,
+                         Address.lng: form.lng.data,
+                         Address.name: form.address_title.data,
+                         Address.detail: unicode(form.address_str.data)})
+            db.session.commit()
+            flash(u"Adres güncellendi.")
+
+        else:
+            print unicode(request.form)
+            address = Address(
+                user=current_user,
+                lat=form.lat.data,
+                lng=form.lng.data,
+                detail=unicode(form.address_str.data),
+                name=form.address_title.data
+            )
+            db.session.add(address)
+            db.session.commit()
+            flash(u"Adres kaydedildi.")
 
         return redirect(url_for("edit_profile"))
-    return render_template("map.html", user=current_user)
+    if address:
+        form.fill_form(address)
+
+    return render_template("edit_address.html", address=address,
+                           action='Edit', user=current_user, form=form)
 
 
 @app.route('/edit_stuff/<stuff_id>', methods=["GET", "POST"])
