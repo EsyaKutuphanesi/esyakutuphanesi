@@ -45,7 +45,6 @@
                     <th>Detay</th>
                     <th>Kategori</th>
                     <th>Tarih</th>
-                    <th>Durum</th>
                     <th>Aksiyon</th>
                 </tr>
                 {% for stuff in last_objects %}
@@ -65,20 +64,18 @@
                                 {% if stuff.is_wanted == True %} Aranıyor {% else %} Paylaşılıyor {% endif%} - {{ stuff.detail }}
                             </td>
                             <td>{{ stuff.type_id }} - {{ stuff.category_id }}</td>
-                            <td>
-                                {% if stuff.approved==1 %}
-                                    Paylaşımda
-                                {% elif stuff.approved==0 %}
-                                    Beklemede
-                                {% elif stuff.approved==-1 %}
-                                    Çöpte
-                                {% endif %}
-                            </td>
 
                             <td>{{ stuff.date }}</td>
                             <td>
-                                <button class="btn btn-success" onclick="approve({{ stuff.id }})">Onayla</button>
-                                <!--<br/><button class="btn btn-danger" onclick="cancel({{ stuff.id }})">Reddet</button>-->
+                                <button class="btn btn-success" onclick="approve({{ stuff.id }})">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                                <!--<button class="btn btn-info" onclick="request_detail({{ stuff.id }})">
+                                    <span class="glyphicon glyphicon-info-sign"></span>
+                                </button>
+                                <button class="btn btn-danger" onclick="cancel({{ stuff.id }})">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>-->
                             </td>
                         </tr>
                     {% endif %}
@@ -108,7 +105,15 @@
                             <td>{{ users.why }}</td>
                             <td>{{ users.registered_at }}</td>
                             <td>
-                                <button class="btn btn-success" onclick="approve_user({{ users.id }})">Onayla</button>
+                                <button class="btn btn-success" onclick="approve_user({{ users.id }})">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                                <!--<button class="btn btn-info" onclick="request_detail_user({{ users.id }})">
+                                    <span class="glyphicon glyphicon-info-sign"></span>
+                                </button>
+                                <button class="btn btn-danger" onclick="cancel_user({{ users.id }})">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>-->
                             </td>
                         </tr>
                     {% endif%}
@@ -142,7 +147,7 @@
                             {% if stuff.approved==1 %}
                                 Paylaşımda
                             {% elif stuff.approved==0 %}
-                                Beklemede
+                                Onay bekliyor
                             {% elif stuff.approved==-1 %}
                                 Çöpte
                             {% endif %}
@@ -165,22 +170,20 @@
                     <th>Durum</th>
                 </tr>
                 {% for users in new_user %}
-                    {% if users.approved==1 %}
-                        <tr>
-                            <td>{{ users.id }}</td>
-                            <td>{{ users.email }}</td>
-                            <td>{{ users.name  }}</td>
-                            <td>{{ users.why }}</td>
-                            <td>{{ users.registered_at }}</td>
-                            <td>
-                                {% if users.approved==1 %}
-                                    Kayıtlı
-                                {% elif stuff.approved==0 %}
-                                    Beklemede
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endif%}
+                    <tr>
+                        <td>{{ users.id }}</td>
+                        <td>{{ users.email }}</td>
+                        <td>{{ users.name  }}</td>
+                        <td>{{ users.why }}</td>
+                        <td>{{ users.registered_at }}</td>
+                        <td>
+                            {% if users.approved==1 %}
+                                Kayıtlı
+                            {% elif users.approved==0 %}
+                                Onay bekliyor
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endfor %}
             </table>
         </div>

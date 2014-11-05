@@ -920,10 +920,10 @@ def get_profile(user_id=None):
 
         user_stuff_shared = Stuff.query.join(User).\
             filter(Stuff.owner_id == user_id, Stuff.is_wanted == False, Stuff.approved == 1,
-                   Stuff.owner_id == User.id, User.approved == True)
+                   Stuff.owner_id == User.id, User.approved == True).order_by(Stuff.id.desc())
         user_stuff_wanted = Stuff.query.join(User).\
             filter(Stuff.owner_id == user_id, Stuff.is_wanted == True, Stuff.approved == 1,
-                   Stuff.owner_id == User.id, User.approved == True)
+                   Stuff.owner_id == User.id, User.approved == True).order_by(Stuff.id.desc())
 
         reviews = Review.query.filter(Review.reviewed_user_id == user_id)
         reviews_count = reviews.count()
