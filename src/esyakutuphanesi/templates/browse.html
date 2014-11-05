@@ -11,31 +11,36 @@
             var firstLoad = true;
             $("select#categories").change(function(e){
 
-                $.getJSON('/get_stuff_types/'+$(this).val(),'',function(j){
+                stuff_type = document.getElementById('stuff_types');
+                stuff_type.innerHTML = ''
+                stuff_type.innerHTML += "<option value='all'>Hepsi</option>";
 
-                    stuff_type = document.getElementById('stuff_types');
-                    stuff_type.innerHTML = ''
-                    stuff_type.innerHTML += "<option value='all'>Hepsi</option>";
-                    $.each(j, function(key,value){
-                        console.log(value);
-                        stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";
+                if( $(this).val()!=='all' ) {
+                     $.getJSON('/get_stuff_types/'+$(this).val(),'',function(j){
+
+                        $.each(j, function(key,value){
+                            console.log(value);
+                            stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";
+                        });
+
+                        {%if params['stuff_type']%}
+                            if(firstLoad){
+                                firstLoad = false;
+                                console.log('selected:'+'{{params['stuff_type'].value}}');
+                                $("select#stuff_types").val('{{params['stuff_type'].value}}');
+                            }
+                        {%endif%}
+
                     });
+                }
 
-                    {%if params['stuff_type']%}
-                        if(firstLoad){
-                            firstLoad = false;
-                            console.log('selected:'+'{{params['stuff_type'].value}}');
-                            $("select#stuff_types").val('{{params['stuff_type'].value}}');
-                        }
-                    {%endif%}
-
-                });
             });
 
             {%if params['category']%}
 
                 var htmlString = '';
                 $.getJSON('/get_categories','',function(j){
+                    htmlString += "<option value='all'>Hepsi</option>";
                     $.each(j, function(key,value){
                         // console.log(value);
                         htmlString += "<option value='"+value.id+"'>"+value.name+"</option>";

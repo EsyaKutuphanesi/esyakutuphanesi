@@ -38,14 +38,14 @@ def home():
         Stuff.is_wanted == False,
         Stuff.owner_id == User.id,
         User.approved == True
-    ).order_by(Stuff.id.desc()).limit(9)
+    ).order_by(Stuff.id.desc()).limit(8)
 
     last_objects_wanted = Stuff.query.join(User).filter(
         Stuff.approved == 1,
         Stuff.is_wanted == True,
         Stuff.owner_id == User.id,
         User.approved == True
-    ).order_by(Stuff.id.desc()).limit(9)
+    ).order_by(Stuff.id.desc()).limit(8)
 
     return render_template(
         "index.html",
@@ -489,30 +489,48 @@ def category_view(category_name=None):
     request_form = RequestForm()
     is_wanted = request.args.get('is_wanted')
 
-    category = Category.query.\
-        filter(Category.name == category_name).first()
-    #stuff_list = category.stuff_list
-    if is_wanted is None:
-        stuff_list = Stuff.query.join(User).filter(
-            Stuff.category == category,
-            Stuff.approved == 1,
-            Stuff.owner_id == User.id,
-            User.approved == True
-        )
-
+    if category_name == "Hepsi":
+        if is_wanted is None:
+            stuff_list = Stuff.query.join(User).filter(
+                Stuff.approved == 1,
+                Stuff.owner_id == User.id,
+                User.approved == True
+            ).order_by(Stuff.id.desc())
+        else:
+            stuff_list = Stuff.query.join(User).filter(
+                Stuff.is_wanted == is_wanted,
+                Stuff.approved == 1,
+                Stuff.owner_id == User.id,
+                User.approved == True
+            ).order_by(Stuff.id.desc())
+        category_value = 'all'
     else:
-        stuff_list = Stuff.query.join(User).filter(
-            Stuff.category == category,
-            Stuff.is_wanted == is_wanted,
-            Stuff.approved == 1,
-            Stuff.owner_id == User.id,
-            User.approved == True
-        )
+        category = Category.query.\
+            filter(Category.name == category_name).first()
+        #stuff_list = category.stuff_list
+        if is_wanted is None:
+            stuff_list = Stuff.query.join(User).filter(
+                Stuff.category == category,
+                Stuff.approved == 1,
+                Stuff.owner_id == User.id,
+                User.approved == True
+            ).order_by(Stuff.id.desc())
+
+        else:
+            stuff_list = Stuff.query.join(User).filter(
+                Stuff.category == category,
+                Stuff.is_wanted == is_wanted,
+                Stuff.approved == 1,
+                Stuff.owner_id == User.id,
+                User.approved == True
+            ).order_by(Stuff.id.desc())
+
+        category_value = category.id
 
     params = {
         'category': {
             'type': 'category',
-            'value': category.id
+            'value': category_value
         },
         'stuff_type': {
             'type': 'stuff_type',
@@ -562,7 +580,7 @@ def category_stuff_type_view(category_name, type_name):
             Stuff.approved == 1,
             Stuff.owner_id == User.id,
             User.approved == True
-        )
+        ).order_by(Stuff.id.desc())
             # filter(Category.id == category.id)
     else:
         stuff_list = Stuff.query.join(User).join(Category).join(StuffType).filter(
@@ -572,7 +590,7 @@ def category_stuff_type_view(category_name, type_name):
             Stuff.is_wanted == is_wanted,
             Stuff.owner_id == User.id,
             User.approved == True
-        )
+        ).order_by(Stuff.id.desc())
             # filter(Category.id == category.id).\
             # filter(Stuff.is_wanted == is_wanted)
 

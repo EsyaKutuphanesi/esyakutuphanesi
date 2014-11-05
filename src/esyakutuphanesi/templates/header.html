@@ -2,10 +2,12 @@
      $(function(){
         var htmlString = '';
         $.getJSON('/get_categories','',function(j){
+
             $.each(j, function(key,value){
                 console.log(value);
                 htmlString += "<li><a href='/category/"+value.name+"'>"+value.name+"</a></li>";
             });
+             htmlString += "<li><a href='/category/"+'Hepsi'+"'>"+'Hepsi'+"</a></li>";
              $("ul#categories").html(htmlString);
         });
         $.getJSON('/unread_messages','',function(j){

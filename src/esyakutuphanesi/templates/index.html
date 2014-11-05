@@ -53,7 +53,9 @@
 <div class="row" style="margin-left:-16px;">
     {% if last_objects_shared[0] %}
         <div class="col-md-12 col-sm-12">
-            <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Kütüphaneye Eklenenler</h3>
+            <a href="/category/Hepsi/?is_wanted=0" style="color:#333333; ">
+                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Kütüphaneye Eklenenler</h3>
+            </a>
         </div>
     {% endif %}
 
@@ -63,6 +65,9 @@
                 {{ render_item_box(stuff, user) }}
             {% endfor %}
         </div>
+        <a href="/category/Hepsi/?is_wanted=0" class="pull-right" style="color:black; text-decoration:underline;">
+            Paylaşılan diğer eşyaları gör
+        </a>
     </div>
 </div>
 
@@ -70,7 +75,9 @@
 <div class="row" style="margin-left:-16px;">
     {% if last_objects_wanted[0] %}
         <div class="col-md-12 col-sm-12">
-            <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Aranıyor!</h3>
+            <a href="/category/Hepsi/?is_wanted=0" style="color:#333333; ">
+                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Aranıyor!</h3>
+            </a>
         </div>
     {% endif %}
     <div class="col-md-12 col-sm-12">
@@ -79,6 +86,10 @@
                 {{ render_item_box(stuff, user, True) }}
             {%endfor%}
         </div>
+
+        <a href="/category/Hepsi/?is_wanted=1" class="pull-right" style="color:black; text-decoration:underline;">
+            Aranan diğer eşyaları gör
+        </a>
     </div>
 </div>
 

@@ -51,11 +51,11 @@
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12" style="margin:0px; padding:0px;">
                     <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
-                        <div style="padding: 9px; color:white; background-color:#626262;">{{stuff.title |truncate(30) }}</div>
+                        <div style="padding: 15px 9px 0px; color:black; font-size:16px;">{{stuff.title |truncate(30) }}</div>
                     </a>
                     <div class="caption">
                         <p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
-                            {{stuff.detail |truncate(80)}}
+                            {{stuff.detail |truncate(90)}}
                             <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                                 Eşyayı gör
                             </a>
