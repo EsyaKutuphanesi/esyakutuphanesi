@@ -66,12 +66,12 @@
                         <div style="padding: 15px 9px 0px; color:black; font-size:16px;">{{stuff.title |truncate(30, True) }}</div>
                     </a>
                     <div class="caption">
-                        <!--<p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                        <p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                             {{stuff.detail |truncate(80, True)}}
                             <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                                 Eşyayı gör
                             </a>
-                        </p>-->
+                        </p>
                         <!--<p>
                             {%if user.is_authenticated()%}
                                 {% if stuff.status == 1%}
