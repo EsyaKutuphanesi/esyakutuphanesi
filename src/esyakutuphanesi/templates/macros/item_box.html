@@ -16,7 +16,19 @@
                     </a>
                     <div class="caption">
                         <p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">{{stuff.detail |truncate(500)}}</p>
-                        <p>
+                        {%if user.is_authenticated()%}
+                            <a href="/profile/{{stuff.owner.id}}">
+                                <div style="border-top:1px solid #dddddd; padding-top:9px;">
+                                    {% if stuff.owner.photo %}
+                                        <img src="/photos/{{stuff.owner.photo}}" style="border-radius:50%; -moz-border-radius:50%; -webkit-border-radius: 50%; width:50px; height:50px;">
+                                    {% else %}
+                                        <img src="/static/images/ek.png" style="border-radius:50%; -moz-border-radius:50%; -webkit-border-radius: 50%; width:50px; height:50px;">
+                                    {% endif %}
+                                    <span style="font-size:12px; color:#333333; ">{{stuff.owner.name}}</span>
+                                </div>
+                            </a>
+                        {% endif %}
+                        <!--<p>
                             {%if user.is_authenticated()%}
                                 {% if stuff.status == 1%}
                                     {% if user.id != stuff.owner_id %}
@@ -33,7 +45,7 @@
                             {% else %}
                                 <button type="button" style="width:100%;" class="btn btn-info" onclick="window.location.href='/login', _gaq.push(['_trackEvent', 'Visit stuff, unauthenticated user', 'seeStuffDetail', 'Item_box Page'])">Eşyayı gör</button>
                             {% endif %}
-                        </p>
+                        </p>-->
                     </div>
                 </div>
         </div>
@@ -54,12 +66,12 @@
                         <div style="padding: 15px 9px 0px; color:black; font-size:16px;">{{stuff.title |truncate(30, True) }}</div>
                     </a>
                     <div class="caption">
-                        <p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                        <!--<p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                             {{stuff.detail |truncate(80, True)}}
                             <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                                 Eşyayı gör
                             </a>
-                        </p>
+                        </p>-->
                         <!--<p>
                             {%if user.is_authenticated()%}
                                 {% if stuff.status == 1%}
