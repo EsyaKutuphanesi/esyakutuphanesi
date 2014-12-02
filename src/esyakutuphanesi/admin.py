@@ -86,7 +86,7 @@ class UserView(ExtendedModelView):
             body=msg_body,
             html=html_msg,
             subject=msg_subject,
-            sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+            sender=(u"Eşya Kütüphanesi", "bilgi@esyakutuphanesi.com"),
             recipients=[unapproved_user.email]
         )
 
