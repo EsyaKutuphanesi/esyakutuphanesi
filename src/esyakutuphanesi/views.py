@@ -621,10 +621,6 @@ def category_stuff_type_view(category_name, type_name):
 @app.route('/my_messages')
 @login_required
 def my_messages():
-    messages = Message.query.filter(Message.to_user == current_user, Message.from_user == current_user)
-    for message_times in messages:
-        message_times.txt
-
     return render_template("my_messages.html", user=current_user)
 
 
@@ -662,6 +658,10 @@ def show_conversation(conversation_id):
                 txt=form.message.data
             )
             db.session.add(new_message)
+            db.session.commit()
+
+            Conversation.query.filter(Conversation.id == new_message.conversation_id)\
+                .update({Conversation.updated_at: new_message.created_at})
             db.session.commit()
 
             msg_body = render_template('email/conversation.txt', user=to_user, from_user=current_user.name,
@@ -814,7 +814,7 @@ def make_request(stuff_id=None):
 
         else:
             flash(u'Ödünç istemek için adres girmelisin.')
-            return redirect(url_for('new_address'))
+            return redirect(url_for('edit_address'))
     else:
         flash(u'İstek gönderilemedi. Kaç gün için ödünç istediğini girmelisin.')
         return redirect(return_url)

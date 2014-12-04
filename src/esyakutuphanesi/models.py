@@ -234,6 +234,7 @@ class Conversation(db.Model):
     request = db.relationship('Request', backref='conversation')
     title = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now)
 
     @property
     def admin_url(self):
