@@ -52,7 +52,7 @@
                         </h4>
                         <p class="list-group-item-text">
                             {{conversation.messages[-1]}}
-                        <span class="pull-right">{{conversation.updated_at.strftime('%Y-%m-%d')}}</span>
+                        <span class="pull-right">{{conversation.updated_at.strftime('%d-%m-%Y %H:%M')}}</span>
                         </p>
                     </a>
             {% endfor %}

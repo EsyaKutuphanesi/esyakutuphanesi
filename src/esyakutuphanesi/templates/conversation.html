@@ -86,7 +86,6 @@
             {{ form.submit(class_='btn btn-info pull-right')}}
         </form>
     </div>
-
     {% for message in conversation.messages | reverse %}
         <div class="col-md-12 col-sm-12" style="margin-top:10px;">
             <dl class="dl-horizontal">
@@ -94,6 +93,7 @@
                     <a href="/profile/{{ message.from_user.id }}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Conversation Page'])">{{ message.from_user.name }}</a>
                 </dt>
                 <dd>{{ message }}</dd>
+                <dd class="text-right">{{ message.created_at.strftime("%d-%m-%Y %H:%M") }}</dd>
             </dl>
         </div>
     {% endfor %}
