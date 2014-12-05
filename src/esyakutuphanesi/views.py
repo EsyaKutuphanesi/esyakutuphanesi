@@ -749,12 +749,16 @@ def make_request(stuff_id=None):
 
         address = Address.query.filter(Address.user_id == current_user.id).first()
 
-        if address:
-            if stuff_id is None or not (stuff_id > ''):
-                flash(u'İstek gönderilemedi.')
-                return redirect(return_url)
-            stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
+        if stuff_id is None or not (stuff_id > ''):
+            flash(u'İstek gönderilemedi.')
+            return redirect(return_url)
+        stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
 
+        if stuff.is_wanted is False and address is None:
+            flash(u'Ödünç istemek için adres girmelisin.')
+            return redirect(url_for('edit_address'))
+
+        else:
             if stuff.is_wanted == True:
                 user = stuff.owner
                 from_user = current_user
@@ -812,9 +816,6 @@ def make_request(stuff_id=None):
 
             return redirect(url_for('my_messages'))
 
-        else:
-            flash(u'Ödünç istemek için adres girmelisin.')
-            return redirect(url_for('edit_address'))
     else:
         flash(u'İstek gönderilemedi. Kaç gün için ödünç istediğini girmelisin.')
         return redirect(return_url)
