@@ -154,6 +154,22 @@ margin-top: 20px;
     display:none;
 }
 
+.login-info-image {
+    max-width:740px;
+    height:auto;
+    margin:15px auto 0px;
+    padding:20px;
+    background-color:#E9E0D9;
+    border:2px solid #000;
+    border-radius:15px;
+}
+.login-image-style {
+    background-image:url('../images/login-img.png');
+    margin:0 auto;
+    width:69px;
+    height:68px;
+}
+
 @media (min-width: 992px) and (max-width:1200px) {
   .nodisplay {
     display: none !important;
@@ -184,4 +200,8 @@ margin-top: 20px;
    #hideInfo {
         display: none !important;
     }
+}
+
+form textarea#why, textarea#about {
+     height: 100px;
 }
