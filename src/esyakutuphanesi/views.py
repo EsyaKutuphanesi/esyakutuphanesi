@@ -707,7 +707,7 @@ def show_conversation(conversation_id):
                 (conversation.request.stuff.owner == current_user or conversation.request.from_user_id == current_user.id):
             if conversation.request.stuff.status == 1:
                 if status == 1 and conversation.request.status == 0:
-                    flash(u'Eşyayı vermeyi kabul ettiniz.')
+                    flash(u'Eşyan şu anda ödünç olarak bir başka kullanıcıda.')
                     conversation.request.stuff.status = 0
                     conversation.request.status = 1
                     conversation.request.given_at = datetime.utcnow()

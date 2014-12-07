@@ -27,12 +27,10 @@
             $('#message').val('Merhaba, '+owner+' sana '+title+ ' eşyasını ödünç vermek istiyorum.');
             htmlString += "Ödünç Ver";
             $("h4.modal-title").html(htmlString);
-            $("button.request-button-in-modal").html(htmlString);
          } else {
             $('#message').val('Merhaba, '+owner+' senden '+title+ ' eşyanı ödünç istiyorum.');
             htmlString += "Ödünç İste";
             $("h4.modal-title").html(htmlString);
-            $("button.request-button-in-modal").html(htmlString);
          }
          $('#requestModal').modal('show');
          $('#stuff_id').val(stuffid);

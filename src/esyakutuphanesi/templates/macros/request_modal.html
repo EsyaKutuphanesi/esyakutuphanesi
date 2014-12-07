@@ -24,23 +24,23 @@
                                 <div class="form-group">
                                     <!--<label for="{{ request_form.unit.id }}" class="control-label">{{ request_form.unit.label }}</label>-->
                                     {{ request_form.unit(class_='form-control') }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="{{ request_form.message.id }}" class="control-label">{{ request_form.message.label}}</label>
-                        {{ request_form.message(class_='form-control')}}
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="{{ request_form.message.id }}" class="control-label">{{ request_form.message.label}}</label>
+                            {{ request_form.message(class_='form-control')}}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success request-button-in-modal" onclick="_gaq.push(['_trackEvent', 'Stuff', 'borrowLendStuff', 'Request Modal'])"></button>
-            </div>
-        </form>
-
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info request-button-in-modal" onclick="_gaq.push(['_trackEvent', 'Stuff', 'borrowLendStuff', 'Request Modal'])">İletişime geç</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 </div>
