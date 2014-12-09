@@ -1,6 +1,6 @@
 Merhaba {{user.name}},
- 
-Parolan başarıyla sıfırlandı. 
+
+Parolan başarıyla sıfırlandı.
 
 Bol paylaşımlı günler,
 Eşya Kütüphanesi Ekibi

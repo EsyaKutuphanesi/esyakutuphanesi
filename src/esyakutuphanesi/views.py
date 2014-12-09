@@ -1,21 +1,16 @@
 # -*- coding: utf-8 -*-
 import uuid
 import json
-# import os.path
 import os
 from datetime import datetime
-from flask import render_template, send_from_directory, flash, url_for, redirect, request, jsonify
+
+from flask import render_template, send_from_directory, flash, url_for, redirect, request, jsonify, g
 from flask_login import current_user, login_required, logout_user
 from flask_mail import Message as MailMessage
-from __init__ import app, db, mail
-from forms import SearchForm, EditStuffForm, ConversationForm,\
-    CreateGroupForm, EditUserForm, InvitationForm, RequestForm,\
-    ReviewForm, ContactForm, EditAddressForm
-from models import Address, Category, Conversation,\
-    Group, Invitations, GroupMembership, Message, Photo, Request,\
-    Review, Stuff, StuffPhoto, StuffType, Tag, User
 
-from flask import g
+from __init__ import app, db, mail
+from forms import *
+from models import *
 
 
 @app.errorhandler(404)
@@ -110,6 +105,7 @@ def search():
         form=form,
         request_form=request_form
     )
+
 
 @app.route('/edit_address/<address_id>', methods=["GET", "POST"])
 @app.route('/new_address', methods=["GET", "POST"])
@@ -1174,11 +1170,17 @@ def enterprise_path():
 def team_and_volunteering():
     return render_template("team_and_volunteering.html", user=current_user)
 
+
 @app.route('/stats')
 def stats_view():
     user_count = User.query.count()
     stuff_count = Stuff.query.filter(Stuff.approved == 1).count()
     user_with_stuff_count = Stuff.query.filter(Stuff.approved == 1).distinct(Stuff.owner_id).count()
-    return render_template("stats.html", user=current_user,
-                           user_count=user_count, stuff_count=stuff_count,
-                           user_with_stuff_count=user_with_stuff_count)
+
+    return render_template(
+        "stats.html",
+        user=current_user,
+        user_count=user_count,
+        stuff_count=stuff_count,
+        user_with_stuff_count=user_with_stuff_count
+    )
