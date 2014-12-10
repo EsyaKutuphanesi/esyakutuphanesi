@@ -92,8 +92,7 @@
                     <th>id</th>
                     <th>E-posta</th>
                     <th>İsim soyisim</th>
-                    <th>Detay</th>
-                    <th>Hakkında</th>
+                    <th>Detay - Hakkında</th>
                     <th>Tarih</th>
                     <th>Aksiyon</th>
                 </tr>
@@ -103,8 +102,7 @@
                             <td>{{ users.id }}</td>
                             <td>{{ users.email }}</td>
                             <td>{{ users.name  }}</td>
-                            <td>{{ users.why }}</td>
-                            <td>{{ users.about }}</td>
+                            <td> - {{ users.why }} <br> - {{ users.about }}</td>
                             <td>{{ users.registered_at }}</td>
                             <td>
                                 <button class="btn btn-success" onclick="approve_user({{ users.id }})">
