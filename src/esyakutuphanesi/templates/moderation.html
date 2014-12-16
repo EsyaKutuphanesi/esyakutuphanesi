@@ -67,9 +67,15 @@
 
                             <td>{{ stuff.date }}</td>
                             <td>
-                                <button class="btn btn-success" onclick="approve({{ stuff.id }})">
-                                    <span class="glyphicon glyphicon-ok"></span>
-                                </button>
+                                {% if stuff.owner.approved == 1%}
+                                    <button class="btn btn-success" onclick="approve({{ stuff.id }})">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span><span class="glyphicon glyphicon-heart"></span>
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-info" onclick="approve_user({{ stuff.owner.id }})">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span><span class="glyphicon glyphicon-user"></span>
+                                    </button>
+                                {% endif%}
                                 <!--<button class="btn btn-info" onclick="request_detail({{ stuff.id }})">
                                     <span class="glyphicon glyphicon-info-sign"></span>
                                 </button>
@@ -106,7 +112,7 @@
                             <td>{{ users.registered_at }}</td>
                             <td>
                                 <button class="btn btn-success" onclick="approve_user({{ users.id }})">
-                                    <span class="glyphicon glyphicon-ok"></span>
+                                    <span class="glyphicon glyphicon-thumbs-up"></span><span class="glyphicon glyphicon-user"></span>
                                 </button>
                                 <!--<button class="btn btn-info" onclick="request_detail_user({{ users.id }})">
                                     <span class="glyphicon glyphicon-info-sign"></span>
