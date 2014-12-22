@@ -102,15 +102,13 @@ class UserView(ExtendedModelView):
 admin.add_view(
     UserView(
         db.session,
-        column_list=('id', 'name', 'email', 'why', 'approved'),
+        column_list=('id', 'name', 'email', 'why', 'about', 'approved'),
         list_template='admin_user_list.html',
         column_searchable_list=('email', 'name'),
-        column_sortable_list=('id',),
+        column_sortable_list=('id', True),
         column_filters=('id', 'name', 'email', 'approved')
     )
 )
-
-admin.add_view(ExtendedModelView(Role, db.session))
 
 admin.add_view(
     ExtendedModelView(
@@ -124,6 +122,7 @@ admin.add_view(
     )
 )
 
+admin.add_view(ExtendedModelView(Role, db.session))
 admin.add_view(ExtendedModelView(Category, db.session))
 admin.add_view(ExtendedModelView(StuffType, db.session))
 admin.add_view(ExtendedModelView(Request, db.session))
