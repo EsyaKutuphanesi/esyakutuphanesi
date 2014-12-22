@@ -54,7 +54,9 @@ class EditUserForm(Form):
 
 class EditStuffForm(Form):
     stuffid = HiddenField('stuffid')
-    photo = FileField(u'Resim Yükle')
+    photo = FileField(u'Resim Yükle *', [
+        validators.Required(u'Resim yüklemelisin.')
+    ])
     title = TextField(u'Başlık *', [
         validators.Length(min=4, max=255, message=u'Eşyanın başlığı en az 4 karakter olmalı.'),
         validators.Required(u'Eşya için başlık girmelisin.')
