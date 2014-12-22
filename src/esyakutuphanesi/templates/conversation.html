@@ -109,7 +109,7 @@
             <form action="/review" method="post">
                 {{ form.hidden_tag() }}
                 <div class="form-group" style="margin: 15px;">
-                    <div name="rating" id="star-area" style="margin-left:8px; margin-top:-4px;"></div>
+                    <div name="rating" id="star-area" style="margin-left:8px; margin-top:-4px;" aria-required="required"></div>
                 </div>
                 <div class="form-group" style="margin:auto 15px;">
                     {{ render_field_with_errors(review_form.comment, label_visible=False, placeholder=review_form.comment.label.text) }}
@@ -122,6 +122,6 @@
     </div>
 </div>
 
-<script type="text/javascript" charset="utf-8">$('#star-area').raty();</script>
+<script type="text/javascript" charset="utf-8">$('#star-area').raty({start:5});</script>
 
 {% endblock %}
