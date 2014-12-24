@@ -71,7 +71,7 @@
                                     <button class="btn btn-success" onclick="approve({{ stuff.id }})">
                                         <span class="glyphicon glyphicon-thumbs-up"></span><span class="glyphicon glyphicon-heart"></span>
                                     </button>
-                                {% else %}
+                                {% elif stuff.owner.approved == 0 %}
                                     <button class="btn btn-info" onclick="approve_user({{ stuff.owner.id }})">
                                         <span class="glyphicon glyphicon-thumbs-up"></span><span class="glyphicon glyphicon-user"></span>
                                     </button>
