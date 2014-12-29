@@ -62,7 +62,8 @@ def check_approved(source=None):
         if source == 'register':
 
             flash(u'Üyeliğin onay bekliyor. Onaylandığı zaman e-posta ile sana haber vereceğiz.')
-            msg_body = "%s %s <br><br> %s" % (current_user.name, current_user.email, current_user.why)
+            msg_body = "%s %s <br><br> %s <br> %s" % (current_user.name, current_user.email,
+                                                      current_user.why,  current_user.about)
             msg = MailMessage(
                 body=msg_body,
                 html=msg_body,
