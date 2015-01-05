@@ -1175,13 +1175,22 @@ def team_and_volunteering():
 @app.route('/stats')
 def stats_view():
     user_count = User.query.count()
+    approved_user_count = User.query.filter(User.approved == 1).count()
+    monthly_user_count = User.query.filter(User.registered_at >= '2014-12-01',
+                                           User.registered_at <= '2014-12-31').count()
     stuff_count = Stuff.query.filter(Stuff.approved == 1).count()
     user_with_stuff_count = Stuff.query.filter(Stuff.approved == 1).distinct(Stuff.owner_id).count()
+    request_count = Request.query.count()
+    request_ok_count = Request.query.filter(Request.status != 0).count()
 
     return render_template(
         "stats.html",
         user=current_user,
         user_count=user_count,
+        approved_user_count=approved_user_count,
+        monthly_user_count=monthly_user_count,
         stuff_count=stuff_count,
-        user_with_stuff_count=user_with_stuff_count
+        user_with_stuff_count=user_with_stuff_count,
+        request_count=request_count,
+        request_ok_count=request_ok_count
     )
