@@ -1175,7 +1175,7 @@ def team_and_volunteering():
 @app.route('/stats')
 def stats_view():
     user_count = User.query.count()
-    approved_user_count = User.query.filter(User.approved == 1).count()
+    approved_user_count = User.query.filter(User.approved is True).count()
     monthly_user_count = User.query.filter(User.registered_at >= '2014-12-01',
                                            User.registered_at <= '2014-12-31').count()
     stuff_count = Stuff.query.filter(Stuff.approved == 1).count()
