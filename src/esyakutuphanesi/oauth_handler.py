@@ -45,7 +45,7 @@ def get_facebook_token():
     return session.get('facebook_token')
 
 
-@app.route("/facebook_authorized")
+@app.route("/facebook_authorized", methods=['GET', 'POST'])
 @facebook.authorized_handler
 def facebook_authorized(resp):
     next_url = request.args.get('next') or '/'

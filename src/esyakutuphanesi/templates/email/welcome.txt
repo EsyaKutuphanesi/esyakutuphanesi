@@ -2,7 +2,11 @@ Merhaba {{user.name}},
 
 Eşya Kütüphanesi'ne hoşgeldin! Artık herhangi bir eşyaya ihtiyacın olduğunda topluluğumuzdan ödünç isteyebilirsin.
 
-Sen de paylaşmak istediğin eşyalarını görünür kılmak ve ihtiyacı olanın seni kolayca bulmasını sağlamak istersen, "Eşya Paylaş"a tıklayarak eşyalarını listeleyebilirsin.
+Eşya Kütüphanesi şu anda sadece ve sadece ödünç alıp verme üzerine işliyor.
+Yani kısa süreliğine eşyanı ödünç veriyorsun, sonra geri alıyorsun.
+
+Sen de ödünç vermek ya da ödünç almak istediğin eşyalarını görünür kılmak ve ihtiyacı olanın seni kolayca
+bulmasını sağlamak istersen, "Eşya Paylaş"a tıklayarak eşyalarını listeleyebilirsin.
 
 Unutmadan, arkadaşlarını da aramızda görmeyi çok isteriz!
 
