@@ -1120,7 +1120,7 @@ def contact():
             body=msg_body,
             html=msg_body,
             subject=u"İletişime geçmek isteyen var",
-            sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+            sender=(name, email),
             recipients=["bilgi@esyakutuphanesi.com", "ezgi@esyakutuphanesi.com"]
         )
 
@@ -1194,3 +1194,28 @@ def stats_view():
         request_count=request_count,
         request_ok_count=request_ok_count
     )
+
+@app.route('/destekle', methods=["GET", "POST"])
+def destekle():
+    form = ContactForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        name = request.form.get('user_name')
+        email = request.form.get('user_email')
+        message = request.form.get('message')
+
+        msg_body = "%s %s <br><br> %s" % (name, email, message)
+        msg = MailMessage(
+            body=msg_body,
+            html=msg_body,
+            subject=u"Destekliyorum",
+            sender=(name, email),
+            recipients=["bilgi@esyakutuphanesi.com", "ezgi@esyakutuphanesi.com"]
+        )
+
+        mail.send(msg)
+
+        flash(u"E-postan gönderildi!")
+        return redirect(url_for('home'))
+
+    return render_template("destekle.html", form=form, user=current_user)

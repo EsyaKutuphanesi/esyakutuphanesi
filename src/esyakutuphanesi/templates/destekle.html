@@ -1,0 +1,37 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_textarea_with_errors  %}
+{% extends "layout.html" %}
+{% block title %}{{ super() }} - İletişim{% endblock %}
+{% block content %}
+
+<div class="col-md-12">
+    <h2 class="col-md-12">
+        Bizi destekle!
+    </h2>
+        <div class="col-md-12 col-xs-12">
+        <p>
+            Maddi manevi her türlü desteğin bizim için çok değerli.
+            Herhangi bir şekilde bize destek olmak istersen bize yaz.
+        </p>
+        <br/>
+    </div>
+    <div class="row col-md-5">
+        <img class="img-responsive" src="/static/images/desteklebebe.png" style="margin:0 auto;"/>
+    </div>
+    <div class="row col-md-7">
+
+        <div class="col-md-12 col-xs-12">
+
+            <form action="{{url_for('destekle')}}" method="POST" name="contact_form" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                {{ render_field_with_errors(form.user_name, label_visible=True) }}
+                {{ render_field_with_errors(form.user_email, label_visible=True, placeholder=form.user_email.label.text) }}
+                <label for="message" class="control-label"><label for="message">Bizi nasıl destekleyebilirsin?</label></label>
+                {{ render_field_with_errors(form.message, label_visible=False) }}
+                {{ form.submit(class_='btn btn-success pull-right')}}
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -24,10 +24,14 @@
 {% endif %}-->
 
 <div class="row" id="hideInfo">
-    <img class="img-responsive" src="/static/images/eknedir2.png" style="margin:0 auto;"/>
-    <!--<img class="img-responsive" src="/static/images/banner.png" style="margin:0 auto;"/>-->
+    <a href="/destekle" onclick="_gaq.push(['_trackEvent', 'User', 'supportUs', 'Landing Page'])">
+        <img class="img-responsive" src="/static/images/destekle.png" style="margin:0 auto 20px; width:400px;"/>
+    </a>
 </div>
 
+<div class="row" id="hideInfo">
+    <img class="img-responsive" src="/static/images/eknedir2.png" style="margin:0 auto;"/>
+</div>
 <div class="row" style="background:url('/static/images/search.png'); margin:30px auto; max-width:810px; padding:30px 15px; color:white; border-radius:10px;">
     <form role="search" name="search" action="/search" method="get">
         <table class="table searchTable">
@@ -48,7 +52,6 @@
         </table>
     </form>
 </div>
-
 <!--<div class="col-md-12 grayLine"></div>-->
 <div class="row" style="margin-left:-16px;">
     {% if last_objects_shared[0] %}
@@ -119,6 +122,7 @@
         </a>
     </div>
 </div>
+
 {{ request_modal(request_form) }}
 
 {% endblock %}

@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}{{ super() }} - Masal Gibi{% endblock %}
 {% block content %}
+<div class="row" id="hideInfo">
+    <a href="/destekle" onclick="_gaq.push(['_trackEvent', 'User', 'supportUs', 'Masalgibi Page'])">
+        <img class="img-responsive" src="/static/images/destekle.png" style="margin:0 auto 20px; width:400px;"/>
+    </a>
+</div>
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 text-center">
