@@ -205,3 +205,41 @@ margin-top: 20px;
 form textarea#why, textarea#about {
      height: 100px;
 }
+
+/*POPUP*/
+#backgroundPopup{
+    display:none;
+    position:fixed;
+    _position:absolute; /* hack for internet explorer 6*/
+    height:100%;
+    width:100%;
+    top:0;
+    left:0;
+    background:#000000;
+    z-index:1;
+}
+#popupContact{
+    display:none;
+    position:fixed;
+    _position:absolute; /* hack for internet explorer 6*/
+    min-height:384px;
+    width:508px;
+    background:#FFFFFF;
+    z-index:2;
+    padding:12px;
+    font-size:13px;
+    margin-left:-254px;
+    top:0px !important;
+}
+#popupContactClose{
+    font-size:16px;
+    line-height:14px;
+    right:6px;
+    top:4px;
+    position:absolute;
+    color:#333333;
+    font-weight:700;
+    display:block;
+    cursor:pointer;
+}
+/*POPUP*/
