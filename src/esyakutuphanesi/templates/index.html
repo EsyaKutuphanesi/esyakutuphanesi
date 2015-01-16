@@ -43,28 +43,24 @@
 <div id="backgroundPopup"></div>
 <div class="row">
     <a href="/destekle" onclick="_gaq.push(['_trackEvent', 'User', 'supportUs', 'Landing Page'])">
-        <img class="img-responsive" src="/static/images/destekle.png" style="margin:0 auto 20px; width:400px;"/>
+        <img class="img-responsive" src="/static/images/destekle.png" style="margin:0 auto 10px; width:300px;"/>
     </a>
 </div>
 
 <div class="row" id="hideInfo">
     <img class="img-responsive" src="/static/images/eknedir2.png" style="margin:0 auto;"/>
 </div>
-<div class="row" style="background:url('/static/images/search.png'); margin:30px auto; max-width:810px; padding:30px 15px; color:white; border-radius:10px;">
+<div class="row" style="background:url('/static/images/search1.png'); margin:30px auto; max-width:810px; padding:30px 15px; color:white; border-radius:10px;">
     <form role="search" name="search" action="/search" method="get">
         <table class="table searchTable">
+
             <tr>
-                <td>Eşya Ara:</td>
-                <td>Nerede?</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" class="form-control" name="stuff" placeholder="Ne Arıyorsun?"></td>
-                <td>
-                    <input type="text" class="form-control" name="address" placeholder="Nerede Arıyorsun?"></td>
-                <td>
-                    <button type="submit" class="btn btn-default" onclick="_gaq.push(['_trackEvent', 'Stuff', 'searchStuff', 'Landing Page'])">Ara</button>
+                <td style="padding:8px 4px;">
+                    <input type="text" class="form-control" name="stuff" placeholder="Hangi eşyayı arıyorsun? Ör: Kitap" style="height:50px !important;"></td>
+                <td style="padding:8px 4px;">
+                    <input type="text" class="form-control" name="address" placeholder="Nerede arıyorsun? Ör: İstanbul" style="height:50px !important;"></td>
+                <td style="text-align:center;">
+                    <button type="submit" class="btn btn-primary"  style="height:50px !important; padding-right:20px; padding-left:20px;" onclick="_gaq.push(['_trackEvent', 'Stuff', 'searchStuff', 'Landing Page'])">ARA</button>
                 </td>
             </tr>
         </table>
