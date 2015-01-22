@@ -86,7 +86,15 @@
             <input type="hidden" id="group" name="group" value="-1"/>
         </div>
         {% if not is_wanted==true %}
-            {{ render_field_with_errors(form.photo) }}
+            {% if is_new %}
+                <div class="form-group  ">
+                    <label for="photo" class="control-label"><label for="photo">Resim Yükle *</label></label>
+                    <input class="form-control" id="photo" name="photo" type="file" required="required">
+                </div>
+            {% else %}
+                {{ render_field_with_errors(form.photo) }}
+            {% endif%}
+
             {%if stuff%}
                 <div class="col-md-12 col-sm-12">
                     {%for photo in stuff.photos%}
