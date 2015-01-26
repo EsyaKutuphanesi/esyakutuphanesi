@@ -163,9 +163,11 @@ def edit_stuff(stuff_id=None):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
     form = EditStuffForm()
     is_new = True
-    is_wanted = bool(request.args.get('is_wanted'))
-    # if is_wanted == 'true':
-    #     form.is_wanted.data = 'True'
+
+    if stuff:
+        is_wanted = stuff.is_wanted
+    else:
+        is_wanted = bool(request.args.get('is_wanted'))
 
     address_choices = []
     if current_user.addresses:
