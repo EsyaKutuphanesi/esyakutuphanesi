@@ -92,7 +92,7 @@ class Address(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
 
     def __repr__(self):
-        return '%s[%s]' % (self.name, self.user.name)
+        return '%s[%s]' % (self.name, self.user)
 
     @property
     def admin_url(self):
