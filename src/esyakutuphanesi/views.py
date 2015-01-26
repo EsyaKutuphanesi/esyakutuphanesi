@@ -243,6 +243,34 @@ def edit_stuff(stuff_id=None):
                 stuff.category_id = form.category.data
                 stuff.type_id = form.stuff_type.data
                 #stuff.is_wanted = form.is_wanted.data == 'True'
+
+
+                photo_file = form.photo.data
+                stuff_id = str(stuff.id)
+
+                if photo_file:
+                    file_ext = get_file_extension(photo_file.filename)
+                    generated_name = str(uuid.uuid1()) + '.' + file_ext
+
+                    folder_path = app.config['UPLOADS_FOLDER'] + '/stuff/' + stuff_id + '/'
+
+                    new_folder = os.path.dirname(folder_path)
+                    if not os.path.exists(new_folder):
+                        os.makedirs(new_folder)
+
+                    filepath = os.path.join(folder_path, generated_name)
+                    photo_file.save(filepath)
+
+                    file_new_name = 'stuff/' + stuff_id + '/' + generated_name
+
+                    new_photo = StuffPhoto(
+                        owner=current_user,
+                        filename=file_new_name,
+                        stuff=stuff
+                    )
+                    db.session.add(new_photo)
+                    db.session.commit()
+
                 flash(u"Eşya güncellendi.")
 
             else:
@@ -279,10 +307,6 @@ def edit_stuff(stuff_id=None):
 
                     file_new_name = 'stuff/' + stuff_id + '/' + generated_name
 
-                # else:
-                #     generated_name = str(form.category.data)+'.jpg'
-                #     file_new_name = generated_name
-
                     new_photo = StuffPhoto(
                         owner=current_user,
                         filename=file_new_name,
@@ -290,8 +314,6 @@ def edit_stuff(stuff_id=None):
                     )
                     db.session.add(new_photo)
                     db.session.commit()
-
-                # flash(u"Eşya kaydedildi.")
 
                 msg_body = u"Eşya ekleyen: %s %s <br><br>Eşya başlık: %s<br> Eşya detay : %s" \
                            % (current_user.name, current_user.email, stuff.title, stuff.detail)
