@@ -15,7 +15,7 @@
                         <div style="padding: 9px; color:white; background-color:#626262;">{{stuff}}</div>
                     </a>
                     <div class="caption">
-                        <p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">{{stuff.detail |truncate(500)}}</p>
+                        {%if stuff.detail %}<p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">{{stuff.detail |truncate(500)}}</p>{% endif %}
                         {%if user.is_authenticated()%}
                             <a href="/profile/{{stuff.owner.id}}">
                                 <div style="border-top:1px solid #dddddd; padding-top:9px;">
