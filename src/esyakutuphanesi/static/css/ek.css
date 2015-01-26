@@ -206,6 +206,16 @@ form textarea#why, textarea#about {
      height: 100px;
 }
 
+.number-of-shares-text {
+    text-decoration:none !important;
+    color:#333333 !important;
+}
+.number-of-shares-text span {
+    font-size:52px;
+}
+.number-of-shares-text span:hover {
+    text-decoration:underline !important;
+}
 /*POPUP*/
 #backgroundPopup{
     display:none;

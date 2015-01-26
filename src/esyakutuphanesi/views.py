@@ -42,11 +42,16 @@ def home():
         User.approved == True
     ).order_by(Stuff.id.desc()).limit(8)
 
+    stuff_count_wanted = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == True).count()
+    stuff_count_shared = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == False).count()
+
     return render_template(
         "index.html",
         user=current_user,
         last_objects_wanted=last_objects_wanted,
         last_objects_shared=last_objects_shared,
+        stuff_count_wanted=stuff_count_wanted,
+        stuff_count_shared=stuff_count_shared,
         form=form,
         request_form=request_form
     )
