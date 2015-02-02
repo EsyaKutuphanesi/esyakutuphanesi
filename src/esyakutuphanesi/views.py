@@ -1098,10 +1098,10 @@ def review():
         rq = Request.query. \
             filter(Request.id == form.request_id.data).first()
 
-        # reviewed_user_id = rq.user_id if rq.user_id == current_user.id \
-        #     else rq.from_user_id
-
-        reviewed_user_id = rq.from_user_id
+        if rq.user_id == current_user.id:
+            reviewed_user_id = rq.from_user_id
+        else:
+            reviewed_user_id = rq.user_id
 
         new_review = Review(
             user_id=current_user.id,
