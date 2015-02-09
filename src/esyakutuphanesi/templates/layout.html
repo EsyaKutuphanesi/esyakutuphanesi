@@ -2,6 +2,11 @@
 <html>
 <head>
     {% block head %}
+        <meta property="og:image" content="{{url_for('static',filename='images/hq-logo.jpg')}}">
+        <meta property="og:title" content="Eşya Kütüphanesi">
+        <meta property="og:site_name" content="Eşya Kütüphanesi">
+        <meta property="og:description" content="Eşya Kütüphanesi eşya paylaşımını kolaylaştırmayı hedefleyen, ödünç alıp verebileceğiniz bir websitesidir.">
+
         <link rel="shortcut icon" href="{{url_for('static',filename='images/favicon.png')}}">
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
@@ -23,7 +28,6 @@
                 var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             })();
         </script>
-
         <title>{% block title %}Eşya Kütüphanesi{% endblock %}</title>
 
     {% endblock %}
