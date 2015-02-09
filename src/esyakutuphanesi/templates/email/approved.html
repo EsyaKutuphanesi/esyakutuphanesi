@@ -1,11 +1,19 @@
 <p>
     Merhaba {{user}},
 </p>
-<p>
-    Listelemek istediğin {{stuff}} onaylandı ve artık sitede!
-    Listelemeni düzenlemek istersen Eşya Kütüphanem'e girerek
-    "<a href="http://esyakutuphanesi.com/edit_stuff/{{stuff.id}}">düzenle</a>"ye tıklaman yeterli.
-</p>
+{% if stuff.is_wanted %}
+    <p>
+        Ödünç almak için aradığın {{stuff}} onaylandı ve artık sitede!
+        Arama ilanını düzenlemek istersen Eşya Kütüphanem'e girerek
+        "<a href="http://esyakutuphanesi.com/edit_stuff/{{stuff.id}}">düzenle</a>"ye tıklaman yeterli.
+    </p>
+{% else %}
+    <p>
+        Listelemek istediğin {{stuff}} onaylandı ve artık sitede!
+        Listelemeni düzenlemek istersen Eşya Kütüphanem'e girerek
+        "<a href="http://esyakutuphanesi.com/edit_stuff/{{stuff.id}}">düzenle</a>"ye tıklaman yeterli.
+    </p>
+{% endif %}
 <p>
     Güzel günler,
     <br>
