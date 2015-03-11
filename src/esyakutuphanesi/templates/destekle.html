@@ -4,31 +4,76 @@
 {% block content %}
 
 <div class="col-md-12">
-    <h2 class="col-md-12">
-        Bizi destekle!
-    </h2>
-        <div class="col-md-12 col-xs-12">
-        <p>
-            Maddi manevi her türlü desteğin bizim için çok değerli.
-            Herhangi bir şekilde bize destek olmak istersen bize yaz.
-        </p>
-        <br/>
+    <div class="row">
+        <h2 class="col-md-12">
+            Bizi destekle!
+        </h2>
+            <div class="col-md-12 col-xs-12">
+            <p>
+                Maddi manevi her türlü desteğin bizim için çok değerli.
+                Rozet ve magnet satın alarak ya da yeteneklerini bizimle paylaşarak bize destek olabilirsin. Hadi hemen <a href="#bizeyaz">bize yaz!</a>
+            </p>
+            <br/>
+        </div>
     </div>
-    <div class="row col-md-5">
-        <img class="img-responsive" src="/static/images/desteklebebe.png" style="margin:0 auto;"/>
+
+    <div class="row">
+        <h3 class="col-md-12">
+            Rozet ya da magnet +5 kartpostal
+        </h3>
+
+        <div class="row col-md-12"><br>
+            <img class="img-responsive" src="/static/images/rozetmagnet.png" style="margin:0 auto;"/>
+        </div>
+
+        <div class="row col-md-12">
+            <div class="col-md-12 col-xs-12">
+                <br><br>
+                <p>
+                    7 cm çapında, şirin mi şirin bir Eşyakütüphanesi rozeti ya da magneti ve 5 adet kartpostal.
+                    Magnet ve rozet Ayşe'nin ve Daniel'ın el emeğiyle ortaya çıktı.
+                </p>
+                <p style="width:100%; text-align:right;">
+                    Kargo bedeli dahil: <span style="font-size:20px; font-weight:bold;">20TL</span>
+                </p><br>
+<!--                <p>
+                    <span style="font-weight:bold;">Banka bilgisi:</span> <br>
+                    Eşyakütüphanesi Bilişim ve Tasarım Hizmetleri Ltd. Şti.<br>
+                    TEB Ankara Ulus Şubesi<br>
+                    Hesap Numarası: 22671279<br>
+                    IBAN: TR790003200000000022671279
+                </p>-->
+                <p>
+                    Satın alarak bize destek olmak istersen <span style="font-weight:bold;">bilgi[at]esyakutuphanesi.com</span> adresinde bize ulaşabilirsin.
+                </p>
+            </div>
+        </div>
+
+        <div class="row col-md-12"><br>
+            <img class="img-responsive" src="/static/images/kartpostal.png" style="margin:0 auto;"/>
+        </div>
     </div>
-    <div class="row col-md-7">
+    <br>
+    <div class="row">
+        <h3 class="col-md-12">
+            Bize yaz
+        </h3>
+        <div class="col-md-5" id="bizeyaz">
+            <img class="img-responsive" src="/static/images/desteklebebe.png" style="margin:0 auto;"/>
+        </div>
+        <div class="row col-md-7">
 
-        <div class="col-md-12 col-xs-12">
+            <div class="col-md-12 col-xs-12">
 
-            <form action="{{url_for('destekle')}}" method="POST" name="contact_form" enctype="multipart/form-data">
-                {{ form.hidden_tag() }}
-                {{ render_field_with_errors(form.user_name, label_visible=True) }}
-                {{ render_field_with_errors(form.user_email, label_visible=True, placeholder=form.user_email.label.text) }}
-                <label for="message" class="control-label"><label for="message">Bizi nasıl destekleyebilirsin?</label></label>
-                {{ render_field_with_errors(form.message, label_visible=False) }}
-                {{ form.submit(class_='btn btn-success pull-right')}}
-            </form>
+                <form action="{{url_for('destekle')}}" method="POST" name="contact_form" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    {{ render_field_with_errors(form.user_name, label_visible=True) }}
+                    {{ render_field_with_errors(form.user_email, label_visible=True, placeholder=form.user_email.label.text) }}
+                    <label for="message" class="control-label"><label for="message">Bizi nasıl destekleyebilirsin?</label></label>
+                    {{ render_field_with_errors(form.message, label_visible=False) }}
+                    {{ form.submit(class_='btn btn-success pull-right')}}
+                </form>
+            </div>
         </div>
     </div>
 </div>
