@@ -8,8 +8,16 @@
         var url = '{{ url_for('moderation',action="approve") }}'
         window.location = url + '&id=' + id;
     }
+     function reject(id){
+        var url = '{{ url_for('moderation',action="reject") }}'
+        window.location = url + '&id=' + id;
+    }
     function approve_user(user_id){
         var url = '{{ url_for('moderation',user_action="approve_user") }}'
+        window.location = url + '&user_id=' + user_id;
+    }
+     function ask_detail(user_id){
+        var url = '{{ url_for('moderation',user_action="ask_detail") }}'
         window.location = url + '&user_id=' + user_id;
     }
 </script>
@@ -66,7 +74,7 @@
                             <td>{{ stuff.type_id }} - {{ stuff.category_id }}</td>
 
                             <td>{{ stuff.date }}</td>
-                            <td>
+                            <td style="width:126px;">
                                 {% if stuff.owner.approved == 1%}
                                     <button class="btn btn-success" onclick="approve({{ stuff.id }})">
                                         <span class="glyphicon glyphicon-thumbs-up"></span><span class="glyphicon glyphicon-heart"></span>
@@ -76,12 +84,9 @@
                                         <span class="glyphicon glyphicon-thumbs-up"></span><span class="glyphicon glyphicon-user"></span>
                                     </button>
                                 {% endif%}
-                                <!--<button class="btn btn-info" onclick="request_detail({{ stuff.id }})">
-                                    <span class="glyphicon glyphicon-info-sign"></span>
-                                </button>
-                                <button class="btn btn-danger" onclick="cancel({{ stuff.id }})">
+                                <button class="btn btn-danger" onclick="reject({{ stuff.id }})">
                                     <span class="glyphicon glyphicon-remove"></span>
-                                </button>-->
+                                </button>
                             </td>
                         </tr>
                     {% endif %}
@@ -97,10 +102,10 @@
                 <tr>
                     <th>id</th>
                     <th>E-posta</th>
-                    <th>İsim soyisim</th>
+                    <th>İsim</th>
                     <th>Detay - Hakkında</th>
                     <th>Tarih</th>
-                    <th>Aksiyon</th>
+                    <th style="width:126px;">Aksiyon</th>
                 </tr>
                 {% for users in new_user %}
                     {% if users.approved==0 %}
@@ -114,12 +119,9 @@
                                 <button class="btn btn-success" onclick="approve_user({{ users.id }})">
                                     <span class="glyphicon glyphicon-thumbs-up"></span><span class="glyphicon glyphicon-user"></span>
                                 </button>
-                                <!--<button class="btn btn-info" onclick="request_detail_user({{ users.id }})">
+                                <button class="btn btn-info" onclick="ask_detail({{ users.id }})">
                                     <span class="glyphicon glyphicon-info-sign"></span>
                                 </button>
-                                <button class="btn btn-danger" onclick="cancel_user({{ users.id }})">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </button>-->
                             </td>
                         </tr>
                     {% endif%}

@@ -1,0 +1,16 @@
+Merhaba {{user}},
+
+Eşya Kütüphanesi şu an sadece ödünç alıp verme üzerine işliyor.
+Yani kısa süreliğine eşyanı ödünç veriyorsun, sonra geri alıyorsun.
+
+Listelemek istediğin {{stuff}} eşyanı ödünç değil hibe için listelendiğini gördük ve bu sebepten onaylamadık.
+
+Hibe ya da hediye etmek için Verrr.com ve Freecycle gibi oluşumları öneririz. :)
+
+Güzel günler,
+Eşya Kütüphanesi Ekibi
+
+esyakutuphanesi.com
+Twitter: @EsyaKutuphanesi
+Facebook: facebook.com/EsyaKutuphanesi
+Zumbara: zumbara.com/profil/12340

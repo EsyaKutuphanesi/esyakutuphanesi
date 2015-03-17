@@ -1,0 +1,33 @@
+<p>
+    Merhaba {{user}},
+</p>
+{% if stuff.is_wanted %}
+    <p>
+        Eşya Kütüphanesi şu an sadece ödünç alıp verme üzerine işliyor.
+        Yani kısa süreliğine eşyanı ödünç veriyorsun, sonra geri alıyorsun.
+    </p>
+    <p>
+        Ödünç almak için aradığın "{{stuff}}" eşyanı ödünç değil hibe almak için listelendiğini gördük
+        ve bu sebepten onaylamadık.
+    </p>
+{% else %}
+    <p>
+        Listelemek istediğin "{{stuff}}" eşyanı ödünç değil hibe etmek için listelendiğini gördük
+        ve bu sebepten onaylamadık.
+    </p>
+{% endif %}
+    <p>
+        Hibe ya da hediye etmek için <a href="http://verrr.com/"> Verrr.com</a> ve
+        <a href="https://www.freecycle.org/search"> Freecycle</a> gibi oluşumları öneririz. :)
+    </p>
+<p>
+    Güzel günler,
+    <br>
+    Eşya Kütüphanesi Ekibi
+</p>
+<p>
+    <a href="http://esyakutuphanesi.com/"> esyakutuphanesi.com </a><br/>
+    Twitter:<a href="https://twitter.com/esyakutuphanesi"> @EsyaKutuphanesi </a><br/>
+    Facebook:<a href="https://facebook.com/EsyaKutuphanesi"> facebook.com/EsyaKutuphanesi </a><br/>
+    Zumbara:<a href="http://zumbara.com/profil/12340"> zumbara.com/profil/12340</a>
+</p>

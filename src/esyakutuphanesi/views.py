@@ -444,7 +444,7 @@ def show_stuff(stuff_id):
             stuff=stuff,
             reviews=reviews
         )
-    elif stuff.approved == 0 and stuff.owner == current_user:
+    elif stuff.approved == 0 or stuff.approved == -2 and stuff.owner == current_user:
         return redirect(url_for("edit_stuff", stuff_id=stuff_id))
 
     else:
@@ -858,24 +858,25 @@ def moderation():
 
     new_user = User.query.filter(User.id > 0).order_by(User.id.desc()).limit(40)
 
-    if action == 'approve' and id > 0:
-        if 'admin' in current_user.roles:
-            stuff = Stuff.query.filter(Stuff.approved == 0,
-                                       Stuff.id == id). \
-                order_by(Stuff.id.desc()).first()
-        else:
-            stuff = Stuff.query.join(Group).join(GroupMembership) \
-                .filter(GroupMembership.user_id == current_user.id,
-                        GroupMembership.is_moderator,
-                        Stuff.id == id,
-                        Stuff.approved == 0). \
-                order_by(Stuff.id.desc()).first()
-        if stuff:
+    if 'admin' in current_user.roles:
+        stuff = Stuff.query.filter(Stuff.approved == 0,
+                                   Stuff.id == id). \
+            order_by(Stuff.id.desc()).first()
+    else:
+        stuff = Stuff.query.join(Group).join(GroupMembership) \
+            .filter(GroupMembership.user_id == current_user.id,
+                    GroupMembership.is_moderator,
+                    Stuff.id == id,
+                    Stuff.approved == 0). \
+            order_by(Stuff.id.desc()).first()
+
+    if stuff:
+        if action == 'approve' and id > 0:
+
             stuff.approved = 1
             db.session.commit()
 
             msg_body = render_template('email/approved.txt', user=stuff.owner, stuff=stuff)
-
             html_msg = render_template('email/approved.html', user=stuff.owner, stuff=stuff)
 
             msg_subject = u"Eşyan artık sitede!"
@@ -889,14 +890,35 @@ def moderation():
             )
 
             mail.send(msg)
-
             flash(u"Eşya onaylandı ve e-posta gönderildi!")
 
-    if user_action == 'approve_user' and user_id > 0:
-        unapproved_user = User.query.filter(User.approved == False, User.id == user_id). \
-            order_by(User.id.desc()).first()
+        elif action == 'reject' and id > 0:
 
-        if unapproved_user:
+            stuff.approved = '-2'
+            db.session.commit()
+
+            msg_body = render_template('email/reject.txt', user=stuff.owner, stuff=stuff)
+            html_msg = render_template('email/reject.html', user=stuff.owner, stuff=stuff)
+
+            msg_subject = u"Eşyan onaylanmadı"
+
+            msg = MailMessage(
+                body=msg_body,
+                html=html_msg,
+                subject=msg_subject,
+                sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
+                recipients=[stuff.owner.email]
+            )
+
+            mail.send(msg)
+            flash(u"Eşya onaylanmadı ve e-posta gönderildi!")
+
+    unapproved_user = User.query.filter(User.approved == False, User.id == user_id).\
+        order_by(User.id.desc()).first()
+
+    if unapproved_user:
+        if user_action == 'approve_user' and user_id > 0:
+
             unapproved_user.approved = True
             db.session.commit()
 
@@ -911,10 +933,26 @@ def moderation():
                 sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
                 recipients=[unapproved_user.email]
             )
-
             mail.send(msg)
 
             flash(u"Kullanıcı onaylandı ve e-posta gönderildi!")
+
+        elif user_action == 'ask_detail' and user_id > 0:
+
+            msg_body = render_template('email/request_detail.txt', user=unapproved_user)
+            html_msg = render_template('email/request_detail.html', user=unapproved_user)
+
+            msg_subject = u"Ufak bir rica!"
+            msg = MailMessage(
+                body=msg_body,
+                html=html_msg,
+                subject=msg_subject,
+                sender=(u"Eşya Kütüphanesi", "bilgi@esyakutuphanesi.com"),
+                recipients=[unapproved_user.email]
+            )
+            mail.send(msg)
+
+            flash(u"Kullanıcıya e-posta gönderilerek daha fazla bilgi vermesi talep edildi!")
 
     if 'admin' in current_user.roles:
         last_objects = Stuff.query.filter(Stuff.id > 0).\

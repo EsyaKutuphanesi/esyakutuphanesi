@@ -4,6 +4,17 @@
         <div class="item col-md-3 col-sm-3 col-xs-12" style="padding-right:7px; padding-left:7px;">
             <!--item-->
                 <div class="thumbnail">
+                    {% if stuff.approved == 0 %}
+                        <div style="position: absolute; text-align: center; width: 92%; background-color: #5bc0de;
+                        color:white; padding:5px;">
+                            ONAY BEKLİYOR
+                        </div>
+                    {% elif stuff.approved == -2 %}
+                        <div style="position: absolute; text-align: center; width: 92%; background-color: #d9534f;
+                        color:white; padding:5px;">
+                            ONAYLANMADI
+                        </div>
+                    {%endif%}
                     <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                         {%if stuff.photos%}
                             <img src="/static/photos/{{stuff.photos[0].filename}}"/>
