@@ -1075,8 +1075,7 @@ def groups():
 @app.route('/group/<group_name>')
 @login_required
 def group(group_name):
-    group_info = Group.query.filter(Group.name.ilike('%{}%'.format(group_name))).first()
-
+    group_info = Group.query.filter(Group.name.ilike('%' + group_name + '%')).first()
     is_group_member = User.query.join(GroupMembership).\
         filter(GroupMembership.group_id == group_info.id, GroupMembership.user == current_user)
 
