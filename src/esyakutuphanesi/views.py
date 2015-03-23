@@ -32,6 +32,7 @@ def home():
         Stuff.approved == 1,
         Stuff.is_wanted == False,
         Stuff.owner_id == User.id,
+        Stuff.group_id == None,
         User.approved == True
     ).order_by(Stuff.id.desc()).limit(8)
 
@@ -39,6 +40,7 @@ def home():
         Stuff.approved == 1,
         Stuff.is_wanted == True,
         Stuff.owner_id == User.id,
+        Stuff.group_id == None,
         User.approved == True
     ).order_by(Stuff.id.desc()).limit(8)
 
@@ -520,6 +522,7 @@ def category_view(category_name=None):
             stuff_list = Stuff.query.join(User).filter(
                 Stuff.approved == 1,
                 Stuff.owner_id == User.id,
+                Stuff.group_id == None,
                 User.approved == True
             ).order_by(Stuff.id.desc())
         else:
@@ -527,6 +530,7 @@ def category_view(category_name=None):
                 Stuff.is_wanted == is_wanted,
                 Stuff.approved == 1,
                 Stuff.owner_id == User.id,
+                Stuff.group_id == None,
                 User.approved == True
             ).order_by(Stuff.id.desc())
         category_value = 'all'
@@ -539,6 +543,7 @@ def category_view(category_name=None):
                 Stuff.category == category,
                 Stuff.approved == 1,
                 Stuff.owner_id == User.id,
+                Stuff.group_id == None,
                 User.approved == True
             ).order_by(Stuff.id.desc())
 
@@ -548,6 +553,7 @@ def category_view(category_name=None):
                 Stuff.is_wanted == is_wanted,
                 Stuff.approved == 1,
                 Stuff.owner_id == User.id,
+                Stuff.group_id == None,
                 User.approved == True
             ).order_by(Stuff.id.desc())
 
@@ -605,6 +611,7 @@ def category_stuff_type_view(category_name, type_name):
             StuffType.id == stuff_type.id,
             Stuff.approved == 1,
             Stuff.owner_id == User.id,
+            Stuff.group_id == None,
             User.approved == True
         ).order_by(Stuff.id.desc())
             # filter(Category.id == category.id)
@@ -614,6 +621,7 @@ def category_stuff_type_view(category_name, type_name):
             StuffType.id == stuff_type.id,
             Stuff.approved == 1,
             Stuff.is_wanted == is_wanted,
+            Stuff.group_id == None,
             Stuff.owner_id == User.id,
             User.approved == True
         ).order_by(Stuff.id.desc())
@@ -985,10 +993,10 @@ def get_profile(user_id=None):
 
         user_stuff_shared = Stuff.query.join(User).\
             filter(Stuff.owner_id == user_id, Stuff.is_wanted == False, Stuff.approved == 1,
-                   Stuff.owner_id == User.id, User.approved == True).order_by(Stuff.id.desc())
+                   Stuff.owner_id == User.id, Stuff.group_id == None, User.approved == True).order_by(Stuff.id.desc())
         user_stuff_wanted = Stuff.query.join(User).\
             filter(Stuff.owner_id == user_id, Stuff.is_wanted == True, Stuff.approved == 1,
-                   Stuff.owner_id == User.id, User.approved == True).order_by(Stuff.id.desc())
+                   Stuff.owner_id == User.id, Stuff.group_id == None, User.approved == True).order_by(Stuff.id.desc())
 
         reviews = Review.query.filter(Review.reviewed_user_id == user_id)
         reviews_count = reviews.count()
@@ -1064,21 +1072,31 @@ def groups():
     return render_template("groups.html", form=form, user=current_user)
 
 
-@app.route('/group/<group_id>')
+@app.route('/group/<group_name>')
 @login_required
-def group(group_id):
-    group_info = Group.query.filter(Group.id == group_id).first()
+def group(group_name):
+    group_info = Group.query.filter(Group.name.ilike('%{}%'.format(group_name))).first()
 
-    group_shares = Stuff.query.filter(Stuff.group_id == group_id)
+    is_group_member = User.query.join(GroupMembership).\
+        filter(GroupMembership.group_id == group_info.id, GroupMembership.user == current_user)
 
-    group_members = User.query.join(GroupMembership).\
-        filter(GroupMembership.group_id == group_id, User.id == GroupMembership.user_id)
+    if is_group_member:
+        if group_info:
 
-    for members_photos in group_members:
-        photos = Photo.query.filter(Photo.owner_id == members_photos.id)
+            group_shares = Stuff.query.filter(Stuff.group_id == group_info.id, Stuff.is_wanted == False)
+            group_wanted = Stuff.query.filter(Stuff.group_id == group_info.id, Stuff.is_wanted == True)
 
-        return render_template("group.html", group_info=group_info, group_shares=group_shares,
-                               group_members=group_members, photos=photos, user=current_user)
+            group_members = User.query.join(GroupMembership).\
+                filter(GroupMembership.group_id == group_info.id, User.id == GroupMembership.user_id)
+
+            for members_photos in group_members:
+                photos = Photo.query.filter(Photo.owner_id == members_photos.id)
+
+                return render_template("group.html", group_info=group_info, group_shares=group_shares,
+                                       group_wanted=group_wanted, group_members=group_members,
+                                       photos=photos, user=current_user)
+    else:
+        return render_template('/404.html', user=current_user)
 
 
 @app.route('/invite', methods=["GET", "POST"])
@@ -1286,3 +1304,45 @@ def destekle():
         return redirect(url_for('home'))
 
     return render_template("destekle.html", form=form, user=current_user)
+
+@app.route('/edit_group/<group_id>', methods=['GET', 'POST'])
+@login_required
+def edit_group(group_id):
+    form = EditGroupForm()
+    if group_id:
+        group_detail = Group.query.filter(Group.id == group_id).first()
+
+        if group_detail:
+            form.fill_form(group_detail)
+
+        if request.method == 'POST' and form.validate_on_submit():
+            if group_id:
+                photo_file = form.photo.data
+
+                if photo_file:
+                    file_ext = get_file_extension(photo_file.filename)
+                    generated_name = str(uuid.uuid1()) + '.' + file_ext
+
+                    folder_path = app.config['UPLOADS_FOLDER'] + '/group/' + group_id + '/'
+                    new_folder = os.path.dirname(folder_path)
+                    if not os.path.exists(new_folder):
+                        os.makedirs(new_folder)
+
+                    filepath = os.path.join(folder_path, generated_name)
+
+                    photo_file.save(filepath)
+                    filename = 'group/' + group_id + '/' + generated_name
+
+                    Group.query.filter(Group.id == group_id).\
+                        update({Group.logo: filename})
+
+                Group.query.filter(Group.id == group_id).\
+                    update({Group.name: form.name.data,
+                            Group.description: form.description.data})
+                db.session.commit()
+
+                flash(u"Grup güncellendi.", group_id)
+
+        return render_template('edit_group.html', form=form, action='Edit', group=group_detail, user=current_user)
+    else:
+        return render_template('/404.html', user=current_user)

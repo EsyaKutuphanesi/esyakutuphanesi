@@ -1,3 +1,6 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% from "macros/item_box.html" import render_item_box %}
+{% from "macros/request_modal.html" import request_modal %}
 {% extends "layout.html" %}
 {% block content %}
 
@@ -18,67 +21,74 @@
 </script>
 
 <div class="row">
-    <div class="col-md-2 col-sm-2" style="margin-top: 20px;"><img src="/photos/cigdemim.png" class="img-responsive"/></div>
+    <div class="col-md-2 col-sm-2">
+        <div style="margin-top: 20px;">
+            <img src="/photos/{{group_info.logo}}" class="img-responsive" style="width: 100px; height:100px;"/>
+        </div>
+    </div>
     <div class="col-md-10 col-sm-10">
         <h2>{{group_info.name}}</h2>
         <div>{{group_info.description}}</div>
     </div>
 </div>
 
-<div class="row" style="margin-top:20px;">
-    <div class="col-md-10 col-sm-10">
-        {% if group_shares[0]%}
-            <div class="col-md-12 col-sm-12">
-                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Kütüphaneye Eklenenler</h3>
-            </div>
-            <div class="col-md-12 col-sm-12">
-                <div id="container" class="row fluid">
-                    {% for stuff in group_shares %}
-                        <div class="col-md-4 item col-sm-4">
-                            <div class="thumbnail">
-                                <a href="{{stuff.url}}">
-                                    {% if stuff.photos %}
-                                        <img src="/photos/{{stuff.photos[0].filename}}"/>
-                                    {% else %}
-                                        <img src="/static/images/ek.png"/>
-                                    {% endif %}
-                                </a>
-                                <div class="caption">
-                                    <a href="{{stuff.url}}">
-                                        <h3 style="font-size:18px; margin-top:0;">{{stuff}}</h3>
-                                    </a>
-                                    <p style="font-size:12px; overflow: hidden;">{{stuff.detail |truncate(100)}}</p>
-                                    <p>
-                                        {% if not stuff.owner_id == user.id %}
-                                            <button type="button" style="width:100%;" class="btn btn-success" onclick="window.location.href='/make_request/{{stuff.id}}'">Ödünç iste</button>
-                                        {% else %}
-                                            <button type="button" style="width:100%;" class="btn btn-warning" onclick="window.location.href='/edit_stuff/{{stuff.id}}'">Düzenle/Kaldır</button>
-                                        {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+<div class="col-md-10 col-sm-10">
+    <div class="row">
+        {% if group_shares[0] %}
+            <div class="col-md-12">
+                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">{{group_shares.is_wanted}}Kütüphaneye Eklenenler</h3>
             </div>
         {% else %}
-            PAYLAŞIM YAPILMADI
+            <div class="col-md-12">
+                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Hemen paylaşabilirsin ^^</h3>
+            </div>
+            <div class="col-md-12">
+                <a href="/new_stuff" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'Group Page'])">
+                    <img src="/static/images/esyapaylashadi.png" class="img-responsive"/>
+                </a>
+            </div>
         {% endif %}
-    </div>
-    <div class="col-md-2 col-sm-2">
-        <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Üyeler</h3>
-        <div style="width:100%;">
-            {% for members in group_members %}
-                <!--{{members.name}}-->
-                <div style="width:46%; margin:2%; float:left;">
-                    <a href="/profile/{{members.id}}">
-                        <img src="/photos/{{members.photo}}" class="img-responsive"/>
-                    </a>
-                </div>
-            {% endfor %}
+        <div class="col-md-12">
+            <div id="container" class="row fluid">
+                {% for stuff in group_shares%}
+                    {{ render_item_box(stuff, user) }}
+                {% endfor %}
+            </div>
         </div>
-        <button class="btn btn-info" style="width:100%; margin:10px auto;">Davet et</button>
     </div>
+
+    <div class="row">
+        {% if group_wanted[0] %}
+            <div class="col-md-12">
+                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Aranıyor!</h3>
+            </div>
+        {% endif %}
+        <div class="col-md-12">
+            <div id="container" class="row fluid">
+                {% for stuff in group_wanted %}
+                    {{ render_item_box(stuff, user, True) }}
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-2 col-sm-2">
+    <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Üyeler</h3>
+    <div style="width:100%;">
+        {% for members in group_members %}
+            <!--{{members.name}}-->
+            <div style="width:46%; margin:2%; float:left; height:50px;">
+                <a href="/profile/{{members.id}}">
+                    {% if members.photo %}
+                        <img src="/photos/{{members.photo}}" class="img-responsive"/>
+                    {% else %}
+                        <img src="/static/images/ek.png" class="img-responsive">
+                    {% endif%}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <button class="btn btn-info" style="width:100%; margin:10px auto;">Davet et</button>
 </div>
 
 {% endblock %}

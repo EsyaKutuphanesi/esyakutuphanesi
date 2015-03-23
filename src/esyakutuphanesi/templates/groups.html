@@ -24,7 +24,7 @@
 
 <div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
     <div class="row">
-        <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Grup kur</button>
+        <!--<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Grup kur</button>-->
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -52,13 +52,14 @@
     {% for membership in user.groups %}
         <div class="media">
             <a class="pull-left" href="#">
-                <img class="media-object" src="/photos/{{membership.group.logo}}" style="width: 64px; height: auto;"></a>
+                <img class="media-object" src="/photos/{{membership.group.logo}}" style="width: 64px; height: 64px;"></a>
             <div class="media-body">
-                <a href="/group/{{membership.group.id}}">
+                <a href="/group/{{membership.group.name}}">
                     <h4 class="media-heading">{{membership.group.name}}</h4>
                 </a>
                 {{membership.group.description}}
             </div>
+            <a href="/edit_group/{{membership.group.id}}">Düzenle</a>
         </div>
     {% endfor %}
 </div>

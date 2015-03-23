@@ -10,6 +10,7 @@ from models import User
 class EditUserForm(Form):
     userid = HiddenField('userid')
     photo = FileField(u'Resim Yükle')
+    group_photo = FileField(u'Grup Resmi Yükle')
     name = TextField(u'İsim', [
         validators.Length(min=4, max=25, message=u'En az 4, en fazla 25 karakter girebilirsin.'),
         validators.Required(u'İsmini girmelisin.')
@@ -270,6 +271,30 @@ class ContactForm(Form):
     ])
 
     submit = SubmitField(u"Gönder")
+
+    def validate(self):
+        rv = Form.validate(self)
+        if not rv:
+            return False
+
+        return True
+
+
+class EditGroupForm(Form):
+    photo = FileField(u'Grup Resmi Yükle')
+    name = TextField(u'İsim', [
+        validators.Length(min=2, max=25, message=u'En az 4, en fazla 25 karakter girebilirsin.'),
+        validators.Required(u'Grup ismini girmelisin.')
+    ])
+    description = TextAreaField(u'Açıklama', [
+        validators.Length(min=0, max=1000),
+    ])
+
+    submit = SubmitField(u"Güncelle")
+
+    def fill_form(self, group):
+        self.name.data = group.name
+        self.description.data = group.description
 
     def validate(self):
         rv = Form.validate(self)

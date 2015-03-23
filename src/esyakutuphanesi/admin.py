@@ -5,7 +5,7 @@ from flask.ext.admin import Admin, AdminIndexView, expose
 from flask_mail import Message as MailMessage
 
 from __init__ import app, db, mail
-from models import User, Role, Stuff, Category, StuffType, Request
+from models import User, Role, Stuff, Category, StuffType, Request, Group, GroupMembership
 
 from flask.ext.admin.contrib.sqla import ModelView
 
@@ -115,13 +115,25 @@ admin.add_view(
         Stuff,
         db.session,
         column_list=('id', 'owner', 'stuff_address', 'stuff_type', 'category',
-                     'title', 'detail', 'create_at', 'approved'),
+                     'title', 'detail', 'group_id', 'approved'),
         column_searchable_list=('title', 'detail',),
         column_sortable_list=(('id', Stuff.id),),
         column_filters=('id', 'stuff_type', 'category', 'approved', 'owner')
     )
 )
 
+admin.add_view(
+    ExtendedModelView(
+        Group,
+        db.session,
+        column_list=('id', 'name', 'description', 'logo'),
+        column_searchable_list=('name', 'description',),
+        column_sortable_list=(('id', Group.id),),
+        column_filters=('id', 'name', 'description')
+    )
+)
+
+admin.add_view(ExtendedModelView(GroupMembership, db.session))
 admin.add_view(ExtendedModelView(Role, db.session))
 admin.add_view(ExtendedModelView(Category, db.session))
 admin.add_view(ExtendedModelView(StuffType, db.session))

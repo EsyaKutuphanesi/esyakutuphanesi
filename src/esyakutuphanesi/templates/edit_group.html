@@ -1,0 +1,38 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field, show_provider_button %}
+{% extends "layout.html" %}
+{% block title %}{{ super() }} - Ayarlar{% endblock %}
+{% block content %}
+
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#">Düzenle - {{group.name}}</a>
+        </li>
+    </ul>
+</div>
+
+<div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
+    <form action="{{edit_group}}" method="POST" name="edit_group_form" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-12 text-center" style="overflow:hidden; margin-bottom:10px;">
+                {% if group.logo %}
+                    <img height="250" src="/photos/{{group.logo}}"/>
+                {% else %}
+                    <img height="250" src="/static/images/ek.png"/>
+                {% endif %}
+            </div>
+            <div class="col-md-12">{{ render_field_with_errors(form.photo) }}</div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            {{ render_field_with_errors(form.name) }}
+            {{ render_field_with_errors(form.description) }}
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                {{ form.submit(class_='btn btn-success pull-right')}}
+            </div>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
