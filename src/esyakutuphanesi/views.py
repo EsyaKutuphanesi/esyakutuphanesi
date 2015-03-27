@@ -1056,21 +1056,24 @@ def get_profile(user_id=None):
 @login_required
 def groups():
     form = CreateGroupForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        group_info = Group(
-            name=request.form.get('group_name'),
-            description=request.form.get('text'),
-            logo="logo"
-        )
-        db.session.add(group_info)
-        db.session.commit()
+    membership = GroupMembership.query.filter(GroupMembership.user == current_user).first()
+    if membership:
+        if request.method == 'POST' and form.validate_on_submit():
+            group_info = Group(
+                name=request.form.get('group_name'),
+                description=request.form.get('text'),
+                logo="logo"
+            )
+            db.session.add(group_info)
+            db.session.commit()
 
-        # mail gelsin tabi burda bize.
+            # mail gelsin tabi burda bize.
 
-        flash(u"Grup kurma isteğiniz gönderildi :)")
+            flash(u"Grup kurma isteğiniz gönderildi :)")
 
-    return render_template("groups.html", form=form, user=current_user)
-
+        return render_template("groups.html", form=form, user=current_user)
+    else:
+        return render_template('/404.html', user=current_user)
 
 @app.route('/group/<group_name>')
 @login_required
@@ -1308,7 +1311,10 @@ def destekle():
 @login_required
 def edit_group(group_id):
     form = EditGroupForm()
-    if group_id:
+    membership = GroupMembership.query.filter(GroupMembership.group_id == group_id,
+                                              GroupMembership.is_moderator,
+                                              GroupMembership.user == current_user).first()
+    if group_id and membership:
         group_detail = Group.query.filter(Group.id == group_id).first()
 
         if group_detail:
