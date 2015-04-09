@@ -34,7 +34,7 @@ def home():
         Stuff.owner_id == User.id,
         Stuff.group_id == None,
         User.approved == True
-    ).order_by(Stuff.id.desc()).limit(8)
+    ).order_by(Stuff.id.desc()).limit(3)
 
     last_objects_wanted = Stuff.query.join(User).filter(
         Stuff.approved == 1,
@@ -42,7 +42,7 @@ def home():
         Stuff.owner_id == User.id,
         Stuff.group_id == None,
         User.approved == True
-    ).order_by(Stuff.id.desc()).limit(8)
+    ).order_by(Stuff.id.desc()).limit(3)
 
     stuff_count_wanted = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == True).count()
     stuff_count_shared = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == False).count()
@@ -115,8 +115,8 @@ def search():
     )
 
 
-@app.route('/edit_address/<address_id>', methods=["GET", "POST"])
-@app.route('/new_address', methods=["GET", "POST"])
+@app.route('/adres_duzenle/<address_id>', methods=["GET", "POST"])
+@app.route('/yeni_adres', methods=["GET", "POST"])
 @login_required
 def edit_address(address_id=None):
     form = EditAddressForm()
@@ -163,8 +163,8 @@ def edit_address(address_id=None):
                            action='Edit', user=current_user, form=form)
 
 
-@app.route('/edit_stuff/<stuff_id>', methods=["GET", "POST"])
-@app.route('/new_stuff', methods=["GET", "POST"])
+@app.route('/esya_duzenle/<stuff_id>', methods=["GET", "POST"])
+@app.route('/esya_listele', methods=["GET", "POST"])
 @login_required
 def edit_stuff(stuff_id=None):
     stuff = Stuff.query.filter(Stuff.id == stuff_id).first()
@@ -370,7 +370,7 @@ def edit_stuff(stuff_id=None):
     )
 
 
-@app.route('/my_stuff')
+@app.route('/esyalarim')
 @login_required
 def my_stuff():
     return render_template("my_stuff.html", user=current_user)
@@ -408,7 +408,7 @@ def get_categories(type_id=None):
     return category_list_json
 
 
-@app.route('/show_stuff/<stuff_id>')
+@app.route('/esya_detay/<stuff_id>')
 @login_required
 def show_stuff(stuff_id):
     request_form = RequestForm()
@@ -454,7 +454,7 @@ def show_stuff(stuff_id):
         return render_template('/404.html', user=current_user)
 
 
-@app.route('/edit_profile', methods=['GET', 'POST'])
+@app.route('/profil_duzenle', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     form = EditUserForm()
@@ -652,7 +652,7 @@ def category_stuff_type_view(category_name, type_name):
     )
 
 
-@app.route('/my_messages')
+@app.route('/mesajlarim')
 @login_required
 def my_messages():
     return render_template("my_messages.html", user=current_user)
@@ -666,14 +666,14 @@ def get_unread_messages():
     return jsonify(count=message_count)
 
 
-@app.route('/conversation/<conversation_id>', methods=["GET", "POST"])
+@app.route('/mesaj/<conversation_id>', methods=["GET", "POST"])
 @login_required
 def show_conversation(conversation_id):
     conversation = Conversation.query.\
         filter(Conversation.id == conversation_id).first()
 
     if current_user not in conversation.users:
-        return redirect('/my_messages')
+        return redirect('/conversation')
 
     else:
         form = ConversationForm()
@@ -979,8 +979,8 @@ def moderation():
     )
 
 
-@app.route('/profile/<user_id>')
-@app.route('/profile')
+@app.route('/profil/<user_id>')
+@app.route('/profil')
 @login_required
 def get_profile(user_id=None):
     if user_id is None:
@@ -1036,6 +1036,11 @@ def get_profile(user_id=None):
         else:
             return_ratio = 0
 
+        user_stuff_number = Stuff.query.join(User).filter(Stuff.owner_id == user_id,
+                                                          Stuff.approved == 1,
+                                                          Stuff.group_id == None,
+                                                          User.approved == True).count()
+
         return render_template(
             "profile.html",
             user_stuff_shared=user_stuff_shared,
@@ -1045,14 +1050,15 @@ def get_profile(user_id=None):
             user=current_user,
             rating=avg_rate,
             request_form=request_form,
-            return_ratio=return_ratio
+            return_ratio=return_ratio,
+            user_stuff_number=user_stuff_number
         )
 
     else:
         return render_template('/404.html', user=current_user)
 
 
-@app.route('/groups', methods=['GET', 'POST'])
+@app.route('/gruplar', methods=['GET', 'POST'])
 @login_required
 def groups():
     form = CreateGroupForm()
@@ -1075,7 +1081,7 @@ def groups():
     else:
         return render_template('/404.html', user=current_user)
 
-@app.route('/group/<group_name>')
+@app.route('/grup/<group_name>')
 @login_required
 def group(group_name):
     group_info = Group.query.filter(Group.name.ilike('%' + group_name + '%')).first()
@@ -1101,7 +1107,7 @@ def group(group_name):
         return render_template('/404.html', user=current_user)
 
 
-@app.route('/invite', methods=["GET", "POST"])
+@app.route('/davet_et', methods=["GET", "POST"])
 @login_required
 def invite():
     form = InvitationForm()
@@ -1188,12 +1194,12 @@ def purpose():
     return render_template("purpose.html", user=current_user)
 
 
-@app.route('/press')
+@app.route('/basinda_biz')
 def press():
     return render_template("press.html", user=current_user)
 
 
-@app.route('/contact', methods=["GET", "POST"])
+@app.route('/iletisim', methods=["GET", "POST"])
 def contact():
     form = ContactForm()
 
@@ -1239,7 +1245,7 @@ def sos():
     return render_template("sos.html", user=current_user)
 
 
-@app.route('/user_agreement')
+@app.route('/kullanici_sozlesmesi')
 def user_agreement():
     return render_template("user_agreement.html", user=current_user)
 
@@ -1259,6 +1265,14 @@ def team_and_volunteering():
     return render_template("team_and_volunteering.html", user=current_user)
 
 
+@app.route('/nasil_calisir')
+def nasil_calisir():
+    return render_template("nasil_calisir.html", user=current_user)
+
+@app.route('/infografik')
+def infografik():
+    return render_template("infografik.html", user=current_user)
+
 @app.route('/stats')
 def stats_view():
     user_count = User.query.count()
@@ -1268,7 +1282,8 @@ def stats_view():
     stuff_count = Stuff.query.filter(Stuff.approved == 1).count()
     user_with_stuff_count = Stuff.query.filter(Stuff.approved == 1).distinct(Stuff.owner_id).count()
     request_count = Request.query.count()
-    request_ok_count = Request.query.filter(Request.status != 0).count()
+    request_ok_count = Request.query.filter(Request.status == 1).count()
+    request_ok_back_count = Request.query.filter(Request.status == 2).count()
 
     return render_template(
         "stats.html",
@@ -1279,7 +1294,8 @@ def stats_view():
         stuff_count=stuff_count,
         user_with_stuff_count=user_with_stuff_count,
         request_count=request_count,
-        request_ok_count=request_ok_count
+        request_ok_count=request_ok_count,
+        request_ok_back_count=request_ok_back_count
     )
 
 @app.route('/destekle', methods=["GET", "POST"])
@@ -1307,7 +1323,7 @@ def destekle():
 
     return render_template("destekle.html", form=form, user=current_user)
 
-@app.route('/edit_group/<group_id>', methods=['GET', 'POST'])
+@app.route('/grup_duzenle/<group_id>', methods=['GET', 'POST'])
 @login_required
 def edit_group(group_id):
     form = EditGroupForm()

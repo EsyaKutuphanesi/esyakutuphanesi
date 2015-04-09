@@ -3,58 +3,68 @@
 {% block title %}{{ super() }} - Davet Et{% endblock %}
 {% block content %}
 
-<script src="http://connect.facebook.net/en_US/all.js"></script>
-<script>
-    FB.init({
-        appId:'1478430419047146',
-        cookie:true,
-        status:true,
-        xfbml:true
-    });
-
-    function FacebookInviteFriends(){
-        FB.ui({
-        method: 'apprequests',
-        message: 'Eşyalarını Eşyakütüphanesi üzerinden ödünç verebilir, ihtiyacın olanları ödünç alabilirsin :)'
+    <script src="http://connect.facebook.net/en_US/all.js"></script>
+    <script>
+        FB.init({
+            appId:'1478430419047146',
+            cookie:true,
+            status:true,
+            xfbml:true
         });
-    }
-</script>
 
-<div class="row">
-    <ul class="nav nav-tabs">
-        <li>
-            <a href="/edit_profile" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'My_messages Page'])">Ayarlar</a>
-        </li>
-        <li>
-            <a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_messages Page'])">Mesajlar</a>
-        </li>
-        <li>
-            <a href="/my_stuff" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'My_messages Page'])">Eşya Kütüphanem</a>
-        </li>
-        <!--<li>
-            <a href="/groups">Gruplarım</a>
-        </li>-->
-        <li class="active">
-            <a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_messages Page'])">Davet Et</a>
-        </li>
-    </ul>
-</div>
+        function FacebookInviteFriends(){
+            FB.ui({
+            method: 'apprequests',
+            message: 'Eşyalarını Eşyakütüphanesi üzerinden ödünç verebilir, ihtiyacın olanları ödünç alabilirsin :)'
+            });
+        }
+    </script>
 
-<div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
-    <div class="col-md-5 col-sm-5 col-xs-12">
-        <h5>Facebook ile davet et</h5>
-        <div id="fb-root"></div>
-        <button type="button" class="btn" onclick="FacebookInviteFriends();" style="color:white; background-color:#3c599f;">Facebook arkadaşlarını davet et</button>
+    <div class="blue_line_ek" style="margin-bottom:0px;">
+        <div class="col-md-8 col-xs-12 margin_left_320">
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="/profil_duzenle" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'Invite Page'])">
+                        <span class="blue_line_header sub_menu_text">Ayarlar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/mesajlarim" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'Invite Page'])">
+                        <span class="blue_line_header sub_menu_text">Mesajlar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/esyalarim" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'Invite Page'])">
+                        <span class="blue_line_header sub_menu_text"><span class="display_none_320">Eşya</span> Kütüphanem</span>
+                    </a>
+                </li>
+                <!--<li>
+                    <a href="/groups">Gruplarım</a>
+                </li>-->
+                <li class="display_none_l480">
+                    <a href="/davet_et" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'Invite Page'])">
+                        <span class="blue_line_header sub_menu_text sub_menu_text_active">Davet Et</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="col-md-7 col-sm-7 col-xs-12">
-        <h5>E-posta ile arkadaşını davet et</h5>
-        <form action="{{url_for('invite')}}" method="POST" name="invitation_form" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            {{ render_field_with_errors(form.emails, label_visible=False, placeholder=form.emails.label.text) }}
-            {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
-            {{ form.submit(class_='btn btn-success pull-right')}}
-        </form>
+
+    <div class="row menu_area_border">
+        <div class="col-md-5 col-sm-5 col-xs-12">
+            <h5>Facebook ile davet et</h5>
+            <div id="fb-root"></div>
+            <button type="button" class="btn" onclick="FacebookInviteFriends();" style="color:white; background-color:#3c599f;">Facebook arkadaşlarını davet et</button>
+        </div>
+        <div class="col-md-7 col-sm-7 col-xs-12">
+            <h5>E-posta ile arkadaşını davet et</h5>
+            <form action="{{url_for('invite')}}" method="POST" name="invitation_form" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                {{ render_field_with_errors(form.emails, label_visible=False, placeholder=form.emails.label.text) }}
+                {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
+                {{ form.submit(class_='btn btn-success pull-right')}}
+            </form>
+        </div>
     </div>
-</div>
 
 {% endblock %}

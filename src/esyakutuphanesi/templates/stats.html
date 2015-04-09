@@ -1,114 +1,126 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2 class="text-center" style="margin-bottom:40px; ">Eşya Kütüphanesi İstatistikler</h2>
-<div class="row">
-<!--    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-            3158
-        </div>
-        <div class="col-xs-12">
-            Listedeki Kişi Sayısı
-        </div>
-    </div>-->
-    <h3 class="text-center">Kullanıcılar</h3>
+    <h2 class="text-center" style="margin-bottom:40px; ">Eşya Kütüphanesi İstatistikler</h2>
+    <div class="row">
+    <!--    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+            <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                3158
+            </div>
+            <div class="col-xs-12">
+                Listedeki Kişi Sayısı
+            </div>
+        </div>-->
+        <h3 class="text-center">Kullanıcılar</h3>
 
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-            {{ user_count }}
+        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+            <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                {{ user_count }}
+            </div>
+            <div class="col-xs-12">
+                Kayıt olmuş kişi sayısı
+            </div>
         </div>
-        <div class="col-xs-12">
-            Kayıt olmuş kişi sayısı
+
+        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+            <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                {{ approved_user_count }}
+            </div>
+            <div class="col-xs-12">
+                Kullanıcı sayısı
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+            <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                {{ '{0:0.0f}'.format(user_count - approved_user_count) }}
+            </div>
+            <div class="col-xs-12">
+                Onay bekleyen kişi sayısı
+            </div>
         </div>
     </div>
+    <br><br>
+    <div class="row">
+        <h3 class="text-center">Eşyalar</h3>
 
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-            {{ approved_user_count }}
+        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+            <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                {{ stuff_count }}
+            </div>
+            <div class="col-xs-12">
+                Listelenen eşya sayısı
+            </div>
         </div>
-        <div class="col-xs-12">
-            Kullanıcı sayısı
+
+        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+            <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                {{ user_with_stuff_count }}
+            </div>
+            <div class="col-xs-12">
+                Eşya listeleyen kullanıcı sayısı
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+            <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                {{ '{0:0.0f}'.format(stuff_count / user_with_stuff_count) }}
+            </div>
+            <div class="col-xs-12">
+                Ortalama paylaşım adedi
+            </div>
         </div>
     </div>
+    <br><br>
+    <div class="row">
+        <h3 class="text-center">Metrikler</h3>
 
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-            {{ '{0:0.0f}'.format(user_count - approved_user_count) }}
+        <div class="col-md-12">
+            <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+                <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                   {{request_count}}
+                </div>
+                <div class="col-xs-12">
+                    Ödünç alıp/verme isteği sayısı
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+                <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                    {{request_ok_count }}
+                </div>
+                <div class="col-xs-12">
+                    "Ödünç verdim" butonuna basan kullanıcı sayısı
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+                <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                    {{request_ok_back_count }}
+                </div>
+                <div class="col-xs-12">
+                    "Geri aldım" butonuna basan kullanıcı sayısı
+                </div>
+            </div>
         </div>
-        <div class="col-xs-12">
-            Onay bekleyen kişi sayısı
+
+        <div class="col-md-12">
+            <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+                <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                    %{{ '{0:0.1f}'.format(user_with_stuff_count / approved_user_count *100) }}
+                </div>
+                <div class="col-xs-12">
+                    Aktifleşme Oranı (eşya listelemiş kişi sayısının üye sayısına oranı)
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12 text-center">
+                <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
+                    %{{ '{0:0.1f}'.format( monthly_user_count / 3917 *100) }}
+                </div>
+                <div class="col-xs-12">
+                    Aralık ayı dönüştürme oranı (kayıt olan kullanıcı sayısının yeni gelen ziyaretçi sayısına oranı)
+                </div>
+            </div>
         </div>
+
     </div>
-</div>
-<br><br>
-<div class="row">
-    <h3 class="text-center">Eşyalar</h3>
-
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-            {{ stuff_count }}
-        </div>
-        <div class="col-xs-12">
-            Listelenen eşya sayısı
-        </div>
-    </div>
-
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-            {{ user_with_stuff_count }}
-        </div>
-        <div class="col-xs-12">
-            Eşya listeleyen kullanıcı sayısı
-        </div>
-    </div>
-
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-            {{ '{0:0.0f}'.format(stuff_count / user_with_stuff_count) }}
-        </div>
-        <div class="col-xs-12">
-            Ortalama paylaşım adedi
-        </div>
-    </div>
-</div>
-<br><br>
-<div class="row">
-    <h3 class="text-center">Metrikler</h3>
-
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-            %{{ '{0:0.1f}'.format(user_with_stuff_count / approved_user_count *100) }}
-        </div>
-        <div class="col-xs-12">
-            Aktifleşme Oranı (eşya listelemiş kişi sayısının üye sayısına oranı)
-        </div>
-    </div>
-
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-            %{{ '{0:0.1f}'.format( monthly_user_count / 3917 *100) }}
-        </div>
-        <div class="col-xs-12">
-            Aralık ayı dönüştürme oranı (kayıt olan kullanıcı sayısının yeni gelen ziyaretçi sayısına oranı)
-        </div>
-    </div>
-
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-           {{request_count}}
-        </div>
-        <div class="col-xs-12">
-            Ödünç alıp/verme isteği sayısı
-        </div>
-    </div>
-
-    <div class="col-md-4 col-sm-6 col-xs-12 text-center">
-        <div class="col-xs-12" style="font-size:36px; color:#f0ad4e;">
-            {{request_ok_count }}
-        </div>
-        <div class="col-xs-12">
-            "Ödünç verdim / Geri aldım" butonuna basan kullanıcı sayısı
-        </div>
-    </div>
-
-</div>
 {% endblock %}

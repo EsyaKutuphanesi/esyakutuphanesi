@@ -4,91 +4,91 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<script>
-    $.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',function(){
-        $.getScript('http://cdn.jsdelivr.net/jquery.lazyload/1.8.4/jquery.lazyload.js',function(){
-          var $container = $('#container');
-          $container.imagesLoaded(function(){
-              $container.masonry({
-                  itemSelector: '.item',
-                  columnWidth: function(containerWidth){
-                      return containerWidth / 12;
-                    }
+    <script>
+        $.getScript('http://cdn.jsdelivr.net/masonry/2.1.08/jquery.masonry.min.js',function(){
+            $.getScript('http://cdn.jsdelivr.net/jquery.lazyload/1.8.4/jquery.lazyload.js',function(){
+              var $container = $('#container');
+              $container.imagesLoaded(function(){
+                  $container.masonry({
+                      itemSelector: '.item',
+                      columnWidth: function(containerWidth){
+                          return containerWidth / 12;
+                        }
+                    });
                 });
             });
         });
-    });
-</script>
+    </script>
 
-<div class="row">
-    <div class="col-md-2 col-sm-2">
-        <div style="margin-top: 20px;">
-            <img src="/photos/{{group_info.logo}}" class="img-responsive" style="width: 100px; height:100px;"/>
+    <div class="row">
+        <div class="col-md-2 col-sm-2">
+            <div style="margin-top: 20px;">
+                <img src="/photos/{{group_info.logo}}" class="img-responsive" style="width: 100px; height:100px;"/>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-10">
+            <h2>{{group_info.name}}</h2>
+            <div>{{group_info.description}}</div>
         </div>
     </div>
+
     <div class="col-md-10 col-sm-10">
-        <h2>{{group_info.name}}</h2>
-        <div>{{group_info.description}}</div>
-    </div>
-</div>
+        <div class="row">
+            {% if group_shares[0] %}
+                <div class="col-md-12">
+                    <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">{{group_shares.is_wanted}}Kütüphaneye Eklenenler</h3>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Hemen paylaşabilirsin ^^</h3>
+                </div>
+                <div class="col-md-12">
+                    <a href="/esya_listele" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'Group Page'])">
+                        <img src="/static/images/esyapaylashadi.png" class="img-responsive"/>
+                    </a>
+                </div>
+            {% endif %}
+            <div class="col-md-12">
+                <div id="container" class="row fluid">
+                    {% for stuff in group_shares%}
+                        {{ render_item_box(stuff, user) }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-<div class="col-md-10 col-sm-10">
-    <div class="row">
-        {% if group_shares[0] %}
+        <div class="row">
+            {% if group_wanted[0] %}
+                <div class="col-md-12">
+                    <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Aranıyor!</h3>
+                </div>
+            {% endif %}
             <div class="col-md-12">
-                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">{{group_shares.is_wanted}}Kütüphaneye Eklenenler</h3>
-            </div>
-        {% else %}
-            <div class="col-md-12">
-                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Hemen paylaşabilirsin ^^</h3>
-            </div>
-            <div class="col-md-12">
-                <a href="/new_stuff" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'Group Page'])">
-                    <img src="/static/images/esyapaylashadi.png" class="img-responsive"/>
-                </a>
-            </div>
-        {% endif %}
-        <div class="col-md-12">
-            <div id="container" class="row fluid">
-                {% for stuff in group_shares%}
-                    {{ render_item_box(stuff, user) }}
-                {% endfor %}
+                <div id="container" class="row fluid">
+                    {% for stuff in group_wanted %}
+                        {{ render_item_box(stuff, user, True) }}
+                    {%endfor%}
+                </div>
             </div>
         </div>
     </div>
-
-    <div class="row">
-        {% if group_wanted[0] %}
-            <div class="col-md-12">
-                <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Aranıyor!</h3>
-            </div>
-        {% endif %}
-        <div class="col-md-12">
-            <div id="container" class="row fluid">
-                {% for stuff in group_wanted %}
-                    {{ render_item_box(stuff, user, True) }}
-                {%endfor%}
-            </div>
+    <div class="col-md-2 col-sm-2">
+        <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Üyeler</h3>
+        <div style="width:100%;">
+            {% for members in group_members %}
+                <!--{{members.name}}-->
+                <div style="width:46%; margin:2%; float:left; height:50px;">
+                    <a href="/profil/{{members.id}}">
+                        {% if members.photo %}
+                            <img src="/photos/{{members.photo}}" class="img-responsive"/>
+                        {% else %}
+                            <img src="/static/images/ek.png" class="img-responsive">
+                        {% endif%}
+                    </a>
+                </div>
+            {% endfor %}
         </div>
+        <button class="btn btn-info" style="width:100%; margin:10px auto;">Davet et</button>
     </div>
-</div>
-<div class="col-md-2 col-sm-2">
-    <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Üyeler</h3>
-    <div style="width:100%;">
-        {% for members in group_members %}
-            <!--{{members.name}}-->
-            <div style="width:46%; margin:2%; float:left; height:50px;">
-                <a href="/profile/{{members.id}}">
-                    {% if members.photo %}
-                        <img src="/photos/{{members.photo}}" class="img-responsive"/>
-                    {% else %}
-                        <img src="/static/images/ek.png" class="img-responsive">
-                    {% endif%}
-                </a>
-            </div>
-        {% endfor %}
-    </div>
-    <button class="btn btn-info" style="width:100%; margin:10px auto;">Davet et</button>
-</div>
 
 {% endblock %}

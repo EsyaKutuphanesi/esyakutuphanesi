@@ -1,7 +1,7 @@
 {% macro render_item_box(stuff, user, is_wanted=False) -%}
 {% if stuff.approved != -1 %}
     {% if not is_wanted %}
-        <div class="item col-md-3 col-sm-3 col-xs-12" style="padding-right:7px; padding-left:7px;">
+        <div class="item col-sm-3 col-xs-6 col_ss_6 col_s320 index_share_tumbnail_padding">
             <!--item-->
                 <div class="thumbnail">
                     {% if stuff.approved == 0 %}
@@ -15,21 +15,21 @@
                             ONAYLANMADI
                         </div>
                     {%endif%}
-                    <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                    <a href="/esya_detay/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                         {%if stuff.photos%}
                             <img src="/static/photos/{{stuff.photos[0].filename}}"/>
                         {%else%}
                             <img src="/static/images/{{stuff.category_id}}.png"/>
                         {%endif%}
                     </a>
-                    <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
-                        <div style="padding: 9px; color:white; background-color:#626262;">{{stuff}}</div>
+                    <a href="/esya_detay/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])" style="text-decoration:none;">
+                        <div class="text-center" style="padding: px; color:white; background-color:#E18F8B;">{{stuff}}</div>
                     </a>
                     <div class="caption">
-                        {%if stuff.detail %}<p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">{{stuff.detail |truncate(500)}}</p>{% endif %}
+                        {%if stuff.detail %}<p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">{{stuff.detail |truncate(80)}}</p>{% endif %}
                         {%if user.is_authenticated()%}
-                            <a href="/profile/{{stuff.owner.id}}">
-                                <div style="border-top:1px solid #dddddd; padding-top:9px;">
+                            <a href="/profil/{{stuff.owner.id}}">
+                                <div>
                                     {% if stuff.owner.photo %}
                                         <img src="/photos/{{stuff.owner.photo}}" style="border-radius:50%; -moz-border-radius:50%; -webkit-border-radius: 50%; width:50px; height:50px;">
                                     {% else %}
@@ -61,10 +61,10 @@
                 </div>
         </div>
     {% else %}
-        <div class="item col-md-6 col-sm-6 col-xs-12" style="padding-right:7px; padding-left:7px;">
+        <div class="item col-sm-6 col-xs-6 col_ss_6 col_s320 index_share_tumbnail_padding">
             <div class="thumbnail" style="overflow:hidden;">
-                <div class="col-md-3 col-sm-3 col-xs-12" style="margin:0px; padding:0px;">
-                    <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                <div class="col-sm-3 col-xs-12 col_ss_3 display_none_l480" style="margin:0px; padding:0px;">
+                    <a href="/esya_detay/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                         {%if stuff.photos%}
                             <img src="/static/photos/{{stuff.photos[0].filename}}"/>
                         {%else%}
@@ -72,14 +72,14 @@
                         {%endif%}
                     </a>
                 </div>
-                <div class="col-md-9 col-sm-9 col-xs-12" style="margin:0px; padding:0px;">
-                    <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                <div class="col-sm-9 col-xs-12 col_ss_9" style="margin:0px; padding:0px;">
+                    <a href="/esya_detay/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                         <div style="padding: 15px 9px 0px; color:black; font-size:16px;">{{stuff.title |truncate(30, True) }}</div>
                     </a>
-                    <div class="caption">
+                    <div class="caption" style="padding-bottom:0px;">
                         <p style="font-size:12px; overflow: hidden;" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                             {{stuff.detail |truncate(80, True)}}
-                            <a href="/show_stuff/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
+                            <a href="/esya_detay/{{stuff.id}}" class="display_none_l992" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                                 Eşyayı gör
                             </a>
                         </p>

@@ -3,29 +3,35 @@
 {% block title %}Esya Kutuphanesi{% endblock %}
 {% block content %}
 
-<div class="col-md-6 col-sm-6 col-sm-offset-3 col-md-offset-3">
-    <!--<div class="row text-center">{{ social_login('facebook', 'Facebook' )}}</div>
-    <div class="row text-center" style="margin:20px auto;">--------------veya--------------</div>-->
-    <div class="text-left login-info-image">
-        Eşya Kütüphanesi'ne hoşgeldin! eee? :)
-    </div>
-    <div class="login-image-style"></div>
-
-    <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
-        {{ login_user_form.hidden_tag() }}
-        {{ render_field_with_errors(login_user_form.email,label_visible=False, placeholder="E-posta") }}
-        {{ render_field_with_errors(login_user_form.password,label_visible=False, placeholder="Şifre") }}
-        {{ render_field(login_user_form.next) }}
-        <!--{{ render_field_with_errors(login_user_form.remember) }}-->
-        <div >
-            <!--<input id="remember" name="remember" type="checkbox" value="y">-->
-            {{ render_checkbox_with_errors(login_user_form.remember,label=False) }}
-            <label for="remember" class="control-label">
-                <label for="remember">Beni hatırla</label>
-            </label>
-            <a class="pull-right" href="/reset" onclick="_gaq.push(['_trackEvent', 'Passwprd', 'forgotPass', 'Login_user Page'])">Şifremi unuttum</a>
+    <div class="blue_line_ek">
+        <div class="col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3">
+            <div class="text-center login-info-image">
+                Eşya Kütüphanesi'ne hoşgeldin! eee? :)
+            </div>
+            <div class="login-image-style"></div>
         </div>
-        {{ login_user_form.submit(class_='btn btn-success pull-right', value="Giriş yap")}}
-    </form>
-</div>
+    </div>
+
+    <div class="col-sm-6 col-sm-offset-3 col-xs-12">
+        <!--<div class="row text-center">{{ social_login('facebook', 'Facebook' )}}</div>
+        <div class="row text-center" style="margin:20px auto;">--------------veya--------------</div>-->
+
+        <form action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+            {{ login_user_form.hidden_tag() }}
+            {{ render_field_with_errors(login_user_form.email,label_visible=False, placeholder="E-posta") }}
+            {{ render_field_with_errors(login_user_form.password,label_visible=False, placeholder="Şifre") }}
+            {{ render_field(login_user_form.next) }}
+            <!--{{ render_field_with_errors(login_user_form.remember) }}-->
+            <div >
+                <!--<input id="remember" name="remember" type="checkbox" value="y">-->
+                {{ render_checkbox_with_errors(login_user_form.remember,label=False) }}
+                <label for="remember" class="control-label">
+                    <label for="remember">Beni hatırla</label>
+                </label>
+                <a class="pull-right" href="/reset" onclick="_gaq.push(['_trackEvent', 'Passwprd', 'forgotPass', 'Login_user Page'])">Şifremi unuttum</a>
+            </div>
+            {{ login_user_form.submit(class_='btn btn-success pull-right', value="Giriş yap")}}
+        </form>
+    </div>
+
 {% endblock %}

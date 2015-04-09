@@ -4,123 +4,127 @@
 {% block title %}{{ super() }} - Eşyayı Düzenle{% endblock %}
 {% block content %}
 
-<script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static',filename='js/ek.js') }}"></script>
-<script>
-    $(function(){
-        if($("select#address").val() == -1){
-            $("#new_address").show();
-        } else {
-            $("#new_address").hide();
-        }
-        $("select#category").change(function(e){
-            $.getJSON('/get_stuff_types/'+$(this).val(),'',function(j){
-                stuff_type = document.getElementById('stuff_type');
-                stuff_type.innerHTML = ''
-                $.each(j, function(key,value){
-                    console.log(value);
-                    stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";
-                });
-            });
-        });
-        $("select#address").change(function(e){
+    <script type="text/javascript" src="{{ url_for('static',filename='js/gmaps.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/ek.js') }}"></script>
+    <script>
+        $(function(){
             if($("select#address").val() == -1){
                 $("#new_address").show();
             } else {
                 $("#new_address").hide();
             }
-        });
-    })
+            $("select#category").change(function(e){
+                $.getJSON('/get_stuff_types/'+$(this).val(),'',function(j){
+                    stuff_type = document.getElementById('stuff_type');
+                    stuff_type.innerHTML = ''
+                    $.each(j, function(key,value){
+                        console.log(value);
+                        stuff_type.innerHTML += "<option value='"+value.id+"'>"+value.name+"</option>";
+                    });
+                });
+            });
+            $("select#address").change(function(e){
+                if($("select#address").val() == -1){
+                    $("#new_address").show();
+                } else {
+                    $("#new_address").hide();
+                }
+            });
+        })
 
-    function deleteStuffReq(status){
-        if (confirm("Emin misiniz?")) {
-            window.location = "/edit_stuff/{{stuff.id}}?status="+status;
+        function deleteStuffReq(status){
+            if (confirm("Emin misiniz?")) {
+                window.location = "/esya_duzenle/{{stuff.id}}?status="+status;
+            }
         }
-    }
-</script>
+    </script>
 
-<div class="row">
-    <ol class="breadcrumb" style="background:none;">
-        <li>
-            <a href="/my_stuff">Eşya kütüphaneme geri dön</a>
-        </li>
-    </ol>
-</div>
-<div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
-    {% if is_new %}
-        {% if not is_wanted==true %}
-            <h2>Eşya Paylaş</h2>
-        {% else %}
-            <h2>Eşya İste</h2>
-        {% endif %}
-    {% else %}
-        <a href="#" onclick="deleteStuffReq(-1), _gaq.push(['_trackEvent', 'Stuff', 'deleteStuff', 'Edit_stuff Page'])" class="pull-right">Eşyayı kaldır</a>
-        {% if stuff.approved == 0 %}
-            <p class="alert-info">
-                Eşyan şu anda onay bekliyor. Onaylandığında e-posta ile sana haber vereceğiz.
-            </p>
-        {% elif stuff.approved == -2 %}
-            <p class="alert-danger">
-                Eşyan onaylanmadı.
-            </p>
-        {% endif %}
+    <div class="blue_line_ek">
+        <div class="row">
+            <h2 class="col-sm-8 col-sm-offset-2 col-xs-12 text-center blue_line_header">
+                {% if is_new %}
+                    {% if not is_wanted==true %}
+                        Ödünç Ver
+                    {% else %}
+                        Ödünç İste
+                    {% endif %}
+                {% else %}
+                    Eşyayı Düzenle
+                {% endif %}
+            </h2>
+        </div>
+    </div>
 
+    {% if stuff.approved == 0 %}
+        <p class="alert-info">
+            Eşyan şu anda onay bekliyor. Onaylandığında e-posta ile sana haber vereceğiz.
+        </p>
+    {% elif stuff.approved == -2 %}
+        <p class="alert-danger">
+            Eşyan onaylanmadı.
+        </p>
     {% endif %}
 
-    <form action="{{ form_action }}" method="POST" name="edit_stuff_form" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        {{ render_field_with_errors(form.title) }}
-        {{ render_field_with_errors(form.category) }}
-        {{ render_field_with_errors(form.stuff_type) }}
-        {{ render_field_with_errors(form.detail) }}
-        <!--{{ render_field_with_errors(form.is_wanted) }}-->
+    <div class="col-sm-8 col-sm-offset-2 col-xs-12">
 
-        <div class="form-group">
-            <input type="hidden" id="is_wanted" name="is_wanted" value="{{is_wanted}}"/>
-        </div>
-        {{ render_field_with_errors(form.address) }}
-        <div id="new_address">
-            {{ render_field_with_errors(form.address_str) }}
-            <input id ='search' type="button" class="btn pull-right" value="Ara" />
-            <div id="map"></div>
-            {{ render_field_with_errors(form.lat) }}
-            {{ render_field_with_errors(form.lng) }}
-        </div>
-        {{ render_field_with_errors(form.group) }}
-        <div class="form-group">
-            <input type="hidden" id="group" name="group" value="-1"/>
-        </div>
-        {% if not is_wanted==true %}
-            {% if is_new %}
-                <div class="form-group  ">
-                    <label for="photo" class="control-label"><label for="photo">Resim Yükle *</label></label>
-                    <input class="form-control" id="photo" name="photo" type="file" required="required">
-                </div>
-            {% else %}
-                {{ render_field_with_errors(form.photo) }}
+        <form action="{{ form_action }}" method="POST" name="edit_stuff_form" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ render_field_with_errors(form.title) }}
+            {{ render_field_with_errors(form.category) }}
+            {{ render_field_with_errors(form.stuff_type) }}
+            {{ render_field_with_errors(form.detail) }}
+            <!--{{ render_field_with_errors(form.is_wanted) }}-->
+
+            <div class="form-group">
+                <input type="hidden" id="is_wanted" name="is_wanted" value="{{is_wanted}}"/>
+            </div>
+            {{ render_field_with_errors(form.address) }}
+            <div id="new_address">
+                {{ render_field_with_errors(form.address_str) }}
+                <input id ='search' type="button" class="btn pull-right" value="Ara" />
+                <div id="map"></div>
+                {{ render_field_with_errors(form.lat) }}
+                {{ render_field_with_errors(form.lng) }}
+            </div>
+            {{ render_field_with_errors(form.group) }}
+            <div class="form-group">
+                <input type="hidden" id="group" name="group" value="-1"/>
+            </div>
+            {% if not is_wanted==true %}
+                {% if is_new %}
+                    <div class="form-group  ">
+                        <label for="photo" class="control-label"><label for="photo">Resim Yükle *</label></label>
+                        <input class="form-control" id="photo" name="photo" type="file" required="required">
+                    </div>
+                {% else %}
+                    {{ render_field_with_errors(form.photo) }}
+                {% endif%}
+
+                {%if stuff%}
+                    <div class="col-sm-12 col-xs-12">
+                        {%for photo in stuff.photos%}
+                            <div class="col-sm-3 col-xs-4">
+                                <img class="img-responsive" src="/photos/{{photo.filename}}" />
+                            </div>
+                        {%endfor%}
+                    </div>
+                {%endif%}
+                <p>
+                    * Resim çekemiyorsanız benzer bir eşyanın resmini internetten yükleyebilirsiniz.
+                    Ödünç verdiğiniz eşyanın resimdeki eşyadan farklarını belirtmeyi unutmayın!
+                </p>
             {% endif%}
+            {{ render_field_with_errors(form.tags) }}
+            {%for tag in stuff.tags%}
+                <span class="label label-warning">{{tag}}</span>
+            {%endfor%}
 
-            {%if stuff%}
-                <div class="col-md-12 col-sm-12">
-                    {%for photo in stuff.photos%}
-                        <div class="col-md-3 col-sm-3">
-                            <img class="img-responsive" src="/photos/{{photo.filename}}" />
-                        </div>
-                    {%endfor%}
-                </div>
-            {%endif%}
-            <p>
-                * Resim çekemiyorsanız benzer bir eşyanın resmini internetten yükleyebilirsiniz.
-                Ödünç verdiğiniz eşyanın resimdeki eşyadan farklarını belirtmeyi unutmayın!
-            </p>
-        {% endif%}
-        {{ render_field_with_errors(form.tags) }}
-        {%for tag in stuff.tags%}
-            <span class="label label-warning">{{tag}}</span>
-        {%endfor%}
-        {% if stuff.approved != -2 %}
-            <div style="margin-top:20px;">{{ form.submit(class_='btn btn-success pull-right')}}</div>
-        {% endif%}
-    </form>
-</div>
+            <a href="#" onclick="deleteStuffReq(-1), _gaq.push(['_trackEvent', 'Stuff', 'deleteStuff', 'Edit_stuff Page'])" class="pull-left">Eşyayı kaldır</a>
+
+            {% if stuff.approved != -2 %}
+                <div style="margin-top:20px;">{{ form.submit(class_='btn btn-success pull-right')}}</div>
+            {% endif%}
+        </form>
+    </div>
+
 {% endblock %}

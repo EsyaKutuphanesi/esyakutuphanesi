@@ -4,72 +4,80 @@
 {% block title %}{{ super() }} - Eşyalarım{% endblock %}
 {% block content %}
 
-<style>
-    #map-canvas {
-        height: 300px;
-        width: 400px;
-        margin: 0px;
-        padding: 0px
-    }
-</style>
+    <style>
+        #map-canvas {
+            height: 300px;
+            width: 400px;
+            margin: 0px;
+            padding: 0px
+        }
+    </style>
 
-<script>
-    var myLatlng = new google.maps.LatLng(40.996427,29.033614);
-    var mapOptions = {
-        zoom: 14,
-        center: myLatlng
-    }
-    var map;
-    var markers = [];
-    function loadMap() {
-        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions)
-    }
-    //google.maps.event.addDomListener(window, 'load', initialize);
-    function addMarker(lat,lng,title){
-        var location = new google.maps.LatLng(lat,lng);
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map,
-            title: title
-        });
-        markers.push(marker)
-    }
-</script>
-
-<div class="row">
-    <ul class="nav nav-tabs">
-        <li>
-            <a href="/edit_profile" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'My_stuff Page'])">Ayarlar</a>
-        </li>
-        <li>
-            <a href="/my_messages" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_stuff Page'])">Mesajlar</a>
-        </li>
-        <li class="active">
-            <a href="/my_stuff" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'My_stuff Page'])">Eşya Kütüphanem</a>
-        </li>
-        <!--<li>
-            <a href="/groups">Gruplarım</a>
-        </li>-->
-        <li>
-            <a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_stuff Page'])">Davet Et</a>
-        </li>
-    </ul>
-</div>
-
-<div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
-    <div id="container" class="row fluid">
-        <div class="item col-md-3 col-sm-3">
-            <!--item-->
-            <div class="thumbnail" style="border:0;">
-                <a href="/new_stuff" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'My_stuff Page'])">
-                    <img src="/static/images/esyaekle.png"/>
-                </a>
-            </div>
+    <script>
+        var myLatlng = new google.maps.LatLng(40.996427,29.033614);
+        var mapOptions = {
+            zoom: 14,
+            center: myLatlng
+        }
+        var map;
+        var markers = [];
+        function loadMap() {
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions)
+        }
+        //google.maps.event.addDomListener(window, 'load', initialize);
+        function addMarker(lat,lng,title){
+            var location = new google.maps.LatLng(lat,lng);
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                title: title
+            });
+            markers.push(marker)
+        }
+    </script>
+    <div class="blue_line_ek" style="margin-bottom:0px;">
+        <div class="col-sm-8 col-xs-12 margin_left_320">
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="/profil_duzenle" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'My_stuff Page'])">
+                        <span class="blue_line_header sub_menu_text">Ayarlar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/mesajlarim" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_stuff Page'])">
+                        <span class="blue_line_header sub_menu_text">Mesajlar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/esyalarim" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'My_stuff Page'])">
+                        <span class="blue_line_header sub_menu_text sub_menu_text_active"><span class="display_none_320">Eşya</span> Kütüphanem</span>
+                    </a>
+                </li>
+                <!--<li>
+                    <a href="/groups">Gruplarım</a>
+                </li>-->
+                <li class="display_none_l480">
+                    <a href="/davet_et" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_stuff Page'])">
+                        <span class="blue_line_header sub_menu_text">Davet Et</span>
+                    </a>
+                </li>
+            </ul>
         </div>
-        {% for stuff in user.stuff_list %}
-            {{ render_item_box(stuff, user) }}
-        {% endfor %}
     </div>
-</div>
+    <div class="row menu_area_border">
+        <div id="container" class="row fluid">
+            <div class="item col-sm-3 col-xs-6 display_none_l768">
+                <!--item-->
+                <div class="thumbnail" style="border:0;">
+                    <a href="/esya_listele" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'My_stuff Page'])">
+                        <img src="/static/images/esyaekle.png"/>
+                    </a>
+                </div>
+            </div>
+            {% for stuff in user.stuff_list %}
+                {{ render_item_box(stuff, user) }}
+            {% endfor %}
+        </div>
+    </div>
 
 {% endblock %}

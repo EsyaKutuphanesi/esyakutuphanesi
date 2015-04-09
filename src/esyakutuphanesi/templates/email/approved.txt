@@ -1,7 +1,7 @@
 Merhaba {{user}},
 
 Listelemek istediğin {{stuff}} onaylandı ve artık sitede!
-Listelemeni düzenlemek istersen esyakutuphanesi.com/edit_stuff/{{stuff.id}} adresini ziyaret etmen yeterli.
+Listelemeni düzenlemek istersen esyakutuphanesi.com/esya_duzenle/{{stuff.id}} adresini ziyaret etmen yeterli.
 
 Güzel günler,
 Eşya Kütüphanesi Ekibi

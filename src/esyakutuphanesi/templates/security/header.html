@@ -1,5 +1,46 @@
 {% extends "layout.html" %}
 {% block header %}
+
+<nav class="navbar navbar-default" role="navigation" style="border-radius:0; margin:20px auto 0px;">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header ">
+    <a class="navbar-brand" href="/"><img src="/static/images/logo-ek.png"/></a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class=" navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-right padding15">
+        <li class="nav_li_l768 display_none_l480 display_none_l600">
+            <a href="/nasil_calisir" onclick="_gaq.push(['_trackEvent', 'Nasil Calisir', 'click', 'Header'])">
+                Nasıl <span class="display_none_l768">Çalışır?</span>
+            </a>
+        </li>
+        <li class="nav_li_l768 display_none_l480 display_none_l600">
+            <a href="/destekle" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'User', 'supportUs', 'Header'])">
+                Destekle
+            </a>
+        </li>
+        <li class="nav_li_l768 display_none_l480 display_none_l600">
+            <a href="/esya_listele?is_wanted=true" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Stuff', 'wantStuff', 'Header'])">
+                Ödünç İste
+            </a>
+        </li>
+        <li class="nav_li_l600 nav_li_l768">
+            <a href="/esya_listele" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'Header'])">
+                Ödünç Ver
+            </a>
+        </li>
+        <li class="nav_li_l600 nav_li_l768 ">
+            <a href="/login" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Login', 'loginButton', 'Header'])">
+                Giriş Yap
+            </a>
+        </li>
+        <!--<li class="nav_li_l600 nav_li_l768 "><a href="/register" onclick="_gaq.push(['_trackEvent', 'Signup', 'signupButton', 'Header'])">Kaydol</a></li>-->
+    </ul>
+  </div><!-- /.navbar-collapse -->
+
+</nav>
+<!--
 <nav class="navbar navbar-inverse" role="navigation" style="border-radius:0;">
     <div class="navbar-header ">
         <a class="navbar-brand" href="/">
@@ -38,9 +79,9 @@
                         <li>
                             <a href="/invite" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'Header'])">Davet Et</a>
                         </li>
-                        <!--<li>
+                        &lt;!&ndash;<li>
                             <a href="/groups">Gruplar</a>
-                        </li>-->
+                        </li>&ndash;&gt;
 
                         {% if 'admin' in g.user.roles or 'moderator' in g.user.roles %}
                             <li>
@@ -72,5 +113,5 @@
             </li>
         </ul>
     </div>
-</nav>
+</nav>-->
 {% endblock %}

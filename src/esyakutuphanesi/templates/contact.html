@@ -3,78 +3,74 @@
 {% block title %}{{ super() }} - İletişim{% endblock %}
 {% block content %}
 
-<!--<div class="col-md-5 col-sm-6 col-xs-12 specialstyle">
-    <h4><strong>Mektup adresi:</strong></h4>
-    <address>
-        Eşya Kütüphanesi</br>
-        Girişim Fabrikası </br>
-        Büyükdere Caddesi Ecza Sokak Safter İş Merkesi No:6<br>
-        Levent İstanbul<br>
-    </address>
-
-    <address>
-        <strong>E-posta adresi</strong><br>
-        <a href="#">bilgi@esyakutuphanesi.com</a>
-    </address>
-</div>-->
-<div class="row" id="hideInfo">
-    <a href="/destekle" onclick="_gaq.push(['_trackEvent', 'User', 'supportUs', 'Contact Page'])">
-        <img class="img-responsive" src="/static/images/destekle.png" style="margin:0 auto 20px; width:300px;"/>
-    </a>
-</div>
-
-<div class="row">
-    <h4 class="col-md-12">
-        <strong>Bize ulaşın:</strong>
-    </h4>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        <p>
-            Yorumlarınız, hikayeleriniz ve geri bildirimleriniz bizim en büyük beslenme kaynağımız.
-            Her türlü konuda bize ulaşabilirsiniz. Sadece merhaba demek için bile!
-        </p>
-        <p>
-            <img src="/static/images/mail.png"/>
-            bilgi[at]esyakutuphanesi.com
-        </p>
-        <p>
-            <img src="/static/images/mektup.png"/>
-            Sanayi Mah. Eski Büyükdere Cad. Tacirler İş Merkezi No:61 Kat:2 Kağıthane İstanbul
-        </p>
+    <div class="blue_line_ek">
+        <div class="col-sm-12 col-xs-12">
+            <div class="row">
+                <h2 class="col-sm-12 col-xs-12 text-center blue_line_header">
+                    İletişim
+                </h2>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        <p>
-            Aylık yapmaya çalıştığımız online sohbetlerden ve Eşya Kütüphanesi'nin günlük
-            hayatından haberdar olmak için bizi takip edin.
-        </p>
-        <p>
-            <a href="https://facebook.com/EsyaKutuphanesi">
-                <img src="/static/images/facebook.png"/> facebook/EsyaKutuphanesi
-            </a>
-        </p>
-        <p>
-            <a href="https://twitter.com/esyakutuphanesi">
-                <img src="/static/images/twitter.png"/> @EsyaKutuphanesi
-            </a>
-        </p>
+
+    <div class="row">
+        <a href="/destekle" onclick="_gaq.push(['_trackEvent', 'User', 'supportUs', 'Contact Page'])">
+            <img class="img-responsive" src="/static/images/destekle.png" style="margin:0 auto 20px; width:300px;"/>
+        </a>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-5 col-sm-6 col-xs-12">
-        <h4>
-            <strong>Bize yazın:</strong>
+
+    <div class="row">
+        <h4 class="col-sm-12 col-xs-12">
+            <strong>Bize ulaşın:</strong>
         </h4>
-        <form action="{{url_for('contact')}}" method="POST" name="contact_form" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            {{ render_field_with_errors(form.user_name, label_visible=True) }}
-            {{ render_field_with_errors(form.user_email, label_visible=True, placeholder=form.user_email.label.text) }}
-            {{ render_field_with_errors(form.message, label_visible=True) }}
-            {{ form.submit(class_='btn btn-success pull-right')}}
-        </form>
+        <div class="col-sm-6 col-xs-12">
+            <p>
+                Yorumlarınız, hikayeleriniz ve geri bildirimleriniz bizim en büyük beslenme kaynağımız.
+                Her türlü konuda bize ulaşabilirsiniz. Sadece merhaba demek için bile!
+            </p>
+            <p>
+                <img src="/static/images/mail.png"/>
+                bilgi[at]esyakutuphanesi.com
+            </p>
+            <p>
+                <img src="/static/images/mektup.png"/>
+                Sanayi Mah. Eski Büyükdere Cad. Tacirler İş Merkezi No:61 Kat:2 Kağıthane İstanbul
+            </p>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <p>
+                Aylık yapmaya çalıştığımız online sohbetlerden ve Eşya Kütüphanesi'nin günlük
+                hayatından haberdar olmak için bizi takip edin.
+            </p>
+            <p>
+                <a href="https://facebook.com/EsyaKutuphanesi">
+                    <img src="/static/images/facebook.png"/> facebook/EsyaKutuphanesi
+                </a>
+            </p>
+            <p>
+                <a href="https://twitter.com/esyakutuphanesi">
+                    <img src="/static/images/twitter.png"/> @EsyaKutuphanesi
+                </a>
+            </p>
+        </div>
     </div>
-    <div class=" col-md-7 col-sm-6 text-center" style="margin-top:30px;">
-        <img src="/static/images/biz.png" style="width:100%; max-width:439px;"/>
-    </div>
-</div>
 
+    <div class="row">
+        <div class="col-sm-5 col-xs-12">
+            <h4>
+                <strong>Bize yazın:</strong>
+            </h4>
+            <form action="{{url_for('contact')}}" method="POST" name="contact_form" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                {{ render_field_with_errors(form.user_name, label_visible=True) }}
+                {{ render_field_with_errors(form.user_email, label_visible=True, placeholder=form.user_email.label.text) }}
+                {{ render_field_with_errors(form.message, label_visible=True) }}
+                {{ form.submit(class_='btn btn-success pull-right')}}
+            </form>
+        </div>
+        <div class="col-sm-7 col-xs-12 text-center display_none_l768" style="margin-top:30px;">
+            <img src="/static/images/biz.png" style="width:100%; max-width:439px;"/>
+        </div>
+    </div>
 
 {% endblock %}

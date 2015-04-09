@@ -78,40 +78,65 @@
             })
         })
     </script>
+
+    <div class="blue_line_ek">
+        <div class="col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3 display_none_l480" style="position:relative;">
+            <img src="/static/images/ekesyalar.png" style="width:100%;"/>
+        </div>
+
+        <div class="row search_form_div">
+            <div class="col-sm-10 col-sm-offset-1 col-xs-8 col-xs-offset-2">
+                <form role="search" name="search" action="/search" method="get">
+                    <table class="table searchTable">
+                        <tr>
+                            <td id="width_for_ektd" class="index_search_td index_search_width">
+                                <input type="text" class="index_search_input form-control" name="stuff" placeholder="Ne arıyorsun? Ör: Kitap"></td>
+                            <td class="display_none_l480" class="index_search_td">
+                                <input type="text" class="index_search_input form-control" name="address" placeholder="Şehir? Ör: İstanbul"></td>
+                            <td class="text-center">
+                                <button type="submit" class="index_search_input btn btn-primary" id="index_search_button" onclick="_gaq.push(['_trackEvent', 'Stuff', 'searchStuff', 'Landing Page'])">ARA</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         {%  if params['category']  %}
-            <div class="col-md-3 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-3 form-group">
+            <div class="col-sm-3 col-sm-offset-1 col-xs-3 form-group">
                 <select class="form-control" id="categories">
                 </select>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-3 form-group">
+            <div class="col-sm-3 col-xs-3 form-group">
                 <select class="form-control" id="stuff_types">
                 </select>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-3 form-group">
+            <div class="col-sm-3 col-xs-3 form-group">
                 <select class="form-control" id="is_wanted">
                     <option value="2">Hepsi</option>
                     <option value="0">Kütüphaneye eklenen</option>
                     <option value="1">Aranıyor!</option>
                 </select>
             </div>
-            <div class="col-md-2 col-sm-2 col-xs-2">
+            <div class="col-sm-2 col-xs-2">
                 <button id="list_btn" class="btn" onclick="_gaq.push(['_trackEvent', 'Search', 'listAllStuff', 'Browse Page'])">Listele</button>
             </div>
         {%endif%}
     </div>
 
-    <div class="row" style="margin-left:-16px;">
+    <div class="row">
 
         {% if not stuff_list[0]%}
-            <div class="col-md-12" style="background:rgba(0,0,0,0.5); margin:20px auto; padding:15px; line-height:34px;color:white; border-radius:10px;">
-                <div class="col-md-6">Henüz böyle bir eşya paylaşılmamış.</div>
-                <div class="col-md-6">
+            <div class="col-sm-12 col-xs-12" style="background:rgba(0,0,0,0.5); margin:20px auto; padding:15px; line-height:34px;color:white; border-radius:10px;">
+                <div class="col-sm-6 col-xs-6">Henüz böyle bir eşya paylaşılmamış.</div>
+                <div class="col-sm-6 col-xs-6">
                     <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/new_stuff?is_wanted=true', _gaq.push(['_trackEvent', 'Stuff', 'listWantedStuff', 'Browse Page'])">Aranıyor ilanı ver</button>
                 </div>
             </div>
         {%endif%}
-        <div class="col-md-12 col-sm-12">
+        <div class="col-sm-12 col-xs-12">
             <div id="container" class="row fluid">
                 {% for stuff in stuff_list %}
                     {{ render_item_box(stuff, user, stuff.is_wanted) }}

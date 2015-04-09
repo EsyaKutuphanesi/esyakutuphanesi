@@ -2,66 +2,78 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="row">
-    <ul class="nav nav-tabs">
-        <li>
-            <a href="/edit_profile">Ayarlar</a>
-        </li>
-        <li>
-            <a href="/my_messages">Mesajlar</a>
-        </li>
-        <li>
-            <a href="/my_stuff">Eşya Kütüphanem</a>
-        </li>
-        <li class="active">
-            <a href="/groups">Gruplarım</a>
-        </li>
-        <li>
-            <a href="/invite">Davet Et</a>
-        </li>
-    </ul>
-</div>
+    <div class="blue_line_ek" style="margin-bottom:0px;">
+        <div class="col-md-6 col-md-offset-3" style="margin-left:23%;">
+            <ul class="nav nav-tabs">
+                <li>
+                    <a href="/profil_duzenle" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'Groups Page'])">
+                        <span class="blue_line_header sub_menu_text">Ayarlar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/mesajlarim" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'Groups Page'])">
+                        <span class="blue_line_header sub_menu_text">Mesajlar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/esyalarim" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'Groups Page'])">
+                        <span class="blue_line_header sub_menu_text">Eşya Kütüphanem</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/gruplar" onclick="_gaq.push(['_trackEvent', 'Visit my_groups', 'click', 'Groups Page'])">
+                        <span class="blue_line_header sub_menu_text sub_menu_text_active">Gruplarım</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/davet_et" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'Groups Page'])">
+                        <span class="blue_line_header sub_menu_text">Davet Et</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
-<div class="row" style="padding:30px; border:1px solid #dddddd; border-top:0px;">
-    <div class="row">
-        <!--<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Grup kur</button>-->
+    <div class="row menu_area_border">
+        <div class="row">
+            <!--<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Grup kur</button>-->
 
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">
-                            Kurmak istediğin grup ile ilgili bilgileri bize iletebilirsin
-                        </h4>
-                    </div>
-
-                    <form action="{{url_for('groups')}}" method="POST" id="form" name="creategroup_form" enctype="multipart/form-data">
-                        <div class="modal-body">
-                            {{ form.hidden_tag() }}
-                                {{ render_field_with_errors(form.group_name) }}
-                                {{ render_field_with_errors(form.text, label_visible=False, placeholder=form.text.label.text) }}
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                Kurmak istediğin grup ile ilgili bilgileri bize iletebilirsin
+                            </h4>
                         </div>
-                        <div class="modal-footer">{{ form.submit(class_='btn btn-success pull-right')}}</div>
-                    </form>
+
+                        <form action="{{url_for('groups')}}" method="POST" id="form" name="creategroup_form" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                {{ form.hidden_tag() }}
+                                    {{ render_field_with_errors(form.group_name) }}
+                                    {{ render_field_with_errors(form.text, label_visible=False, placeholder=form.text.label.text) }}
+                            </div>
+                            <div class="modal-footer">{{ form.submit(class_='btn btn-success pull-right')}}</div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {% for membership in user.groups %}
-        <div class="media">
-            <a class="pull-left" href="#">
-                <img class="media-object" src="/photos/{{membership.group.logo}}" style="width: 64px; height: 64px;"></a>
-            <div class="media-body">
-                <a href="/group/{{membership.group.name}}">
-                    <h4 class="media-heading">{{membership.group.name}}</h4>
-                </a>
-                {{membership.group.description}}
+        {% for membership in user.groups %}
+            <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="/photos/{{membership.group.logo}}" style="width: 64px; height: 64px;"></a>
+                <div class="media-body">
+                    <a href="/grup/{{membership.group.name}}">
+                        <h4 class="media-heading">{{membership.group.name}}</h4>
+                    </a>
+                    {{membership.group.description}}
+                </div>
+                <a href="/grup_duzenle/{{membership.group.id}}">Düzenle</a>
             </div>
-            <a href="/edit_group/{{membership.group.id}}">Düzenle</a>
-        </div>
-    {% endfor %}
-</div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

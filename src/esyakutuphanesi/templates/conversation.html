@@ -2,126 +2,126 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<script>
-    function updateRequestStatus(status){
-        if (confirm("Emin misiniz?")) {
-            window.location = "/conversation/{{ conversation.id }}?status="+status;
+    <script>
+        function updateRequestStatus(status){
+            if (confirm("Emin misiniz?")) {
+                window.location = "/conversation/{{ conversation.id }}?status="+status;
+            }
         }
-    }
-</script>
-
-<div class="row">
-    <ol class="breadcrumb" style="background:none;">
-        <li>
-            <a href="/my_messages">Mesajlara geri dön</a>
-        </li>
-    </ol>
-</div>
-
-<div class="col-md-4 col-sm-3">
-    <a href="/show_stuff/{{conversation.request.stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Conversation Page'])">
-        {% if wanted_stuff.filename %}
-            <img class="img-responsive" src="/photos/{{ wanted_stuff.filename}}"/>
-        {% else %}
-            <img class="img-responsive" src="/static/images/{{conversation.request.stuff.category_id}}.png"/>
-        {% endif %}
-    </a>
+    </script>
 
     <div class="row">
-        <div class="row" style="margin:10px auto;">
-            <div class="col-md-12 col-sm-12 text-right" style="font-size:14px;">
-                <a href="/profile/{{conversation.request.stuff.owner.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Conversation Page'])">{{conversation.request.stuff.owner.name}}</a>
-                ödünç
-                {% if conversation.request.stuff.is_wanted %}istiyor.<br/> tel: {{conversation.request.stuff.owner.phone_number}}{% else %} veriyor.{% endif %}
+        <ol class="breadcrumb" style="background:none;">
+            <li>
+                <a href="/mesajlarim"><< Mesajlara geri dön</a>
+            </li>
+        </ol>
+    </div>
+
+    <div class="col-md-4 col-sm-3">
+        <a href="/esya_detay/{{conversation.request.stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Conversation Page'])">
+            {% if wanted_stuff.filename %}
+                <img class="img-responsive display_none_l768" src="/photos/{{ wanted_stuff.filename}}"/>
+            {% else %}
+                <img class="img-responsive display_none_l768" src="/static/images/{{conversation.request.stuff.category_id}}.png"/>
+            {% endif %}
+        </a>
+
+        <div class="row">
+            <div class="row" style="margin:10px auto;">
+                <div class="col-md-12 col-sm-12 text-right" style="font-size:14px;">
+                    <a href="/profil/{{conversation.request.stuff.owner.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Conversation Page'])">{{conversation.request.stuff.owner.name}}</a>
+                    ödünç
+                    {% if conversation.request.stuff.is_wanted %}istiyor.<br/> tel: {{conversation.request.stuff.owner.phone_number}}{% else %} veriyor.{% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12">
+                {% if conversation.request.stuff.approved == 1 %}
+                    {% if conversation.request.stuff.is_wanted == 1 and user.id == conversation.request.from_user_id %}
+                        {% if conversation.request.status == 0%}
+                            <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1), _gaq.push(['_trackEvent', 'Stuff', 'lentStuff', 'Conversation Page'])">Ödünç verdim</button>
+                        {% elif conversation.request.status == 1 %}
+                            <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2), _gaq.push(['_trackEvent', 'Stuff', 'takeStuffBack', 'Conversation Page'])">Geri aldım</button>
+                        {% endif %}
+                    {% elif conversation.request.stuff.is_wanted == 0 and user.id == conversation.request.stuff.owner.id %}
+                        {% if conversation.request.status == 0%}
+                            <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1), _gaq.push(['_trackEvent', 'Stuff', 'lentStuff', 'Conversation Page'])">Ödünç verdim</button>
+                        {% elif conversation.request.status == 1 %}
+                            <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2), _gaq.push(['_trackEvent', 'Stuff', 'takeStuffBack', 'Conversation Page'])">Geri aldım</button>
+                        {% endif%}
+                    {% endif %}
+
+                    {% if conversation.request.status == 2%}
+                        <button class="btn btn-success pull-right" data-toggle="modal" data-target="#reviewModal" onclick="_gaq.push(['_trackEvent', 'Stuff', 'commentAboutStuff', 'Conversation Page'])">Yorum yapmak ister misin?</button>
+                    {%endif%}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 col-sm-9">
+        <div class="col-md-12 col-sm-12">
+            <h3 style="margin-top: 0px;">{{conversation.title}}</h3>
+        </div>
+        <div class="col-md-12 col-sm-12 text-right" style="margin-bottom:5px;">
+            <div style="background-color: #fcf8e3; padding:5px 10px;">
+                <span style="float:left; color:red;">
+                    {% if conversation.request.status==1 %}
+                        Eşya ödünç verildi :)
+                    {% elif conversation.request.status==2 %}
+                        Eşya geri alındı.
+                    {% endif %}
+                </span>
+                <strong>Ödünç istenme süresi: </strong> {{conversation.request.duration}} gün
             </div>
         </div>
 
         <div class="col-md-12 col-sm-12">
-            {% if conversation.request.stuff.approved == 1 %}
-                {% if conversation.request.stuff.is_wanted == 1 and user.id == conversation.request.from_user_id %}
-                    {% if conversation.request.status == 0%}
-                        <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1), _gaq.push(['_trackEvent', 'Stuff', 'lentStuff', 'Conversation Page'])">Ödünç verdim</button>
-                    {% elif conversation.request.status == 1 %}
-                        <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2), _gaq.push(['_trackEvent', 'Stuff', 'takeStuffBack', 'Conversation Page'])">Geri aldım</button>
-                    {% endif %}
-                {% elif conversation.request.stuff.is_wanted == 0 and user.id == conversation.request.stuff.owner.id %}
-                    {% if conversation.request.status == 0%}
-                        <button class="btn btn-danger pull-right" onclick="updateRequestStatus(1), _gaq.push(['_trackEvent', 'Stuff', 'lentStuff', 'Conversation Page'])">Ödünç verdim</button>
-                    {% elif conversation.request.status == 1 %}
-                        <button class="btn btn-warning pull-right" onclick="updateRequestStatus(2), _gaq.push(['_trackEvent', 'Stuff', 'takeStuffBack', 'Conversation Page'])">Geri aldım</button>
-                    {% endif%}
-                {% endif %}
-
-                {% if conversation.request.status == 2%}
-                    <button class="btn btn-success pull-right" data-toggle="modal" data-target="#reviewModal" onclick="_gaq.push(['_trackEvent', 'Stuff', 'commentAboutStuff', 'Conversation Page'])">Yorum yapmak ister misin?</button>
-                {%endif%}
-            {% endif %}
-        </div>
-    </div>
-</div>
-
-<div class="col-md-8 col-sm-9">
-    <div class="col-md-12 col-sm-12">
-        <h3 style="margin-top: 0px;">{{conversation.title}}</h3>
-    </div>
-    <div class="col-md-12 col-sm-12 text-right" style="margin-bottom:5px;">
-        <div style="background-color: #fcf8e3; padding:5px 10px;">
-            <span style="float:left; color:red;">
-                {% if conversation.request.status==1 %}
-                    Eşya ödünç verildi :)
-                {% elif conversation.request.status==2 %}
-                    Eşya geri alındı.
-                {% endif %}
-            </span>
-            <strong>Ödünç istenme süresi: </strong> {{conversation.request.duration}} gün
-        </div>
-    </div>
-
-    <div class="col-md-12 col-sm-12">
-        <form action="/conversation/{{ conversation.id }}" method="post">
-            {{ form.hidden_tag() }}
-            <div class="form-group">
-                {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
-            </div>
-            {{ form.submit(class_='btn btn-info pull-right')}}
-        </form>
-    </div>
-    {% for message in conversation.messages | reverse %}
-        <div class="col-md-12 col-sm-12" style="margin-top:10px;">
-            <dl class="dl-horizontal">
-                <dt>
-                    <a href="/profile/{{ message.from_user.id }}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Conversation Page'])">{{ message.from_user.name }}</a>
-                </dt>
-                <dd>{{ message }}</dd>
-                <dd class="text-right">{{ message.created_at.strftime("%d-%m-%Y %H:%M") }}</dd>
-            </dl>
-        </div>
-    {% endfor %}
-</div>
-
-<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Değerlendir</h4>
-            </div>
-            <form action="/review" method="post">
+            <form action="/mesaj/{{ conversation.id }}" method="post">
                 {{ form.hidden_tag() }}
-                <div class="form-group" style="margin: 15px;">
-                    <div name="rating" id="star-area" style="margin-left:8px; margin-top:-4px;" aria-required="required"></div>
+                <div class="form-group">
+                    {{ render_field_with_errors(form.message, label_visible=False, placeholder=form.message.label.text) }}
                 </div>
-                <div class="form-group" style="margin:auto 15px;">
-                    {{ render_field_with_errors(review_form.comment, label_visible=False, placeholder=review_form.comment.label.text) }}
-                </div>
-                {{ render_field_with_errors(review_form.request_id) }}
-                <input type="hidden" value="{{conversation.id}}" name="conversation_id"/>
-                <div class="modal-footer">{{ form.submit(class_='btn btn-info pull-right')}}</div>
+                {{ form.submit(class_='btn btn-info pull-right')}}
             </form>
         </div>
+        {% for message in conversation.messages | reverse %}
+            <div class="col-md-12 col-sm-12" style="margin-top:10px; clear:both;">
+                <dl class="dl-horizontal">
+                    <dt>
+                        <a href="/profil/{{ message.from_user.id }}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Conversation Page'])">{{ message.from_user.name }}</a>
+                    </dt>
+                    <dd>{{ message }}</dd>
+                    <dd class="text-right">{{ message.created_at.strftime("%d-%m-%Y %H:%M") }}</dd>
+                </dl>
+            </div>
+        {% endfor %}
     </div>
-</div>
 
-<script type="text/javascript" charset="utf-8">$('#star-area').raty({start:5});</script>
+    <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="requestModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Değerlendir</h4>
+                </div>
+                <form action="/review" method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group" style="margin: 15px;">
+                        <div name="rating" id="star-area" style="margin-left:8px; margin-top:-4px;" aria-required="required"></div>
+                    </div>
+                    <div class="form-group" style="margin:auto 15px;">
+                        {{ render_field_with_errors(review_form.comment, label_visible=False, placeholder=review_form.comment.label.text) }}
+                    </div>
+                    {{ render_field_with_errors(review_form.request_id) }}
+                    <input type="hidden" value="{{conversation.id}}" name="conversation_id"/>
+                    <div class="modal-footer">{{ form.submit(class_='btn btn-info pull-right')}}</div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" charset="utf-8">$('#star-area').raty({start:5});</script>
 
 {% endblock %}
