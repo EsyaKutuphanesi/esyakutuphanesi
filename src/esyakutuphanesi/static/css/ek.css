@@ -366,7 +366,7 @@ h3.stuff_number_text {
 .review-area{
 	width: auto;
 	height: auto;
-	margin: 30px auto 0 auto;
+	/*margin: 30px auto 0 auto;*/
 	overflow: hidden;
 }
 .full-review-area{
@@ -375,7 +375,8 @@ h3.stuff_number_text {
 }
 .single-review-area{
 	height: 180px;
-	width: 840px;
+	/*width: 840px;*/
+	width:33%;
 	float: left;
 	overflow:hidden;
 }
@@ -392,15 +393,18 @@ h3.stuff_number_text {
 }
 .review-slides{
 	float: left;
-	width: 620px;
-	height: 140px;
+	/*width: 620px;*/
+	width:90%;
+	/*height: 140px;*/
 	background-color: #fff;
 	overflow: hidden;
 	float:right;
-	margin:20px 40px 20px 0;
+	/*margin:20px 40px 20px 0;*/
+	margin:20px 5%;
 	-webkit-border-radius: 15px;
 	-moz-border-radius: 15px;
 	border-radius: 15px;
+	text-align:center;
 }
 .review-arrow{
 	position: relative;
@@ -412,8 +416,10 @@ h3.stuff_number_text {
 .review-text{
 	font-family: "Helvetica-Neue-Light";
 	font-size: 28px;
-	padding: 40px 50px 10px 50px;
+	/*padding: 40px 50px 10px 50px;*/
+	padding-top:40px;
 	color:#333333;
+	width:100%;
 	/*text-align: center;*/
 }
 .review-owner-name{
@@ -433,7 +439,7 @@ h3.stuff_number_text {
 	margin-left:5px;
 }
 .custom-slider-area{
-	width: 100px;
+	width: 45px;
 	height: 20px;
 	margin:10px auto 50px auto;
 }
@@ -542,6 +548,30 @@ h3.stuff_number_text {
 @media (min-width: 768px) and (max-width:1024px) {
     .conversation_width {
         width:100% !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width:880px) {
+    .review-text{
+        width:58%;
+    }
+}
+
+@media (min-width: 881px) and (max-width:900px) {
+    .review-text{
+        width:60%;
+    }
+}
+
+@media (min-width: 901px) and (max-width:1024px) {
+    .review-text{
+        width:75%;
+    }
+}
+
+@media (min-width: 1025px) and (max-width:1124px) {
+    .review-text{
+        width:83%;
     }
 }
 
