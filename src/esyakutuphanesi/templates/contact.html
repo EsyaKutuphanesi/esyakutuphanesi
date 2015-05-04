@@ -60,6 +60,10 @@
             <h4>
                 <strong>Bize yazın:</strong>
             </h4>
+            <div>
+                <a href="/sos">Sıkça sorulan sorulara baktın mı?</a><br>
+                <a href="/nasil_calisir">Eşya Kütüphanesi nasıl çalışır?</a>
+            </div><br>
             <form action="{{url_for('contact')}}" method="POST" name="contact_form" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 {{ render_field_with_errors(form.user_name, label_visible=True) }}

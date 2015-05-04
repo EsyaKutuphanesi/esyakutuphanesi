@@ -1,0 +1,16 @@
+    Merhaba {{user}},
+
+    Listelediğin {{stuff}} başlıklı paylaşımını bu haliyle malesef onaylayamıyoruz.
+
+    Eşya Kütüphanesi ödünç alıp vermeyi kolaylaştırmak için oluşturulmuş bir platform.
+    Daha kolay ulaşılabilir olması için ödünç aradığın eşyaları tek tek eklemelisin.
+
+    Eşya kütüphanene girerek eşyalarını listeleyebilirsin.
+
+    Güzel günler,
+    Eşya Kütüphanesi Ekibi
+
+    esyakutuphanesi.com
+    Twitter: @EsyaKutuphanesi
+    Facebook: facebook.com/EsyaKutuphanesi
+    Zumbara: zumbara.com/profil/12340

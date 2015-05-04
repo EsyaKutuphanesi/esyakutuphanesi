@@ -20,15 +20,23 @@
         });
     </script>
 
-    <div class="row">
-        <div class="col-md-2 col-sm-2">
-            <div style="margin-top: 20px;">
-                <img src="/photos/{{group_info.logo}}" class="img-responsive" style="width: 100px; height:100px;"/>
+    <div class="blue_line_ek" style="margin-bottom:0px;">
+        <div class="col-md-8 col-xs-12 margin_left_320">
+
+            <div class="row">
+                <div class="col-md-2 col-sm-2">
+                    <div class="group-logo">
+                        <div class="group-logo-img">
+                            <img src="/photos/{{group_info.logo}}" class="img-responsive"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10 col-sm-10" style="color:white;">
+                    <h2>{{group_info.name | upper}}</h2>
+                    <div>{{group_info.description}}</div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-10 col-sm-10">
-            <h2>{{group_info.name}}</h2>
-            <div>{{group_info.description}}</div>
+
         </div>
     </div>
 
@@ -88,7 +96,7 @@
                 </div>
             {% endfor %}
         </div>
-        <button class="btn btn-info" style="width:100%; margin:10px auto;">Davet et</button>
+        <!--<button class="btn btn-info" style="width:100%; margin:10px auto;">Davet et</button>-->
     </div>
 
 {% endblock %}

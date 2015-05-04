@@ -847,8 +847,7 @@ def make_request(stuff_id=None):
             )
 
             mail.send(msg)
-
-            return redirect(url_for('my_messages'))
+            return render_template("odunc_verme_iletisim.html", user=current_user)
 
     else:
         flash(u'İstek gönderilemedi. Kaç gün için ödünç istediğini girmelisin.')
@@ -899,6 +898,45 @@ def moderation():
 
             mail.send(msg)
             flash(u"Eşya onaylandı ve e-posta gönderildi!")
+
+        elif action == 'list_it' and id > 0:
+
+            stuff.approved = '-2'
+            db.session.commit()
+
+            msg_body = render_template('email/list_it.txt', user=stuff.owner, stuff=stuff)
+            html_msg = render_template('email/list_it.html', user=stuff.owner, stuff=stuff)
+
+            msg_subject = u"Eşya onay"
+
+            msg = MailMessage(
+                body=msg_body,
+                html=html_msg,
+                subject=msg_subject,
+                sender=(u"Eşya Kütüphanesi", "bilgi@esyakutuphanesi.com"),
+                recipients=[stuff.owner.email]
+            )
+
+            mail.send(msg)
+            flash(u"Eşya onaylanmadı ve eşyayı tek tek listelemesi istendi!")
+
+        elif action == 'more_info' and id > 0:
+
+            msg_body = render_template('email/more_info.txt', user=stuff.owner, stuff=stuff)
+            html_msg = render_template('email/more_info.html', user=stuff.owner, stuff=stuff)
+
+            msg_subject = u"Eşya onay"
+
+            msg = MailMessage(
+                body=msg_body,
+                html=html_msg,
+                subject=msg_subject,
+                sender=(u"Eşya Kütüphanesi", "bilgi@esyakutuphanesi.com"),
+                recipients=[stuff.owner.email]
+            )
+
+            mail.send(msg)
+            flash(u"Eşya ile ilgili bilgi istendi!")
 
         elif action == 'reject' and id > 0:
 

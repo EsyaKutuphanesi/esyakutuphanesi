@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}{{ super() }} - Onay Bekliyor{% endblock %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-12 text-center" style="margin:50px auto;">
+            <p></p>
+            <p class="lead">Mesajın gönderildi!</p>
+            <p class="lead">
+                Cevap geldiği zaman e-postana bir bildirim gelecek.
+                <br>
+                Mesaj kutuna gitmek için <a href="/mesajlarim">tıkla.</a>
+                <br>
+                Beklerken <a href="http://blog.esyakutuphanesi.com/"> blogumuza </a> ya da
+                <a href="https://www.facebook.com/EsyaKutuphanesi"> facebook </a> sayfamıza göz atabilirsin.
+            <p class="lead">Sen de bir eşyanı <a href="/esya_listele">listelemek </a> ister misin?
+            </p><br><br>
+            <p><a href="/"> Ana sayfaya git</a> | <a href="/esyalarim"> Eşya kütüphaneme git </a> </p>
+        </div>
+    </div>
+
+{% endblock %}

@@ -8,6 +8,14 @@
             var url = '{{ url_for('moderation',action="approve") }}'
             window.location = url + '&id=' + id;
         }
+         function list_it(id){
+            var url = '{{ url_for('moderation',action="list_it") }}'
+            window.location = url + '&id=' + id;
+        }
+         function more_info(id){
+            var url = '{{ url_for('moderation',action="more_info") }}'
+            window.location = url + '&id=' + id;
+        }
          function reject(id){
             var url = '{{ url_for('moderation',action="reject") }}'
             window.location = url + '&id=' + id;
@@ -80,15 +88,21 @@
                                 <td style="width:126px;">
                                     {% if stuff.owner.approved == 1%}
                                         <button class="btn btn-success" onclick="approve({{ stuff.id }})">
-                                            <span class="glyphicon glyphicon-thumbs-up"></span><span class="glyphicon glyphicon-heart"></span>
+                                            <span class="glyphicon glyphicon-thumbs-up"></span> <span class="glyphicon glyphicon-heart"></span>
                                         </button>
                                     {% elif stuff.owner.approved == 0 %}
                                         <button class="btn btn-info" onclick="approve_user({{ stuff.owner.id }})">
-                                            <span class="glyphicon glyphicon-thumbs-up"></span><span class="glyphicon glyphicon-user"></span>
+                                            <span class="glyphicon glyphicon-thumbs-up"></span> <span class="glyphicon glyphicon-user"></span>
                                         </button>
                                     {% endif%}
+                                    <button class="btn btn-warning" onclick="more_info({{ stuff.id }})">
+                                        <span class="glyphicon glyphicon-question-sign"> Hibe?</span>
+                                    </button>
+                                    <button class="btn btn-danger" onclick="list_it({{ stuff.id }})">
+                                        <span class="glyphicon glyphicon-remove"> Tektek</span>
+                                    </button>
                                     <button class="btn btn-danger" onclick="reject({{ stuff.id }})">
-                                        <span class="glyphicon glyphicon-remove"></span>
+                                        <span class="glyphicon glyphicon-remove"> Hibe</span>
                                     </button>
                                 </td>
                             </tr>

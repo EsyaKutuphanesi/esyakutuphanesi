@@ -184,11 +184,11 @@ form textarea#why, textarea#about {
 .blue_line_ek {
     background-color:#30bcdf;
     position:relative;
-    width:200%;
+    width:162%;
     height:auto;
     overflow:hidden;
     margin-bottom:20px;
-    left:-50%;
+    left:-32%;
 }
 .blue_line_header {
     color:white;
@@ -304,7 +304,25 @@ h3.stuff_number_text {
 .margin_left_320 {
     margin-left:23%;
 }
-
+.group-logo {
+    margin: 10px 50px;
+    width:100px;
+    height:100px;
+    background-color:white;
+    overflow: hidden;
+    display: table;
+    border-radius:50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+}
+.group-logo-img {
+    vertical-align: middle;
+    display: table-cell;
+}
+.group-logo-img img{
+    width: 100px;
+    height:auto;
+}
 
 /*POPUP*/
 #backgroundPopup{
@@ -380,7 +398,6 @@ h3.stuff_number_text {
 	overflow: hidden;
 	float:right;
 	margin:20px 40px 20px 0;
-
 	-webkit-border-radius: 15px;
 	-moz-border-radius: 15px;
 	border-radius: 15px;
@@ -426,7 +443,6 @@ h3.stuff_number_text {
 	-webkit-border-radius: 15px;
 	-moz-border-radius: 15px;
 	border-radius: 15px;
-
 	background-color: transparent;
 	border:2px solid #cccccc;
 	cursor: pointer;
@@ -520,5 +536,17 @@ h3.stuff_number_text {
 @media (min-width: 320px) and (max-width:991px) {
     .display_none_l992 {
         display:none !important;
+    }
+}
+
+@media (min-width: 768px) and (max-width:1024px) {
+    .conversation_width {
+        width:100% !important;
+    }
+}
+
+@media (min-width: 960px) {
+    .info-images {
+        width:70%;
     }
 }
