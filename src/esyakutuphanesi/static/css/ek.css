@@ -423,11 +423,10 @@ h3.stuff_number_text {
 	/*text-align: center;*/
 }
 .review-owner-name{
-	float: left;
+	text-align:center;
 	color:#999999;
 	font-size: 18px;
 	font-family: "Helvetica-Neue-Light";
-	margin-left:50px;
 	margin-top: 3px;
 }
 .review-stars{
