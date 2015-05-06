@@ -4,7 +4,7 @@ Listelediğin {{stuff}} paylaşımlarının ödünç mü yoksa hibe mi olduğunu
 Ödünç olarak listelediysen, bu e-postamıza bunu belirterek geri dönmen yeterli.
 
 Eşya Kütüphanesi şu an sadece ödünç alıp verme üzerine işliyor. Yani kısa süreliğine eşyanı ödünç veriyorsun,
-sonra geri alıyorsun. Eğer ödünç vermek istiyorsan bunu paylaşımının açıklamasında belirtebilirsin. :)
+sonra geri alıyorsun.
 
 Hibe ya da hediye etmek için Verrr.com ve Freecycle gibi oluşumları öneririz. :)
 

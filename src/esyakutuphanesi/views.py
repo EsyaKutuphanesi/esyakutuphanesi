@@ -914,7 +914,8 @@ def moderation():
                 html=html_msg,
                 subject=msg_subject,
                 sender=(u"Eşya Kütüphanesi", "bilgi@esyakutuphanesi.com"),
-                recipients=[stuff.owner.email]
+                recipients=[stuff.owner.email],
+                bcc=["aysu@esyakutuphanesi.com", "didem@esyakutuphanesi.com"]
             )
 
             mail.send(msg)
@@ -932,7 +933,8 @@ def moderation():
                 html=html_msg,
                 subject=msg_subject,
                 sender=(u"Eşya Kütüphanesi", "bilgi@esyakutuphanesi.com"),
-                recipients=[stuff.owner.email]
+                recipients=[stuff.owner.email],
+                bcc=["aysu@esyakutuphanesi.com", "didem@esyakutuphanesi.com"]
             )
 
             mail.send(msg)
@@ -953,7 +955,8 @@ def moderation():
                 html=html_msg,
                 subject=msg_subject,
                 sender=(u"Eşya Kütüphanesi", "no-reply@esyakutuphanesi.com"),
-                recipients=[stuff.owner.email]
+                recipients=[stuff.owner.email],
+                bcc=["aysu@esyakutuphanesi.com", "didem@esyakutuphanesi.com"]
             )
 
             mail.send(msg)
@@ -994,7 +997,8 @@ def moderation():
                 html=html_msg,
                 subject=msg_subject,
                 sender=(u"Eşya Kütüphanesi", "bilgi@esyakutuphanesi.com"),
-                recipients=[unapproved_user.email]
+                recipients=[unapproved_user.email],
+                bcc=["aysu@esyakutuphanesi.com", "didem@esyakutuphanesi.com"]
             )
             mail.send(msg)
 
