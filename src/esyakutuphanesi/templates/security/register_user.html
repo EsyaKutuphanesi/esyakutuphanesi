@@ -20,7 +20,7 @@
 
         <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
             {{ register_user_form.hidden_tag() }}
-            <div class="col-sm-6 col-xs-12">
+            <div class="col-sm-6">
                 {{ render_field_with_errors(register_user_form.name,label_visible=False, placeholder="İsim Soyisim") }}
                 {{ render_field_with_errors(register_user_form.password,label_visible=False, placeholder="Şifre") }}
                 <label for="why" class="control-label">
