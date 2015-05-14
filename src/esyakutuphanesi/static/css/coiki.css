@@ -1,0 +1,543 @@
+/* ----- Coiki HTML -----*/
+
+#home-logo {
+    position: absolute;
+    width: 510px;
+    height: auto;
+    left: 50%;
+    top: 50%;
+    margin-left: -255px;
+    margin-top: -123px;
+    text-align:center;
+}
+#motto {
+    font-size: 30px;
+    font-family: Georgia;
+    line-height:60px;
+}
+#motto2 {
+    font-size: 24px;
+    font-family: Georgia;
+    line-height:60px;
+}
+#action {
+    margin:50px 0px;
+}
+#action div {
+    width:50%;
+}
+#action span a {
+    text-decoration:none;
+    color: black;
+}
+#slipper {
+    margin:0px 20px;
+}
+
+/* ----- Coiki_Hesapla HTML -----*/
+
+.header {
+    position: fixed;
+    z-index: 3000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 20px;
+    float: left;
+    display: block;
+    color:#ef554b;
+}
+.header h2{
+    font-weight:500 !important;
+}
+.number-text {
+    margin-left:20px;
+}
+.question-text {
+    margin-left:20px;
+}
+.question-div {
+    margin:80px auto auto; width:1024px; height:500px;
+}
+.next-text {
+    position:fixed; right:0px; top:300px;
+    width:57px; height:60px;
+    background-image: url("/static/images/coiki/arrow.png");
+    background-repeat: no-repeat;
+    background-position: right 100%;
+    cursor:pointer;
+}
+.next-text:hover {
+    background-image: url("/static/images/coiki/arrow.png");
+    background-position: right top;
+}
+.displayNone {
+    display:none;
+}
+.display_none_option {
+    display:none !important;
+}
+.display_show_option {
+    display:block !important;
+}
+.select-options {
+    position:absolute; top:270px; left:50%; margin-left:-250px;
+}
+.select-yours-text {
+    text-align:center; margin-top:50px; font-size:13px;
+}
+.age-input {
+    position:absolute;
+    left:50%;
+    margin-left:-30px;
+    top:40px;
+    width:60px;
+    height:50px;
+    display: block;
+    text-align:center;
+    font-size: 48px;
+    color: white;
+    vertical-align: middle;
+    background-color: transparent;
+    background-image: none;
+    border: 0px;
+}
+.li_input_number_text {
+    width: 15px; text-align: center;
+    font-size:14px;
+}
+
+/* ----- GENDER ----- */
+
+.checkbox_wrapper {
+    position:absolute; left:50%; margin-left:-250px; top:100px; width:200px; height:209px;
+}
+input[type="radio"].gender {
+    opacity:0;
+    height: 209px;
+    width: 200px;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+}
+input[type="radio"].gender + label{
+    height: 209px;
+    width: 200px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+input[type="radio"].gender:checked + label{
+    height: 209px;
+    width: 200px;
+    display:inline-block;
+    padding: 0 0 0 0px;
+}
+input[type="radio"]#girl-checkbox {
+    left: 50%;
+    margin-left:-100px;
+}
+input[type="radio"]#boy-checkbox {
+    left: 50%;
+    margin-left:150px;
+}
+input[type="radio"] + label#girl{
+    background:url('/static/images/coiki/ek-2-pasif.png') no-repeat;
+    left: 50%;
+    margin-left:-100px;
+}
+input[type="radio"] + label#boy{
+    background:url('/static/images/coiki/ek-1-pasif.png') no-repeat;
+    left: 50%;
+    margin-left:150px;
+}
+input[type="radio"]:checked + label#girl{
+    background:url('/static/images/coiki/ek-2.png') no-repeat;
+    left: 50%;
+    margin-left:-100px;
+}
+input[type="radio"]:checked + label#boy{
+    background:url('/static/images/coiki/ek-1.png') no-repeat;
+    left: 50%;
+    margin-left:150px;
+}
+#age-div {
+    position:absolute; left:50%; margin-left:-75px;
+    top:350px; width:150px; height:150px;
+    border-radius: 50%; background-color:black;
+}
+#age-text {
+    position:absolute; bottom:30px;left:35px;
+}
+#kep-img-style {
+    position: absolute; left: 260px; top: 150px; z-index:1;
+}
+
+/* ----- ELECTRONICS ----- */
+
+#electronics {
+    margin:0 auto;
+    width:420px;
+    height:420px;
+    list-style-type:none;
+    padding-left:0px;
+}
+#electronics li {
+    width:100px;
+    height:100px;
+    margin:20px;
+    float:left;
+}
+#electronics li div {
+    font-size:12px;
+    text-align:center;
+}
+input[type="checkbox"] {
+    opacity:0;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    z-index: 2;
+}
+input[type="checkbox"] + label {
+    width:100px;
+    height:100px;
+    display:inline-block;
+}
+input[type="checkbox"] + label#lcd-label{
+    background:url('/static/images/coiki/1.png') no-repeat;
+}
+input[type="checkbox"] + label#computer-label{
+    background:url('/static/images/coiki/2.png') no-repeat;
+}
+input[type="checkbox"] + label#laptop-label{
+    background:url('/static/images/coiki/3.png') no-repeat;
+}
+input[type="checkbox"] + label#keyboard-label{
+    background:url('/static/images/coiki/4.png') no-repeat;
+}
+input[type="checkbox"] + label#mouse-label{
+    background:url('/static/images/coiki/5.png') no-repeat;
+}
+input[type="checkbox"] + label#harddisk-label{
+    background:url('/static/images/coiki/6.png') no-repeat;
+}
+input[type="checkbox"] + label#printer-label{
+    background:url('/static/images/coiki/7.png') no-repeat;
+}
+input[type="checkbox"] + label#battery-label{
+    background:url('/static/images/coiki/8.png') no-repeat;
+}
+input[type="checkbox"] + label#network-label{
+    background:url('/static/images/coiki/9.png') no-repeat;
+}
+
+/* ----- ACTIVE ----- */
+
+input[type="checkbox"]:checked + label#lcd-label{
+    background:url('/static/images/coiki/1-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#computer-label{
+    background:url('/static/images/coiki/2-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#laptop-label{
+    background:url('/static/images/coiki/3-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#keyboard-label{
+    background:url('/static/images/coiki/4-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#mouse-label{
+    background:url('/static/images/coiki/5-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#harddisk-label{
+    background:url('/static/images/coiki/6-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#printer-label{
+    background:url('/static/images/coiki/7-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#battery-label{
+    background:url('/static/images/coiki/8-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#network-label{
+    background:url('/static/images/coiki/9-active.png') no-repeat;
+}
+
+/* ----- VEHICLE ----- */
+
+#vehicle {
+    margin:150px auto 0px;
+    width:570px;
+    height:320px;
+    list-style-type:none;
+    padding-left:0px;
+}
+#vehicle li {
+    width:150px;
+    height:100px;
+    margin:20px;
+    float:left;
+    text-align:center;
+}
+#vehicle li div {
+    font-size:12px;
+    text-align:center;
+}
+#vehicle input[type="checkbox"] {
+    opacity:0;
+    height: 100px;
+    width: 150px;
+    position: absolute;
+    z-index: 2;
+}
+#vehicle input[type="checkbox"] + label {
+    width:150px;
+    height:100px;
+    display:inline-block;
+}
+input[type="checkbox"] + label#bike-label{
+    background:url('/static/images/coiki/10.png') no-repeat;
+}
+input[type="checkbox"] + label#elect_bike-label{
+    background:url('/static/images/coiki/11.png') no-repeat;
+}
+input[type="checkbox"] + label#scooter-label{
+    background:url('/static/images/coiki/12.png') no-repeat;
+}
+input[type="checkbox"] + label#elect_car-label{
+    background:url('/static/images/coiki/13.png') no-repeat;
+}
+input[type="checkbox"] + label#diesel_car-label{
+    background:url('/static/images/coiki/14.png') no-repeat;
+}
+input[type="checkbox"] + label#fuel_car-label{
+    background:url('/static/images/coiki/15.png') no-repeat;
+}
+
+/* ----- ACTIVE ----- */
+
+input[type="checkbox"]:checked + label#bike-label{
+    background:url('/static/images/coiki/10-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#elect_bike-label{
+    background:url('/static/images/coiki/11-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#scooter-label{
+    background:url('/static/images/coiki/12-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#elect_car-label{
+    background:url('/static/images/coiki/13-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#diesel_car-label{
+    background:url('/static/images/coiki/14-active.png') no-repeat;
+}
+input[type="checkbox"]:checked + label#fuel_car-label{
+    background:url('/static/images/coiki/15-active.png') no-repeat;
+}
+
+/* ----- WORK ----- */
+
+#work {
+    margin:150px auto 0px;
+    width:570px;
+    height:240px;
+    list-style-type:none;
+    padding-left:0px;
+}
+#work li {
+    width:150px;
+    height:200px;
+    margin:20px;
+    float:left;
+}
+#work li div {
+    font-size:12px;
+    text-align:center;
+}
+#work input[type="radio"].work {
+    opacity:0;
+    width: 150px;
+    height: 200px;
+    position: absolute;
+    z-index: 2;
+}
+#work input[type="radio"].work + label {
+    width:150px;
+    height:200px;
+    display:inline-block;
+}
+input[type="radio"] + label#not_working-label{
+    background:url('/static/images/coiki/16.png') no-repeat;
+}
+input[type="radio"] + label#working-label{
+    background:url('/static/images/coiki/17.png') no-repeat;
+}
+input[type="radio"] + label#working_own-label{
+    background:url('/static/images/coiki/18.png') no-repeat;
+}
+
+/* ----- ACTIVE ----- */
+
+input[type="radio"]:checked + label#not_working-label{
+    background:url('/static/images/coiki/16-active.png') no-repeat;
+}
+input[type="radio"]:checked + label#working-label{
+    background:url('/static/images/coiki/17-active.png') no-repeat;
+}
+input[type="radio"]:checked + label#working_own-label{
+    background:url('/static/images/coiki/18-active.png') no-repeat;
+}
+
+
+/* ----- DROPDOWN SELECT ----- */
+
+.dropcontainer_demo2 {
+    position:relative;
+    font-size: 16px;
+    color: #777;
+    }
+
+.trigger_demo2 {
+    color: #777;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    background: #fff url(/static/images/coiki/select-arrow-open.png) 98% center no-repeat;
+    display: block;
+    border: 1px solid #ccc;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    }
+
+.trigger_demo2:hover {
+    color: #777;
+    background: #f5f5f5 url(/static/images/coiki/select-arrow-open.png) 98% center no-repeat;
+    }
+
+.activetrigger_demo2 {
+    color: #777;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    background: #f5f5f5 url(/static/images/coiki/select-arrow-close.png) 98% center no-repeat;
+    display: block;
+    border: 1px solid #ccc;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+
+.activetrigger_demo2:hover {
+    background: #f5f5f5 url(/static/images/coiki/select-arrow-close.png) 98% center no-repeat;
+    color: #777;
+    }
+
+.activetrigger_demo2:active {
+    background: #f5f5f5 url(/static/images/coiki/select-arrow-close.png) 98% center no-repeat;
+    color: #777;
+    }
+
+.dropcontainer_demo2 ul {
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-top: none;
+    background: #fff;
+    list-style-type: none;
+    padding: 10px;
+    margin: 0;
+    width: 100%;
+    z-index: 100;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    }
+
+.dropcontainer_demo2 ul li {
+    padding: 5px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    }
+
+.dropcontainer_demo2 ul li:hover {
+    background: #f5f5f5;
+    outline: none;
+    }
+
+.dropcontainer_demo2 ul li:first-child {
+    display: none;
+    }
+
+.dropcontainer_demo2 ul li:last-child {
+    border-bottom: none;
+    }
+
+.dropdownhidden_demo2 {
+    display: none;
+    }
+
+.dropdownvisible_demo2 {
+    height: auto;
+    }
+
+.dropdownvisible_demo2 {
+    height: 200px;
+    overflow-y: scroll;
+}
+
+/* Import Fonts */
+
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300);
+
+/* Flexible Grid */
+
+.container {padding: 0;}
+.row {width: 100%;max-width: 1140px;min-width: 500px;margin: 0 auto;position: relative;overflow: hidden;}
+.sixcol {margin-right: 3.09090%;float: left;min-height: 1px;}
+.row .sixcol {width: 48.45455%;}
+.row .twelvecol {width: 100%;float: left;}
+.last {margin-right: 0px;}
+
+/* Main Body Styling */
+
+body {margin: 0;padding: 0;background: #fff;font-family: 'Roboto Condensed', sans-serif;color: #777;letter-spacing: 0px;font-size: 1.0em;}
+section.top {margin-top: 60px;}
+section.demo {background: #f5f5f5;padding: 20px 0px;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;}
+.content {padding: 0 20px;}
+
+/* Text Styles */
+
+a {color: #fb9e25; text-decoration: none;}
+a:hover {color: #fb9e25;}
+p {font-weight: 300;}
+h1 {font-weight: 300;font-size: 1.6em;border-bottom: 1px dashed #ccc;display: inline-block;margin: 30px 0;}
+.label {color: #777;text-transform: uppercase;margin-left: 10px;font-size: 0.8em;margin-bottom: 5px;display: block;}
+
+/* Navigation */
+
+nav ul {padding: 0 20px;}
+nav li {list-style: none;float: left; margin-right: 20px;padding: 10px;font-weight: 300;}
+nav li.current {background: #f5f5f5; border: 1px solid #ccc; border-bottom: none;}
+nav li.current a {color: #777; cursor: default;}
+
+/* Mobile Grid Styles
+
+@media handheld, only screen and (max-width: 780px) {
+body {font-size: 16px;-webkit-text-size-adjust: none;}
+.row, body, .container {width: 100%;min-width: 0;margin-left: 0px;margin-right: 0px;padding-left: 0px;padding-right: 0px;}
+.row .sixcol, .row .twelvecol {width: auto;float: none;margin-left: 0px;margin-right: 0px;}
+}
+*/
+/* 720px and below
+
+@media (max-width: 720px) {
+.trigger, .activetrigger, .dropcontainer ul, .trigger_demo2, .activetrigger_demo2, .dropcontainer_demo2 ul {width: 100% !important;}
+}
+ */

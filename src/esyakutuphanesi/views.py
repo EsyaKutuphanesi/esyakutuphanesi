@@ -1409,3 +1409,15 @@ def edit_group(group_id):
         return render_template('edit_group.html', form=form, action='Edit', group=group_detail, user=current_user)
     else:
         return render_template('/404.html', user=current_user)
+
+@app.route('/coiki')
+def coiki():
+    return render_template("coiki.html", user=current_user)
+
+@app.route('/coiki_hesapla')
+def coiki_hesapla():
+    return render_template("coiki_hesapla.html", user=current_user)
+
+@app.route('/sonuc')
+def sonuc():
+    return render_template("sonuc.html", user=current_user)
