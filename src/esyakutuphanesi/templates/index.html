@@ -178,11 +178,11 @@
         {% endif %}
         <div class="col-sm-12 col-xs-12" style="padding-bottom:20px;">
             <div class="row">
-                <div class="col-sm-6 col-xs-6 col_ss_6 display_none_l600 index_share_tumbnail_padding">
-                    <a href="/esya_listele?is_wanted=true">
-                        <img src="/static/images/ek-oduncal.png" class="img-responsive" id="index_oduncal_img_bg">
-                    </a>
-                </div>
+                <a href="/esya_listele?is_wanted=true">
+                   <img src="/static/images/ek-oduncal.png" class="img-responsive" id="index_oduncal_img_bg" style="margin: auto; margin-bottom: 30px;">
+                </a>
+            </div>
+            <div class="row">
                 {% for stuff in last_objects_wanted %}
                     {{ render_item_box(stuff, user, True) }}
                 {%endfor%}

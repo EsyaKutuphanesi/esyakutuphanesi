@@ -42,7 +42,7 @@ def home():
         Stuff.owner_id == User.id,
         Stuff.group_id == None,
         User.approved == True
-    ).order_by(Stuff.id.desc()).limit(3)
+    ).order_by(Stuff.id.desc()).limit(6)
 
     stuff_count_wanted = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == True).count()
     stuff_count_shared = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == False).count()
