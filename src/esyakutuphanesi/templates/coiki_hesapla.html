@@ -3,19 +3,16 @@
 <head lang="en">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="robots" content="all">
-    <meta name="geo.region" content="GB-KEN">
-    <meta name="geo.placename" content="Canterbury, Kent">
-    <meta name="author" content="ScribbleTribe Studios">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.png">
     <link rel="stylesheet" href="static/css/coiki.css">
+    <script type="text/javascript" src="static/js/jquery-1.10.2.min.js" ></script>
     <script type="text/javascript" src="static/js/select_demo2.js" ></script>
 
     <title>CO2 Hesapla</title>
 
 </head>
 <body>
-    <div id="one">
+    <div id="one" class="displayNone">
         <div class="header">
             <h2>
                 <span class="number-text">1</span> | 7
@@ -131,7 +128,7 @@
             </div>
         </div>
 
-        <div class="next-text" id="next-two" onclick="displayTwoFunction()"></div>
+        <div class="next-text" id="next-two" data-value="2"></div>
     </div>
 
     <div id="two" class="displayNone">
@@ -158,7 +155,7 @@
             </div>
         </div>
 
-        <div class="next-text" id="next-three" onclick="displayThreeFunction()"></div>
+        <div class="next-text" id="next-three" data-value="3"></div>
     </div>
 
     <div id="three" class="displayNone">
@@ -203,7 +200,7 @@
             </div>
         </div>
 
-        <div class="next-text" id="next-four" onclick="displayFourFunction()"></div>
+        <div class="next-text" id="next-four" data-value="4"></div>
     </div>
 
     <div id="four" class="displayNone">
@@ -314,7 +311,7 @@
 
         </div>
 
-        <div class="next-text" id="next-five" onclick="displayFiveFunction()"></div>
+        <div class="next-text" id="next-five" data-value="5"></div>
     </div>
 
     <div id="five" class="displayNone">
@@ -402,7 +399,7 @@
             <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla.</div>
         </div>
 
-        <div class="next-text"  id="next-six" onclick="displaySixFunction()"></div>
+        <div class="next-text"  id="next-six" data-value="6" ></div>
     </div>
 
     <div id="six" class="displayNone">
@@ -449,7 +446,7 @@
             <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla.</div>
         </div>
 
-        <div class="next-text" id="next-seven" onclick="displaySevenFunction()"></div>
+        <div class="next-text" id="next-seven" data-value="7" ></div>
     </div>
 
     <div id="seven" class="displayNone">
@@ -522,29 +519,81 @@
     </div>
 
     <script>
-        function displayTwoFunction() {
-            document.getElementById('one').setAttribute("class", "display_none_option");
-            document.getElementById('two').setAttribute("class", "display_show_option");
-        }
-        function displayThreeFunction() {
-            document.getElementById('two').setAttribute("class", "display_none_option");
-            document.getElementById('three').setAttribute("class", "display_show_option");
-        }
-        function displayFourFunction() {
-            document.getElementById('three').setAttribute("class", "display_none_option");
-            document.getElementById('four').setAttribute("class", "display_show_option");
-        }
-        function displayFiveFunction() {
-            document.getElementById('four').setAttribute("class", "display_none_option");
-            document.getElementById('five').setAttribute("class", "display_show_option");
-        }
-        function displaySixFunction() {
-            document.getElementById('five').setAttribute("class", "display_none_option");
-            document.getElementById('six').setAttribute("class", "display_show_option");
-        }
-        function displaySevenFunction() {
-            document.getElementById('six').setAttribute("class", "display_none_option");
-            document.getElementById('seven').setAttribute("class", "display_show_option");
+        var pathname = window.location.pathname;
+        var string = window.location.hash;
+
+
+        $( document ).ready(function() {
+
+            if( string=="#cinsiyet" ) {
+                displayFunction(2);
+            } else if( string=="#egitim" ) {
+                displayFunction(3);
+            } else if( string=="#isdurumu" ) {
+                displayFunction(4);
+            } else if( string=="#elektronik" ) {
+                displayFunction(5);
+            } else if( string=="#ulasimaraci" ) {
+                displayFunction(6);
+            } else if( string=="#secenekler" ) {
+                displayFunction(7);
+            } else {
+                displayFunction(1);
+            }
+
+            if( string!='' ) window.location.href = pathname+string;
+        });
+
+        $(window).on("navigate", function (event, data) {
+            var direction = data.state.direction;
+            if ( !! direction) {
+                alert(direction);
+            }
+        });
+
+        $( ".next-text" ).click(function() {
+            var value = $(this).attr('data-value');
+            displayFunction(value);
+        });
+
+        function displayFunction(step) {
+            if(step==1) {
+                var hiddenID = '';
+                var showID = 'one';
+                var urlHash = '';
+            } else if(step==2) {
+                var hiddenID = 'one';
+                var showID = 'two';
+                var urlHash = 'cinsiyet';
+            } else if(step==3) {
+                var hiddenID = 'two';
+                var showID = 'three';
+                var urlHash = 'egitim';
+            } else if(step==4) {
+                var hiddenID = 'three';
+                var showID = 'four';
+                var urlHash = 'isdurumu';
+            } else if(step==5) {
+                var hiddenID = 'four';
+                var showID = 'five';
+                var urlHash = 'elektronik';
+            } else if(step==6) {
+                var hiddenID = 'five';
+                var showID = 'six';
+                var urlHash = 'ulasimaraci';
+            } else if(step==7) {
+                var hiddenID = 'six';
+                var showID = 'seven';
+                var urlHash = 'secenekler';
+            } else return;
+
+            if( hiddenID!='' )
+                $("#"+hiddenID).removeClass("display_show_option").addClass("display_none_option");
+
+            $("#"+showID).removeClass("display_none_option").addClass("display_show_option");
+
+            if( urlHash!='' )
+                window.location.href = pathname+'#'+urlHash;
         }
 
         function showNWFunction() {

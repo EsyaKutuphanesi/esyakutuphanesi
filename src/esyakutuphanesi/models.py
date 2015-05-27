@@ -5,7 +5,7 @@ from datetime import datetime
 from flask.ext.security import UserMixin, RoleMixin, SQLAlchemyUserDatastore, Security
 from __init__ import app, db
 from flask_security.forms import RegisterForm
-from wtforms.validators import Required, Length
+from wtforms.validators import Required, Length, ValidationError, Email
 from wtforms import TextField, TextAreaField, BooleanField
 
 roles_users = db.Table(
@@ -342,7 +342,13 @@ users = SQLAlchemyUserDatastore(db, User, Role)
 
 
 class ExtendedRegisterForm(RegisterForm):
-    name = TextField(u'İsim Soyisim', [Required(u'İsmini girmen gerekli')])
+    name = TextField(u'İsim Soyisim', [Required(u'İsmini girmen gerekli.')])
+    email = TextField(u'E-posta', [Required(u'E-posta adresini girmen gerekli.'), Email(u'Geçerli bir e-posta adresi girmelisin.')])
+
+    def validate_email(self, field):
+        if not field.data.isupper() or not field.data.islower():
+            raise ValidationError(u'Tüm karakterleri küçük yazmalısın.')
+
     why = TextAreaField(
         u'Eşya Kütüphanesi\'ne neden geldiğinden kısaca bahsedebilir misin? '
         u'Mesela buradan beklentilerin neler? '

@@ -17,9 +17,9 @@
                     {%endif%}
                     <a href="/esya_detay/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                         {%if stuff.photos%}
-                            <img src="/static/photos/{{stuff.photos[0].filename}}"/>
+                            <img src="/static/photos/{{stuff.photos[0].filename}}" style="height:200px;"/>
                         {%else%}
-                            <img src="/static/images/{{stuff.category_id}}.png"/>
+                            <img src="/static/images/{{stuff.category_id}}.png" style="height:200px;"/>
                         {%endif%}
                     </a>
                     <a href="/esya_detay/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])" style="text-decoration:none;">

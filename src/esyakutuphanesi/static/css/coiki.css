@@ -144,22 +144,26 @@ input[type="radio"]#boy-checkbox {
     margin-left:150px;
 }
 input[type="radio"] + label#girl{
-    background:url('/static/images/coiki/ek-2-pasif.png') no-repeat;
+    background:url('/static/images/coiki/ek-gender.png') no-repeat;
+    background-position: left top;
     left: 50%;
     margin-left:-100px;
 }
 input[type="radio"] + label#boy{
-    background:url('/static/images/coiki/ek-1-pasif.png') no-repeat;
+    background:url('/static/images/coiki/ek-gender.png') no-repeat;
+    background-position: left bottom;
     left: 50%;
     margin-left:150px;
 }
 input[type="radio"]:checked + label#girl{
-    background:url('/static/images/coiki/ek-2.png') no-repeat;
+    background:url('/static/images/coiki/ek-gender.png') no-repeat;
+    background-position: right top;
     left: 50%;
     margin-left:-100px;
 }
 input[type="radio"]:checked + label#boy{
-    background:url('/static/images/coiki/ek-1.png') no-repeat;
+    background:url('/static/images/coiki/ek-gender.png') no-repeat;
+    background-position: right bottom;
     left: 50%;
     margin-left:150px;
 }
@@ -207,61 +211,72 @@ input[type="checkbox"] + label {
     display:inline-block;
 }
 input[type="checkbox"] + label#lcd-label{
-    background:url('/static/images/coiki/1.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: left top;
 }
 input[type="checkbox"] + label#computer-label{
-    background:url('/static/images/coiki/2.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: 50% top;
 }
 input[type="checkbox"] + label#laptop-label{
-    background:url('/static/images/coiki/3.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: right top;
 }
 input[type="checkbox"] + label#keyboard-label{
-    background:url('/static/images/coiki/4.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: left 40%;
 }
 input[type="checkbox"] + label#mouse-label{
-    background:url('/static/images/coiki/5.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: 50% 40%;
 }
 input[type="checkbox"] + label#harddisk-label{
-    background:url('/static/images/coiki/6.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: right 40%;
 }
 input[type="checkbox"] + label#printer-label{
-    background:url('/static/images/coiki/7.png') no-repeat;
-}
-input[type="checkbox"] + label#battery-label{
-    background:url('/static/images/coiki/8.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: left 80%;
 }
 input[type="checkbox"] + label#network-label{
-    background:url('/static/images/coiki/9.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: 50% 80%;
 }
 
 /* ----- ACTIVE ----- */
 
+
 input[type="checkbox"]:checked + label#lcd-label{
-    background:url('/static/images/coiki/1-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: left 20%;
 }
 input[type="checkbox"]:checked + label#computer-label{
-    background:url('/static/images/coiki/2-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: 50% 20%;
 }
 input[type="checkbox"]:checked + label#laptop-label{
-    background:url('/static/images/coiki/3-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: right 20%;
 }
 input[type="checkbox"]:checked + label#keyboard-label{
-    background:url('/static/images/coiki/4-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: left 60%;
 }
 input[type="checkbox"]:checked + label#mouse-label{
-    background:url('/static/images/coiki/5-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: 50% 60%;
 }
 input[type="checkbox"]:checked + label#harddisk-label{
-    background:url('/static/images/coiki/6-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: right 60%;
 }
 input[type="checkbox"]:checked + label#printer-label{
-    background:url('/static/images/coiki/7-active.png') no-repeat;
-}
-input[type="checkbox"]:checked + label#battery-label{
-    background:url('/static/images/coiki/8-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: left 100%;
 }
 input[type="checkbox"]:checked + label#network-label{
-    background:url('/static/images/coiki/9-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-devices.png') no-repeat;
+    background-position: 50% 100%;
 }
 
 /* ----- VEHICLE ----- */
@@ -297,43 +312,55 @@ input[type="checkbox"]:checked + label#network-label{
     display:inline-block;
 }
 input[type="checkbox"] + label#bike-label{
-    background:url('/static/images/coiki/10.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: left top;
 }
 input[type="checkbox"] + label#elect_bike-label{
-    background:url('/static/images/coiki/11.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: 50% top;
 }
 input[type="checkbox"] + label#scooter-label{
-    background:url('/static/images/coiki/12.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: right top;
 }
 input[type="checkbox"] + label#elect_car-label{
-    background:url('/static/images/coiki/13.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: left 67%;
 }
 input[type="checkbox"] + label#diesel_car-label{
-    background:url('/static/images/coiki/14.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: 50% 67%;
 }
 input[type="checkbox"] + label#fuel_car-label{
-    background:url('/static/images/coiki/15.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: right 67%;
 }
 
 /* ----- ACTIVE ----- */
 
 input[type="checkbox"]:checked + label#bike-label{
-    background:url('/static/images/coiki/10-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: left 33%;
 }
 input[type="checkbox"]:checked + label#elect_bike-label{
-    background:url('/static/images/coiki/11-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: 50% 33%;
 }
 input[type="checkbox"]:checked + label#scooter-label{
-    background:url('/static/images/coiki/12-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: right 33%;
 }
 input[type="checkbox"]:checked + label#elect_car-label{
-    background:url('/static/images/coiki/13-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: left 100%;
 }
 input[type="checkbox"]:checked + label#diesel_car-label{
-    background:url('/static/images/coiki/14-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: 50% 100%;
 }
 input[type="checkbox"]:checked + label#fuel_car-label{
-    background:url('/static/images/coiki/15-active.png') no-repeat;
+    background:url('/static/images/coiki/ek-vehicles.png') no-repeat;
+    background-position: right 100%;
 }
 
 /* ----- WORK ----- */
@@ -368,25 +395,28 @@ input[type="checkbox"]:checked + label#fuel_car-label{
     display:inline-block;
 }
 input[type="radio"] + label#not_working-label{
-    background:url('/static/images/coiki/16.png') no-repeat;
+    background:url('/static/images/coiki/ek-work.png') no-repeat;
+    background-position: left top;
 }
 input[type="radio"] + label#working-label{
-    background:url('/static/images/coiki/17.png') no-repeat;
+    background:url('/static/images/coiki/ek-work.png') no-repeat;
+    background-position: 46% top;
 }
 input[type="radio"] + label#working_own-label{
-    background:url('/static/images/coiki/18.png') no-repeat;
+    background:url('/static/images/coiki/ek-work.png') no-repeat;
+    background-position: right top;
 }
 
 /* ----- ACTIVE ----- */
 
 input[type="radio"]:checked + label#not_working-label{
-    background:url('/static/images/coiki/16-active.png') no-repeat;
+    background-position: left bottom;
 }
 input[type="radio"]:checked + label#working-label{
-    background:url('/static/images/coiki/17-active.png') no-repeat;
+    background-position: 46% bottom;
 }
 input[type="radio"]:checked + label#working_own-label{
-    background:url('/static/images/coiki/18-active.png') no-repeat;
+    background-position: right bottom;
 }
 
 
