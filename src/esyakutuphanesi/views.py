@@ -11,6 +11,7 @@ from flask_mail import Message as MailMessage
 from __init__ import app, db, mail
 from forms import *
 from models import *
+from array import *
 
 
 @app.errorhandler(404)
@@ -1411,13 +1412,24 @@ def edit_group(group_id):
         return render_template('/404.html', user=current_user)
 
 @app.route('/coiki')
-def coiki():
+def carbon_emission():
     return render_template("coiki.html", user=current_user)
 
 @app.route('/coiki_hesapla')
-def coiki_hesapla():
+def calculate_carbon():
     return render_template("coiki_hesapla.html", user=current_user)
 
-@app.route('/sonuc')
-def sonuc():
-    return render_template("sonuc.html", user=current_user)
+@app.route('/sonuc', methods=["GET", "POST"])
+def results():
+
+    if request.method == 'POST':
+
+        place = request.form.get('place')
+        gender = request.form.get('gender')
+        education = request.form.get('education')
+        work = request.form.get('work')
+        electronics = request.form.getlist('electronic')
+        vehicles = request.form.getlist('vehicle')
+
+        return render_template("sonuc.html", user=current_user, place=place, gender=gender,
+                               education=education, work=work, electronics=electronics, vehicles=vehicles)

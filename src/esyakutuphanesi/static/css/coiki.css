@@ -181,20 +181,20 @@ input[type="radio"]:checked + label#boy{
 
 /* ----- ELECTRONICS ----- */
 
-#electronics {
+#electronic {
     margin:0 auto;
     width:420px;
     height:420px;
     list-style-type:none;
     padding-left:0px;
 }
-#electronics li {
+#electronic li {
     width:100px;
     height:100px;
     margin:20px;
     float:left;
 }
-#electronics li div {
+#electronic li div {
     font-size:12px;
     text-align:center;
 }

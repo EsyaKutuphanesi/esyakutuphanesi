@@ -12,27 +12,28 @@
 
 </head>
 <body>
-    <div id="one" class="displayNone">
-        <div class="header">
-            <h2>
-                <span class="number-text">1</span> | 7
-                <span class="question-text">Nerede Yaşıyorsun?</span>
-            </h2>
-        </div>
 
-        <div class="question-div">
-            <div><img src="/static/images/coiki/harita.png"/> </div>
-            <div class="select-options">
+    <form action="{{ url_for('results') }}" method="POST" name="calculate_carbon_form" enctype="multipart/form-data">
+        <div id="one" class="displayNone">
+            <div class="header">
+                <h2>
+                    <span class="number-text">1</span> | 7
+                    <span class="question-text">Nerede Yaşıyorsun?</span>
+                </h2>
+            </div>
 
-                <section class="demo">
-                    <div class="container">
-                        <div class="row">
-                            <div class="twelvecol">
-                                <div class="content">
+            <div class="question-div">
+                <div><img src="/static/images/coiki/harita.png"/> </div>
+                <div class="select-options">
 
-                                    <form action="">
+                    <section class="demo">
+                        <div class="container">
+                            <div class="row">
+                                <div class="twelvecol">
+                                    <div class="content">
+
                                         <p>
-                                            <select class="turnintodropdown_demo2">
+                                            <select class="turnintodropdown_demo2" name="place">
                                                 <option value="0">Lütfen ilinizi seçin:</option>
                                                 <option value="34">İstanbul</option>
                                                 <option value="1">Adana</option>
@@ -117,400 +118,369 @@
                                                 <option value="81">Düzce</option>
                                             </select>
                                         </p>
-                                    </form>
 
-                                </div><!-- .content -->
-                            </div><!-- .twelvecol -->
-                        </div><!-- .row -->
-                    </div>
-                </section>
+                                    </div><!-- .content -->
+                                </div><!-- .twelvecol -->
+                            </div><!-- .row -->
+                        </div>
+                    </section>
 
+                </div>
             </div>
+
+            <div class="next-text" id="next-two" data-value="2"></div>
         </div>
 
-        <div class="next-text" id="next-two" data-value="2"></div>
-    </div>
+        <div id="two" class="displayNone">
+            <div class="header">
+                <h2>
+                    <span class="number-text">2</span> | 7
+                    <span class="question-text">Cinsiyetin ve Yaşın?</span>
+                </h2>
+            </div>
 
-    <div id="two" class="displayNone">
-        <div class="header">
-            <h2>
-                <span class="number-text">2</span> | 7
-                <span class="question-text">Cinsiyetin ve Yaşın?</span>
-            </h2>
+            <div class="question-div">
+                <div class="checkbox_wrapper">
+                    <input type="radio" class="gender" value="200" id="girl-checkbox" name="gender"/>
+                    <label id="girl"></label>
+                </div>
+                <div class="checkbox_wrapper">
+                    <input type="radio" class="gender" value="201" id="boy-checkbox" name="gender"/>
+                    <label id="boy"></label>
+                </div>
+
+                <div id="age-div">
+                    <input type="text" class="age-input" name="age" placeholder="25">
+                    <span id="age-text">Yaşındayım</span>
+                </div>
+            </div>
+
+            <div class="next-text" id="next-three" data-value="3"></div>
         </div>
 
-        <div class="question-div">
-            <div class="checkbox_wrapper">
-                <input type="radio" class="gender" id="girl-checkbox" name="gender"/>
-                <label id="girl"></label>
-            </div>
-            <div class="checkbox_wrapper">
-                <input type="radio" class="gender" id="boy-checkbox" name="gender"/>
-                <label id="boy"></label>
+        <div id="three" class="displayNone">
+            <div class="header">
+                <h2>
+                    <span class="number-text">3</span> | 7
+                    <span class="question-text">Öğrenim Durumun</span>
+                </h2>
             </div>
 
-            <div id="age-div">
-                <input type="text" class="age-input" name="age" placeholder="25">
-                <span id="age-text">Yaşındasın</span>
-            </div>
-        </div>
+            <div class="question-div">
+                <div id="kep-img-style">
+                    <img src="/static/images/coiki/okul.png"/>
+                </div>
+                <div class="select-options">
 
-        <div class="next-text" id="next-three" data-value="3"></div>
-    </div>
+                    <section class="demo">
+                        <div class="container">
+                            <div class="row">
+                                <div class="twelvecol">
+                                    <div class="content">
 
-    <div id="three" class="displayNone">
-        <div class="header">
-            <h2>
-                <span class="number-text">3</span> | 7
-                <span class="question-text">Öğrenim Durumun</span>
-            </h2>
-        </div>
-
-        <div class="question-div">
-            <div id="kep-img-style">
-                <img src="/static/images/coiki/okul.png"/>
-            </div>
-            <div class="select-options">
-
-                <section class="demo">
-                    <div class="container">
-                        <div class="row">
-                            <div class="twelvecol">
-                                <div class="content">
-
-                                    <form action="">
                                         <p>
-                                            <select class="turnintodropdown_demo2">
+                                            <select class="turnintodropdown_demo2" name="education">
                                                 <option value="0">Lütfen öğrenim durumunuzu seçin:</option>
-                                                <option value="100">Doktora</option>
-                                                <option value="101">Yüksek Lisans</option>
-                                                <option value="102">Lisans</option>
-                                                <option value="103">Lise</option>
-                                                <option value="104">İlk Öğretim</option>
+                                                <option value="300">Doktora</option>
+                                                <option value="301">Yüksek Lisans</option>
+                                                <option value="302">Lisans</option>
+                                                <option value="303">Lise</option>
+                                                <option value="304">İlk Öğretim</option>
                                             </select>
                                         </p>
-                                    </form>
 
-                                </div><!-- .content -->
-                            </div><!-- .twelvecol -->
-                        </div><!-- .row -->
-                    </div><!-- .container -->
-                </section>
+                                    </div><!-- .content -->
+                                </div><!-- .twelvecol -->
+                            </div><!-- .row -->
+                        </div><!-- .container -->
+                    </section>
 
-            </div>
-        </div>
-
-        <div class="next-text" id="next-four" data-value="4"></div>
-    </div>
-
-    <div id="four" class="displayNone">
-        <div class="header">
-            <h2>
-                <span class="number-text">4</span> | 7
-                <span class="question-text">İş Durumun</span>
-            </h2>
-        </div>
-
-        <div class="question-div">
-            <ul id="work">
-                <li>
-                    <input type="radio" class="work" id="not_working" name="work" onclick="showNWFunction()"/>
-                    <label id="not_working-label"></label>
-                    <div>Çalışmıyorum</div>
-                </li>
-                <li>
-                    <input type="radio" class="work" id="working" name="work" onclick="showWFunction()"/>
-                    <label id="working-label"></label>
-                    <div>Ücretli Çalışıyorum</div>
-                </li>
-                <li>
-                    <input type="radio" class="work" id="working_own" name="work" onclick="showWOFunction()"/>
-                    <label id="working_own-label"></label>
-                    <div>Kendi Adıma Çalışıyorum</div>
-                </li>
-            </ul>
-
-            <div class="select-options displayNone" id="working_option_1" style="top: auto;">
-                <section class="demo" id="not_working_select">
-                    <div class="container">
-                        <div class="row">
-                            <div class="twelvecol">
-                                <div class="content">
-
-                                    <p>
-                                        <select class="turnintodropdown_demo2" >
-                                            <option value="0">Lütfen çalışma durumunuzu seçin:</option>
-                                            <option value="400">Ev hanımı</option>
-                                            <option value="401">Öğrenci</option>
-                                            <option value="402">Emekli</option>
-                                            <option value="403">Geçici işsiz</option>
-                                        </select>
-                                    </p>
-
-                                </div><!-- .content -->
-                            </div><!-- .twelvecol -->
-                        </div><!-- .row -->
-                    </div><!-- .container -->
-                </section>
+                </div>
             </div>
 
-            <div class="select-options displayNone" id="working_option_2" style="top: auto;">
-                <section class="demo" id="working_select">
-                    <div class="container">
-                        <div class="row">
-                            <div class="twelvecol">
-                                <div class="content">
+            <div class="next-text" id="next-four" data-value="4"></div>
+        </div>
 
-                                    <p>
-                                        <select class="turnintodropdown_demo2">
-                                            <option value="0">Lütfen çalışma durumunuzu seçin:</option>
-                                            <option value="404">Üst düzey yönetici</option>
-                                            <option value="405">10'dan fazla çalışanlı orta düzey yönetici</option>
-                                            <option value="406">10'dan az çalışanlı orta düzey yönetici</option>
-                                            <option value="407">Nitelikli uzman, mühendis, teknik eleman</option>
-                                            <option value="408">Memur/Ofis çalışanı</option>
-                                            <option value="409">Nitelikli işçi/Hizmetli</option>
-                                            <option value="410">Vasıfsız işçi/Hizmetli</option>
-                                        </select>
-                                    </p>
-
-                                </div><!-- .content -->
-                            </div><!-- .twelvecol -->
-                        </div><!-- .row -->
-                    </div><!-- .container -->
-                </section>
+        <div id="four" class="displayNone">
+            <div class="header">
+                <h2>
+                    <span class="number-text">4</span> | 7
+                    <span class="question-text">İş Durumun</span>
+                </h2>
             </div>
 
-            <div class="select-options displayNone" id="working_option_3" style="top: auto;">
-                <section class="demo" id="working_own_select">
-                    <div class="container">
-                        <div class="row">
-                            <div class="twelvecol">
-                                <div class="content">
+            <div class="question-div">
+                <ul id="work">
+                    <li>
+                        <input type="radio" class="work" id="not_working" name="workOption" onclick="showNWFunction()"/>
+                        <label id="not_working-label"></label>
+                        <div>Çalışmıyorum</div>
+                    </li>
+                    <li>
+                        <input type="radio" class="work" id="working" name="workOption" onclick="showWFunction()"/>
+                        <label id="working-label"></label>
+                        <div>Ücretli Çalışıyorum</div>
+                    </li>
+                    <li>
+                        <input type="radio" class="work" id="working_own" name="workOption" onclick="showWOFunction()"/>
+                        <label id="working_own-label"></label>
+                        <div>Kendi Adıma Çalışıyorum</div>
+                    </li>
+                </ul>
 
-                                    <p>
-                                        <select class="turnintodropdown_demo2">
-                                            <option value="0">Lütfen çalışma durumunuzu seçin:</option>
-                                            <option value="411">Çiftçi</option>
-                                            <option value="412">Nitelikli serbest meslek sahibi</option>
-                                            <option value="413">0-5 çalışanlı tüccar</option>
-                                            <option value="414">6-20 çalışanlı tüccar</option>
-                                            <option value="415">20+ çalışanlı tüccar</option>
-                                            <option value="416">1-9 çalışanlı şirket/imalathane sahibi</option>
-                                            <option value="417">10-25 çalışanlı şirket/imalathane sahibi</option>
-                                            <option value="418">25+ çalışanlı şirket/imalathane sahibi</option>
-                                        </select>
-                                    </p>
+                <div class="select-options displayNone" id="working_option_1" style="top: auto;">
+                    <section class="demo" id="not_working_select">
+                        <div class="container">
+                            <div class="row">
+                                <div class="twelvecol">
+                                    <div class="content">
 
-                                </div><!-- .content -->
-                            </div><!-- .twelvecol -->
-                        </div><!-- .row -->
-                    </div><!-- .container -->
-                </section>
+                                        <p>
+                                            <select class="turnintodropdown_demo2" name="work">
+                                                <option value="0">Lütfen çalışma durumunuzu seçin:</option>
+                                                <option value="400">Ev hanımı</option>
+                                                <option value="401">Öğrenci</option>
+                                                <option value="402">Emekli</option>
+                                                <option value="403">Geçici işsiz</option>
+                                            </select>
+                                        </p>
+
+                                    </div><!-- .content -->
+                                </div><!-- .twelvecol -->
+                            </div><!-- .row -->
+                        </div><!-- .container -->
+                    </section>
+                </div>
+
+                <div class="select-options displayNone" id="working_option_2" style="top: auto;">
+                    <section class="demo" id="working_select">
+                        <div class="container">
+                            <div class="row">
+                                <div class="twelvecol">
+                                    <div class="content">
+
+                                        <p>
+                                            <select class="turnintodropdown_demo2" name="work">
+                                                <option value="0">Lütfen çalışma durumunuzu seçin:</option>
+                                                <option value="404">Üst düzey yönetici</option>
+                                                <option value="405">10'dan fazla çalışanlı orta düzey yönetici</option>
+                                                <option value="406">10'dan az çalışanlı orta düzey yönetici</option>
+                                                <option value="407">Nitelikli uzman, mühendis, teknik eleman</option>
+                                                <option value="408">Memur/Ofis çalışanı</option>
+                                                <option value="409">Nitelikli işçi/Hizmetli</option>
+                                                <option value="410">Vasıfsız işçi/Hizmetli</option>
+                                            </select>
+                                        </p>
+
+                                    </div><!-- .content -->
+                                </div><!-- .twelvecol -->
+                            </div><!-- .row -->
+                        </div><!-- .container -->
+                    </section>
+                </div>
+
+                <div class="select-options displayNone" id="working_option_3" style="top: auto;">
+                    <section class="demo" id="working_own_select">
+                        <div class="container">
+                            <div class="row">
+                                <div class="twelvecol">
+                                    <div class="content">
+
+                                        <p>
+                                            <select class="turnintodropdown_demo2" name="work">
+                                                <option value="0">Lütfen çalışma durumunuzu seçin:</option>
+                                                <option value="411">Çiftçi</option>
+                                                <option value="412">Nitelikli serbest meslek sahibi</option>
+                                                <option value="413">0-5 çalışanlı tüccar</option>
+                                                <option value="414">6-20 çalışanlı tüccar</option>
+                                                <option value="415">20+ çalışanlı tüccar</option>
+                                                <option value="416">1-9 çalışanlı şirket/imalathane sahibi</option>
+                                                <option value="417">10-25 çalışanlı şirket/imalathane sahibi</option>
+                                                <option value="418">25+ çalışanlı şirket/imalathane sahibi</option>
+                                            </select>
+                                        </p>
+
+                                    </div><!-- .content -->
+                                </div><!-- .twelvecol -->
+                            </div><!-- .row -->
+                        </div><!-- .container -->
+                    </section>
+                </div>
+
             </div>
 
+            <div class="next-text" id="next-five" data-value="5"></div>
         </div>
 
-        <div class="next-text" id="next-five" data-value="5"></div>
-    </div>
+        <div id="five" class="displayNone">
+            <div class="header">
+                <h2>
+                    <span class="number-text">5</span> | 7
+                    <span class="question-text">Hangi elektronik aletlere sahipsin?</span>
+                </h2>
+            </div>
 
-    <div id="five" class="displayNone">
-        <div class="header">
-            <h2>
-                <span class="number-text">5</span> | 7
-                <span class="question-text">Hangi elektronik aletlere sahipsin?</span>
-            </h2>
+            <div class="question-div">
+                <ul id="electronic">
+                    <li>
+                        <input type="checkbox" id="lcd" name="electronic" value="500"/>
+                        <label id="lcd-label"></label>
+                        <div>17" LCD Ekran</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="computer" name="electronic" value="501"/>
+                        <label id="computer-label"></label>
+                        <div>Masaüstü Bilgisayar</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="laptop" name="electronic" value="502"/>
+                        <label id="laptop-label"></label>
+                        <div>Dizüstü Bilgisayar</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="keyboard" name="electronic" value="503"/>
+                        <label id="keyboard-label"></label>
+                        <div>Klavye</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="mouse" name="electronic"  value="504"/>
+                        <label id="mouse-label"></label>
+                        <div>Fare</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="harddisk" name="electronic" value="505"/>
+                        <label id="harddisk-label"></label>
+                        <div>Hard disk</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="network" name="electronic" value="506"/>
+                        <label id="network-label"></label>
+                        <div>Modem</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="printer" name="electronic" value="507"/>
+                        <label id="printer-label"></label>
+                        <div>Renkli Yazıcı</div>
+                    </li>
+                </ul>
+                <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla.</div>
+            </div>
+
+            <div class="next-text"  id="next-six" data-value="6" ></div>
         </div>
 
-        <div class="question-div">
-            <ul id="electronics">
-                <li>
-                    <input type="checkbox" id="lcd" name="electronic"/>
-                    <label id="lcd-label"></label>
-                    <div>
-                        <!--<input type="text" id="lcd_text" name="electronic" class="li_input_number_text"/>-->
-                        17" LCD Ekran
-                    </div>
-                </li>
-                <li>
-                    <input type="checkbox" id="computer" name="electronic"/>
-                    <label id="computer-label"></label>
-                    <div>
-                        <!--<input type="text" id="computer_text" name="electronic" class="li_input_number_text"/>-->
-                        Masaüstü Bilgisayar
-                    </div>
-                </li>
-                <li>
-                    <input type="checkbox" id="laptop" name="electronic"/>
-                    <label id="laptop-label"></label>
-                    <div>
-                        <!--<input type="text" id="laptop_text" name="electronic" class="li_input_number_text"/>-->
-                        Dizüstü Bilgisayar
-                    </div>
-                </li>
-                <li>
-                    <input type="checkbox" id="keyboard" name="electronic"/>
-                    <label id="keyboard-label"></label>
-                    <div>
-                        <!--<input type="text" id="keyboard_text" name="electronic" class="li_input_number_text"/>-->
-                        Klavye
-                    </div>
-                </li>
-                <li>
-                    <input type="checkbox" id="mouse" name="electronic"/>
-                    <label id="mouse-label"></label>
-                    <div>
-                        <!--<input type="text" id="mouse_text" name="electronic" class="li_input_number_text"/>-->
-                        Fare
-                    </div>
-                </li>
-                <li>
-                    <input type="checkbox" id="harddisk" name="electronic"/>
-                    <label id="harddisk-label"></label>
-                    <div>
-                        <!--<input type="text" id="harddisk_text" name="electronic" class="li_input_number_text"/>-->
-                        Hard disk
-                    </div>
-                </li>
-                <li>
-                    <input type="checkbox" id="network" name="electronic"/>
-                    <label id="network-label"></label>
-                    <div>
-                        <!--<input type="text" id="battery_cell_text" name="electronic" class="li_input_number_text"/>-->
-                        Modem
-                    </div>
-                </li>
-                <li>
-                    <input type="checkbox" id="printer" name="electronic"/>
-                    <label id="printer-label"></label>
-                    <div>
-                        <!--<input type="text" id="printer_text" name="electronic" class="li_input_number_text"/>-->
-                        Renkli Yazıcı
-                    </div>
-                </li>
-                <!--<li>
-                    <input type="checkbox" id="battery" name="electronic"/>
-                    <label id="battery-label"></label>
-                    <div>
-                        Batarya
-                    </div>
-                </li>-->
-            </ul>
-            <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla.</div>
+        <div id="six" class="displayNone">
+            <div class="header">
+                <h2>
+                    <span class="number-text">6</span> | 7
+                    <span class="question-text">Peki ulaşım araçlarından hangilerine sahipsin?</span>
+                </h2>
+            </div>
+
+            <div class="question-div">
+                <ul id="vehicle">
+                    <li>
+                        <input type="checkbox" id="bike" name="vehicle"  value="600"/>
+                        <label id="bike-label"></label>
+                        <div>Bisiklet</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="elect_bike" name="vehicle" value="601"/>
+                        <label id="elect_bike-label"></label>
+                        <div>Elektrikli Bisiklet</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="scooter" name="vehicle" value="602"/>
+                        <label id="scooter-label"></label>
+                        <div>Motor Scooter</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="elect_car" name="vehicle" value="603"/>
+                        <label id="elect_car-label"></label>
+                        <div>Eletrikli Araba</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="diesel_car" name="vehicle" value="604"/>
+                        <label id="diesel_car-label"></label>
+                        <div>Dizel Araba</div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="fuel_car" name="vehicle" value="605"/>
+                        <label id="fuel_car-label"></label>
+                        <div>Benzinli Araba</div>
+                    </li>
+                </ul>
+                <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla.</div>
+            </div>
+
+            <div class="next-text" id="next-seven" data-value="7" ></div>
         </div>
 
-        <div class="next-text"  id="next-six" data-value="6" ></div>
-    </div>
+        <div id="seven" class="displayNone">
+            <div class="header">
+                <h2>
+                    <span class="number-text">7</span> | 7
+                    <span class="question-text">Hangilerini, kaç kişiyle ortak kullanıyorsun?</span>
+                </h2>
+            </div>
 
-    <div id="six" class="displayNone">
-        <div class="header">
-            <h2>
-                <span class="number-text">6</span> | 7
-                <span class="question-text">Peki ulaşım araçlarından hangilerine sahipsin?</span>
-            </h2>
+            <div class="question-div">
+                <ul id="vehicle">
+                    <li>
+                        <img src="/static/images/coiki/3-active.png"/>
+                        <div>
+                            <input type="text" id="laptop_text" name="electronic" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="laptop_text" name="electronic" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <img src="/static/images/coiki/6-active.png"/>
+                        <div>
+                            <input type="text" id="harddisk_text" name="electronic" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="harddisk_text" name="electronic" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <img src="/static/images/coiki/7-active.png"/>
+                        <div>
+                            <input type="text" id="printer_text" name="electronic" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="printer_text" name="electronic" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <img src="/static/images/coiki/9-active.png"/>
+                        <div>
+                            <input type="text" id="battery_text" name="electronic" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="battery_text" name="electronic" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <img src="/static/images/coiki/10-active.png"/>
+                        <div>
+                            <input type="text" id="battery_text" name="electronic" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="battery_text" name="electronic" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                </ul>
+                <div class="select-yours-text">Sahip olduğun sayısı ve ortak kullandığın kişi sayısını yaz.
+                    (Eğer yalnız kendiniz kullanıyorsanız kişi sayısına 0 yazın)</div>
+            </div>
+
+            <input class="next-text" id="submit" name="submit" type="submit" value=""
+                   style="padding: 0;border: 0;background-color: white;">
+
         </div>
-
-        <div class="question-div">
-            <ul id="vehicle">
-                <li>
-                    <input type="checkbox" id="bike" name="vehicle"/>
-                    <label id="bike-label"></label>
-                    <div>Bisiklet</div>
-                </li>
-                <li>
-                    <input type="checkbox" id="elect_bike" name="vehicle"/>
-                    <label id="elect_bike-label"></label>
-                    <div>Elektrikli Bisiklet</div>
-                </li>
-                <li>
-                    <input type="checkbox" id="scooter" name="vehicle"/>
-                    <label id="scooter-label"></label>
-                    <div>Motor Scooter</div>
-                </li>
-                <li>
-                    <input type="checkbox" id="elect_car" name="vehicle"/>
-                    <label id="elect_car-label"></label>
-                    <div>Eletrikli Araba</div>
-                </li>
-                <li>
-                    <input type="checkbox" id="diesel_car" name="vehicle"/>
-                    <label id="diesel_car-label"></label>
-                    <div>Dizel Araba</div>
-                </li>
-                <li>
-                    <input type="checkbox" id="fuel_car" name="vehicle"/>
-                    <label id="fuel_car-label"></label>
-                    <div>Benzinli Araba</div>
-                </li>
-            </ul>
-            <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla.</div>
-        </div>
-
-        <div class="next-text" id="next-seven" data-value="7" ></div>
-    </div>
-
-    <div id="seven" class="displayNone">
-        <div class="header">
-            <h2>
-                <span class="number-text">7</span> | 7
-                <span class="question-text">Hangilerini, kaç kişiyle ortak kullanıyorsun?</span>
-            </h2>
-        </div>
-
-        <div class="question-div">
-            <ul id="vehicle">
-                <li>
-                    <img src="/static/images/coiki/3-active.png"/>
-                    <div>
-                        <input type="text" id="laptop_text" name="electronic" class="li_input_number_text"/>
-                        adet
-                        <input type="text" id="laptop_text" name="electronic" class="li_input_number_text"/>
-                        kişi
-                    </div>
-                </li>
-                <li>
-                    <img src="/static/images/coiki/6-active.png"/>
-                    <div>
-                        <input type="text" id="harddisk_text" name="electronic" class="li_input_number_text"/>
-                        adet
-                        <input type="text" id="harddisk_text" name="electronic" class="li_input_number_text"/>
-                        kişi
-                    </div>
-                </li>
-                <li>
-                    <img src="/static/images/coiki/7-active.png"/>
-                    <div>
-                        <input type="text" id="printer_text" name="electronic" class="li_input_number_text"/>
-                        adet
-                        <input type="text" id="printer_text" name="electronic" class="li_input_number_text"/>
-                        kişi
-                    </div>
-                </li>
-                <li>
-                    <img src="/static/images/coiki/9-active.png"/>
-                    <div>
-                        <input type="text" id="battery_text" name="electronic" class="li_input_number_text"/>
-                        adet
-                        <input type="text" id="battery_text" name="electronic" class="li_input_number_text"/>
-                        kişi
-                    </div>
-                </li>
-                <li>
-                    <img src="/static/images/coiki/10-active.png"/>
-                    <div>
-                        <input type="text" id="battery_text" name="electronic" class="li_input_number_text"/>
-                        adet
-                        <input type="text" id="battery_text" name="electronic" class="li_input_number_text"/>
-                        kişi
-                    </div>
-                </li>
-            </ul>
-            <div class="select-yours-text">Sahip olduğun sayısı ve ortak kullandığın kişi sayısını yaz.
-                (Eğer yalnız kendiniz kullanıyorsanız kişi sayısına 0 yazın)</div>
-        </div>
-
-        <div class="next-text" onclick="window.location.href='/sonuc'"></div>
-    </div>
+    </form>
 
     <div style="position:absolute; bottom:20px; right:150px;">
         <a href="/coiki" style="color:#333333; font-size:13px;">Karbon Salınımı Nedir?</a> |
