@@ -345,11 +345,6 @@ class ExtendedRegisterForm(RegisterForm):
     name = TextField(u'İsim Soyisim', [Required(u'İsmini girmen gerekli.')])
     email = TextField(u'E-posta', [Required(u'E-posta adresini girmen gerekli.'), Email(u'Geçerli bir e-posta adresi girmelisin.')])
 
-    def validate_email(self, field):
-        uppercase_letters = [c for c in field.data if c.isupper()]
-        if uppercase_letters:
-            raise ValidationError(u'Tüm karakterleri küçük yazmalısın.')
-
     why = TextAreaField(
         u'Eşya Kütüphanesi\'ne neden geldiğinden kısaca bahsedebilir misin? '
         u'Mesela buradan beklentilerin neler? '
