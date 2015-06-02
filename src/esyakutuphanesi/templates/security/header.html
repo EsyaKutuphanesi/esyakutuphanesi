@@ -10,8 +10,13 @@
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class=" navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav navbar-right padding15">
+        <li class="nav_li_l768 display_none_l600">
+            <a href="/masalgibi" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Hikayemi', 'click', 'Header'])">
+                Hikayemiz
+            </a>
+        </li>
         <li class="nav_li_l768 display_none_l480 display_none_l600">
-            <a href="/nasil_calisir" onclick="_gaq.push(['_trackEvent', 'Nasil Calisir', 'click', 'Header'])">
+            <a href="/nasil_calisir" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Nasil Calisir', 'click', 'Header'])">
                 Nasıl <span class="display_none_l768">Çalışır?</span>
             </a>
         </li>
@@ -20,14 +25,16 @@
                 Destekle
             </a>
         </li>
+<!--        {% if g.user.is_authenticated() %}
         <li class="nav_li_l768 display_none_l480 display_none_l600">
             <a href="/esya_listele?is_wanted=true" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Stuff', 'wantStuff', 'Header'])">
                 Ödünç İste
             </a>
         </li>
+        {% endif %}-->
         <li class="nav_li_l600 nav_li_l768">
             <a href="/esya_listele" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'Header'])">
-                Ödünç Ver
+                Ödünçlük <span class="display_none_l768">Ekle</span>
             </a>
         </li>
         <li class="nav_li_l600 nav_li_l768 ">

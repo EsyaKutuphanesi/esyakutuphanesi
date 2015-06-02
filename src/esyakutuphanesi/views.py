@@ -35,7 +35,7 @@ def home():
         Stuff.owner_id == User.id,
         Stuff.group_id == None,
         User.approved == True
-    ).order_by(Stuff.id.desc()).limit(3)
+    ).order_by(Stuff.id.desc()).limit(8)
 
     last_objects_wanted = Stuff.query.join(User).filter(
         Stuff.approved == 1,
@@ -43,7 +43,7 @@ def home():
         Stuff.owner_id == User.id,
         Stuff.group_id == None,
         User.approved == True
-    ).order_by(Stuff.id.desc()).limit(6)
+    ).order_by(Stuff.id.desc()).limit(8)
 
     stuff_count_wanted = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == True).count()
     stuff_count_shared = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == False).count()
@@ -963,7 +963,7 @@ def moderation():
             mail.send(msg)
             flash(u"Eşya onaylanmadı ve e-posta gönderildi!")
 
-    unapproved_user = User.query.filter(User.approved == False, User.id == user_id).\
+    unapproved_user = User.query.filter(User.approved == False, User.active == True, User.id == user_id).\
         order_by(User.id.desc()).first()
 
     if unapproved_user:
@@ -1431,5 +1431,14 @@ def results():
         electronics = request.form.getlist('electronic')
         vehicles = request.form.getlist('vehicle')
 
+        for index, element in enumerate(electronics):
+            if electronics[index] != '':
+                electronic_list = electronics[index]
+
+        for index, element in enumerate(vehicles):
+            if vehicles[index] != '':
+                vehicle_list = vehicles[index]
+
         return render_template("sonuc.html", user=current_user, place=place, gender=gender,
-                               education=education, work=work, electronics=electronics, vehicles=vehicles)
+                               vehicle_list=vehicle_list, education=education, work=work,
+                               electronics=electronics, vehicles=vehicles, electronic_list=electronic_list)

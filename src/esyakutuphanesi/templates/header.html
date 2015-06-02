@@ -47,6 +47,11 @@
   <div class=" navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav navbar-right padding15">
         <li class="nav_li_l768 display_none_l600">
+            <a href="/masalgibi" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Hikayemi', 'click', 'Header'])">
+                Hikayemiz
+            </a>
+        </li>
+        <li class="nav_li_l768 display_none_l600">
             <a href="/nasil_calisir" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Nasil Calisir', 'click', 'Header'])">
                 Nasıl <span class="display_none_l768">Çalışır?</span>
             </a>
@@ -56,14 +61,16 @@
                 Destekle
             </a>
         </li>
-        <li class="display_none_l600 nav_li_l768">
-            <a href="/esya_listele?is_wanted=true" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Stuff', 'wantStuff', 'Header'])">
-                Ödünç İste
-            </a>
-        </li>
+<!--        {%if user.is_authenticated()%}
+            <li class="display_none_l600 nav_li_l768">
+                <a href="/esya_listele?is_wanted=true" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Stuff', 'wantStuff', 'Header'])">
+                    Ödünç İste
+                </a>
+            </li>
+        {%endif%}-->
         <li class="nav_li_l600 nav_li_l768">
             <a href="/esya_listele" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'Header'])">
-                Ödünç Ver
+                Ödünçlük <span class="display_none_l768">Ekle</span>
             </a>
         </li>
         {%if user.is_authenticated()%}
@@ -78,7 +85,9 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><a href="/profil/{{user.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Header'])">Profilim</a></li>
-                  <li class="displaywhen767"><a href="/esya_listele" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'Header'])">Ödünç Ver</a></li>
+                  {% if user.groups[1] %}
+                    <li><a href="/grup/{{user.groups[1]}}" onclick="_gaq.push(['_trackEvent', 'Visit grup', 'click', 'Header'])">{{user.groups[1]}}</a></li>
+                  {% endif %}
                   <li><a href="/profil_duzenle" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'Header'])">Ayarlar</a></li>
                   <li><a href="/mesajlarim" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'Header'])">Mesajlar</a></li>
                   <li><a href="/esyalarim" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'Header'])">Eşya Kütüphanem</a></li>

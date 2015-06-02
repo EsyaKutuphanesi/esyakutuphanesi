@@ -288,7 +288,7 @@ class GroupMembership(db.Model):
     user = db.relationship("User", backref='groups')
 
     def __repr__(self):
-        return "%s[%s] " % (self.user.name, self.group.name)
+        return "%s " % self.group.name
 
 
 class Connection(db.Model):
@@ -344,15 +344,14 @@ users = SQLAlchemyUserDatastore(db, User, Role)
 class ExtendedRegisterForm(RegisterForm):
     name = TextField(u'İsim Soyisim', [Required(u'İsmini girmen gerekli.')])
     why = TextAreaField(
-        u'Eşya Kütüphanesi\'ne neden geldiğinden kısaca bahsedebilir misin? '
-        u'Mesela buradan beklentilerin neler? '
+        u'Eşya Kütüphanesi\'nden beklentilerinden bahseder misin? '
         u'Bizi nereden duydun?',
         [Length(min=0, max=1000, message=u'En fazla 1000 karakter girebilirsin.'),
          Required(u'Seni daha yakından tanımayı istiyoruz.')]
     )
     about = TextAreaField(
         u'Hobilerin neler? Bir ejderhan olsa adını ne koyardın? '
-        u'En sevdiğin yemek ne? Boş zamanlarında ne yapmaktan hoşlanırsın?',
+        u'En sevdiğin yemek ne?',
         [Length(min=0, max=1000, message=u'En fazla 1000 karakter girebilirsin.'),
          Required(u'Bize biraz kendinden bahseder misin?')]
     )

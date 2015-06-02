@@ -32,14 +32,13 @@
         });
     </script>
     <div class="blue_line_ek">
-        <div class="col-sm-12 col-xs-12" style="margin:0px auto 10px;">
-            <div id="map" style="height: 200px;"></div>
-            <p class="col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3" style="margin-top:20px; color:white;">Eşyanın adresi: {{stuff_address.detail}}</p>
+        <div class="row">
+            <h2 class="col-sm-12 col-xs-12 text-center blue_line_header">{{stuff.title}}</h2>
         </div>
     </div>
     <div class="col-sm-12 col-xs-12">
-        <div class="col-sm-5 col-xs-5">
-            <div class="row" style="margin:20px auto;">
+        <div class="col-sm-4 col-xs-12">
+            <div class="row">
                 {%if stuff%}
                     {% if stuff.photos[0] %}
                         {%for photo in stuff.photos%}
@@ -56,17 +55,16 @@
             </div>
 
             <div class="row" style=" margin: 10px auto;">
-                <div class="text-right">
+                <div class="text-center">
                     <a href="/profile/{{stuff.owner.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Show_stuff Page'])">{{ stuff.owner.name }}</a> ödünç{% if stuff.is_wanted %} istiyor.{% else %} veriyor.{% endif %}
                 </div>
-                <div class="pull-right">
+                <div class="text-center">
                     <div name="rating" id="star-area" style="margin-top:10px;"></div>
                 </div>
             </div>
         </div>
 
-        <div class="pull-right col-sm-7 col-xs-7">
-            <h1>{{stuff.title}}</h1>
+        <div class="pull-right col-sm-8 col-xs-12">
             <ol class="breadcrumb">
                 <li>
                     <a href="/{{stuff.category.url}}" onclick="_gaq.push(['_trackEvent', 'Stuff Category', 'seeStuffInThisCategory', 'Show_stuff Page'])">{{stuff.category}}</a>
@@ -80,9 +78,14 @@
                     <span class="label label-warning">{{tag}}</span>
                 {%endfor%}
             </ol>
-            <div class="col-sm-12" style="margin-top:10px;">
+
+            <div class="row" style="margin:10px 0;">
                 <p>{{stuff.detail}}</p>
             </div>
+
+            <div id="map" style="height: 200px;"></div>
+            <p class="col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3" style="margin-top:20px; color:white;">Eşyanın adresi: {{stuff_address.detail}}</p>
+
             <div class="row col-sm-6 pull-right">
                 {%if user.is_authenticated()%}
                     {% if stuff.status == 1%}

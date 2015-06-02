@@ -150,17 +150,17 @@
 
         <div class="col-sm-12 col-xs-12">
             <div class="row"><!--id="container" class="row fluid"-->
-                <div class="col-sm-3 col-xs-6 col_ss_6 display_none_l600 index_share_tumbnail_padding">
+                <!--<div class="col-md-3 col-sm-4 col-xs-6 col_ss_6 display_none_l600 index_share_tumbnail_padding">
                     <a href="/esya_listele">
-                        <img src="/static/images/ek-oduncver.png" class="img-responsive" id="index_oduncver_img_bg">
+                        <img src="/static/images/ek-oduncver.png" width="200" class="img-responsive" id="index_oduncver_img_bg">
                     </a>
-                </div>
+                </div>-->
                 {% for stuff in last_objects_shared %}
                     {{ render_item_box(stuff, user) }}
                 {% endfor %}
             </div>
             <a type="button" href="/category/Hepsi/?is_wanted=0" class="btn btn-default pull-right all_stuff_link">
-                Ödünç verilen tüm eşyalar >>
+                Ödünçlük eklenen eşyaların tümü >>
             </a>
         </div>
     </div>
@@ -171,17 +171,17 @@
             <div class="col-sm-12 col-xs-12">
                 <a href="/category/Hepsi/?is_wanted=1" class="index_share_info_text">
                     <h3 class="stuff_number_text">
-                        <span class="stuff_number_style">{{stuff_count_wanted}}</span> EŞYA ÖDÜNÇ ARANIYOR
+                        <span class="stuff_number_style">{{stuff_count_wanted}}</span> EŞYA ARANIYOR
                     </h3>
                 </a>
             </div>
         {% endif %}
         <div class="col-sm-12 col-xs-12" style="padding-bottom:20px;">
-            <div class="row">
+<!--            <div class="row">
                 <a href="/esya_listele?is_wanted=true">
                    <img src="/static/images/ek-oduncal.png" class="img-responsive" id="index_oduncal_img_bg" style="margin: auto; margin-bottom: 30px;">
                 </a>
-            </div>
+            </div>-->
             <div class="row">
                 {% for stuff in last_objects_wanted %}
                     {{ render_item_box(stuff, user, True) }}
@@ -189,7 +189,7 @@
             </div>
 
             <a type="button" href="/category/Hepsi/?is_wanted=1" class="btn btn-default pull-right all_stuff_link">
-                Aranan tüm eşyalar >>
+                Eşya arama ilanlarının tümü >>
             </a>
         </div>
     </div>

@@ -78,7 +78,9 @@
                                 {% endif %}-->
                                 <td>{{ stuff.owner.id }} - {{ stuff.id }}</td>
                                 <td>{{ stuff.owner.name }}</td>
-                                <td>{{ stuff }}</td>
+                                <td>
+                                    {{ stuff }}
+                                </td>
                                 <td>
                                     {% if stuff.is_wanted == True %} Aranıyor {% else %} Paylaşılıyor {% endif%} - {{ stuff.detail }}
                                 </td>

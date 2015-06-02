@@ -282,11 +282,15 @@ form textarea#why, textarea#about {
     height:825px;
 }
 .all_stuff_link {
-    font-size:16px;
     color:black;
+    background-color:#f4f4f4;
+    border:0;
+}
+.all_stuff_link:hover {
+    background-color:white;
 }
 h3.stuff_number_text {
-    font-size:32px;
+    font-size:26px;
     text-align:center;
     padding-bottom: 30px;
     font-family:Dosis;
