@@ -864,7 +864,7 @@ def moderation():
     user_action = request.args.get("user_action")
     user_id = request.args.get("user_id")
 
-    new_user = User.query.filter(User.id > 0).order_by(User.id.desc()).limit(40)
+    new_user = User.query.filter(User.id > 0, User.active == True).order_by(User.id.desc()).limit(40)
 
     if 'admin' in current_user.roles:
         stuff = Stuff.query.filter(Stuff.approved == 0,
