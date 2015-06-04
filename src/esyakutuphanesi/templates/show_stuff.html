@@ -56,7 +56,7 @@
 
             <div class="row" style=" margin: 10px auto;">
                 <div class="text-center">
-                    <a href="/profile/{{stuff.owner.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Show_stuff Page'])">{{ stuff.owner.name }}</a> ödünç{% if stuff.is_wanted %} istiyor.{% else %} veriyor.{% endif %}
+                    <a href="/profil/{{stuff.owner.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Show_stuff Page'])">{{ stuff.owner.name }}</a> ödünç{% if stuff.is_wanted %} istiyor.{% else %} veriyor.{% endif %}
                 </div>
                 <div class="text-center">
                     <div name="rating" id="star-area" style="margin-top:10px;"></div>
@@ -121,7 +121,7 @@
                         {% endif %}
                     </a>
                     <div class="media-body">
-                        <a href="/profile/{{review.user.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Show_stuff Page'])">
+                        <a href="/profil/{{review.user.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Show_stuff Page'])">
                             <span style="font-weight:bold;">{{review.user.name}}</span>
                         </a>
                         {{review.comment}}
