@@ -85,8 +85,10 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><a href="/profil/{{user.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Header'])">Profilim</a></li>
-                  {% if user.groups[1] %}
-                    <li><a href="/grup/{{user.groups[1]}}" onclick="_gaq.push(['_trackEvent', 'Visit grup', 'click', 'Header'])">{{user.groups[1]}}</a></li>
+                  {% if user.groups %}
+                    {% for g in user.groups %}
+                        <li><a href="/grup/{{g}}" onclick="_gaq.push(['_trackEvent', 'Visit grup', 'click', 'Header'])">{{g}}</a></li>
+                    {% endfor %}
                   {% endif %}
                   <li><a href="/profil_duzenle" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'Header'])">Ayarlar</a></li>
                   <li><a href="/mesajlarim" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'Header'])">Mesajlar</a></li>
