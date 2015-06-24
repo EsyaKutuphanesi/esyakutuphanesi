@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                {{ render_field_with_errors(register_user_form.password,label_visible=False, placeholder="Şifre") }}
+                {{ render_field_with_errors(register_user_form.email,label_visible=False, placeholder="E-posta") }}
 
                 <label for="why" class="control-label">
                     <label for="why">Neden Eşya Kütüphanesi?</label>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="col-sm-6">
-                {{ render_field_with_errors(register_user_form.email,label_visible=False, placeholder="E-posta") }}
+                {{ render_field_with_errors(register_user_form.password,label_visible=False, placeholder="Şifre") }}
 
                 {% if register_user_form.password_confirm %}
                     {{ render_field_with_errors(register_user_form.password_confirm,label_visible=False, placeholder="Şifre tekrar") }}

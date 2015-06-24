@@ -1036,10 +1036,13 @@ def get_profile(user_id=None):
 
         user_stuff_shared = Stuff.query.join(User).\
             filter(Stuff.owner_id == user_id, Stuff.is_wanted == False, Stuff.approved == 1,
-                   Stuff.owner_id == User.id, Stuff.group_id == None, User.approved == True).order_by(Stuff.id.desc())
+                   Stuff.owner_id == User.id, Stuff.group_id == None, User.approved == True)\
+            .order_by(Stuff.id.desc())
+
         user_stuff_wanted = Stuff.query.join(User).\
             filter(Stuff.owner_id == user_id, Stuff.is_wanted == True, Stuff.approved == 1,
-                   Stuff.owner_id == User.id, Stuff.group_id == None, User.approved == True).order_by(Stuff.id.desc())
+                   Stuff.owner_id == User.id, Stuff.group_id == None, User.approved == True).\
+            order_by(Stuff.id.desc())
 
         reviews = Review.query.filter(Review.reviewed_user_id == user_id)
         reviews_count = reviews.count()
@@ -1424,7 +1427,7 @@ def results():
 
     if request.method == 'POST':
 
-        place = request.form.get('place')
+        city = request.form.get('place')
         gender = request.form.get('gender')
         education = request.form.get('education')
         work = request.form.get('work')
@@ -1438,6 +1441,16 @@ def results():
         for index, element in enumerate(vehicles):
             if vehicles[index] != '':
                 vehicle_list = vehicles[index]
+        #
+        # new_user = SurveyUser(
+        #     city=city,
+        #     gender=gender,
+        #     education=education,
+        #     work=work
+        # )
+        # db.session.add(new_user)
+        #
+        # db.session.commit()
 
         return render_template("sonuc.html", user=current_user, place=place, gender=gender,
                                vehicle_list=vehicle_list, education=education, work=work,
