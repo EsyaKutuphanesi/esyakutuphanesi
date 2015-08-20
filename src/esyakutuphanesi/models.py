@@ -358,3 +358,33 @@ class ExtendedRegisterForm(RegisterForm):
     agreement = BooleanField('', [Required(u'Kullanıcı sözleşmesini onaylamalısın.')])
 
 security = Security(app, users, register_form=ExtendedRegisterForm)
+
+
+class SurveyUser(db.Model):
+    __tablename__ = 'survey_user'
+    id = db.Column(db.Integer, primary_key=True)
+    city = db.Column(db.Integer)
+    age = db.Column(db.Integer)
+    gender = db.Column(db.Integer)
+    education = db.Column(db.Integer)
+    work = db.Column(db.Integer)
+
+
+class SurveyItems(db.Model):
+    __tablename__ = 'survey_items'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    climate_change = db.Column(db.Float)
+    unit = db.Column(db.String(255))
+    time_period = db.Column(db.String(255))
+    geography = db.Column(db.String(255))
+    description = db.Column(db.Text)
+
+
+class Survey(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('survey_user.id'))
+    item_id = db.Column(db.Integer, db.ForeignKey('survey_items.id'))
+    number = db.Column(db.Integer)
+    using_with = db.Column(db.Integer)
+    survey_time = db.Column(db.DateTime, default=datetime.now)

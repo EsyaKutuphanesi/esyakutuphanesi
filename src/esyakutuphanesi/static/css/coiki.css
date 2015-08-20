@@ -182,16 +182,16 @@ input[type="radio"]:checked + label#boy{
 /* ----- ELECTRONICS ----- */
 
 #electronic {
-    margin:0 auto;
-    width:420px;
-    height:420px;
+    margin: 150px auto 0px;
+    width: 560px;
+    height: 320px;
     list-style-type:none;
     padding-left:0px;
 }
 #electronic li {
     width:100px;
     height:100px;
-    margin:20px;
+    margin:30px 20px;
     float:left;
 }
 #electronic li div {
@@ -291,7 +291,7 @@ input[type="checkbox"]:checked + label#network-label{
 #vehicle li {
     width:150px;
     height:100px;
-    margin:20px;
+    margin:30px 20px;
     float:left;
     text-align:center;
 }
