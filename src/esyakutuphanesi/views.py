@@ -1611,11 +1611,12 @@ def results():
                 user_id=new_user.id,
                 item_id=t[0],
                 number=t[1],
-                using_with=t[2]
+                using_with=t[2],
+                survey_time=datetime.utcnow()
             )
             db.session.add(new_survey)
             db.session.commit()
 
             result = result + t[3]
 
-        return render_template('sonuc.html', result=result, user=current_user)
+        return render_template('sonuc.html', result=result)
