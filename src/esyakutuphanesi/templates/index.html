@@ -7,165 +7,109 @@
 
     <script src="http://connect.facebook.net/en_US/all.js"></script>
 
-    <!--<div id="popupContact">
-        <a id="popupContactClose">x</a>
-        <p id="contactArea">
-            <h4>Paylaşım Canavarı desteğini bekliyor!</h4>
-            <p>
-                Things'de Eşya Kütüphanesi'nin yeni yaratımı
-                <a href="http://yourthings.org/tr/project/payla%C5%9F%C4%B1m-canavar%C4%B1" target="_blank">Paylaşım Canavarı</a>
-                desteklerinizi bekliyor!
-                Giriş yapıp minik canavarımıza
-                <a href="http://yourthings.org/tr/project/payla%C5%9F%C4%B1m-canavar%C4%B1" target="_blank">oy verirseniz</a>
-                ya da bunu duyurarak destek ağımızı genişletmek isterseniz
-                çok seviniriz!
-            </p>
-            <a href="http://yourthings.org/tr/project/payla%C5%9F%C4%B1m-canavar%C4%B1" target="_blank">
-                <img class="img-responsive" src="/static/images/pc.png" style="margin:0 auto 20px; width:400px;"/>
-            </a>
-        </p>
-    </div>
-    <div id="backgroundPopup"></div>-->
-    <div class="blue_line_ek" style="width:200%;left:-50%;">
-        <div class="col-sm-8 col-sm-offset-2 col-xs-6 col-xs-offset-3 display_none_l480">
-            <img src="/static/images/ekmis1.png" class="img-responsive" style="margin:0 auto;"/>
-        </div>
+    <div style="position:relative; overflow: hidden; width: 100%;">
+        <img src="/static/images/yeni/imaj2.jpg" class="img-responsive" style="width:100%; margin: 0 auto;">
 
-        <div class="index_search_area row"  id="padding_top_for_ekimg">
-            <div class="col-sm-10 col-sm-offset-1 col-xs-8 col-xs-offset-2">
+        <div class="hero-div">
+            <div class="hero-text display_none_320">
+                Satın alma ödünç iste, <br>
+                kenarda bekletme hemen listele!
+            </div>
+
+            <div class="hero-search">
                 <form role="search" name="search" action="/search" method="get">
                     <table class="table searchTable">
                         <tr>
-                            <td id="width_for_ektd" class="index_search_td index_search_width">
-                                <input type="text" class="index_search_input form-control" name="stuff" placeholder="Ne arıyorsun? Ör: Kitap"></td>
-                            <td class="display_none_l480" class="index_search_td">
-                                <input type="text" class="index_search_input form-control" name="address" placeholder="Şehir? Ör: İstanbul"></td>
-                            <td class="text-center">
-                                <button type="submit" class="index_search_input btn btn-primary" id="index_search_button" onclick="_gaq.push(['_trackEvent', 'Stuff', 'searchStuff', 'Landing Page'])">ARA</button>
+                            <td style="width: 57%; padding:0px;">
+                                <input type="text" class="form-control" name="stuff" placeholder="Ne arıyorsun?"
+                                       style="border-right:0px; border-top-right-radius: 0; border-bottom-right-radius: 0;"></td>
+                            <td style="width: 30%; padding:0px;">
+                                <input type="text" class="form-control" name="address" placeholder="Şehir"
+                                       style="border-top-left-radius: 0; border-bottom-left-radius: 0;"></td>
+                            <td class="text-center" style="padding:0px 0px 0px 13px;">
+                                <button type="submit" class="btn btn-primary" onclick="_gaq.push(['_trackEvent', 'Stuff', 'searchStuff', 'Landing Page'])"
+                                        style="
+height: 52px !important;
+background-color: #ffc40c;
+border-color: #ffc40c;
+padding-right: 20px;
+padding-left: 20px; font-family: helvetica; font-size:20px !important; font-weight: lighter; color:#ffffff;">
+                                    Ara
+                                </button>
                             </td>
                         </tr>
                     </table>
                 </form>
             </div>
+
+            <div class="wth-text display_none_l480">
+                <div class="wth-text-number">{{stuff_count_shared}}</div>
+                <div class="wth-text-text"> Eşya ödünç veriliyor</div>
+
+                <img src="/static/images/yeni/line.png" style="float:left; margin:17px;"/>
+
+                <div class="wth-text-number">{{stuff_count_wanted}}</div>
+                <div class="wth-text-text"> Eşya ödünç aranıyor</div>
+
+            </div>
+
+            <div class="wh-text display_none_l600">
+                <div class="wh-text-1"></div>
+                <div class="wh-text-2"> </div>
+            </div>
         </div>
     </div>
 
-<!--    {%if not user.is_authenticated()%}
-        <div class="row display_none_l768" id="stories">
-            <div class="review-area">
-                <div class="full-review-area">
+    <div class="col-sm-10 col-sm-offset-1">
+        <div class="col-sm-9 padding_right">
+            <div class="col-sm-12">
+                <!--<a href="/category/Hepsi/?is_wanted=0" class="index_share_info_text">-->
+                <a href="/category/Hepsi/" class="index_share_info_text">
+                    <h3 style="font-family: helvetica; font-size:16px; font-weight:lighter; padding-bottom:5px; border-bottom:1px solid #d3d1d1;">
+                       ÖDÜNÇLÜK EŞYALAR
+                    </h3>
+                </a>
+            </div>
 
-                    <div class="single-review-area">
-                        <div class="review-slides">
-                            <div id="review-slides">
-                                <div class="review-slides-container">
-                                    <div>
-                                        <div class="review-text">
-                                            "Bir arkadaşımın tavsiyesi üzerine baktım ve çok beğendim."
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="review-owner-name">
-                                            Yağmur Uğur
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="col-sm-12">
+                <div class="row">
+                    {% for stuff in last_objects_shared %}
+                        {{ render_item_box(stuff, user) }}
+                    {% endfor %}
+                    <div class="item col-md-4 col-sm-6 col-xs-6 col_s320 index_share_tumbnail_padding">
+                        <div class="thumbnail" style="background-color: #f4f4f4; border:1px solid #f4f4f4; margin-bottom:13px;">
+                            <div style="height:150px; overflow:hidden; padding: 50px 25px; font-size: 18px; font-weight: 500;">
+                                SEN DE ÖDÜNÇLÜK EŞYALARINI LİSTELE
+                                <br>
+                                <span style="font-size:14px;">Eşyanı listele, ihtiyacı olan aradığında seni bulsun...</span>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="single-review-area">
-                        <div class="review-slides">
-                            <div id="review-slides">
-                                <div class="review-slides-container">
-                                    <div>
-                                        <div class="review-text">
-                                             "Paylaşmayı seviyorum, bu yüzden buradayım!"
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="review-owner-name">
-                                            Elif Yazgaç
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="caption text-center" style="padding:36px;">
+                                <button class="btn btn-primary" style="background-color: #48bfbf; border:1px solid #48bfbf;" onclick="window.location.href='/esya_listele'">
+                                    Eşya Listele
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="custom-slider-area">
-                <div class="custom-slider-button active" id="review-1"></div>
-                <div class="custom-slider-button" id="review-2"></div>
-                &lt;!&ndash;<div class="custom-slider-button" id="review-3"></div>&ndash;&gt;
-            </div>
         </div>
+        <div class="col-sm-3 padding_left">
+            <div class="col-sm-12">
+                <!--<a href="/category/Hepsi/?is_wanted=1" class="index_share_info_text">-->
+                <a href="/category/Hepsi/" class="index_share_info_text">
+                    <h3 style="font-family: helvetica; font-size:16px; font-weight:lighter; padding-bottom:5px; border-bottom:1px solid #d3d1d1;">
+                       ARANAN EŞYALAR
+                    </h3>
+                </a>
+            </div>
 
-        <div class="row display_none_l768">
-            <div class="ek_bilgi_yuvarlak_area">
-                <div class="ek_bilgi_area info-images">
-                    <div class="col-sm-4 col-xs-4"><img class="img-responsive" src="/static/images/bilinclituketim.png" style="margin:0 auto;"/></div>
-                    <div class="col-sm-4 col-xs-4"><img class="img-responsive" src="/static/images/mutlucevre.png" style="margin:0 auto;"/></div>
-                    <div class="col-sm-4 col-xs-4"><img class="img-responsive" src="/static/images/mutlusicak.png" style="margin:0 auto;"/></div>
+            <div class="col-sm-12">
+                <div class="row">
+                    {% for stuff in last_objects_wanted %}
+                        {{ render_item_box(stuff, user, True) }}
+                    {%endfor%}
                 </div>
             </div>
-        </div>
-    {% endif %}-->
-
-    <div class="row" style="margin-top:50px;">
-        {% if last_objects_shared[0] %}
-            <div class="col-sm-12 col-xs-12">
-                <a href="/category/Hepsi/?is_wanted=0" class="index_share_info_text">
-                    <h3 class="stuff_number_text">
-                        <span class="stuff_number_style">{{stuff_count_shared}}</span> EŞYA ÖDÜNÇ VERİLİYOR
-                    </h3>
-                </a>
-            </div>
-        {% endif %}
-
-        <div class="col-sm-12 col-xs-12">
-            <div class="row"><!--id="container" class="row fluid"-->
-                <!--<div class="col-md-3 col-sm-4 col-xs-6 col_ss_6 display_none_l600 index_share_tumbnail_padding">
-                    <a href="/esya_listele">
-                        <img src="/static/images/ek-oduncver.png" width="200" class="img-responsive" id="index_oduncver_img_bg">
-                    </a>
-                </div>-->
-                {% for stuff in last_objects_shared %}
-                    {{ render_item_box(stuff, user) }}
-                {% endfor %}
-            </div>
-            <a type="button" href="/category/Hepsi/?is_wanted=0" class="btn btn-default pull-right all_stuff_link">
-                Ödünçlük eklenen eşyaların tümü >>
-            </a>
-        </div>
-    </div>
-
-    <div class="row" style="margin-top:50px;">
-        <div id="oduncal_area_bg"></div>
-        {% if last_objects_wanted[0] %}
-            <div class="col-sm-12 col-xs-12">
-                <a href="/category/Hepsi/?is_wanted=1" class="index_share_info_text">
-                    <h3 class="stuff_number_text">
-                        <span class="stuff_number_style">{{stuff_count_wanted}}</span> EŞYA ARANIYOR
-                    </h3>
-                </a>
-            </div>
-        {% endif %}
-        <div class="col-sm-12 col-xs-12" style="padding-bottom:20px;">
-<!--            <div class="row">
-                <a href="/esya_listele?is_wanted=true">
-                   <img src="/static/images/ek-oduncal.png" class="img-responsive" id="index_oduncal_img_bg" style="margin: auto; margin-bottom: 30px;">
-                </a>
-            </div>-->
-            <div class="row">
-                {% for stuff in last_objects_wanted %}
-                    {{ render_item_box(stuff, user, True) }}
-                {%endfor%}
-            </div>
-
-            <a type="button" href="/category/Hepsi/?is_wanted=1" class="btn btn-default pull-right all_stuff_link">
-                Eşya arama ilanlarının tümü >>
-            </a>
         </div>
     </div>
 

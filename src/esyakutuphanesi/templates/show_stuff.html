@@ -31,12 +31,8 @@
             });
         });
     </script>
-    <div class="blue_line_ek">
-        <div class="row">
-            <h2 class="col-sm-12 col-xs-12 text-center blue_line_header">{{stuff.title}}</h2>
-        </div>
-    </div>
-    <div class="col-sm-12 col-xs-12">
+    <div class="col-sm-8 col-xs-10 col-sm-offset-2 col-xs-offset-1 margin-top70">
+
         <div class="col-sm-4 col-xs-12">
             <div class="row">
                 {%if stuff%}
@@ -65,6 +61,7 @@
         </div>
 
         <div class="pull-right col-sm-8 col-xs-12">
+            <h4>{{stuff.title}}</h4>
             <ol class="breadcrumb">
                 <li>
                     <a href="/{{stuff.category.url}}" onclick="_gaq.push(['_trackEvent', 'Stuff Category', 'seeStuffInThisCategory', 'Show_stuff Page'])">{{stuff.category}}</a>

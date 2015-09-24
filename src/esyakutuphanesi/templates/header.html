@@ -37,82 +37,87 @@
          $('#return_url').val(window.location.pathname+window.location.search);
      }
 </script>
-<nav class="navbar navbar-default" role="navigation" style="border-radius:0; margin:20px auto 0px;">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header ">
-    <a class="navbar-brand " href="/"><img src="/static/images/logo-ek.png"/></a>
-  </div>
 
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class=" navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav navbar-right padding15">
-        <li class="nav_li_l768 display_none_l600">
-            <a href="/masalgibi" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Hikayemi', 'click', 'Header'])">
-                Hikayemiz
-            </a>
-        </li>
-        <li class="nav_li_l768 display_none_l600">
-            <a href="/nasil_calisir" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Nasil Calisir', 'click', 'Header'])">
-                Nasıl <span class="display_none_l768">Çalışır?</span>
-            </a>
-        </li>
-        <li class="display_none_l600 nav_li_l768">
-            <a href="/destekle" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'User', 'supportUs', 'Header'])">
-                Destekle
-            </a>
-        </li>
-<!--        {%if user.is_authenticated()%}
-            <li class="display_none_l600 nav_li_l768">
-                <a href="/esya_listele?is_wanted=true" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Stuff', 'wantStuff', 'Header'])">
-                    Ödünç İste
-                </a>
-            </li>
-        {%endif%}-->
-        <li class="nav_li_l600 nav_li_l768">
-            <a href="/esya_listele" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'Header'])">
-                Ödünçlük <span class="display_none_l768">Ekle</span>
-            </a>
-        </li>
-        {%if user.is_authenticated()%}
-            <li class="dropdown nav_li_l600 nav_li_l768">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="header_profile_photo_a">
-                    {% if user.photo %}
-                        <img src="/photos/{{user.photo}}"/>
-                    {% else %}
-                        <img src="/static/images/ek.png"/>
-                    {% endif %}
-                    <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="/profil/{{user.id}}" onclick="_gaq.push(['_trackEvent', 'Visit profile', 'click', 'Header'])">Profilim</a></li>
-                  {% if user.groups %}
-                    {% for g in user.groups %}
-                        <li><a href="/grup/{{g}}" onclick="_gaq.push(['_trackEvent', 'Visit grup', 'click', 'Header'])">{{g}}</a></li>
-                    {% endfor %}
-                  {% endif %}
-                  <li><a href="/profil_duzenle" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'Header'])">Ayarlar</a></li>
-                  <li><a href="/mesajlarim" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'Header'])">Mesajlar</a></li>
-                  <li><a href="/esyalarim" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'Header'])">Eşya Kütüphanem</a></li>
-                  <li><a href="/davet_et" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'Header'])">Davet Et</a></li>
+<div class="col-sm-10 col-sm-offset-1">
+    <nav class="navbar navbar-default" role="navigation" style="margin-bottom:0px;">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header" style="width: 100%;">
+        <a class="navbar-brand" href="/"><img src="/static/images/yeni/logo.png"/></a>
 
-                  {% if 'admin' in user.roles or 'moderator' in user.roles %}
-                      <li><a href="/moderation">Moderasyon</a></li>
-                  {% endif %}
-                  <li class="divider"></li>
-                  <li><a href="/logout" onclick="_gaq.push(['_trackEvent', 'Logout', 'logoutButton', 'Header'])">Çıkış Yap</a></li>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+
+            {%if user.is_authenticated()%}
+              <div class=" navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right padding15">
+                    <li class="dropdown nav_li_l600 nav_li_l768">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="header_profile_photo_a">
+                            {% if user.photo %}
+                                <img src="/photos/{{user.photo}}"/>
+                            {% else %}
+                                <img src="/static/images/ek.png"/>
+                            {% endif %}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a href="/profil/{{user.id}}">Profilim</a></li>
+                          <!--{% if user.groups %}
+                            {% for g in user.groups %}
+                                <li><a href="/grup/{{g}}">{{g}}</a></li>
+                            {% endfor %}
+                          {% endif %}-->
+                          <li><a href="/profil_duzenle">Ayarlar</a></li>
+                          <li><a href="/mesajlarim">Mesajlar</a></li>
+                          <li><a href="/esyalarim">Eşya Kütüphanem</a></li>
+                          <li><a href="/davet_et">Davet Et</a></li>
+
+                          {% if 'admin' in user.roles or 'moderator' in user.roles %}
+                              <li><a href="/moderation">Moderasyon</a></li>
+                          {% endif %}
+                          <li class="divider"></li>
+                          <li><a href="/logout">Çıkış Yap</a></li>
+                        </ul>
+                        <li class="display_none_l480 display_none_l600 display_none_l768">
+                            <span id="unread_messages" class="badge" style="margin:15px auto auto -8px; background-color:#ed9c28"></span>
+                        </li>
+
+                    </li>
                 </ul>
-                <li class="display_none_l480 display_none_l600 display_none_l768"><span id="unread_messages" class="badge" style="margin:15px auto auto -8px; background-color:#ed9c28"></span></li>
+            {%else%}
+                  <div id="types" class="btn-group" style="float:right; margin-top:24px;">
+                    <button name="color" type="button" class="btn" style=" height:40px; cursor:pointer;
+            color: #929090;
+            background-color: #ffffff;
+            border-color: #bcbcbc;" onclick="window.location.href='/login'">Giriş Yap</button>
+                    <button name="color" type="button" class="btn" style=" height:40px; cursor:pointer;
+            color: #ffffff;
+            background-color: #48bfbf;
+            border-color: #bcbcbc;" onclick="window.location.href='/register'">Üye Ol</button>
+                  </div>
+            {%endif%}
+            </div> <!-- /.navbar-collapse -->
+        </nav>
+    </div>
+</div>
 
-            </li>
-        {%else%}
-        <li class="nav_li_l600 nav_li_l768 ">
-            <a href="/login" class="padding_bottom_l768" onclick="_gaq.push(['_trackEvent', 'Login', 'loginButton', 'Header'])">
-                Giriş Yap
+<div class="menu-bar-div">
+    <ul style="list-style:none;">
+        <li style="float:left; padding-right:20px;">
+            <a href="/nasil_calisir" style="color:white; text_decoration:none;">
+                NASIL ÇALIŞIR?
             </a>
         </li>
-        <!--<li class="nav_li_l600 nav_li_l768 "><a href="/register" onclick="_gaq.push(['_trackEvent', 'Signup', 'signupButton', 'Header'])">Kaydol</a></li>-->
-        {%endif%}
-    </ul>
-  </div><!-- /.navbar-collapse -->
 
-</nav>
+        <li style="float:left; padding-right:20px;">
+            <a href="/category/Hepsi/" style="color:white; text_decoration:none;">
+                KATEGORİLER
+            </a>
+        </li>
+
+        <li style="float:left; padding-right:20px;">
+            <a href="/iletisim" style="color:white; text_decoration:none;">
+                İLETİŞİM
+            </a>
+        </li>
+    </ul>
+</div>

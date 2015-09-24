@@ -191,15 +191,13 @@ form textarea#why, textarea#about {
     left:-32%;
 }
 .blue_line_header {
-    color:white;
-    font-family:Dosis;
-    padding-bottom:10px;
+    color:#000000;
 }
 .sub_menu_text {
-    font-size:24px;
+    font-size:16px;
 }
 .sub_menu_text_active {
-    font-size:30px;
+    color:#41c3c1;
 }
 .search_form_div {
     position:relative;
@@ -211,6 +209,7 @@ form textarea#why, textarea#about {
     padding:30px;
     border:1px solid #dddddd;
     border-top:0px;
+    overflow:hidden;
 }
 #header_profile_photo_a {
     padding:10px;
@@ -304,6 +303,7 @@ h3.stuff_number_text {
     padding:30px;
     border:1px solid #dddddd;
     border-top:0px;
+    overflow:hidden;
 }
 .margin_left_320 {
     margin-left:23%;
@@ -463,6 +463,83 @@ h3.stuff_number_text {
 }
 /*REVIEW AREA*/
 
+.hero-div {
+    position: absolute; bottom: 0px; left: 24%; width: 52%;
+}
+.hero-text {
+    font-size:40px; color:white; text-align:center; line-height:46px; margin-bottom:40px;
+}
+.wth-text {
+    margin-left:27%; margin-top:10px; color: #ffffff; overflow:hidden;
+}
+.wth-text-number {
+    font-size:45px; float:left; margin:auto 7px;
+}
+.wth-text-text {
+    font-size:18px;
+    float:left;
+    width: 100px;
+    line-height: 18px;
+    padding-top: 13px;
+}
+.wh-text {
+    color:white; margin-top:20px; line-height:26px; width:80%; margin-left:10%; font-size:15px;
+}
+.wh-text-1 {
+    border-top-left-radius: 5px; padding:7px 20px; width: 25%;
+    /*background-color: #000000; opacity:0.8;*/
+    float:left;
+    height:40px;
+}
+.wh-text-2 {
+    border-top-right-radius: 5px; padding:7px 20px; width: 75%;
+    /*background-color: #000000; opacity:0.8;*/
+    float:left;
+    height:40px;
+}
+.margin-top70 {
+    margin-top:70px;
+}
+.margin-top20 {
+    margin-top:20px;
+}
+.thumbnail-aranan {
+    border-radius:0;
+    background-color: #f4f4f4;
+    border:0;
+    border-bottom:1px solid #e1e1e1;
+    overflow:hidden;
+    padding-bottom:1px;
+    margin-bottom:0px;
+}
+.hero-search input {
+    height: 53px !important;
+    font-family: helvetica;
+    font-size:20px !important;
+    color:#8b9197;
+    font-weight: lighter;
+}
+.menu-bar-div {
+    width: 100%;
+    position: absolute;
+    top: 88px;
+    z-index: 1;
+    color: white;
+    font-size: 15px;
+    font-family: helvetica;
+    float: left;
+    padding-bottom: 13px;
+    padding-left: 8%;
+    padding-top: 13px;
+    background: rgba(0,0,0,0.3);
+}
+.padding_right {
+    padding-right:0px;
+}
+.padding_left {
+    padding-left:0px;
+}
+
 /*RESPONSIVE*/
 
 @media (min-width: 320px) and (max-width:767px) {
@@ -482,8 +559,7 @@ h3.stuff_number_text {
       width: 25%;
     }
     .nav_li_l768 {
-        float:left;
-        width: 20%;
+        float:right;
         text-align: center;
     }
     .displaywhen767 {
@@ -492,17 +568,75 @@ h3.stuff_number_text {
     .padding_bottom_l768 {
         padding-bottom:20px !important;
     }
+    .padding15 {
+        padding:0px;
+    }
+    .hero-div {
+        left: 16%;
+        width: 68%;
+    }
+    .hero-image-768 {
+        margin-top:20px;
+    }
+    .hero-text {
+        font-size:22px; line-height:26px; margin-bottom:10px;
+    }
+    .wth-text {
+        margin-left:15%;
+        margin-top:0px;
+    }
+    .wth-text-number {
+        font-size:35px;
+    }
+    .wth-text-text {
+        font-size:14px;
+        line-height:13px;
+    }
+    .margin-top70 {
+        margin-top:40px;
+    }
+    .wh-text {
+        margin-top:0px;
+    }
+    .menu-bar-div {
+        top:80px;
+        padding-left: 20%;
+        background-color: rgba(0,0,0,0.3);
+        padding-top:8px;
+        padding-bottom:8px;
+    }
+    .padding_right {
+        padding-right:15px;
+    }
+    .padding_left {
+        padding-left:15px;
+    }
 }
 
 @media (min-width: 320px) and (max-width:600px) {
     .display_none_l600 {
         display:none !important;
     }
-    .nav_li_l600 {
-        width: 50%;
-    }
     .displaywhen600 {
         display:block !important;
+    }
+
+    .hero-text {
+        font-size:20px; line-height:25px; margin-bottom:15px;
+    }
+    .wth-text {
+        margin-left:17%;
+        margin-top:0px;
+    }
+    .wth-text-number {
+        font-size:35px;
+    }
+    .wth-text-text {
+        font-size:14px;
+        line-height:13px;
+    }
+    .margin-top70 {
+        margin-top:40px;
     }
 }
 
@@ -522,12 +656,21 @@ h3.stuff_number_text {
     #width_for_ektd {
         width:65% !important;
     }
-    .sub_menu_text_active {
-      font-size: 22px !important;
-    }
     .sub_menu_text {
       font-size: 18px;
     }
+
+    .hero-div {
+        left: 15%;
+        width: 70%;
+    }
+    .hero-search {
+        margin-bottom:20px;
+    }
+    .menu-bar-div {
+        padding-left: 14%;
+    }
+
 }
 
 @media (max-width: 320px) {
@@ -540,6 +683,19 @@ h3.stuff_number_text {
     .margin_left_320 {
         margin-left:19% !important;
     }
+    .hero-search {
+        margin-bottom: 34px;
+    }
+    .hero-search input {
+        font-size:14px !important
+    }
+
+    .menu-bar-div {
+        padding-left: 0%;
+    }
+    .nav-tabs > li > a {
+        padding: 10px 5px;
+    }
 }
 
 @media (min-width: 320px) and (max-width:991px) {
@@ -548,15 +704,26 @@ h3.stuff_number_text {
     }
 }
 
-@media (min-width: 768px) and (max-width:1024px) {
-    .conversation_width {
-        width:100% !important;
-    }
-}
-
 @media (min-width: 768px) and (max-width:880px) {
     .review-text{
         width:58%;
+    }
+    .hero-text {
+        font-size:24px; line-height:26px; margin-bottom:15px;
+    }
+    .wth-text {
+        margin-left:15%;
+        margin-top:0px;
+    }
+    .wh-text {
+        width:100%; margin-left:0%; margin-top:0px;
+    }
+    .wth-text-number {
+        font-size:35px;
+    }
+    .wth-text-text {
+        font-size:14px;
+        line-height:13px;
     }
 }
 
@@ -564,17 +731,44 @@ h3.stuff_number_text {
     .review-text{
         width:60%;
     }
+    .hero-text {
+        font-size:28px; line-height:30px; margin-bottom:25px;
+    }
+    .wth-text {
+        margin-left:15%;
+    }
+    .wh-text {
+        width:100%; margin-left:0%; margin-top:10px;
+    }
 }
 
 @media (min-width: 901px) and (max-width:1024px) {
     .review-text{
         width:75%;
     }
+    .hero-text {
+        font-size:28px; line-height:30px; margin-bottom:20px;
+    }
+    .wth-text {
+        margin-left:20%;
+    }
+    .wh-text {
+        width:100%; margin-left:0%;
+    }
 }
 
 @media (min-width: 1025px) and (max-width:1124px) {
     .review-text{
         width:83%;
+    }
+    .hero-text {
+        font-size:30px; line-height:36px; margin-bottom:30px;
+    }
+    .wth-text {
+        margin-left:20%;
+    }
+    .wh-text {
+        width:100%; margin-left:0%;
     }
 }
 

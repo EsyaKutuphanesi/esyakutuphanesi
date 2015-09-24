@@ -1,9 +1,9 @@
 {% macro render_item_box(stuff, user, is_wanted=False) -%}
 {% if stuff.approved != -1 %}
     {% if not is_wanted %}
-        <div class="item col-md-3 col-sm-4 col-xs-6 col_ss_6 col_s320 index_share_tumbnail_padding">
+        <div class="item col-md-4 col-sm-6 col-xs-6 col_s320 index_share_tumbnail_padding">
             <!--item-->
-            <div class="thumbnail" style="background-color: #f4f4f4; border:1px solid #f4f4f4;">
+            <div class="thumbnail" style="background-color: #f4f4f4; border:1px solid #f4f4f4; margin-bottom:13px;">
                 {% if stuff.approved == 0 %}
                     <div style="position: absolute; text-align: center; width: 92%; background-color: #5bc0de;
                     color:white; padding:5px;">
@@ -19,9 +19,9 @@
                 <div style="height:150px; overflow:hidden; ">
                     <a href="/esya_detay/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                         {%if stuff.photos%}
-                            <img src="/static/photos/{{stuff.photos[0].filename}}" style="width:200px;"/>
+                            <img src="/static/photos/{{stuff.photos[0].filename}}" style="width:100%;"/>
                         {%else%}
-                            <img src="/static/images/{{stuff.category_id}}.png" style="width:200px;"/>
+                            <img src="/static/images/{{stuff.category_id}}.png" style="width:100%;"/>
                         {%endif%}
                     </a>
                 </div>
@@ -38,9 +38,10 @@
                 {% endif %}
 
                 <div class="caption">
+
                     <p style="color:#bab8b8; font-size:12px;">
-                        <img src="/static/images/takvim.png"/>
-                        {{ stuff.created_at.strftime("%d-%m-%Y") }}
+                        <img src="/static/images/user-icon.png"/>
+                        {{ stuff.owner.name }}
                     </p>
 
                     <p style="font-weight:500; margin-bottom: 0px; height: 45px; overflow: hidden;">
@@ -54,6 +55,16 @@
                                 {% endif %}
                             </span>
                         </span>
+                    </p>
+
+                    <p style="color:#bab8b8; font-size:12px; margin-bottom: 0px;">
+                        <img src="/static/images/takvim.png"/>
+                        {{ stuff.created_at.strftime("%d-%m-%Y") }}
+
+<!--                        <span style="float:right;">
+                            <img src="/static/images/balon.png"/>
+                            3 yorum
+                        </span>-->
                     </p>
                     <!--<p>
                         {%if user.is_authenticated()%}
@@ -77,8 +88,9 @@
             </div>
         </div>
     {% else %}
-        <div class="item col-md-3 col-sm-4 col-xs-6 col_ss_6 col_s320 index_share_tumbnail_padding">
-            <div class="thumbnail" style=" background-color: #f4f4f4; border:1px solid #f4f4f4; overflow:hidden; margin-bottom:10px;">
+        <div class="item col-sm-12 col-xs-6 col_s320 index_share_tumbnail_padding">
+            <div class="thumbnail thumbnail-aranan">
+                {%if user.is_authenticated()%}
                     <div class="col-sm-3 col-xs-12 col_ss_3 display_none_l480" style="margin:9px 0px; padding:0px;">
                         <a href="/profil/{{stuff.owner.id}}">
                             {% if stuff.owner.photo %}
@@ -88,7 +100,7 @@
                             {% endif %}
                         </a>
                     </div>
-
+                {% endif %}
                     <div class="col-sm-9 col-xs-12 col_ss_9" style="margin:0px; padding:0px;">
                         <a href="/esya_detay/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])" style="text-decoration:none;">
 
@@ -106,9 +118,14 @@
                                     </span>
                                 </p>
 
-                                <p style="color:#bab8b8; font-size:12px; text-align:right;">
+                                <p style="color:#bab8b8; font-size:12px; margin: 8px auto;">
                                     <img src="/static/images/takvim.png"/>
                                     {{ stuff.created_at.strftime("%d-%m-%Y") }}
+
+                                    <!--<span style="float:right;">
+                                        <img src="/static/images/balon.png"/>
+                                        3 yorum
+                                    </span>-->
                                 </p>
 
                                 <!--<p>

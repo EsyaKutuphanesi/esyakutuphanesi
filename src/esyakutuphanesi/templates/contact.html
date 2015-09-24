@@ -3,23 +3,12 @@
 {% block title %}{{ super() }} - İletişim{% endblock %}
 {% block content %}
 
-    <div class="blue_line_ek">
-        <div class="col-sm-12 col-xs-12">
-            <div class="row">
-                <h2 class="col-sm-12 col-xs-12 text-center blue_line_header">
-                    İletişim
-                </h2>
-            </div>
-        </div>
-    </div>
+    <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 margin-top70">
 
-    <div class="row">
         <a href="/destekle" onclick="_gaq.push(['_trackEvent', 'User', 'supportUs', 'Contact Page'])">
             <img class="img-responsive" src="/static/images/destekle.png" style="margin:0 auto 20px; width:300px;"/>
         </a>
-    </div>
 
-    <div class="row">
         <h4 class="col-sm-12 col-xs-12">
             <strong>Bize ulaşın:</strong>
         </h4>
@@ -53,17 +42,15 @@
                 </a>
             </p>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-5 col-xs-12">
-            <h4>
-                <strong>Bize yazın:</strong>
-            </h4>
-            <div>
-                <a href="/sos">Sıkça sorulan sorulara baktın mı?</a><br>
-                <a href="/nasil_calisir">Eşya Kütüphanesi nasıl çalışır?</a>
-            </div><br>
+        <h4 class="col-sm-12 col-xs-12">
+            <strong>Bize yazın:</strong>
+        </h4>
+
+        <div class="col-sm-6 col-xs-12">
+            <a href="/sos">Sıkça sorulan sorulara baktın mı?</a><br>
+            <a href="/nasil_calisir">Eşya Kütüphanesi nasıl çalışır?</a><br><br>
+
             <form action="{{url_for('contact')}}" method="POST" name="contact_form" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
                 {{ render_field_with_errors(form.user_name, label_visible=True) }}
@@ -72,7 +59,7 @@
                 {{ form.submit(class_='btn btn-success pull-right')}}
             </form>
         </div>
-        <div class="col-sm-7 col-xs-12 text-center display_none_l768" style="margin-top:30px;">
+        <div class="col-sm-6 col-xs-12 text-center display_none_l768" style="margin-top:30px;">
             <img src="/static/images/biz.png" style="width:100%; max-width:439px;"/>
         </div>
     </div>

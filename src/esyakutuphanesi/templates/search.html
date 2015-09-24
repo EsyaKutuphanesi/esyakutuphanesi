@@ -5,35 +5,96 @@
 {% block title %}{{ super() }} - Arama{% endblock %}
 {% block content %}
 
-    <div class="row">
-        <div style="background-color:#30bcdf; position:absolute; width:200%; left:-30%; height:64px;"></div>
-        <div class="col-sm-12 col-xs-12" style="padding:15px; line-height:34px;color:white;">
-            {% if last_objects[0] %}
-                <div class="col-sm-6 col-xs-10">Senin için şu eşyaları bulduk:</div>
-            {% else %}
-                <div class="col-sm-6 col-xs-10 display_none_l480">Henüz böyle bir eşya paylaşılmamış.</div>
-                <span class="displaywhen480">Eşya bulunamadı.</span>
-            {% endif %}
-            <div class="col-sm-6 col-xs-2">
-                <button type="button" class="btn btn-warning pull-right display_none_l480" onclick="window.location.href='/esya_listele?is_wanted=true', _gaq.push(['_trackEvent', 'Stuff', 'listWantedStuff', 'Search Page'])">Aranıyor ilanı ver</button>
-                {%if last_objects[0]%}
-                    <span class="pull-right display_none_l768" style="margin-right:5px;">Aradığın burada yok mu?</span>
-                {%endif%}
-            </div>
-        </div>
+    <div style="position:relative; overflow: hidden; width: 100%; height:150px;">
+        <img src="/static/images/yeni/imaj2.jpg" class="img-responsive" style="width:100%; margin: 0 auto;">
 
-        <div class="col-sm-12 col-xs-12" style="margin-top:20px;">
-            <div id="container" class="row fluid">
-                {% for stuff in last_objects %}
-                    {% if stuff.is_wanted %}
-                        {{ render_item_box(stuff, user, True ) }}
-                    {% else %}
-                        {{ render_item_box(stuff, user ) }}
-                    {% endif %}
-                {%endfor%}
+        <div class="hero-div">
+            <div class="hero-search" style="margin-bottom:25px;">
+                <form role="search" name="search" action="/search" method="get">
+                    <table class="table searchTable">
+                        <tr>
+                            <td style="width: 57%; padding:0px;">
+                                <input type="text" class="form-control" name="stuff" placeholder="Ne arıyorsun?"
+                                       style="height: 53px !important;
+                                       font-family: helvetica;
+                                       font-size:20px !important;
+                                       color:#8b9197;
+                                       font-weight: lighter;
+                                       border-right:0px;
+                                       border-top-right-radius: 0;
+                                       border-bottom-right-radius: 0;"></td>
+                            <td style="width: 30%; padding:0px;">
+                                <input type="text" class="form-control" name="address" placeholder="Şehir"
+                                       style="height: 53px !important;
+                                       font-family: helvetica;
+                                       font-size:20px !important;
+                                       color:#8b9197;
+                                       font-weight: lighter;
+                                       border-top-left-radius: 0;
+                                       border-bottom-left-radius: 0;"></td>
+                            <td class="text-center" style="padding:0px 0px 0px 13px;">
+                                <button type="submit" class="btn btn-primary" onclick="_gaq.push(['_trackEvent', 'Stuff', 'searchStuff', 'Landing Page'])"
+                                        style="
+    height: 52px !important;
+    background-color: #ffc40c;
+    border-color: #ffc40c;
+    padding-right: 20px;
+    padding-left: 20px; font-family: helvetica; font-size:20px !important; font-weight: lighter; color:#ffffff;">
+                                    Ara
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
         </div>
     </div>
+
+    <div class="col-sm-8 col-xs-12 col-xs-10  col-sm-offset-2 col-xs-offset-1 margin-top20">
+        {% if not last_objects[0] %}
+            <div class="row">
+                <div class="col-sm-12 text-center" style="margin:50px auto;">
+                    <p></p>
+                    <p class="lead">Henüz böyle bir eşya paylaşılmamış. </p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if last_objects[0] %}
+        <div class="col-sm-10 col-sm-offset-1">
+            <div class="col-sm-9 padding_right">
+                <div class="col-sm-12">
+                    <h3 style="font-family: helvetica; font-size:16px; font-weight:lighter; padding-bottom:5px; border-bottom:1px solid #d3d1d1;">
+                       ÖDÜNÇLÜK EŞYALAR
+                    </h3>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="row">
+                        {% for stuff in last_objects %}
+                            {{ render_item_box(stuff, user) }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 padding_left">
+                <div class="col-sm-12">
+                    <h3 style="font-family: helvetica; font-size:16px; font-weight:lighter; padding-bottom:5px; border-bottom:1px solid #d3d1d1;">
+                       ARANAN EŞYALAR
+                    </h3>
+                </div>
+                <div class="col-sm-12">
+                    <div class="row">
+                        {% for stuff in last_objects_wanted%}
+                            {{ render_item_box(stuff, user, True) }}
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {%endif%}
+
     {{ request_modal(request_form) }}
 
 {% endblock %}

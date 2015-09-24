@@ -3,67 +3,63 @@
 {% block title %}{{ super() }} - Ayarlar{% endblock %}
 {% block content %}
 
-    <div class="blue_line_ek" style="margin-bottom:0px;">
-        <div class="col-sm-8 col-xs-12 margin_left_320">
-            <ul class="nav nav-tabs">
-                <li>
-                    <a href="/profil_duzenle" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'Settings Page'])">
-                        <span class="blue_line_header sub_menu_text sub_menu_text_active">Ayarlar</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/mesajlarim" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'Settings Page'])">
-                        <span class="blue_line_header sub_menu_text">Mesajlar</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/esyalarim" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'Settings Page'])">
-                        <span class="blue_line_header sub_menu_text"><span class="display_none_320">Eşya</span> Kütüphanem</span>
-                    </a>
-                </li>
-                <!--<li>
-                    <a href="/groups">Gruplarım</a>
-                </li>-->
-                <li class="display_none_l480">
-                    <a href="/davet_et" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'Settings Page'])">
-                        <span class="blue_line_header sub_menu_text">Davet Et</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 margin-top70">
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="/profil_duzenle" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'Settings Page'])">
+                    <span class="blue_line_header sub_menu_text sub_menu_text_active">Ayarlar</span>
+                </a>
+            </li>
+            <li>
+                <a href="/mesajlarim" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'Settings Page'])">
+                    <span class="blue_line_header sub_menu_text">Mesajlar</span>
+                </a>
+            </li>
+            <li>
+                <a href="/esyalarim" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'Settings Page'])">
+                    <span class="blue_line_header sub_menu_text"><span class="display_none_320">Eşya</span> Kütüphanem</span>
+                </a>
+            </li>
+            <!--<li>
+                <a href="/groups">Gruplarım</a>
+            </li>-->
+            <li class="display_none_l480">
+                <a href="/davet_et" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'Settings Page'])">
+                    <span class="blue_line_header sub_menu_text">Davet Et</span>
+                </a>
+            </li>
+        </ul>
 
-    <div class="row settings_div settings_div_320">
-        <form action="{{ url_for('edit_profile') }}" method="POST" name="edit_user_form" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
-            <div class="col-sm-6 col-xs-12">
-                <div class="col-sm-12 col-xs-12 text-center" style="overflow:hidden; margin-bottom:10px;">
-                    {% if user.photo %}
-                        <img height="250" class="img-responsive" src="/photos/{{user.photo}}"/>
-                    {% else %}
-                        <img height="250" class="img-responsive" src="/static/images/ek.png"/>
-                    {% endif %}
+        <div class="settings_div settings_div_320">
+            <form action="{{ url_for('edit_profile') }}" method="POST" name="edit_user_form" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-12 col-xs-12 text-center" style="overflow:hidden; margin-bottom:10px;">
+                        {% if user.photo %}
+                            <img height="250" class="img-responsive" src="/photos/{{user.photo}}"/>
+                        {% else %}
+                            <img height="250" class="img-responsive" src="/static/images/ek.png"/>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-12 col-xs-10">{{ render_field_with_errors(form.photo) }}</div>
                 </div>
-                <div class="col-sm-12 col-xs-10">{{ render_field_with_errors(form.photo) }}</div>
-            </div>
 
-            <div class="col-sm-6 col-xs-12">
-                {{ render_field_with_errors(form.name) }}
-                {{ render_field_with_errors(form.email) }}
-                {{ render_field_with_errors(form.phone_number) }}
-                <div class="row">
-                    <div class="label label-default" style="float:right; margin:-10px 10px 10px; font-size:12px;">Eşya ödünç istediğin kişi ile numaran paylaşılır.</div>
+                <div class="col-sm-6 col-xs-12">
+                    {{ render_field_with_errors(form.name) }}
+                    {{ render_field_with_errors(form.email) }}
+                    {{ render_field_with_errors(form.phone_number) }}
+                    <div class="row">
+                        <div class="label label-default" style="float:right; margin:-10px 10px 10px; font-size:12px;">Eşya ödünç istediğin kişi ile numaran paylaşılır.</div>
+                    </div>
+                    {{ render_field_with_errors(form.about) }}
+                    <div class="col-sm-12 col-xs-12">
+                        <a href="/change" onclick="_gaq.push(['_trackEvent', 'Password', 'changePass', 'Settings Page'])">Şifreni değiştir</a>
+                        {{ form.submit(class_='btn btn-success pull-right')}}
+                    </div>
                 </div>
-                {{ render_field_with_errors(form.about) }}
-                <div class="col-sm-12 col-xs-12">
-                    <a href="/change" onclick="_gaq.push(['_trackEvent', 'Password', 'changePass', 'Settings Page'])">Şifreni değiştir</a>
-                    {{ form.submit(class_='btn btn-success pull-right')}}
-                </div>
-            </div>
-        </form>
+            </form>
 
-        <div class="col-sm-12 col-xs-12">
-            <div class="col-sm-6 col-xs-12">
+            <div class="col-sm-12 col-xs-12">
                 <h3>Adreslerim</h3>
                 {%for address in user.addresses%}
                     <p>
@@ -73,8 +69,8 @@
                 {%endfor%}
                 <button type="button" class="btn btn-warning" onclick="window.location.href='/yeni_adres', _gaq.push(['_trackEvent', 'Address', 'addAddress', 'Settings Page'])">Yeni adres ekle</button>
             </div>
-        </div>
 
+        </div>
     </div>
 
 {% endblock %}

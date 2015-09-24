@@ -637,7 +637,8 @@ dd {
 @media (min-width: 768px) {
   .dl-horizontal dt {
     float: left;
-    width: 160px;
+    /*width: 160px;*/
+    padding-right:5px;
     overflow: hidden;
     clear: left;
     text-align: right;
@@ -645,7 +646,7 @@ dd {
     white-space: nowrap;
   }
   .dl-horizontal dd {
-    margin-left: 180px;
+    /*margin-left: 180px;*/
   }
   .dl-horizontal dd:before,
   .dl-horizontal dd:after {
@@ -2252,7 +2253,7 @@ textarea.input-lg {
 
 .btn {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 6px 16px;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -4153,18 +4154,18 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li > a {
   margin-right: 2px;
   line-height: 1.428571429;
-  color:#e6e7e6;
+  color:#000000;
 }
 
 .nav-tabs > li > a:hover {
   border-color: #eeeeee #eeeeee #dddddd;
-  color:white;
+  color:#428bca;
 }
 
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-  color: #ffffff;
+  color: #428bca;
   cursor: default;
 }
 

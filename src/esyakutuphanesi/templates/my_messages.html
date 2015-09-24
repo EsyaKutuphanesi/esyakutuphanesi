@@ -3,71 +3,69 @@
 {% block title %}{{ super() }} - Mesajlarım{% endblock %}
 {% block content %}
 
-    <div class="blue_line_ek" style="margin-bottom:0px;">
-        <div class="col-sm-8 col-xs-12 margin_left_320">
-            <ul class="nav nav-tabs">
-                <li>
-                    <a href="/profil_duzenle" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'My_messages Page'])">
-                        <span class="blue_line_header sub_menu_text">Ayarlar</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/mesajlarim" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_messages Page'])">
-                        <span class="blue_line_header sub_menu_text sub_menu_text_active">Mesajlar</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/esyalarim" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'My_messages Page'])">
-                        <span class="blue_line_header sub_menu_text"><span class="display_none_320">Eşya</span> Kütüphanem</span>
-                    </a>
-                </li>
-                <!--<li>
-                    <a href="/groups">Gruplarım</a>
-                </li>-->
-                <li class="display_none_l480">
-                    <a href="/davet_et" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_messages Page'])">
-                        <span class="blue_line_header sub_menu_text">Davet Et</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 margin-top70">
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="/profil_duzenle" onclick="_gaq.push(['_trackEvent', 'Visit settings', 'click', 'My_messages Page'])">
+                    <span class="blue_line_header sub_menu_text">Ayarlar</span>
+                </a>
+            </li>
+            <li>
+                <a href="/mesajlarim" onclick="_gaq.push(['_trackEvent', 'Visit my_messages', 'click', 'My_messages Page'])">
+                    <span class="blue_line_header sub_menu_text sub_menu_text_active">Mesajlar</span>
+                </a>
+            </li>
+            <li>
+                <a href="/esyalarim" onclick="_gaq.push(['_trackEvent', 'Visit my_stuff', 'click', 'My_messages Page'])">
+                    <span class="blue_line_header sub_menu_text"><span class="display_none_320">Eşya</span> Kütüphanem</span>
+                </a>
+            </li>
+            <!--<li>
+                <a href="/groups">Gruplarım</a>
+            </li>-->
+            <li class="display_none_l480">
+                <a href="/davet_et" onclick="_gaq.push(['_trackEvent', 'Visit invite page', 'click', 'My_messages Page'])">
+                    <span class="blue_line_header sub_menu_text">Davet Et</span>
+                </a>
+            </li>
+        </ul>
 
-    <div class="row menu_area_border">
-        {% if not user.conversations[0] %}
-            HENÜZ MESAJ YOK
-        {% else %}
-            <div class="list-group">
-                {% for conversation in user.conversations|sort(attribute='updated_at', reverse=True) %}
-                    {% if conversation.messages[-1].status == 0 and conversation.messages[-1].to_user_id == user.id %}
-                        <a href="/mesaj/{{conversation.id}}" class="list-group-item message-div unread-message-bg" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
-                    {% else %}
-                        <a href="/mesaj/{{conversation.id}}" class="list-group-item message-div message-div-bg" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
-                    {% endif %}
-                            <h4 class="list-group-item-heading ">
-                                {{conversation.title}}
-                                {% if conversation.request.user_id == user.id%}
-                                    {% if conversation.request.status == 1 %}
-                                        <span class="label label-warning pull-right display_none_320">Eşya sana ödünç verildi</span>
-                                    {% elif conversation.request.status == 2 %}
-                                        <span class="label label-success pull-right display_none_320">Yorum yapmak ister misin?</span>
+        <div class="menu_area_border">
+            {% if not user.conversations[0] %}
+                HENÜZ MESAJ YOK
+            {% else %}
+                <div class="list-group">
+                    {% for conversation in user.conversations|sort(attribute='updated_at', reverse=True) %}
+                        {% if conversation.messages[-1].status == 0 and conversation.messages[-1].to_user_id == user.id %}
+                            <a href="/mesaj/{{conversation.id}}" class="list-group-item message-div unread-message-bg" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
+                        {% else %}
+                            <a href="/mesaj/{{conversation.id}}" class="list-group-item message-div message-div-bg" onclick="_gaq.push(['_trackEvent', 'Read request', 'readRequest', 'My_messages Page'])">
+                        {% endif %}
+                                <h4 class="list-group-item-heading ">
+                                    {{conversation.title}}
+                                    {% if conversation.request.user_id == user.id%}
+                                        {% if conversation.request.status == 1 %}
+                                            <span class="label label-warning pull-right display_none_320">Eşya sana ödünç verildi</span>
+                                        {% elif conversation.request.status == 2 %}
+                                            <span class="label label-success pull-right display_none_320">Yorum yapmak ister misin?</span>
+                                        {% endif %}
+                                    {% elif conversation.request.from_user_id == user.id %}
+                                        {% if conversation.request.status == 1 %}
+                                            <span class="label label-warning pull-right display_none_320">Eşyayı ödünç verdin</span>
+                                        {% elif conversation.request.status == 2 %}
+                                            <span class="label label-success pull-right display_none_320">Yorum yapmak ister misin?</span>
+                                        {% endif %}
                                     {% endif %}
-                                {% elif conversation.request.from_user_id == user.id %}
-                                    {% if conversation.request.status == 1 %}
-                                        <span class="label label-warning pull-right display_none_320">Eşyayı ödünç verdin</span>
-                                    {% elif conversation.request.status == 2 %}
-                                        <span class="label label-success pull-right display_none_320">Yorum yapmak ister misin?</span>
-                                    {% endif %}
-                                {% endif %}
-                            </h4>
-                            <p class="list-group-item-text">
-                                {{conversation.messages[-1]}}
-                            <span class="pull-right">{{conversation.updated_at.strftime('%d-%m-%Y %H:%M')}}</span>
-                            </p>
-                        </a>
-                {% endfor %}
-            </div>
-        {% endif %}
+                                </h4>
+                                <p class="list-group-item-text">
+                                    {{conversation.messages[-1]}}
+                                <span class="pull-right">{{conversation.updated_at.strftime('%d-%m-%Y %H:%M')}}</span>
+                                </p>
+                            </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </div>
 
 {% endblock %}

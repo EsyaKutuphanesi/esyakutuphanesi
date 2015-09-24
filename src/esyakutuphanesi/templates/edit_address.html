@@ -18,22 +18,21 @@
         }
     </script>
 
-    <div class="row">
+    <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 margin-top70">
+
         <ol class="breadcrumb" style="background:none;">
             <li>
                 <a href="/profil_duzenle"><< Ayarlara geri dön</a>
             </li>
         </ol>
-    </div>
 
-    <div class="row">
         {% if address %}
             <a href="#" onclick="deleteAddressReq(1), _gaq.push(['_trackEvent', 'Address', 'deleteAddress', 'Edit_address Page'])" class="pull-right">Adresi sil</a>
         {% endif %}
-        <div class="col-md-8 col-sm-8 col-xs-12">
+        <div class="col-sm-8 col-xs-12">
             <div id="map"></div>
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-10 col-xs-offset-1" >
+        <div class="col-sm-4 col-xs-10" >
             <form action="{{ form_action }}" method="POST" id="geocoding_form" name="edit_address_form" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
 

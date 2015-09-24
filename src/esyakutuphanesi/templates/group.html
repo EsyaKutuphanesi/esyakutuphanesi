@@ -20,83 +20,75 @@
         });
     </script>
 
-    <div class="blue_line_ek" style="margin-bottom:0px;">
-        <div class="col-md-8 col-xs-12 margin_left_320">
-
-            <div class="row">
-                <div class="col-md-2 col-sm-2">
-                    <div class="group-logo">
-                        <div class="group-logo-img">
-                            <img src="/photos/{{group_info.logo}}" class="img-responsive"/>
-                        </div>
+    <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 margin-top70">
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="group-logo">
+                    <div class="group-logo-img">
+                        <img src="/photos/{{group_info.logo}}" class="img-responsive"/>
                     </div>
                 </div>
-                <div class="col-md-10 col-sm-10" style="color:white;">
-                    <h2>{{group_info.name | upper}}</h2>
-                    <div>{{group_info.description}}</div>
-                </div>
             </div>
-
-        </div>
-    </div>
-
-    <div class="col-md-10 col-sm-10">
-        <div class="row">
-            {% if group_shares[0] %}
-                <div class="col-md-12">
-                    <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">{{group_shares.is_wanted}}Kütüphaneye Eklenenler</h3>
-                </div>
-            {% else %}
-                <div class="col-md-12">
-                    <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Hemen paylaşabilirsin ^^</h3>
-                </div>
-                <div class="col-md-12">
-                    <a href="/esya_listele" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'Group Page'])">
-                        <img src="/static/images/esyapaylashadi.png" class="img-responsive"/>
-                    </a>
-                </div>
-            {% endif %}
-            <div class="col-md-12">
-                <div id="container" class="row fluid">
-                    {% for stuff in group_shares%}
-                        {{ render_item_box(stuff, user) }}
-                    {% endfor %}
-                </div>
+            <div class="col-sm-10" style="color:white;">
+                <h2>{{group_info.name | upper}}</h2>
+                <div>{{group_info.description}}</div>
             </div>
         </div>
 
         <div class="row">
-            {% if group_wanted[0] %}
-                <div class="col-md-12">
-                    <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Aranıyor!</h3>
+            <div class="col-sm-9" style="padding-right: 0px;">
+                <div class="col-sm-12">
+                    <a href="/category/Hepsi/?is_wanted=0" class="index_share_info_text">
+                        <h3 style="font-family: helvetica; font-size:16px; font-weight:lighter; padding-bottom:5px; border-bottom:1px solid #d3d1d1;">
+                           ÖDÜNÇLÜK EŞYALAR
+                        </h3>
+                    </a>
                 </div>
-            {% endif %}
-            <div class="col-md-12">
-                <div id="container" class="row fluid">
-                    {% for stuff in group_wanted %}
-                        {{ render_item_box(stuff, user, True) }}
-                    {%endfor%}
+
+                <div class="col-sm-12">
+                    <div class="row">
+                        {% for stuff in group_shares %}
+                            {{ render_item_box(stuff, user) }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3" style="padding-left: 0px;">
+                <div class="col-sm-12">
+                    <a href="/category/Hepsi/?is_wanted=1" class="index_share_info_text">
+                        <h3 style="font-family: helvetica; font-size:16px; font-weight:lighter; padding-bottom:5px; border-bottom:1px solid #d3d1d1;">
+                           ARANAN EŞYALAR
+                        </h3>
+                    </a>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="row">
+                        {% for stuff in group_wanted %}
+                            {{ render_item_box(stuff, user, True) }}
+                        {%endfor%}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-2 col-sm-2">
-        <h3 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Üyeler</h3>
-        <div style="width:100%;">
-            {% for members in group_members %}
-                <!--{{members.name}}-->
-                <div style="width:46%; margin:2%; float:left; height:50px;">
-                    <a href="/profil/{{members.id}}">
-                        {% if members.photo %}
-                            <img src="/photos/{{members.photo}}" class="img-responsive"/>
-                        {% else %}
-                            <img src="/static/images/ek.png" class="img-responsive">
-                        {% endif%}
-                    </a>
-                </div>
-            {% endfor %}
+        <div class="col-sm-12">
+            <h4 style="border-bottom: 1px solid #dddddd; padding-bottom: 10px;">Üyeler</h4>
+            <div style="width:100%;">
+                {% for members in group_members %}
+                    <!--{{members.name}}-->
+                    <div class="col-sm-1 col-xs-2" style="padding:5px;">
+                        <a href="/profil/{{members.id}}">
+                            {% if members.photo %}
+                                <img src="/photos/{{members.photo}}" class="img-responsive"/>
+                            {% else %}
+                                <img src="/static/images/ek.png" class="img-responsive">
+                            {% endif%}
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+            <!--<button class="btn btn-info" style="width:100%; margin:10px auto;">Davet et</button>-->
         </div>
-        <!--<button class="btn btn-info" style="width:100%; margin:10px auto;">Davet et</button>-->
     </div>
 
 {% endblock %}

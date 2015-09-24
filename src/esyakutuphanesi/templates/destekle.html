@@ -2,15 +2,8 @@
 {% extends "layout.html" %}
 {% block title %}{{ super() }} - İletişim{% endblock %}
 {% block content %}
-    <div class="blue_line_ek">
-        <div class="row">
-            <h2 class="col-sm-12 col-xs-12 text-center blue_line_header">
-                Bizi destekle!
-            </h2>
-        </div>
-    </div>
+    <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 margin-top70">
 
-    <div class="row">
         <div class="col-sm-12 col-xs-12">
             <h4 class="text-center">
                 Eşyalarını paylaşmak istiyorsan <a href="/esya_listele">BURADAN BAŞLA!</a>
@@ -19,25 +12,22 @@
                 Eşya Kütüphanesi rozeti ya da magneti satın alarak bize destek olmak istersen de <a href="#bizeyaz">bize yaz!</a>
             </h4>
         </div>
-    </div>
 
-    <div class="row">
         <div class="col-sm-12 col-xs-12"><br>
             <img class="img-responsive" src="/static/images/rozetmagnet.png" style="width:400px; margin:0 auto;"/>
         </div>
-    </div>
-    <br>
 
-    <div class="row">
-        <h3 class="col-sm-12 col-xs-12">
+        <br>
+
+        <h4 class="col-sm-12 col-xs-12">
             Bize yaz
-        </h3>
+        </h4>
 
         <div class="col-sm-5 display_none_l768" id="bizeyaz">
             <img class="img-responsive" src="/static/images/desteklebebe.png" style="margin:0 auto;"/>
         </div>
 
-        <div class="row col-sm-7 col-xs-12">
+        <div class="col-sm-7 col-xs-12">
             <div class="col-sm-12 col-xs-12">
                 <form action="{{url_for('destekle')}}" method="POST" name="contact_form" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}

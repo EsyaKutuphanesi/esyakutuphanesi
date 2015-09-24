@@ -63,7 +63,7 @@
             $("#list_btn").click(function(){
                 var category = $("select#categories option:selected").text();
                 var stuff_type = $("select#stuff_types option:selected").text();
-                var is_wanted = $("select#is_wanted option:selected").val();
+                // var is_wanted = $("select#is_wanted option:selected").val();
                 var host = window.location.host;
                 var url = '';
                 if(stuff_type == 'Hepsi'){
@@ -71,45 +71,62 @@
                 } else {
                     url = "http://"+host+"/category/"+category+"/type/"+stuff_type;
                 }
-                if(is_wanted != 2){
-                    url += "?is_wanted="+is_wanted;
-                }
+                // if(is_wanted != 2){
+                //    url += "?is_wanted="+is_wanted;
+                // }
                 window.location = url;
             })
         })
     </script>
 
-    <div class="blue_line_ek">
-        <div class="col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3 display_none_l480" style="position:relative;">
-            <img src="/static/images/ekesyalar.png" style="width:100%;"/>
-        </div>
 
-        <div class="row search_form_div">
-            <div class="col-sm-10 col-sm-offset-1 col-xs-8 col-xs-offset-2">
-                <form role="search" name="search" action="/search" method="get">
-                    <table class="table searchTable">
-                        <tr>
-                            <td id="width_for_ektd" class="index_search_td index_search_width">
-                                <input type="text" class="index_search_input form-control" name="stuff" placeholder="Ne arıyorsun? Ör: Kitap"></td>
-                            <td class="display_none_l480" class="index_search_td">
-                                <input type="text" class="index_search_input form-control" name="address" placeholder="Şehir? Ör: İstanbul"></td>
-                            <td class="text-center">
-                                <button type="submit" class="index_search_input btn btn-primary" id="index_search_button" onclick="_gaq.push(['_trackEvent', 'Stuff', 'searchStuff', 'Landing Page'])">ARA</button>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+    <div style="position:relative; overflow: hidden; width: 100%; height:150px;">
+        <img src="/static/images/yeni/imaj2.jpg" class="img-responsive" style="width:100%; margin: 0 auto;">
+
+        <div class="hero-div">
+            <div class="hero-search" style="margin-bottom:25px; padding-left: 21%;">
+                <table class="table searchTable">
+                    <tr>
+                        <td style="width: 57%; padding:0px;">
+                            <select class="form-control" id="categories" style="height: 53px !important;
+                               font-family: helvetica;
+                               font-size:20px !important;
+                               color:#8b9197;
+                               font-weight: lighter;
+                               border-right:0px;
+                               border-top-right-radius: 0;
+                               border-bottom-right-radius: 0;">
+                            </select>
+
+                            <div class="col-sm-3 col-xs-3 form-group" style="display:none;">
+                                <select class="form-control" id="stuff_types">
+                                </select>
+                            </div>
+                        </td>
+                        <td class="text-center" style="float:left; padding:0px 0px 0px 13px;">
+                            <button class="btn btn-primary" id="list_btn"
+                                    style="
+height: 52px !important;
+background-color: #ffc40c;
+border-color: #ffc40c;
+padding-right: 20px;
+padding-left: 20px; font-family: helvetica; font-size:20px !important; font-weight: lighter; color:#ffffff;">
+                                Ara
+                            </button>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
 
-    <div class="row">
+    <!--<div class="row">
         {%  if params['category']  %}
-            <div class="col-sm-3 col-sm-offset-1 col-xs-3 form-group">
+            <div class="col-sm-2 col-sm-offset-1 col-xs-3 form-group">
                 <select class="form-control" id="categories">
                 </select>
             </div>
-            <div class="col-sm-3 col-xs-3 form-group">
+            <div class="col-sm-3 col-xs-3 form-group" style="display:none;">
                 <select class="form-control" id="stuff_types">
                 </select>
             </div>
@@ -124,27 +141,56 @@
                 <button id="list_btn" class="btn" onclick="_gaq.push(['_trackEvent', 'Search', 'listAllStuff', 'Browse Page'])">Listele</button>
             </div>
         {%endif%}
-    </div>
+    </div>-->
 
-    <div class="row">
-
-        {% if not stuff_list[0]%}
-            <div class="col-sm-12 col-xs-12" style="background:rgba(0,0,0,0.5); margin:20px auto; padding:15px; line-height:34px;color:white; border-radius:10px;">
-                <div class="col-sm-6 col-xs-6">Henüz böyle bir eşya paylaşılmamış.</div>
-                <div class="col-sm-6 col-xs-6">
-                    <button type="button" class="btn btn-warning pull-right" onclick="window.location.href='/esya_listele?is_wanted=true', _gaq.push(['_trackEvent', 'Stuff', 'listWantedStuff', 'Browse Page'])">Aranıyor ilanı ver</button>
+    <div class="col-sm-8 col-xs-12 col-xs-10  col-sm-offset-2 col-xs-offset-1 margin-top20">
+        {% if not stuff_list[0] %}
+            <div class="row">
+                <div class="col-sm-12 text-center" style="margin:50px auto;">
+                    <p></p>
+                    <p class="lead">Henüz böyle bir eşya paylaşılmamış. </p>
                 </div>
             </div>
-        {%endif%}
-        <div class="col-sm-12 col-xs-12">
-            <div id="container" class="row fluid">
-                {% for stuff in stuff_list %}
-                    {{ render_item_box(stuff, user, stuff.is_wanted) }}
-                {%endfor%}
+        {% endif %}
+    </div>
+
+    {% if stuff_list[0] %}
+        <div class="col-sm-10 col-sm-offset-1">
+            <div class="col-sm-9 padding_right">
+                <div class="col-sm-12" style="padding-right:0px;">
+                    <h3 style="font-family: helvetica; font-size:16px; font-weight:lighter; padding-bottom:5px; border-bottom:1px solid #d3d1d1;">
+                       ÖDÜNÇLÜK EŞYALAR
+                    </h3>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="row">
+                        {% for stuff in stuff_list %}
+                            {% if not stuff.is_wanted %}
+                                {{ render_item_box(stuff, user) }}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 padding_left">
+                <div class="col-sm-12">
+                    <h3 style="font-family: helvetica; font-size:16px; font-weight:lighter; padding-bottom:5px; border-bottom:1px solid #d3d1d1;">
+                       ARANAN EŞYALAR
+                    </h3>
+                </div>
+                <div class="col-sm-12">
+                    <div class="row">
+                        {% for stuff in stuff_list%}
+                            {% if stuff.is_wanted %}
+                                {{ render_item_box(stuff, user, stuff.is_wanted) }}
+                            {% endif %}
+                        {%endfor%}
+                    </div>
+                </div>
             </div>
         </div>
-
-    </div>
+    {%endif%}
 
 {{ request_modal(request_form) }}
 {% endblock %}

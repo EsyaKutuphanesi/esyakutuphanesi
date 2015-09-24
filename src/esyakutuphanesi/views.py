@@ -35,7 +35,7 @@ def home():
         Stuff.owner_id == User.id,
         Stuff.group_id == None,
         User.approved == True
-    ).order_by(Stuff.id.desc()).limit(8)
+    ).order_by(Stuff.id.desc()).limit(5)
 
     last_objects_wanted = Stuff.query.join(User).filter(
         Stuff.approved == 1,
@@ -43,7 +43,7 @@ def home():
         Stuff.owner_id == User.id,
         Stuff.group_id == None,
         User.approved == True
-    ).order_by(Stuff.id.desc()).limit(8)
+    ).order_by(Stuff.id.desc()).limit(6)
 
     stuff_count_wanted = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == True).count()
     stuff_count_shared = Stuff.query.filter(Stuff.approved == 1, Stuff.is_wanted == False).count()
@@ -102,6 +102,17 @@ def search():
             Stuff.owner_id == User.id,
             User.approved == True,
             Stuff.approved == 1,
+            Stuff.is_wanted == False,
+            Address.id == Stuff.address_id,
+            Stuff.title.ilike('%' + stuff_key + '%'),
+            Address.detail.ilike('%' + address_key + '%')
+        )
+
+        last_objects_wanted = Stuff.query.join(Address).join(User).filter(
+            Stuff.owner_id == User.id,
+            User.approved == True,
+            Stuff.approved == 1,
+            Stuff.is_wanted == True,
             Address.id == Stuff.address_id,
             Stuff.title.ilike('%' + stuff_key + '%'),
             Address.detail.ilike('%' + address_key + '%')
@@ -111,6 +122,7 @@ def search():
         "search.html",
         user=current_user,
         last_objects=last_objects,
+        last_objects_wanted=last_objects_wanted,
         form=form,
         request_form=request_form
     )
