@@ -106,7 +106,7 @@ def search():
             Address.id == Stuff.address_id,
             Stuff.title.ilike('%' + stuff_key + '%'),
             Address.detail.ilike('%' + address_key + '%')
-        )
+        ).order_by(Stuff.id.desc())
 
         last_objects_wanted = Stuff.query.join(Address).join(User).filter(
             Stuff.owner_id == User.id,
@@ -116,16 +116,16 @@ def search():
             Address.id == Stuff.address_id,
             Stuff.title.ilike('%' + stuff_key + '%'),
             Address.detail.ilike('%' + address_key + '%')
-        )
+        ).order_by(Stuff.id.desc())
 
-    return render_template(
-        "search.html",
-        user=current_user,
-        last_objects=last_objects,
-        last_objects_wanted=last_objects_wanted,
-        form=form,
-        request_form=request_form
-    )
+        return render_template(
+            "search.html",
+            user=current_user,
+            last_objects=last_objects,
+            last_objects_wanted=last_objects_wanted,
+            form=form,
+            request_form=request_form
+        )
 
 
 @app.route('/adres_duzenle/<address_id>', methods=["GET", "POST"])

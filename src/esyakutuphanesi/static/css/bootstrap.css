@@ -4729,7 +4729,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-default .navbar-nav > li > a:focus {
   color: #333333;
   background-color: transparent;
-  border-bottom:5px solid #31c1df;
+  border-bottom:5px solid #46c0c1;
 }
 
 .navbar-default .navbar-nav > .active > a,
