@@ -1,6 +1,6 @@
 {%- with messages = get_flashed_messages(with_categories=true) -%}
   {% if messages %}
-    <ul class="list-group flashes">
+    <ul class="list-group flashes" style="position: relative; top: 50px;">
     {% for category, message in messages %}
       <li class="text-center list-group-item success {{ category }}" style="background-color:#f0ad4e; color:white;">
           {{ message }}

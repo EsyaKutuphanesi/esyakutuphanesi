@@ -7,6 +7,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel"></h4>
             </div>
+
+            <div id="modal-alert" style="display: none; background-color: #f0ad4e; color: white; line-height: 40px; text-align: center;"></div>
+
             <form id="request-form" action="/make_request" method="post">
                 <div class="modal-body" style="overflow:hidden;">
                     {{ request_form.hidden_tag() }}
@@ -37,11 +40,24 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info request-button-in-modal" onclick="_gaq.push(['_trackEvent', 'Stuff', 'borrowLendStuff', 'Request Modal'])">İletişime geç</button>
+                    <button id="request-submit-button" type="submit" class="btn btn-info request-button-in-modal" onclick="_gaq.push(['_trackEvent', 'Stuff', 'borrowLendStuff', 'Request Modal'])">İletişime geç</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-</div>
+<script>
+$( "#request-submit-button" ).click(function() {
+    if( $( "input#duration" ).val()=='' || $( "input#duration" ).val()==0 ) {
+        $( "#modal-alert").css("display", "block");
+        $( "#modal-alert" ).html( "Kaç gün için istediğini yazmalısın." );
+        return false;
+    }
+    if( $( "textarea#message" ).val()=='' || $( "textarea#message" ).val()==0 ) {
+        $( "#modal-alert").css("display", "block");
+        $( "#modal-alert" ).html( "Ödünç işlemi için mesaj yazmalısın." );
+        return false;
+    }
+});
+</script>
 {% endmacro %}

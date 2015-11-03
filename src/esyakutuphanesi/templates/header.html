@@ -24,11 +24,11 @@
          var title = decodeURI(title);
 
          if (is_wanted=="True") {
-            $('#message').val('Merhaba, '+owner+' sana '+title+ ' eşyasını ödünç vermek istiyorum.');
+            //$('#message').val('Merhaba, '+owner+' sana '+title+ ' eşyasını ödünç vermek istiyorum.');
             htmlString += "Ödünç Ver";
             $("h4.modal-title").html(htmlString);
          } else {
-            $('#message').val('Merhaba, '+owner+' senden '+title+ ' eşyanı ödünç istiyorum.');
+            //$('#message').val('Merhaba, '+owner+' senden '+title+ ' eşyanı ödünç istiyorum.');
             htmlString += "Ödünç İste";
             $("h4.modal-title").html(htmlString);
          }
