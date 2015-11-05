@@ -8,6 +8,18 @@
     <script src="http://connect.facebook.net/en_US/all.js"></script>
 
     <div style="position:relative; overflow: hidden; width: 100%;">
+        {% if not user.addresses %}
+            <div class="col-sm-12 display_none_l768" style="position: absolute; z-index: 1; top: 52px;">
+                <div class="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+                    <div class="alert alert-info">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        Ödünçlük eşya eklemek ya da ödünç istemek için adres eklemelisin:
+                        <strong><a href="/yeni_adres">Adres ekle</a></strong>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
         <img src="/static/images/yeni/imaj2.jpg" class="img-responsive" style="width:100%; margin: 0 auto;">
 
         <div class="hero-div">
@@ -110,27 +122,18 @@ padding-left: 20px; font-family: helvetica; font-size:20px !important; font-weig
                     {%endfor%}
                 </div>
             </div>
+            <div class="item col-sm-12 col-xs-6 col_s320 index_share_tumbnail_padding">
+                <div class="thumbnail thumbnail-aranan" style="border-bottom: 0;">
+                        <div class="caption text-center" style="text-align: center; line-height: 65px;">
+                            <button class="btn btn-primary" style="background-color: #df9ea8; border:1px solid #df9ea8;" onclick="window.location.href='/esya_listele'">
+                                <span class="display_none_l992">Aradığın </span>Eşyayı Listele
+                            </button>
+                        </div>
+                    </div>
+            </div>
         </div>
     </div>
 
-    <script type="text/javascript">
-        $(".custom-slider-button").click(function(){
-            $(".custom-slider-area div").removeClass('active');
-            $(this).addClass('active');
-
-            var marginLeft = 0;
-            if( $(this).attr('id')=='review-1' ) {
-                marginLeft = '0px';
-            } else if( $(this).attr('id')=='review-2' ) {
-                marginLeft = '-850px';
-            } else if( $(this).attr('id')=='review-3' ) {
-                marginLeft = '-1700px';
-            }
-            $(".full-review-area").animate(
-                {'margin-left':marginLeft}, 1000
-            );
-        });
-    </script>
     {{ request_modal(request_form) }}
 
 {% endblock %}
