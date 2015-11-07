@@ -63,18 +63,25 @@
         </ul>
 
         <div class="menu_area_border">
-            <div id="container" class="row fluid">
-                <!--<div class="item col-sm-3 col-xs-6 display_none_l768">
-                    <div class="thumbnail" style="border:0;">
-                        <a href="/esya_listele" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'My_stuff Page'])">
-                            <img src="/static/images/esyaekle.png"/>
-                        </a>
-                    </div>
-                </div>-->
-                {% for stuff in user.stuff_list %}
-                    {{ render_item_box(stuff, user) }}
-                {% endfor %}
+            {% if not user.conversations[0] %}
+                HENÜZ EŞYA YOK
+            {% else %}
+                <div id="container" class="row fluid">
+                    <!--<div class="item col-sm-3 col-xs-6 display_none_l768">
+                        <div class="thumbnail" style="border:0;">
+                            <a href="/esya_listele" onclick="_gaq.push(['_trackEvent', 'Stuff', 'shareStuff', 'My_stuff Page'])">
+                                <img src="/static/images/esyaekle.png"/>
+                            </a>
+                        </div>
+                    </div>-->
+
+
+                    {% for stuff in user.stuff_list %}
+                        {{ render_item_box(stuff, user) }}
+                    {% endfor %}
+                
             </div>
+            {% endif %}
         </div>
     </div>
 
