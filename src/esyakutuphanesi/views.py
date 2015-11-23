@@ -1476,7 +1476,7 @@ def results():
 
         if request.form.get('computer') and request.form.get('computer_number') and request.form.get('computer_sp'):
 
-            computer_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('computer')).first()
+            computer_info = SurveyItems.query.filter(SurveyItems.id == int(request.form.get('computer'))).first()
             computer_cc = computer_info.climate_change * float(request.form.get('computer_number')) / float(request.form.get('computer_sp'))
 
             data.append([request.form.get('computer'),
