@@ -1465,8 +1465,8 @@ def results():
         data = []
         if request.form.get('lcd') and request.form.get('lcd_number') and request.form.get('lcd_sp'):
 
-            lcd_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('lcd')).first()
-            lcd_cc = lcd_info.climate_change * float(request.form.get('lcd_number')) / float(request.form.get('lcd_sp'))
+            cc_lcd = float('336.13')
+            lcd_cc = cc_lcd * float(request.form.get('lcd_number')) / float(request.form.get('lcd_sp'))
 
             data.append([request.form.get('lcd'),
                          request.form.get('lcd_number'),
@@ -1476,8 +1476,8 @@ def results():
 
         if request.form.get('computer') and request.form.get('computer_number') and request.form.get('computer_sp'):
 
-            computer_info = SurveyItems.query.filter(SurveyItems.id == int(request.form.get('computer'))).first()
-            computer_cc = computer_info.climate_change * float(request.form.get('computer_number')) / float(request.form.get('computer_sp'))
+            cc_comp = float('523.42')
+            computer_cc = cc_comp * float(request.form.get('computer_number')) / float(request.form.get('computer_sp'))
 
             data.append([request.form.get('computer'),
                          request.form.get('computer_number'),
@@ -1487,8 +1487,8 @@ def results():
 
         if request.form.get('laptop') and request.form.get('laptop_number') and request.form.get('laptop_sp'):
 
-            laptop_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('laptop')).first()
-            laptop_cc = laptop_info.climate_change * float(request.form.get('laptop_number')) / float(request.form.get('laptop_sp'))
+            cc_laptop = float('213.67')
+            laptop_cc = cc_laptop * float(request.form.get('laptop_number')) / float(request.form.get('laptop_sp'))
 
             data.append([request.form.get('laptop'),
                          request.form.get('laptop_number'),
@@ -1498,8 +1498,8 @@ def results():
 
         if request.form.get('keyboard') and request.form.get('keyboard_number') and request.form.get('keyboard_sp'):
 
-            keyboard_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('keyboard')).first()
-            keyboard_cc = keyboard_info.climate_change * float(request.form.get('keyboard_number')) / float(request.form.get('keyboard_sp'))
+            cc_kb = float('25.80')
+            keyboard_cc = cc_kb * float(request.form.get('keyboard_number')) / float(request.form.get('keyboard_sp'))
 
             data.append([request.form.get('keyboard'),
                          request.form.get('keyboard_number'),
@@ -1509,8 +1509,8 @@ def results():
 
         if request.form.get('mouse') and request.form.get('mouse_number') and request.form.get('mouse_sp'):
 
-            mouse_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('mouse')).first()
-            mouse_cc = mouse_info.climate_change * float(request.form.get('mouse_number')) / float(request.form.get('mouse_sp'))
+            cc_mouse = float('5.07')
+            mouse_cc = cc_mouse * float(request.form.get('mouse_number')) / float(request.form.get('mouse_sp'))
 
             data.append([request.form.get('mouse'),
                          request.form.get('mouse_number'),
@@ -1520,8 +1520,8 @@ def results():
 
         if request.form.get('harddisk') and request.form.get('harddisk_number') and request.form.get('harddisk_sp'):
 
-            harddisk_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('harddisk')).first()
-            harddisk_cc = harddisk_info.climate_change * float(request.form.get('harddisk_number')) / float(request.form.get('harddisk_sp'))
+            cc_hd= float('14.31')
+            harddisk_cc = cc_hd * float(request.form.get('harddisk_number')) / float(request.form.get('harddisk_sp'))
 
             data.append([request.form.get('harddisk'),
                          request.form.get('harddisk_number'),
@@ -1531,8 +1531,8 @@ def results():
 
         if request.form.get('network') and request.form.get('network_number') and request.form.get('network_sp'):
 
-            network_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('network')).first()
-            network_cc = network_info.climate_change * float(request.form.get('network_number')) / float(request.form.get('network_sp'))
+            cc_network= float('6.56')
+            network_cc = cc_network * float(request.form.get('network_number')) / float(request.form.get('network_sp'))
 
             data.append([request.form.get('network'),
                          request.form.get('network_number'),
@@ -1542,8 +1542,8 @@ def results():
 
         if request.form.get('printer') and request.form.get('printer_number') and request.form.get('printer_sp'):
 
-            printer_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('printer')).first()
-            printer_cc = printer_info.climate_change * float(request.form.get('printer_number')) / float(request.form.get('printer_sp'))
+            cc_printer = float('66.73')
+            printer_cc = cc_printer * float(request.form.get('printer_number')) / float(request.form.get('printer_sp'))
 
             data.append([request.form.get('printer'),
                          request.form.get('printer_number'),
@@ -1553,8 +1553,8 @@ def results():
 
         if request.form.get('bike') and request.form.get('bike_number') and request.form.get('bike_sp'):
 
-            bike_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('bike')).first()
-            bike_cc = bike_info.climate_change * float(request.form.get('bike_number')) / float(request.form.get('bike_sp'))
+            cc_bike= float('159.42')
+            bike_cc = cc_bike * float(request.form.get('bike_number')) / float(request.form.get('bike_sp'))
 
             data.append([request.form.get('bike'),
                          request.form.get('bike_number'),
@@ -1564,8 +1564,8 @@ def results():
 
         if request.form.get('elect_bike') and request.form.get('elect_bike_number') and request.form.get('elect_bike_sp'):
 
-            elect_bike_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('elect_bike')).first()
-            elect_bike_cc = elect_bike_info.climate_change * float(request.form.get('elect_bike_number')) / float(request.form.get('elect_bike_sp'))
+            cc_ebike = float('457.70')
+            elect_bike_cc = cc_ebike * float(request.form.get('elect_bike_number')) / float(request.form.get('elect_bike_sp'))
 
             data.append([request.form.get('elect_bike'),
                          request.form.get('elect_bike_number'),
@@ -1575,8 +1575,8 @@ def results():
 
         if request.form.get('scooter') and request.form.get('scooter_number') and request.form.get('scooter_sp'):
 
-            scooter_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('scooter')).first()
-            scooter_cc = scooter_info.climate_change * float(request.form.get('scooter_number')) / float(request.form.get('scooter_sp'))
+            cc_scooter = float('426.05')
+            scooter_cc = cc_scooter * float(request.form.get('scooter_number')) / float(request.form.get('scooter_sp'))
 
             data.append([request.form.get('scooter'),
                          request.form.get('scooter_number'),
@@ -1586,8 +1586,8 @@ def results():
 
         if request.form.get('elect_car') and request.form.get('elect_car_number') and request.form.get('elect_car_sp'):
 
-            elect_car_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('elect_car')).first()
-            elect_car_cc = elect_car_info.climate_change * float(request.form.get('elect_car_number')) / float(request.form.get('elect_car_sp'))
+            cc_ecar = float('13024.78')
+            elect_car_cc = cc_ecar * float(request.form.get('elect_car_number')) / float(request.form.get('elect_car_sp'))
 
             data.append([request.form.get('elect_car'),
                          request.form.get('elect_car_number'),
@@ -1597,8 +1597,8 @@ def results():
 
         if request.form.get('diesel_car') and request.form.get('diesel_car_number') and request.form.get('diesel_car_sp'):
 
-            diesel_car_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('diesel_car')).first()
-            diesel_car_cc = diesel_car_info.climate_change * float(request.form.get('diesel_car_number')) / float(request.form.get('diesel_car_sp'))
+            cc_dcar = float('10220.12')
+            diesel_car_cc = cc_dcar * float(request.form.get('diesel_car_number')) / float(request.form.get('diesel_car_sp'))
 
             data.append([request.form.get('diesel_car'),
                          request.form.get('diesel_car_number'),
@@ -1608,8 +1608,8 @@ def results():
 
         if request.form.get('fuel_car') and request.form.get('fuel_car_number') and request.form.get('fuel_car_sp'):
 
-            fuel_car_info = SurveyItems.query.filter(SurveyItems.id == request.form.get('fuel_car')).first()
-            fuel_car_cc = fuel_car_info.climate_change * float(request.form.get('fuel_car_number')) / float(request.form.get('fuel_car_sp'))
+            cc_fcar = float('10162.44')
+            fuel_car_cc = cc_fcar * float(request.form.get('fuel_car_number')) / float(request.form.get('fuel_car_sp'))
 
             data.append([request.form.get('fuel_car'),
                          request.form.get('fuel_car_number'),
