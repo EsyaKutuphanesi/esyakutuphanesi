@@ -540,6 +540,14 @@ h3.stuff_number_text {
     padding-left:0px;
 }
 
+#unread_messages_2 {
+    background-color: #ed9c28;
+    top: 5px;
+    left: 15px;
+    position: relative;
+    z-index: 1;
+}
+
 /*RESPONSIVE*/
 
 @media (min-width: 320px) and (max-width:767px) {

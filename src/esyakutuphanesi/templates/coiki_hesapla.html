@@ -12,8 +12,9 @@
 
 </head>
 <body>
+    <div id="modal-alert" style="display: none; background-color: #f0ad4e; color: white; line-height: 40px; text-align: center;"></div>
 
-    <form action="{{ url_for('results') }}" method="POST" name="calculate_carbon_form" enctype="multipart/form-data">
+    <form action="{{ url_for('results') }}" method="POST" name="calculate_carbon_form" id="calculate_carbon_form" enctype="multipart/form-data">
         <div id="one" class="displayNone">
             <div class="header">
                 <h2>
@@ -21,7 +22,6 @@
                     <span class="question-text">Nerede Yaşıyorsun?</span>
                 </h2>
             </div>
-
             <div class="question-div">
                 <div><img src="/static/images/coiki/harita.png"/> </div>
                 <div class="select-options">
@@ -33,7 +33,7 @@
                                     <div class="content">
 
                                         <p>
-                                            <select class="turnintodropdown_demo2" name="place">
+                                            <select id="where" class="turnintodropdown_demo2" name="place">
                                                 <option value="0">Lütfen ilinizi seçin:</option>
                                                 <option value="34">İstanbul</option>
                                                 <option value="1">Adana</option>
@@ -150,7 +150,7 @@
                 </div>
 
                 <div id="age-div">
-                    <input type="text" class="age-input" name="age" placeholder="25"/>
+                    <input type="text" class="age-input" name="age" id="age" placeholder="25"/>
                     <span id="age-text">Yaşındayım</span>
                 </div>
             </div>
@@ -179,7 +179,7 @@
                                     <div class="content">
 
                                         <p>
-                                            <select class="turnintodropdown_demo2" name="education">
+                                            <select class="turnintodropdown_demo2" name="education" id="education">
                                                 <option value="0">Lütfen öğrenim durumunuzu seçin:</option>
                                                 <option value="300">Doktora</option>
                                                 <option value="301">Yüksek Lisans</option>
@@ -489,7 +489,6 @@
         var pathname = window.location.pathname;
         var string = window.location.hash;
 
-
         $( document ).ready(function() {
 
             if( string=="#cinsiyet" ) {
@@ -524,26 +523,61 @@
         });
 
         function displayFunction(step) {
-            if(step==1) {
+            if (step==1) {
                 var hiddenID = '';
                 var showID = 'one';
                 var urlHash = '';
             } else if(step==2) {
-                var hiddenID = 'one';
-                var showID = 'two';
-                var urlHash = 'cinsiyet';
+                if( $( "input#where" ).val()=='' || $( "input#where" ).val()==0 ) {
+                    $( "#modal-alert").css("display", "block");
+                    $( "#modal-alert" ).html( "Yaşadığın ili seçmelisin." );
+                    return false;
+                }else {
+                    var hiddenID = 'one';
+                    var showID = 'two';
+                    var urlHash = 'cinsiyet';
+                    $("#modal-alert").addClass("display_none_option");
+                }
             } else if(step==3) {
-                var hiddenID = 'two';
-                var showID = 'three';
-                var urlHash = 'egitim';
+                $("#modal-alert").removeClass("display_none_option");
+                if( $('input[name=gender]:checked').val() == undefined ) {
+                    $( "#modal-alert").css("display", "block");
+                    $( "#modal-alert" ).html( "Cinsiyetini seçmelisin." );
+                    return false;
+                }else if( $( "input#age" ).val()=='' ) {
+                    $( "#modal-alert").css("display", "block");
+                    $( "#modal-alert" ).html( "Yaşını girmelisin." );
+                    return false;
+                }else {
+                    var hiddenID = 'two';
+                    var showID = 'three';
+                    var urlHash = 'egitim';
+                    $("#modal-alert").addClass("display_none_option");
+                }
             } else if(step==4) {
-                var hiddenID = 'three';
-                var showID = 'four';
-                var urlHash = 'isdurumu';
+                $("#modal-alert").removeClass("display_none_option");
+                if( $( "input#education" ).val()=='' || $( "input#education" ).val()==0 ) {
+                    $( "#modal-alert").css("display", "block");
+                    $( "#modal-alert" ).html( "Eğitim bilgini seçmelisin." );
+                    return false;
+                }else {
+                    var hiddenID = 'three';
+                    var showID = 'four';
+                    var urlHash = 'isdurumu';
+                    $("#modal-alert").addClass("display_none_option");
+                }
             } else if(step==5) {
-                var hiddenID = 'four';
-                var showID = 'five';
-                var urlHash = 'elektronik';
+                $("#modal-alert").removeClass("display_none_option");
+                if( $( "input#working_select" ).val()!=0 || $( "input#not_working_select" ).val()!=0 || $( "input#working_own_select" ).val()!=0 ) {
+                    var hiddenID = 'four';
+                    var showID = 'five';
+                    var urlHash = 'elektronik';
+                    $("#modal-alert").addClass("display_none_option");
+                }else {
+                    $( "#modal-alert").css("display", "block");
+                    $( "#modal-alert" ).html( "Eğitim bilgini seçmelisin." );
+                    return false;
+                }
             } else if(step==6) {
                 var hiddenID = 'five';
                 var showID = 'six';
@@ -562,6 +596,8 @@
             if( urlHash!='' )
                 window.location.href = pathname+'#'+urlHash;
         }
+
+        // WORKING OPTINONS
 
         $(document).ready(function() {
 
@@ -623,6 +659,7 @@
                 $('#fuel_car_option').toggle();
             });
         });
+
     </script>
 </body>
 </html>

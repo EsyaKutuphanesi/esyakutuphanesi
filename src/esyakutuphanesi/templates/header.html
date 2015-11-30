@@ -12,7 +12,10 @@
         });
         $.getJSON('/unread_messages','',function(j){
              console.log(j.count);
-             $("#unread_messages").html(j.count);
+             if (j.count > 0) {
+                $("#unread_messages").html(j.count);
+                $("#unread_messages_2").html(j.count);
+             }
         });
     });
      function showRequestModal(stuffid, title, owner, is_wanted) {
@@ -50,6 +53,11 @@
             {%if user.is_authenticated()%}
               <div class=" navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right padding15">
+
+                    <li class="display_none_l480 display_none_l600 display_none_l768">
+                        <span id="unread_messages_2" class="badge"></span>
+                    </li>
+
                     <li class="dropdown nav_li_l600 nav_li_l768">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="header_profile_photo_a">
                             {% if user.photo %}
@@ -67,7 +75,12 @@
                             {% endfor %}
                           {% endif %}-->
                           <li><a href="/profil_duzenle">Ayarlar</a></li>
-                          <li><a href="/mesajlarim">Mesajlar</a></li>
+                          <li>
+                              <a href="/mesajlarim">
+                                  Mesajlar
+                                  <span id="unread_messages" class="badge" style="background-color:#ed9c28"></span>
+                              </a>
+                          </li>
                           <li><a href="/esyalarim">Eşya Kütüphanem</a></li>
                           <li><a href="/davet_et">Davet Et</a></li>
 
@@ -77,9 +90,6 @@
                           <li class="divider"></li>
                           <li><a href="/logout">Çıkış Yap</a></li>
                         </ul>
-                        <li class="display_none_l480 display_none_l600 display_none_l768">
-                            <span id="unread_messages" class="badge" style="margin:15px auto auto -8px; background-color:#ed9c28"></span>
-                        </li>
 
                     </li>
                 </ul>
