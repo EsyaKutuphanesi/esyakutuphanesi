@@ -140,6 +140,7 @@
             </div>
 
             <div class="question-div">
+                <div style="width: 100%; text-align: center; color: #10649a;">Cinsiyet seçin:</div>
                 <div class="checkbox_wrapper">
                     <input type="radio" class="gender" value="200" id="girl-checkbox" name="gender"/>
                     <label id="girl"></label>
@@ -150,11 +151,12 @@
                 </div>
 
                 <div id="age-div">
-                    <input type="text" class="age-input" name="age" id="age" placeholder="25"/>
+                    <input type="text" class="age-input" name="age" id="age" placeholder="3"/>
                     <span id="age-text">Yaşındayım</span>
                 </div>
             </div>
 
+            <div class="back-text next-text" id="back-one" data-value="1"></div>
             <div class="next-text" id="next-three" data-value="3"></div>
         </div>
 
@@ -198,6 +200,7 @@
                 </div>
             </div>
 
+            <div class="back-text next-text" id="back-two" data-value="2"></div>
             <div class="next-text" id="next-four" data-value="4"></div>
         </div>
 
@@ -279,6 +282,7 @@
 
             </div>
 
+            <div class="back-text next-text" id="back-three" data-value="3"></div>
             <div class="next-text" id="next-five" data-value="5"></div>
         </div>
 
@@ -382,10 +386,11 @@
                     </li>
                 </ul>
                 <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla, sahip olduğun adedi ve toplamda
-                    kaç kişi ortak kullandığını yaz. (Eğer yalnız kendin kullanıyorsan kişi sayısına 0 yaz)
+                    kaç kişi ortak kullandığını yaz. (Eğer yalnız kendin kullanıyorsan kişi sayısına 1 yaz)
                 </div>
             </div>
 
+            <div class="back-text next-text" id="back-four" data-value="4"></div>
             <div class="next-text"  id="next-six" data-value="6" ></div>
         </div>
 
@@ -472,6 +477,7 @@
             </div>
 
             <!--<div class="next-text" id="next-seven" data-value="7" ></div>-->
+            <div class="back-text next-text" id="back-five" data-value="5"></div>
             <input class="next-text" id="submit" name="submit" type="submit" value=""
                    style="padding: 0;border: 0;background-color: white;">
         </div>
@@ -586,6 +592,47 @@
                 var hiddenID = 'six';
                 var showID = 'seven';
                 var urlHash = 'secenekler';
+            } else return;
+
+            if( hiddenID!='' )
+                $("#"+hiddenID).removeClass("display_show_option").addClass("display_none_option");
+
+            $("#"+showID).removeClass("display_none_option").addClass("display_show_option");
+
+            if( urlHash!='' )
+                window.location.href = pathname+'#'+urlHash;
+        }
+
+        $( ".back-text" ).click(function() {
+            var value = $(this).attr('data-value');
+            turnBackFunction(value);
+        });
+
+        function turnBackFunction(step) {
+            if (step==1) {
+                var hiddenID = 'two';
+                var showID = 'one';
+                var urlHash = '';
+            } else if(step==2) {
+                var hiddenID = 'three';
+                var showID = 'two';
+                var urlHash = 'cinsiyet';
+            } else if(step==3) {
+                var hiddenID = 'four';
+                var showID = 'three';
+                var urlHash = 'egitim';
+            } else if(step==4) {
+                var hiddenID = 'five';
+                var showID = 'four';
+                var urlHash = 'isdurumu';
+            } else if(step==5) {
+                var hiddenID = 'six';
+                var showID = 'five';
+                var urlHash = 'elektronik';
+            } else if(step==6) {
+                var hiddenID = 'seven';
+                var showID = 'six';
+                var urlHash = 'ulasimaraci';
             } else return;
 
             if( hiddenID!='' )

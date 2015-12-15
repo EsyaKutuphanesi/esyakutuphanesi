@@ -1,24 +1,29 @@
 /* ----- Coiki HTML -----*/
 
 #home-logo {
-    position: absolute;
     width: 810px;
     height: auto;
-    left: 50%;
-    top: 50%;
-    margin-left: -405px;
-    margin-top: -123px;
+    margin: 200px auto auto;
     text-align:center;
 }
 #motto {
     font-size: 30px;
     font-family: Georgia;
     line-height:60px;
+    background: rgba(255, 255, 255, 0.9);
+    display:inline;
 }
 #motto2 {
     font-size: 24px;
     font-family: Georgia;
     line-height:60px;
+}
+#motto-nosharing {
+    font-size: 24px;
+    line-height: 30px;
+    width: 700px;
+    margin: 50px auto;
+    color: green;
 }
 #action {
     margin:50px 0px;
@@ -60,7 +65,9 @@
     margin:80px auto auto; width:1024px; height:500px;
 }
 .next-text {
-    position:fixed; right:0px; top:300px;
+    position:fixed;
+    right:0px;
+    top:300px;
     width:57px; height:60px;
     background-image: url("/static/images/coiki/arrow.png");
     background-repeat: no-repeat;
@@ -69,6 +76,14 @@
 }
 .next-text:hover {
     background-image: url("/static/images/coiki/arrow.png");
+    background-position: right top;
+}
+.back-text {
+    left:0px;
+    background-image: url("/static/images/coiki/arrow-back.png");
+}
+.back-text:hover {
+    background-image: url("/static/images/coiki/arrow-back.png");
     background-position: right top;
 }
 .displayNone {
@@ -110,7 +125,12 @@
 /* ----- GENDER ----- */
 
 .checkbox_wrapper {
-    position:absolute; left:50%; margin-left:-250px; top:100px; width:200px; height:209px;
+    position:absolute;
+    left:50%;
+    margin-left:-230px;
+    top:120px;
+    width:200px;
+    height:209px;
 }
 input[type="radio"].gender {
     opacity:0;
@@ -236,11 +256,11 @@ input[type="checkbox"] + label#harddisk-label{
 }
 input[type="checkbox"] + label#printer-label{
     background:url('/static/images/coiki/ek-devices.png') no-repeat;
-    background-position: left 80%;
+    background-position: 50% 80%;
 }
 input[type="checkbox"] + label#network-label{
     background:url('/static/images/coiki/ek-devices.png') no-repeat;
-    background-position: 50% 80%;
+    background-position: left 80%;
 }
 
 /* ----- ACTIVE ----- */
@@ -272,11 +292,11 @@ input[type="checkbox"]:checked + label#harddisk-label{
 }
 input[type="checkbox"]:checked + label#printer-label{
     background:url('/static/images/coiki/ek-devices.png') no-repeat;
-    background-position: left 100%;
+    background-position: 50% 100%;
 }
 input[type="checkbox"]:checked + label#network-label{
     background:url('/static/images/coiki/ek-devices.png') no-repeat;
-    background-position: 50% 100%;
+    background-position: left 100%;
 }
 
 /* ----- VEHICLE ----- */

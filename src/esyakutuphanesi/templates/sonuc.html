@@ -12,13 +12,19 @@
     <div id="home-logo">
         <img src="/static/images/coiki/gul.png" style="margin:-120px auto 20px;"/>
         <br>
-        <div id="motto2">
-            Eşyanı başkalarıyla ortak kullanarak yeryüzüne
-            <span style="font-size:52px; color:#7ec247; display:block;">{{result}} kg CO2</span> salınımını engelledin.
-        </div>
+            {% if sharing_p != 0 %}
+                <div id="motto2">
+                    Eşyanızı {{sharing_p}} kişi ortak kullanarak yeryüzüne
+                    <span style="font-size:52px; color:#7ec247; display:block;">{{result}} kg CO2</span> salınımını engellediniz.
+                </div>
+            {% else %}
+                <div id="motto-nosharing">
+                    Eşyalarınızı ortak kullanarak yeni bir eşyanın üretilmesiyle ortaya çıkan karbon salınımını engelleyebilirsiniz.
+                </div>
+            {% endif %}
 
         <div id="action" style="margin-top:100px;">
-            <span><a href="#referans">Referanslar</a></span>
+            <span><a href="#referans" data-toggle="modal" data-target=".bs-example-modal-sm">Referanslar</a></span>
             <span id="slipper">|</span>
             <span><a href="/coiki_hesapla">Yeniden Hesapla</a></span>
         </div>
@@ -28,12 +34,6 @@
         <a href="/coiki#nedir" style="color:#333333; font-size:13px;">Karbon Salınımı Nedir?</a> |
         <a href="http://esyakutuphanesi.com/" target="_blank" style="color:#333333; font-size:13px;">Eşya Kütüphanesi</a> |
         <a href="http://www.yesilist.com/" target="_blank" style="color:#333333; font-size:13px;">Yeşilist</a>
-    </div>
-
-    <div id="referans" style="width:800px; position:relative; top:700px; margin:300px auto;">
-        <a href="/static/images/coiki/120321_BIOCHEM_LCA_review.pdf">Biochem - Review of LCIA Methods</a>
-        <br>
-        <a href="/static/images/coiki/LCIA_METHODS_v.1.5.4.pdf">Greendela LCIA Methods</a>
     </div>
 
 </body>

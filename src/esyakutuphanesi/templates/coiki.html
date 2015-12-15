@@ -4,29 +4,75 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="static/css/coiki.css">
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.png">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-1.10.2.min.js') }}" ></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.js') }}" ></script>
 
     <title>CO2 Hesapla</title>
 
 </head>
-<body>
+<body style="background: url(/static/images/coiki/bg.png) no-repeat;">
     <div id="home-logo">
         <div id="motto">
-            SAHİP OLDUĞUNUZ EŞYALARIN
-            <br><span style="font-size:52px; color:#fb9e25">İKLİMİ NASIL DEĞİŞTİRDİĞİNİ</span>
-            ÖĞRENMEK İSTER MİSİNİZ?
+            SAHİP OLDUĞUN EŞYALARIN
+            <br><span style="font-size:52px; color:#fb9e25; background: rgba(255, 255, 255, 0.9);">İKLİMİ NASIL DEĞİŞTİRDİĞİNİ</span>
+            ÖĞRENMEK İSTER MİSİN?
         </div>
 
         <div id="action">
-            <span><a href="#nedir">Bu nedir?</a></span>
-            <span id="slipper">|</span>
-            <span><a href="/coiki_hesapla#yasadiginyer">Hesapla</a></span>
+            <div style="margin: 0 auto;">
+                <button type="button" class="btn btn-success btn-lg" onclick="window.location.href='/coiki_hesapla'">
+                    EVET, HEMEN BAŞLA
+                </button>
+            </div>
+            <div style="margin: 20px auto;">
+                <span><a href="#nedir" data-toggle="modal" data-target="#myModal">Bu nedir?</a></span>
+            </div>
         </div>
     </div>
 
-    <div style="width:800px; position:relative; top:320px; margin:220px auto; text-align:center;">
+    <div style="text-align: center; margin: auto auto 20px;">
         <img src="/static/images/coiki/teknogirisim.png"/>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Nedir bu?</h4>
+          </div>
+          <div class="modal-body">
+            <p>
+                ‘DİKKAT! Yüzyılın en sıcak günü geliyor!’ ‘Sel geliyor, hazırlıklı olun!’ gibi haberleri ne kadar
+                sık duymaya başladınız? Bilimsel araştırmalar gösteriyor ki iklimimiz insanlar, yani bizler yüzünden
+                hızlanarak değişmekte. Kuraklık, seller ve alışılmadık iklim değişimleri ile beraber, yediklerimiz ve
+                sağlığımız kötü yönde etkilenmekte.
+            </p>
+            <p>
+                Peki bir insan iklimi nasıl değiştirebilir? Sadece tüketim, ya da eşya kullanım, alışkanlıklarımız
+                dahi iklimi etkilemekte.
+                Bu hesaplama aracı ile, sahip olduğunuz eşyaları ortak kullanarak yeryüzüne ne kadar karbon gazı salınmasını
+                engellediğini görebilirsin.
+            </p>
+            <div id="referans">
+                Referanslar:<br>
+                <a href="/static/images/coiki/120321_BIOCHEM_LCA_review.pdf" target="_blank">Biochem - Review of LCIA Methods</a>
+                <br>
+                <a href="/static/images/coiki/LCIA_METHODS_v.1.5.4.pdf" target="_blank">Greendela LCIA Methods</a>
+            </div>
+          </div>
+          <div class="modal-footer" style="text-align: center;">
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>-->
+            <button type="button" class="btn btn-success" onclick="window.location.href='/coiki_hesapla'">Etkini Hesapla</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
     <div id="nedir" style="width:800px; position:relative; top:700px; margin:220px auto; text-align:center;">
         <p>
             ‘DİKKAT! Yüzyılın en sıcak günü geliyor!’ ‘Sel geliyor, hazırlıklı olun!’ gibi haberleri ne kadar
@@ -42,7 +88,10 @@
         </p>
         <span><a href="/coiki_hesapla">Hesapla</a></span>
 
-    </div>
+    </div>-->
+    <script type="text/javascript">
+        $('#myModal').modal(options);
+    </script>
 
 </body>
 </html>

@@ -1617,6 +1617,7 @@ def results():
                          fuel_car_cc
                          ])
 
+        sharing_p = 0
         result = 0.0
         for t in data:
             new_survey = Survey(
@@ -1628,7 +1629,9 @@ def results():
             )
             db.session.add(new_survey)
             db.session.commit()
-
+            t[2] = int(t[2])
+            if t[2] > 1:
+                sharing_p = sharing_p + t[2]
             result = result + t[3]
 
-        return render_template('sonuc.html', result=result)
+        return render_template('sonuc.html', result=result, sharing_p=sharing_p)
