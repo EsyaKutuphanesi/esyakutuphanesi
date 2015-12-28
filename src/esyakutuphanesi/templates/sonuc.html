@@ -4,37 +4,126 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="static/css/coiki.css">
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.png">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.css')}}">
+
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-1.10.2.min.js') }}" ></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.js') }}" ></script>
 
     <title>CO2 Hesapla</title>
 
 </head>
-<body>
-    <div id="home-logo">
-        <img src="/static/images/coiki/gul.png" style="margin:-120px auto 20px;"/>
-        <br>
-            {% if sharing_p != 0 %}
-                <div id="motto2">
-                    Eşyanızı {{sharing_p}} kişi ortak kullanarak yeryüzüne
-                    <span style="font-size:52px; color:#7ec247; display:block;">{{result}} kg CO2</span> salınımını engellediniz.
-                </div>
-            {% else %}
-                <div id="motto-nosharing">
-                    Eşyalarınızı ortak kullanarak yeni bir eşyanın üretilmesiyle ortaya çıkan karbon salınımını engelleyebilirsiniz.
-                </div>
-            {% endif %}
+<body class="coiki-sheet">
 
-        <div id="action" style="margin-top:100px;">
-            <span><a href="#referans" data-toggle="modal" data-target=".bs-example-modal-sm">Referanslar</a></span>
-            <span id="slipper">|</span>
-            <span><a href="/coiki_hesapla">Yeniden Hesapla</a></span>
+    <div style="position: absolute; top: 50px; left: 50px;z-index: -1;">
+        {% if rate != 1 %}
+            <img src="/static/images/coiki/si1.png" style=" height: 200px; "/>
+        {% else %}
+            <img src="/static/images/coiki/si3.png" style=" height: 200px; "/>
+        {% endif %}
+    </div>
+    <div style="position: absolute; bottom: 50px; right: 0px; z-index: -1;">
+        {% if rate != 1 %}
+            <img src="/static/images/coiki/si2.png" style=" width: 300px; "/>
+        {% else %}
+            <img src="/static/images/coiki/si4.png" style=" width: 300px; "/>
+        {% endif %}
+    </div>
+
+    <div id="home-logo" style="margin-top: 150px;">
+        {% if rate != 1 %}
+            <div id="motto" >
+                <div style="font-size:42px; color:#D84E09; letter-spacing: 2px; line-height: 70px;"> TEŞEKKÜRLER!</div>
+                EŞYALARINI ORTAK KULLANARAK YERYÜZÜNE
+                <div style="font-size:34px; color:#D84E09; letter-spacing: 2px; line-height: 60px;"> {{result}} KG CO2 </div>
+                SALINIMINI ENGELLEDİN VE TÜKETİMİ AZALTTIN.
+            </div>
+
+            <!--<div id="motto2">
+                Eşyalarını ortak kullanarak yeryüzüne
+                <span style="font-size:52px; color:#7ec247; display:block;">{{result}} kg CO2</span> salınımını engelledin ve tüketimi azalttın. Teşekkürler!
+            </div>-->
+        {% else %}
+             <div id="motto" >
+                EŞYALARINI ORTAK KULLANMAYA BAŞLAYARAK
+                <div style="font-size:34px; color:#D84E09; letter-spacing: 2px; line-height: 60px;"> {{result}} KG CO2 </div>
+                SALINIMINI DAHA ENGELLEYEBİLİRSİN.
+                <div style="font-size:26px; color:#D84E09; line-height: 70px;">
+                    HAYDİ BUGÜN <a href="http://esyakutuphanesi.com" target="_blank" style="color:#D84E09; text-decoration: underline;"> PAYLAŞMAYA </a> BAŞLA!
+                </div>
+            </div>
+            <!--<div id="motto-nosharing">
+                Eşyaların ortak kullanarak {{result}} KG CO2 salınımını daha engelleyebilirsin. Haydi bugün paylaşmaya başla!
+            </div>-->
+        {% endif %}
+
+        <div style="margin: 40px auto;">
+            <button type="button" class="btn btn-success btn-lg" onclick="window.location.href='/coiki_hesapla'" style="font-size: 14px;">
+                YENİDEN HESAPLA
+            </button>
         </div>
     </div>
 
-    <div style="position:absolute; bottom:20px; right:150px;">
-        <a href="/coiki#nedir" style="color:#333333; font-size:13px;">Karbon Salınımı Nedir?</a> |
+    <div class="col-sm-12 col-xs-12 text-center" style="margin-top: 100px;">
+        <a href="/coiki" style="color:#333333; font-size:13px;">Ana sayfa</a> |
+        <a href="#nedir" data-toggle="modal" data-target="#myModal" style="color:#333333; font-size:13px;">İklim değişikliği nedir?</a>
+        |
         <a href="http://esyakutuphanesi.com/" target="_blank" style="color:#333333; font-size:13px;">Eşya Kütüphanesi</a> |
         <a href="http://www.yesilist.com/" target="_blank" style="color:#333333; font-size:13px;">Yeşilist</a>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">İklim değişikliği <nedir></nedir>?</h4>
+          </div>
+          <div class="modal-body">
+            <p>
+                DİKKAT! Yüzyılın en sıcak günü geliyor!’ ‘Sel geliyor, hazırlıklı olun!’ gibi haberleri ne kadar sık duymaya başladın? Bilimsel araştırmalar gösteriyor ki iklimimiz insanlar, yani bizler yüzünden hızlanarak değişmekte. Kuraklık, seller ve alışılmadık iklim değişimleri ile beraber, yediklerimiz ve sağlığımız kötü yönde etkilenmekte.
+            </p>
+            <p>
+                Peki bir insan iklimi nasıl değiştirebilir? Tek başına aşırı tüketim ve eşya kullanım alışkanlıklarımız dahi iklimi etkilemekte. Bu basit hesaplama aracı ile, sahip olduğun eşyaları ortak kullanarak, sera gazlarından olan karbonun yeryüzüne salınmasını ne kadar engellediğini görebilirsin. Haydi başla, etkini fark et!
+            </p>
+
+            <embed width="600" height="300" src="https://www.youtube.com/v/x2GGcs1ffR8" style="width: 100%; margin: 10px auto;">
+
+            <div id="referans">
+                Referanslar:<br>
+                <a href="/static/images/coiki/120321_BIOCHEM_LCA_review.pdf" target="_blank">Biochem - Review of LCIA Methods</a>
+                <br>
+                <a href="/static/images/coiki/LCIA_METHODS_v.1.5.4.pdf" target="_blank">Greendela LCIA Methods</a>
+            </div>
+          </div>
+          <div class="modal-footer" style="text-align: center;">
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>-->
+            <button type="button" class="btn btn-success" onclick="window.location.href='/coiki_hesapla'">Etkini Hesapla</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
+    <div id="nedir" style="width:800px; position:relative; top:700px; margin:220px auto; text-align:center;">
+        <p>
+            ‘DİKKAT! Yüzyılın en sıcak günü geliyor!’ ‘Sel geliyor, hazırlıklı olun!’ gibi haberleri ne kadar
+            sık duymaya başladınız? Bilimsel araştırmalar gösteriyor ki iklimimiz insanlar, yani bizler yüzünden
+            hızlanarak değişmekte. Kuraklık, seller ve alışılmadık iklim değişimleri ile beraber, yediklerimiz ve
+            sağlığımız kötü yönde etkilenmekte.
+        </p>
+        <p>
+            Peki bir insan iklimi nasıl değiştirebilir? Sadece tüketim, ya da eşya kullanım, alışkanlıklarımız
+            dahi iklimi etkilemekte.
+            Bu hesaplama aracı ile, sahip olduğunuz eşyaları ortak kullanarak yeryüzüne ne kadar karbon gazı salınmasını
+            engellediğini görebilirsin.
+        </p>
+        <span><a href="/coiki_hesapla">Hesapla</a></span>
+
+    </div>-->
+    <script type="text/javascript">
+        $('#myModal').modal(options);
+    </script>
 
 </body>
 </html>

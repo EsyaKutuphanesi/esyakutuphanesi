@@ -12,28 +12,31 @@
     <title>CO2 Hesapla</title>
 
 </head>
-<body style="background: url(/static/images/coiki/bg.png) no-repeat;">
+<body class="coiki-sheet" style="background: url(/static/images/coiki/bg.png) no-repeat 50% 0;">
+
     <div id="home-logo">
         <div id="motto">
             SAHİP OLDUĞUN EŞYALARIN
-            <br><span style="font-size:52px; color:#fb9e25; background: rgba(255, 255, 255, 0.9);">İKLİMİ NASIL DEĞİŞTİRDİĞİNİ</span>
+            <div style="font-size:32px; color:#D84E09; letter-spacing: 2px;">İKLİMİ NASIL DEĞİŞTİRDİĞİNİ</div>
             ÖĞRENMEK İSTER MİSİN?
         </div>
 
         <div id="action">
             <div style="margin: 0 auto;">
-                <button type="button" class="btn btn-success btn-lg" onclick="window.location.href='/coiki_hesapla'">
+                <button type="button" class="btn btn-success btn-lg" onclick="window.location.href='/coiki_hesapla'" style="font-size: 14px;">
                     EVET, HEMEN BAŞLA
                 </button>
             </div>
-            <div style="margin: 20px auto;">
+            <div style="margin: 10px auto; font-family: arial;">
                 <span><a href="#nedir" data-toggle="modal" data-target="#myModal">Bu nedir?</a></span>
             </div>
         </div>
     </div>
 
-    <div style="text-align: center; margin: auto auto 20px;">
-        <img src="/static/images/coiki/teknogirisim.png"/>
+    <div style="text-align: center; position: absolute; bottom: 10px; margin: auto auto 20px; font-size: 12px; width: 100%;">
+        <!--<img src="/static/images/coiki/teknogirisim.png"/>-->
+        Bu proje, T.C. Bilim, San ayi ve Teknoloji Bakanlığı Teknogirişim desteği ile,
+        Yeşilist danışmanlığı ile Eşya Kütüphanesi tarafından geliştirilip hayata geçirilmiştir.
     </div>
 
     <!-- Modal -->
@@ -42,21 +45,18 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Nedir bu?</h4>
+            <h4 class="modal-title" id="myModalLabel">İklim değişikliği <nedir></nedir>?</h4>
           </div>
           <div class="modal-body">
             <p>
-                ‘DİKKAT! Yüzyılın en sıcak günü geliyor!’ ‘Sel geliyor, hazırlıklı olun!’ gibi haberleri ne kadar
-                sık duymaya başladınız? Bilimsel araştırmalar gösteriyor ki iklimimiz insanlar, yani bizler yüzünden
-                hızlanarak değişmekte. Kuraklık, seller ve alışılmadık iklim değişimleri ile beraber, yediklerimiz ve
-                sağlığımız kötü yönde etkilenmekte.
+                DİKKAT! Yüzyılın en sıcak günü geliyor!’ ‘Sel geliyor, hazırlıklı olun!’ gibi haberleri ne kadar sık duymaya başladın? Bilimsel araştırmalar gösteriyor ki iklimimiz insanlar, yani bizler yüzünden hızlanarak değişmekte. Kuraklık, seller ve alışılmadık iklim değişimleri ile beraber, yediklerimiz ve sağlığımız kötü yönde etkilenmekte.
             </p>
             <p>
-                Peki bir insan iklimi nasıl değiştirebilir? Sadece tüketim, ya da eşya kullanım, alışkanlıklarımız
-                dahi iklimi etkilemekte.
-                Bu hesaplama aracı ile, sahip olduğunuz eşyaları ortak kullanarak yeryüzüne ne kadar karbon gazı salınmasını
-                engellediğini görebilirsin.
+                Peki bir insan iklimi nasıl değiştirebilir? Tek başına aşırı tüketim ve eşya kullanım alışkanlıklarımız dahi iklimi etkilemekte. Bu basit hesaplama aracı ile, sahip olduğun eşyaları ortak kullanarak, sera gazlarından olan karbonun yeryüzüne salınmasını ne kadar engellediğini görebilirsin. Haydi başla, etkini fark et!
             </p>
+
+            <embed width="600" height="300" src="https://www.youtube.com/v/x2GGcs1ffR8" style="width: 100%; margin: 10px auto;">
+
             <div id="referans">
                 Referanslar:<br>
                 <a href="/static/images/coiki/120321_BIOCHEM_LCA_review.pdf" target="_blank">Biochem - Review of LCIA Methods</a>

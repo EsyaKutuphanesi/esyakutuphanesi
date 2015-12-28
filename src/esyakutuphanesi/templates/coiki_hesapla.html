@@ -5,13 +5,19 @@
     <meta name="robots" content="all">
     <link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.png">
     <link rel="stylesheet" href="static/css/coiki.css">
+
+
+    <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-1.10.2.min.js') }}" ></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.js') }}" ></script>
+
     <script type="text/javascript" src="static/js/jquery-1.10.2.min.js" ></script>
     <script type="text/javascript" src="static/js/select_demo2.js" ></script>
 
     <title>CO2 Hesapla</title>
 
 </head>
-<body>
+<body class="coiki-sheet">
+
     <div id="modal-alert" style="display: none; background-color: #f0ad4e; color: white; line-height: 40px; text-align: center;"></div>
 
     <form action="{{ url_for('results') }}" method="POST" name="calculate_carbon_form" id="calculate_carbon_form" enctype="multipart/form-data">
@@ -19,112 +25,103 @@
             <div class="header">
                 <h2>
                     <span class="number-text">1</span> | 6
-                    <span class="question-text">Nerede Yaşıyorsun?</span>
+                    <span class="question-text">Hangi elektronik aletlere sahipsin?</span>
                 </h2>
             </div>
+
             <div class="question-div">
-                <div><img src="/static/images/coiki/harita.png"/> </div>
-                <div class="select-options">
-
-                    <section class="demo">
-                        <div class="container">
-                            <div class="row">
-                                <div class="twelvecol">
-                                    <div class="content">
-
-                                        <p>
-                                            <select id="where" class="turnintodropdown_demo2" name="place">
-                                                <option value="0">Lütfen ilinizi seçin:</option>
-                                                <option value="34">İstanbul</option>
-                                                <option value="1">Adana</option>
-                                                <option value="2">Adıyaman</option>
-                                                <option value="3">Afyonkarahisar</option>
-                                                <option value="4">Ağrı</option>
-                                                <option value="5">Amasya</option>
-                                                <option value="6">Ankara</option>
-                                                <option value="7">Antalya</option>
-                                                <option value="8">Artvin</option>
-                                                <option value="9">Aydın</option>
-                                                <option value="10">Balıkesir</option>
-                                                <option value="11">Bilecik</option>
-                                                <option value="12">Bingöl</option>
-                                                <option value="13">Bitlis</option>
-                                                <option value="14">Bolu</option>
-                                                <option value="15">Burdur</option>
-                                                <option value="16">Bursa</option>
-                                                <option value="17">Çanakkale</option>
-                                                <option value="18">Çankırı</option>
-                                                <option value="19">Çorum</option>
-                                                <option value="20">Denizli</option>
-                                                <option value="21">Diyarbakır</option>
-                                                <option value="22">Edirne</option>
-                                                <option value="23">Elazığ</option>
-                                                <option value="24">Erzincan</option>
-                                                <option value="25">Erzurum</option>
-                                                <option value="26">Eskişehir</option>
-                                                <option value="27">Gaziantep</option>
-                                                <option value="28">Giresun</option>
-                                                <option value="29">Gümüşhane</option>
-                                                <option value="30">Hakkâri</option>
-                                                <option value="31">Hatay</option>
-                                                <option value="32">Isparta</option>
-                                                <option value="33">Mersin</option>
-                                                <option value="35">İzmir</option>
-                                                <option value="36">Kars</option>
-                                                <option value="37">Kastamonu</option>
-                                                <option value="38">Kayseri</option>
-                                                <option value="39">Kırklareli</option>
-                                                <option value="40">Kırşehir</option>
-                                                <option value="41">Kocaeli</option>
-                                                <option value="42">Konya</option>
-                                                <option value="43">Kütahya</option>
-                                                <option value="44">Malatya</option>
-                                                <option value="45">Manisa</option>
-                                                <option value="46">Kahramanmaraş</option>
-                                                <option value="47">Mardin</option>
-                                                <option value="48">Muğla</option>
-                                                <option value="49">Muş</option>
-                                                <option value="50">Nevşehir</option>
-                                                <option value="51">Niğde</option>
-                                                <option value="52">Ordu</option>
-                                                <option value="53">Rize</option>
-                                                <option value="54">Sakarya</option>
-                                                <option value="55">Samsun</option>
-                                                <option value="56">Siirt</option>
-                                                <option value="57">Sinop</option>
-                                                <option value="58">Sivas</option>
-                                                <option value="59">Tekirdağ</option>
-                                                <option value="60">Tokat</option>
-                                                <option value="61">Trabzon</option>
-                                                <option value="62">Tunceli</option>
-                                                <option value="63">Şanlıurfa</option>
-                                                <option value="64">Uşak</option>
-                                                <option value="65">Van</option>
-                                                <option value="66">Yozgat</option>
-                                                <option value="67">Zonguldak</option>
-                                                <option value="68">Aksaray</option>
-                                                <option value="69">Bayburt</option>
-                                                <option value="70">Karaman</option>
-                                                <option value="71">Kırıkkale</option>
-                                                <option value="72">Batman</option>
-                                                <option value="73">Şırnak</option>
-                                                <option value="74">Bartın</option>
-                                                <option value="75">Ardahan</option>
-                                                <option value="76">Iğdır</option>
-                                                <option value="77">Yalova</option>
-                                                <option value="78">Karabük</option>
-                                                <option value="79">Kilis</option>
-                                                <option value="80">Osmaniye</option>
-                                                <option value="81">Düzce</option>
-                                            </select>
-                                        </p>
-
-                                    </div><!-- .content -->
-                                </div><!-- .twelvecol -->
-                            </div><!-- .row -->
+                <ul id="electronic">
+                    <li>
+                        <input type="checkbox" id="lcd" name="lcd" value="500"/>
+                        <label id="lcd-label"></label>
+                        <div>17" LCD Ekran</div>
+                        <div id="lcd_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="lcd_number" name="lcd_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="lcd_sp" name="lcd_sp" class="li_input_number_text"/>
+                            kişi
                         </div>
-                    </section>
-
+                    </li>
+                    <li>
+                        <input type="checkbox" id="computer" name="computer" value="501"/>
+                        <label id="computer-label"></label>
+                        <div>Masaüstü Bilgisayar</div>
+                        <div id="computer_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="computer_number" name="computer_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="computer_sp" name="computer_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="laptop" name="laptop" value="502"/>
+                        <label id="laptop-label"></label>
+                        <div>Dizüstü Bilgisayar</div>
+                        <div id="laptop_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="laptop_number" name="laptop_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="laptop_sp" name="laptop_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="keyboard" name="keyboard" value="503"/>
+                        <label id="keyboard-label"></label>
+                        <div>Klavye</div>
+                        <div id="keyboard_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="keyboard_number" name="keyboard_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="keyboard_sp" name="keyboard_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="mouse" name="mouse"  value="504"/>
+                        <label id="mouse-label"></label>
+                        <div>Fare</div>
+                        <div id="mouse_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="mouse_number" name="mouse_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="mouse_sp" name="mouse_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="harddisk" name="harddisk" value="505"/>
+                        <label id="harddisk-label"></label>
+                        <div>Hard Disk</div>
+                        <div id="harddisk_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="harddisk_number" name="harddisk_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="harddisk_sp" name="harddisk_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="network" name="network" value="506"/>
+                        <label id="network-label"></label>
+                        <div>Modem</div>
+                        <div id="network_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="network_number" name="network_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="network_sp" name="network_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="printer" name="printer" value="507"/>
+                        <label id="printer-label"></label>
+                        <div>Renkli Yazıcı</div>
+                        <div id="printer_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="printer_number" name="printer_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="printer_sp" name="printer_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                </ul>
+                <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla, sahip olduğun adedi ve toplamda
+                    kaç kişi ortak kullandığını yaz. (Eğer yalnız kendin kullanıyorsan kişi sayısına 1 yaz)
                 </div>
             </div>
 
@@ -135,24 +132,81 @@
             <div class="header">
                 <h2>
                     <span class="number-text">2</span> | 6
-                    <span class="question-text">Cinsiyetin ve Yaşın?</span>
+                    <span class="question-text">Peki ulaşım araçlarından hangilerine sahipsin?</span>
                 </h2>
             </div>
 
             <div class="question-div">
-                <div style="width: 100%; text-align: center; color: #10649a;">Cinsiyet seçin:</div>
-                <div class="checkbox_wrapper">
-                    <input type="radio" class="gender" value="200" id="girl-checkbox" name="gender"/>
-                    <label id="girl"></label>
-                </div>
-                <div class="checkbox_wrapper">
-                    <input type="radio" class="gender" value="201" id="boy-checkbox" name="gender"/>
-                    <label id="boy"></label>
-                </div>
-
-                <div id="age-div">
-                    <input type="text" class="age-input" name="age" id="age" placeholder="3"/>
-                    <span id="age-text">Yaşındayım</span>
+                <ul id="vehicle">
+                    <li>
+                        <input type="checkbox" id="bike" name="bike"  value="600"/>
+                        <label id="bike-label"></label>
+                        <div>Bisiklet</div>
+                        <div id="bike_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="bike_number" name="bike_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="bike_sp" name="bike_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="elect_bike" name="elect_bike" value="601"/>
+                        <label id="elect_bike-label"></label>
+                        <div>Elektrikli Bisiklet</div>
+                        <div id="elect_bike_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="elect_bike_number" name="elect_bike_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="elect_bike_sp" name="elect_bike_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="scooter" name="scooter" value="602"/>
+                        <label id="scooter-label"></label>
+                        <div>Motor Scooter</div>
+                        <div id="scooter_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="scooter_number" name="scooter_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="scooter__sp" name="scooter_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="elect_car" name="elect_car" value="603"/>
+                        <label id="elect_car-label"></label>
+                        <div>Eletrikli Araba</div>
+                        <div id="elect_car_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="elect_car_number" name="elect_car_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="elect_car_sp" name="elect_car_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="diesel_car" name="diesel_car" value="604"/>
+                        <label id="diesel_car-label"></label>
+                        <div>Dizel Araba</div>
+                        <div id="diesel_car_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="diesel_car_number" name="diesel_car_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="diesel_car_sp" name="diesel_car_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="fuel_car" name="vehicle" value="605"/>
+                        <label id="fuel_car-label"></label>
+                        <div>Benzinli Araba</div>
+                        <div id="fuel_car_option" class="displayNone" style="margin-top:5px;">
+                            <input type="text" id="fuel_car_number" name="fuel_car_number" class="li_input_number_text"/>
+                            adet
+                            <input type="text" id="fuel_car_sp" name="fuel_car_sp" class="li_input_number_text"/>
+                            kişi
+                        </div>
+                    </li>
+                </ul>
+                <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla, sahip olduğun adedi ve toplamda
+                    kaç kişi ortak kullandığını yaz. (Eğer yalnız kendin kullanıyorsan kişi sayısına 1 yaz)
                 </div>
             </div>
 
@@ -290,103 +344,113 @@
             <div class="header">
                 <h2>
                     <span class="number-text">5</span> | 6
-                    <span class="question-text">Hangi elektronik aletlere sahipsin?</span>
+                    <span class="question-text">Nerede Yaşıyorsun?</span>
                 </h2>
             </div>
 
             <div class="question-div">
-                <ul id="electronic">
-                    <li>
-                        <input type="checkbox" id="lcd" name="lcd" value="500"/>
-                        <label id="lcd-label"></label>
-                        <div>17" LCD Ekran</div>
-                        <div id="lcd_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="lcd_number" name="lcd_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="lcd_sp" name="lcd_sp" class="li_input_number_text"/>
-                            kişi
+                <div><img src="/static/images/coiki/harita.png"/> </div>
+                <div class="select-options">
+
+                    <section class="demo">
+                        <div class="container">
+                            <div class="row">
+                                <div class="twelvecol">
+                                    <div class="content">
+
+                                        <p>
+                                            <select id="where" class="turnintodropdown_demo2" name="place">
+                                                <option value="0">Lütfen ilinizi seçin:</option>
+                                                <option value="34">İstanbul</option>
+                                                <option value="1">Adana</option>
+                                                <option value="2">Adıyaman</option>
+                                                <option value="3">Afyonkarahisar</option>
+                                                <option value="4">Ağrı</option>
+                                                <option value="5">Amasya</option>
+                                                <option value="6">Ankara</option>
+                                                <option value="7">Antalya</option>
+                                                <option value="8">Artvin</option>
+                                                <option value="9">Aydın</option>
+                                                <option value="10">Balıkesir</option>
+                                                <option value="11">Bilecik</option>
+                                                <option value="12">Bingöl</option>
+                                                <option value="13">Bitlis</option>
+                                                <option value="14">Bolu</option>
+                                                <option value="15">Burdur</option>
+                                                <option value="16">Bursa</option>
+                                                <option value="17">Çanakkale</option>
+                                                <option value="18">Çankırı</option>
+                                                <option value="19">Çorum</option>
+                                                <option value="20">Denizli</option>
+                                                <option value="21">Diyarbakır</option>
+                                                <option value="22">Edirne</option>
+                                                <option value="23">Elazığ</option>
+                                                <option value="24">Erzincan</option>
+                                                <option value="25">Erzurum</option>
+                                                <option value="26">Eskişehir</option>
+                                                <option value="27">Gaziantep</option>
+                                                <option value="28">Giresun</option>
+                                                <option value="29">Gümüşhane</option>
+                                                <option value="30">Hakkâri</option>
+                                                <option value="31">Hatay</option>
+                                                <option value="32">Isparta</option>
+                                                <option value="33">Mersin</option>
+                                                <option value="35">İzmir</option>
+                                                <option value="36">Kars</option>
+                                                <option value="37">Kastamonu</option>
+                                                <option value="38">Kayseri</option>
+                                                <option value="39">Kırklareli</option>
+                                                <option value="40">Kırşehir</option>
+                                                <option value="41">Kocaeli</option>
+                                                <option value="42">Konya</option>
+                                                <option value="43">Kütahya</option>
+                                                <option value="44">Malatya</option>
+                                                <option value="45">Manisa</option>
+                                                <option value="46">Kahramanmaraş</option>
+                                                <option value="47">Mardin</option>
+                                                <option value="48">Muğla</option>
+                                                <option value="49">Muş</option>
+                                                <option value="50">Nevşehir</option>
+                                                <option value="51">Niğde</option>
+                                                <option value="52">Ordu</option>
+                                                <option value="53">Rize</option>
+                                                <option value="54">Sakarya</option>
+                                                <option value="55">Samsun</option>
+                                                <option value="56">Siirt</option>
+                                                <option value="57">Sinop</option>
+                                                <option value="58">Sivas</option>
+                                                <option value="59">Tekirdağ</option>
+                                                <option value="60">Tokat</option>
+                                                <option value="61">Trabzon</option>
+                                                <option value="62">Tunceli</option>
+                                                <option value="63">Şanlıurfa</option>
+                                                <option value="64">Uşak</option>
+                                                <option value="65">Van</option>
+                                                <option value="66">Yozgat</option>
+                                                <option value="67">Zonguldak</option>
+                                                <option value="68">Aksaray</option>
+                                                <option value="69">Bayburt</option>
+                                                <option value="70">Karaman</option>
+                                                <option value="71">Kırıkkale</option>
+                                                <option value="72">Batman</option>
+                                                <option value="73">Şırnak</option>
+                                                <option value="74">Bartın</option>
+                                                <option value="75">Ardahan</option>
+                                                <option value="76">Iğdır</option>
+                                                <option value="77">Yalova</option>
+                                                <option value="78">Karabük</option>
+                                                <option value="79">Kilis</option>
+                                                <option value="80">Osmaniye</option>
+                                                <option value="81">Düzce</option>
+                                            </select>
+                                        </p>
+
+                                    </div><!-- .content -->
+                                </div><!-- .twelvecol -->
+                            </div><!-- .row -->
                         </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="computer" name="computer" value="501"/>
-                        <label id="computer-label"></label>
-                        <div>Masaüstü Bilgisayar</div>
-                        <div id="computer_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="computer_number" name="computer_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="computer_sp" name="computer_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="laptop" name="laptop" value="502"/>
-                        <label id="laptop-label"></label>
-                        <div>Dizüstü Bilgisayar</div>
-                        <div id="laptop_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="laptop_number" name="laptop_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="laptop_sp" name="laptop_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="keyboard" name="keyboard" value="503"/>
-                        <label id="keyboard-label"></label>
-                        <div>Klavye</div>
-                        <div id="keyboard_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="keyboard_number" name="keyboard_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="keyboard_sp" name="keyboard_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="mouse" name="mouse"  value="504"/>
-                        <label id="mouse-label"></label>
-                        <div>Fare</div>
-                        <div id="mouse_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="mouse_number" name="mouse_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="mouse_sp" name="mouse_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="harddisk" name="harddisk" value="505"/>
-                        <label id="harddisk-label"></label>
-                        <div>Hard Disk</div>
-                        <div id="harddisk_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="harddisk_number" name="harddisk_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="harddisk_sp" name="harddisk_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="network" name="network" value="506"/>
-                        <label id="network-label"></label>
-                        <div>Modem</div>
-                        <div id="network_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="network_number" name="network_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="network_sp" name="network_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="printer" name="printer" value="507"/>
-                        <label id="printer-label"></label>
-                        <div>Renkli Yazıcı</div>
-                        <div id="printer_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="printer_number" name="printer_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="printer_sp" name="printer_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                </ul>
-                <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla, sahip olduğun adedi ve toplamda
-                    kaç kişi ortak kullandığını yaz. (Eğer yalnız kendin kullanıyorsan kişi sayısına 1 yaz)
+                    </section>
+
                 </div>
             </div>
 
@@ -398,81 +462,24 @@
             <div class="header">
                 <h2>
                     <span class="number-text">6</span> | 6
-                    <span class="question-text">Peki ulaşım araçlarından hangilerine sahipsin?</span>
+                    <span class="question-text">Cinsiyetin ve Yaşın?</span>
                 </h2>
             </div>
 
             <div class="question-div">
-                <ul id="vehicle">
-                    <li>
-                        <input type="checkbox" id="bike" name="bike"  value="600"/>
-                        <label id="bike-label"></label>
-                        <div>Bisiklet</div>
-                        <div id="bike_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="bike_number" name="bike_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="bike_sp" name="bike_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="elect_bike" name="elect_bike" value="601"/>
-                        <label id="elect_bike-label"></label>
-                        <div>Elektrikli Bisiklet</div>
-                        <div id="elect_bike_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="elect_bike_number" name="elect_bike_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="elect_bike_sp" name="elect_bike_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="scooter" name="scooter" value="602"/>
-                        <label id="scooter-label"></label>
-                        <div>Motor Scooter</div>
-                        <div id="scooter_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="scooter_number" name="scooter_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="scooter__sp" name="scooter_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="elect_car" name="elect_car" value="603"/>
-                        <label id="elect_car-label"></label>
-                        <div>Eletrikli Araba</div>
-                        <div id="elect_car_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="elect_car_number" name="elect_car_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="elect_car_sp" name="elect_car_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="diesel_car" name="diesel_car" value="604"/>
-                        <label id="diesel_car-label"></label>
-                        <div>Dizel Araba</div>
-                        <div id="diesel_car_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="diesel_car_number" name="diesel_car_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="diesel_car_sp" name="diesel_car_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                    <li>
-                        <input type="checkbox" id="fuel_car" name="vehicle" value="605"/>
-                        <label id="fuel_car-label"></label>
-                        <div>Benzinli Araba</div>
-                        <div id="fuel_car_option" class="displayNone" style="margin-top:5px;">
-                            <input type="text" id="fuel_car_number" name="fuel_car_number" class="li_input_number_text"/>
-                            adet
-                            <input type="text" id="fuel_car_sp" name="fuel_car_sp" class="li_input_number_text"/>
-                            kişi
-                        </div>
-                    </li>
-                </ul>
-                <div class="select-yours-text">Sahip olduğun aletlerin üzerine tıkla, sahip olduğun adedi ve toplamda
-                    kaç kişi ortak kullandığını yaz. (Eğer yalnız kendin kullanıyorsan kişi sayısına 1 yaz)
+                <div style="width: 100%; text-align: center; color: #10649a;">Cinsiyet seçin:</div>
+                <div class="checkbox_wrapper">
+                    <input type="radio" class="gender" value="200" id="girl-checkbox" name="gender"/>
+                    <label id="girl"></label>
+                </div>
+                <div class="checkbox_wrapper">
+                    <input type="radio" class="gender" value="201" id="boy-checkbox" name="gender"/>
+                    <label id="boy"></label>
+                </div>
+
+                <div id="age-div">
+                    <input type="text" class="age-input" name="age" id="age" placeholder="3"/>
+                    <span id="age-text">Yaşındayım</span>
                 </div>
             </div>
 
@@ -482,11 +489,10 @@
                    style="padding: 0;border: 0;background-color: white;">
         </div>
 
-        </div>
     </form>
 
     <div style="position:absolute; bottom:20px; right:150px;">
-        <a href="/coiki" style="color:#333333; font-size:13px;">Karbon Salınımı Nedir?</a> |
+        <a href="#" style="color:#333333; font-size:13px;">İklim değişikliği nedir?</a> |
         <a href="http://esyakutuphanesi.com/" target="_blank" style="color:#333333; font-size:13px;">Eşya Kütüphanesi</a> |
         <a href="http://www.yesilist.com/" target="_blank" style="color:#333333; font-size:13px;">Yeşilist</a>
     </div>
@@ -497,15 +503,15 @@
 
         $( document ).ready(function() {
 
-            if( string=="#cinsiyet" ) {
+            if( string=="#ulasimaraci" ) {
                 displayFunction(2);
             } else if( string=="#egitim" ) {
                 displayFunction(3);
             } else if( string=="#isdurumu" ) {
                 displayFunction(4);
-            } else if( string=="#elektronik" ) {
+            } else if( string=="#il" ) {
                 displayFunction(5);
-            } else if( string=="#ulasimaraci" ) {
+            } else if( string=="#cinsiyet" ) {
                 displayFunction(6);
             } else if( string=="#secenekler" ) {
                 displayFunction(7);
@@ -534,32 +540,14 @@
                 var showID = 'one';
                 var urlHash = '';
             } else if(step==2) {
-                if( $( "input#where" ).val()=='' || $( "input#where" ).val()==0 ) {
-                    $( "#modal-alert").css("display", "block");
-                    $( "#modal-alert" ).html( "Yaşadığın ili seçmelisin." );
-                    return false;
-                }else {
-                    var hiddenID = 'one';
-                    var showID = 'two';
-                    var urlHash = 'cinsiyet';
-                    $("#modal-alert").addClass("display_none_option");
-                }
+                var hiddenID = 'one';
+                var showID = 'two';
+                var urlHash = 'ulasimaraci';
             } else if(step==3) {
                 $("#modal-alert").removeClass("display_none_option");
-                if( $('input[name=gender]:checked').val() == undefined ) {
-                    $( "#modal-alert").css("display", "block");
-                    $( "#modal-alert" ).html( "Cinsiyetini seçmelisin." );
-                    return false;
-                }else if( $( "input#age" ).val()=='' ) {
-                    $( "#modal-alert").css("display", "block");
-                    $( "#modal-alert" ).html( "Yaşını girmelisin." );
-                    return false;
-                }else {
-                    var hiddenID = 'two';
-                    var showID = 'three';
-                    var urlHash = 'egitim';
-                    $("#modal-alert").addClass("display_none_option");
-                }
+                var hiddenID = 'two';
+                var showID = 'three';
+                var urlHash = 'egitim';
             } else if(step==4) {
                 $("#modal-alert").removeClass("display_none_option");
                 if( $( "input#education" ).val()=='' || $( "input#education" ).val()==0 ) {
@@ -577,21 +565,41 @@
                 if( $( "input#working_select" ).val()!=0 || $( "input#not_working_select" ).val()!=0 || $( "input#working_own_select" ).val()!=0 ) {
                     var hiddenID = 'four';
                     var showID = 'five';
-                    var urlHash = 'elektronik';
+                    var urlHash = 'il';
                     $("#modal-alert").addClass("display_none_option");
                 }else {
                     $( "#modal-alert").css("display", "block");
-                    $( "#modal-alert" ).html( "Eğitim bilgini seçmelisin." );
+                    $( "#modal-alert" ).html( "İş bilgini seçmelisin." );
                     return false;
                 }
             } else if(step==6) {
-                var hiddenID = 'five';
-                var showID = 'six';
-                var urlHash = 'ulasimaraci';
+                $("#modal-alert").removeClass("display_none_option");
+                if( $( "input#where" ).val()=='' || $( "input#where" ).val()==0 ) {
+                    $( "#modal-alert").css("display", "block");
+                    $( "#modal-alert" ).html( "Yaşadığın ili seçmelisin." );
+                    return false;
+                }else {
+                    var hiddenID = 'five';
+                    var showID = 'six';
+                    var urlHash = 'cinsiyet';
+                    $("#modal-alert").addClass("display_none_option");
+                }
             } else if(step==7) {
-                var hiddenID = 'six';
-                var showID = 'seven';
-                var urlHash = 'secenekler';
+                $("#modal-alert").removeClass("display_none_option");
+                if( $('input[name=gender]:checked').val() === 'undefined') {
+                    $( "#modal-alert").css("display", "block");
+                    $( "#modal-alert" ).html( "Cinsiyetini seçmelisin." );
+                    return false;
+                }else if( $( "input#age" ).val()=='' ) {
+                    $( "#modal-alert").css("display", "block");
+                    $( "#modal-alert" ).html( "Yaşını girmelisin." );
+                    return false;
+                }else {
+                    var hiddenID = 'six';
+                    var showID = 'seven';
+                    var urlHash = 'secenekler';
+                    $("#modal-alert").addClass("display_none_option");
+                }
             } else return;
 
             if( hiddenID!='' )
@@ -616,7 +624,7 @@
             } else if(step==2) {
                 var hiddenID = 'three';
                 var showID = 'two';
-                var urlHash = 'cinsiyet';
+                var urlHash = 'ulasimaraci';
             } else if(step==3) {
                 var hiddenID = 'four';
                 var showID = 'three';
@@ -628,11 +636,11 @@
             } else if(step==5) {
                 var hiddenID = 'six';
                 var showID = 'five';
-                var urlHash = 'elektronik';
+                var urlHash = 'il';
             } else if(step==6) {
                 var hiddenID = 'seven';
                 var showID = 'six';
-                var urlHash = 'ulasimaraci';
+                var urlHash = 'cinsiyet';
             } else return;
 
             if( hiddenID!='' )
@@ -708,5 +716,6 @@
         });
 
     </script>
+
 </body>
 </html>

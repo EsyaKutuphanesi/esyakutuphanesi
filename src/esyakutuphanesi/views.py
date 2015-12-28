@@ -1618,6 +1618,7 @@ def results():
                          ])
 
         sharing_p = 0
+        item_n = 0
         result = 0.0
         for t in data:
             new_survey = Survey(
@@ -1630,8 +1631,11 @@ def results():
             db.session.add(new_survey)
             db.session.commit()
             t[2] = int(t[2])
-            if t[2] > 1:
+            t[1] = int(t[1])
+            if t[2] > 0:
                 sharing_p = sharing_p + t[2]
+                item_n = item_n + t[1]
+            rate = sharing_p / item_n
             result = result + t[3]
 
-        return render_template('sonuc.html', result=result, sharing_p=sharing_p)
+        return render_template('sonuc.html', result=result, rate=rate)
