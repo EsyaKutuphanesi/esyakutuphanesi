@@ -15,14 +15,14 @@
 <body class="coiki-sheet">
 
     <div style="position: absolute; top: 50px; left: 50px;z-index: -1;">
-        {% if rate != 1 %}
+        {% if result > 0 %}
             <img src="/static/images/coiki/si1.png" style=" height: 200px; "/>
         {% else %}
             <img src="/static/images/coiki/si3.png" style=" height: 200px; "/>
         {% endif %}
     </div>
     <div style="position: absolute; bottom: 50px; right: 0px; z-index: -1;">
-        {% if rate != 1 %}
+        {% if result > 0 %}
             <img src="/static/images/coiki/si2.png" style=" width: 300px; "/>
         {% else %}
             <img src="/static/images/coiki/si4.png" style=" width: 300px; "/>
@@ -30,31 +30,23 @@
     </div>
 
     <div id="home-logo" style="margin-top: 150px;">
-        {% if rate != 1 %}
-            <div id="motto" >
+        <div id="motto" >
+            {% if sharing_result %}
                 <div style="font-size:42px; color:#D84E09; letter-spacing: 2px; line-height: 70px;"> TEŞEKKÜRLER!</div>
                 EŞYALARINI ORTAK KULLANARAK YERYÜZÜNE
-                <div style="font-size:34px; color:#D84E09; letter-spacing: 2px; line-height: 60px;"> {{result}} KG CO2 </div>
+                <div style="font-size:34px; color:#D84E09; letter-spacing: 2px; line-height: 60px;"> {{sharing_result}} KG CO2 </div>
                 SALINIMINI ENGELLEDİN VE TÜKETİMİ AZALTTIN.
-            </div>
-
-            <!--<div id="motto2">
-                Eşyalarını ortak kullanarak yeryüzüne
-                <span style="font-size:52px; color:#7ec247; display:block;">{{result}} kg CO2</span> salınımını engelledin ve tüketimi azalttın. Teşekkürler!
-            </div>-->
-        {% else %}
-             <div id="motto" >
+            {% else %}
                 EŞYALARINI ORTAK KULLANMAYA BAŞLAYARAK
-                <div style="font-size:34px; color:#D84E09; letter-spacing: 2px; line-height: 60px;"> {{result}} KG CO2 </div>
-                SALINIMINI DAHA ENGELLEYEBİLİRSİN.
+                <div style="font-size:34px; color:#D84E09; letter-spacing: 2px; line-height: 60px;">
+                    {% if result == 0 %} CO2 {% else %} {{result}} KG CO2 {% endif %}
+                </div>
+                SALINIMINI ENGELLEYEBİLİRSİN.
                 <div style="font-size:26px; color:#D84E09; line-height: 70px;">
                     HAYDİ BUGÜN <a href="http://esyakutuphanesi.com" target="_blank" style="color:#D84E09; text-decoration: underline;"> PAYLAŞMAYA </a> BAŞLA!
                 </div>
-            </div>
-            <!--<div id="motto-nosharing">
-                Eşyaların ortak kullanarak {{result}} KG CO2 salınımını daha engelleyebilirsin. Haydi bugün paylaşmaya başla!
-            </div>-->
-        {% endif %}
+            {% endif %}
+        </div>
 
         <div style="margin: 40px auto;">
             <button type="button" class="btn btn-success btn-lg" onclick="window.location.href='/coiki_hesapla'" style="font-size: 14px;">
