@@ -115,9 +115,10 @@ margin-top: 20px;
 .footerUl {
     list-style-type: none;
     padding-left: 0;
+    text-align: left;
 }
 .footerUl li {
-    color:#333333;
+    color:#c6c6c6;
 }
 .width100 {
     width:100%;
@@ -677,6 +678,10 @@ h3.stuff_number_text {
     }
     .menu-bar-div {
         padding-left: 14%;
+    }
+
+    .footer-width {
+        width:100%;
     }
 
 }

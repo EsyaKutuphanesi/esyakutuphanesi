@@ -35,8 +35,8 @@
 
     <div style="text-align: center; position: absolute; bottom: 10px; margin: auto auto 20px; font-size: 12px; width: 100%;">
         <!--<img src="/static/images/coiki/teknogirisim.png"/>-->
-        Bu proje, T.C. Bilim, San ayi ve Teknoloji Bakanlığı Teknogirişim desteği ile,
-        Yeşilist danışmanlığı ile Eşya Kütüphanesi tarafından geliştirilip hayata geçirilmiştir.
+        Bu proje, T.C. Bilim, Sanayi ve Teknoloji Bakanlığı Teknogirişim desteğiyle,
+        Yeşilist danışmanlığında, Eşya Kütüphanesi tarafından geliştirilip hayata geçirilmiştir.
     </div>
 
     <!-- Modal -->
@@ -45,7 +45,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">İklim değişikliği <nedir></nedir>?</h4>
+            <h4 class="modal-title" id="myModalLabel">İklim değişikliği nedir?</h4>
           </div>
           <div class="modal-body">
             <p>
@@ -91,6 +91,11 @@
     </div>-->
     <script type="text/javascript">
         $('#myModal').modal(options);
+    </script>
+    <script>
+        var marginTop = ($( window ).height())/12;
+        console.log(marginTop);
+        $('#home-logo').css("margin", marginTop+"px auto auto");
     </script>
 
 </body>

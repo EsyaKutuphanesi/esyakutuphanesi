@@ -88,9 +88,6 @@ padding-left: 20px; font-family: helvetica; font-size:20px !important; font-weig
 
             <div class="col-sm-12">
                 <div class="row">
-                    {% for stuff in last_objects_shared %}
-                        {{ render_item_box(stuff, user) }}
-                    {% endfor %}
                     <div class="item col-md-4 col-sm-6 col-xs-6 col_s320 index_share_tumbnail_padding">
                         <div class="thumbnail" style="background-color: #f4f4f4; border:1px solid #f4f4f4; margin-bottom:13px;">
                             <div style="height:150px; overflow:hidden; padding: 50px 25px; font-size: 18px; font-weight: 500;">
@@ -105,6 +102,11 @@ padding-left: 20px; font-family: helvetica; font-size:20px !important; font-weig
                             </div>
                         </div>
                     </div>
+
+                    {% for stuff in last_objects_shared %}
+                        {{ render_item_box(stuff, user) }}
+                    {% endfor %}
+
                 </div>
             </div>
         </div>
@@ -118,6 +120,16 @@ padding-left: 20px; font-family: helvetica; font-size:20px !important; font-weig
                 </a>
             </div>
 
+            <div class="item col-sm-12 col-xs-6 col_s320 index_share_tumbnail_padding">
+                <div class="thumbnail thumbnail-aranan">
+                    <div class="caption text-center" style="text-align: center; line-height: 65px;">
+                        <button class="btn btn-primary" style="background-color: #df9ea8; border:1px solid #df9ea8;" onclick="window.location.href='/esya_listele?is_wanted=true'">
+                            <span class="display_none_l992">Aradığın </span>Eşyayı Listele
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-sm-12">
                 <div class="row">
                     {% for stuff in last_objects_wanted %}
@@ -125,18 +137,16 @@ padding-left: 20px; font-family: helvetica; font-size:20px !important; font-weig
                     {%endfor%}
                 </div>
             </div>
-            <div class="item col-sm-12 col-xs-6 col_s320 index_share_tumbnail_padding">
-                <div class="thumbnail thumbnail-aranan" style="border-bottom: 0;">
-                        <div class="caption text-center" style="text-align: center; line-height: 65px;">
-                            <button class="btn btn-primary" style="background-color: #df9ea8; border:1px solid #df9ea8;" onclick="window.location.href='/esya_listele?is_wanted=true'">
-                                <span class="display_none_l992">Aradığın </span>Eşyayı Listele
-                            </button>
-                        </div>
-                    </div>
-            </div>
         </div>
     </div>
 
     {{ request_modal(request_form) }}
+
+    <script>
+        var url = "http://localhost:5000/static/photos/"+"{{last_objects_shared[0].photos[0].filename}}";
+        pic_real_width = url.width;
+        pic_real_height = url.height;
+        console.log(url);
+    </script>
 
 {% endblock %}
