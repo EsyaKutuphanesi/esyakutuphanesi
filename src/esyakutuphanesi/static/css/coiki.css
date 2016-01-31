@@ -7,6 +7,10 @@
     max-width 1280px;
     margin: 0 auto;
 }
+#coikibg {
+    background: url(/static/images/coiki/bg.png) no-repeat;
+    background-position: 50% 0;
+}
 #home-logo {
     width: 810px;
     height: auto;
@@ -44,6 +48,9 @@
 #slipper {
     margin:0px 20px;
 }
+#supporters {
+    text-align: center; margin: 320px auto 20px; font-size: 12px; width: 100%;
+}
 /* ----- Coiki_Hesapla HTML -----*/
 
 .header {
@@ -68,6 +75,7 @@
 }
 .question-div {
     margin:80px auto auto; width:1024px; height:500px;
+    position: relative;
 }
 .next-text {
     position:fixed;
@@ -101,7 +109,7 @@
     display:block !important;
 }
 .select-options {
-    position:absolute; top:270px; left:50%; margin-left:-250px;
+    position:absolute; top:190px; left:50%; margin-left:-250px;
 }
 .select-yours-text {
     text-align:center; margin-top:50px; font-size:13px;
@@ -133,7 +141,7 @@
     position:absolute;
     left:50%;
     margin-left:-230px;
-    top:120px;
+    top:100px;
     width:200px;
     height:209px;
 }
@@ -201,7 +209,7 @@ input[type="radio"]:checked + label#boy{
     position:absolute; bottom:30px;left:35px;
 }
 #kep-img-style {
-    position: absolute; left: 260px; top: 150px; z-index:1;
+    position: absolute; left: 110px; top: 100px; z-index:1;
 }
 
 /* ----- ELECTRONICS ----- */

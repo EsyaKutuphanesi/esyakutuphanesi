@@ -29,7 +29,7 @@
         {% endif %}
     </div>
 
-    <div id="home-logo" style="margin-top: 150px;">
+    <div class="text-center" id="resultdiv">
         <div id="motto" >
             {% if sharing_result %}
                 <div style="font-size:42px; color:#D84E09; letter-spacing: 2px; line-height: 70px;"> TEŞEKKÜRLER!</div>
@@ -88,7 +88,7 @@
                 <a href="/static/images/coiki/LCIA_METHODS_v.1.5.4.pdf" target="_blank">Greendela LCIA Methods</a>
             </div>
           </div>
-          <div class="modal-footer" style="text-align: center;">
+          <div class="modal-footer text-center">
             <!--<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>-->
             <button type="button" class="btn btn-success" onclick="window.location.href='/coiki_hesapla'">Etkini Hesapla</button>
           </div>
@@ -113,8 +113,10 @@
         <span><a href="/coiki_hesapla">Hesapla</a></span>
 
     </div>-->
-    <script type="text/javascript">
-        $('#myModal').modal(options);
+    <script>
+        var marginTop = ($(window).height()/2)-220;
+        console.log(marginTop);
+        $('#resultdiv').css("margin-top", marginTop+"px");
     </script>
 
 </body>

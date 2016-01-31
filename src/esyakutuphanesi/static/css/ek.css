@@ -738,6 +738,12 @@ h3.stuff_number_text {
         font-size:14px;
         line-height:13px;
     }
+    .nopic {
+        display: none;
+    }
+    .fullwidth {
+        width: 100%;
+    }
 }
 
 @media (min-width: 881px) and (max-width:900px) {

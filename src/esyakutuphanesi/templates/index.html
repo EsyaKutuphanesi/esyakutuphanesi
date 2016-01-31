@@ -81,7 +81,7 @@ padding-left: 20px; font-family: helvetica; font-size:20px !important; font-weig
                 <!--<a href="/category/Hepsi/?is_wanted=0" class="index_share_info_text">-->
                 <a href="/category/Hepsi/" class="index_share_info_text">
                     <h3 style="font-family: helvetica; font-size:16px; font-weight:lighter; padding-bottom:5px; border-bottom:1px solid #d3d1d1;">
-                       ÖDÜNÇLÜK EŞYALAR
+                       ÖDÜNÇLÜK EŞYALAR <span style="float: right; color: #48bfbf;">Tümünü gör</span>
                     </h3>
                 </a>
             </div>
@@ -142,12 +142,5 @@ padding-left: 20px; font-family: helvetica; font-size:20px !important; font-weig
     </div>
 
     {{ request_modal(request_form) }}
-
-    <script>
-        var url = "http://localhost:5000/static/photos/"+"{{last_objects_shared[0].photos[0].filename}}";
-        pic_real_width = url.width;
-        pic_real_height = url.height;
-        console.log(url);
-    </script>
 
 {% endblock %}

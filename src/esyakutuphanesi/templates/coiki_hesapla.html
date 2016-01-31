@@ -18,7 +18,7 @@
 </head>
 <body class="coiki-sheet">
 
-    <div id="modal-alert" style="display: none; background-color: #f0ad4e; color: white; line-height: 40px; text-align: center;"></div>
+    <div id="modal-alert" style="display: none; position: absolute; z-index:999; width: 100%; background-color: #f0ad4e; color: white; line-height: 40px; text-align: center;"></div>
 
     <form action="{{ url_for('results') }}" method="POST" name="calculate_carbon_form" id="calculate_carbon_form" enctype="multipart/form-data">
         <div id="one" class="displayNone">
@@ -455,7 +455,7 @@
             </div>
 
             <div class="back-text next-text" id="back-four" data-value="4"></div>
-            <div class="next-text"  id="next-six" data-value="6" ></div>
+            <div class="next-text" id="next-six" data-value="6" ></div>
         </div>
 
         <div id="six" class="displayNone">
@@ -485,8 +485,9 @@
 
             <!--<div class="next-text" id="next-seven" data-value="7" ></div>-->
             <div class="back-text next-text" id="back-five" data-value="5"></div>
-            <input class="next-text" id="submit" name="submit" type="submit" value=""
-                   style="padding: 0;border: 0;background-color: white;">
+            <div class="next-text" id="next-seven" data-value="7" ></div>
+            <!--<input class="next-text" id="submit" name="submit" type="submit" data-value="7" value=""-->
+                   <!--style="padding: 0;border: 0;background-color: white;">-->
         </div>
 
     </form>
@@ -595,10 +596,7 @@
                     $( "#modal-alert" ).html( "Yaşını girmelisin." );
                     return false;
                 }else {
-                    var hiddenID = 'six';
-                    var showID = 'seven';
-                    var urlHash = 'secenekler';
-                    $("#modal-alert").addClass("display_none_option");
+                    document.getElementById("calculate_carbon_form").submit();
                 }
             } else return;
 
@@ -714,6 +712,12 @@
                 $('#fuel_car_option').toggle();
             });
         });
+
+        var marginTop = ($(window).height()/2)-220;
+        $('.coiki-sheet').css("margin", marginTop+"px auto auto");
+        $('.header').css("top", (marginTop-80)+"px");
+        $('.next-text').css("top", (marginTop+160)+"px");
+
     </script>
 
 </body>

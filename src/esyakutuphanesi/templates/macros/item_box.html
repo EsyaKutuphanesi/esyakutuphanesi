@@ -16,12 +16,12 @@
                     </div>
                 {%endif%}
 
-                <div style="height:150px; overflow:hidden; ">
+                <div style="background: white; height:150px; overflow:hidden; ">
                     <a href="/esya_detay/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])">
                         {%if stuff.photos%}
-                            <img src="/static/photos/{{stuff.photos[0].filename}}" style="width:100%;"/>
+                            <img src="/static/photos/{{stuff.photos[0].filename}}" style="height:100%;"/>
                         {%else%}
-                            <img src="/static/images/{{stuff.category_id}}.png" style="width:100%;"/>
+                            <img src="/static/images/{{stuff.category_id}}.png" style="height:100%;"/>
                         {%endif%}
                     </a>
                 </div>
@@ -91,7 +91,7 @@
         <div class="item col-sm-12 col-xs-6 col_s320 index_share_tumbnail_padding">
             <div class="thumbnail thumbnail-aranan">
                 {%if user.is_authenticated()%}
-                    <div class="col-sm-3 col-xs-12 col_ss_3 display_none_l480" style="margin:9px 0px; padding:0px;">
+                    <div class="col-sm-3 col-xs-12 col_ss_3 display_none_l480 nopic" style="margin:9px 0px; padding:0px;">
                         <a href="/profil/{{stuff.owner.id}}">
                             {% if stuff.owner.photo %}
                                 <img src="/photos/{{stuff.owner.photo}}" style="background-color: #f4f4f4;border-radius:50%; -moz-border-radius:50%; -webkit-border-radius: 50%; width:50px; height:50px; border:3px solid; color:#f4f4f4;">
@@ -101,7 +101,7 @@
                         </a>
                     </div>
                 {% endif %}
-                    <div class="col-sm-9 col-xs-12 col_ss_9" style="margin:0px; padding:0px;">
+                    <div class="col-sm-9 col-xs-12 col_ss_9 fullwidth" style="margin:0px; padding:0px;">
                         <a href="/esya_detay/{{stuff.id}}" onclick="_gaq.push(['_trackEvent', 'Visit stuff', 'seeStuffDetail', 'Item_box Page'])" style="text-decoration:none;">
 
                             <div class="caption" style="padding-bottom:0px;">
