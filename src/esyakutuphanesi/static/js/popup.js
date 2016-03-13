@@ -20,6 +20,7 @@ function loadPopup(){
 		$("#backgroundPopup").fadeIn("slow");
 		$("#popupContact").fadeIn("slow");
 		popupStatus = 1;
+		centerPopup();
 	}
 }
 

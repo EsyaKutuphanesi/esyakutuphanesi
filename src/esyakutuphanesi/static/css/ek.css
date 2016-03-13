@@ -346,13 +346,12 @@ h3.stuff_number_text {
     position:fixed;
     _position:absolute; /* hack for internet explorer 6*/
     min-height:384px;
-    width:508px;
+    width:720px;
     background:#FFFFFF;
     z-index:2;
     padding:12px;
     font-size:13px;
-    margin-left:-254px;
-    top:0px !important;
+    top:30px !important;
 }
 #popupContactClose{
     font-size:16px;

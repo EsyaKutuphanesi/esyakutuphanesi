@@ -7,6 +7,17 @@
 
     <script src="http://connect.facebook.net/en_US/all.js"></script>
 
+    <div id="popupContact">
+         <a id="popupContactClose">x</a>
+         <p id="contactArea">
+             <!--<h4>Fongogo'da desteğinizi bekliyoruz!</h4>-->
+             <a href="http://www.fongogo.com/p/esya-kutuphanesi-ortak-yaratima-katil" target="_blank">
+                 <img class="img-responsive" src="/static/images/fongogo.jpg" style="margin:0 auto; width:100%;"/>
+             </a>
+         </p>
+     </div>
+     <div id="backgroundPopup"></div>
+
     <div style="position:relative; overflow: hidden; width: 100%;">
 
         {%if user.is_authenticated()%}
