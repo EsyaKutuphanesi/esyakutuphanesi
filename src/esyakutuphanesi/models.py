@@ -357,7 +357,7 @@ class ExtendedRegisterForm(RegisterForm):
          Required(u'Bize biraz kendinden bahseder misin?')]
     )
     agreement = BooleanField('', [Required(u'Kullanıcı sözleşmesini onaylamalısın.')])
-    # ebulten = BooleanField('')
+    ebulten = BooleanField('')
 
 security = Security(app, users, register_form=ExtendedRegisterForm)
 
