@@ -48,12 +48,19 @@
                 </label>
                 {{ render_field_with_errors(register_user_form.about, label_visible=False, placeholder=register_user_form.about.label.text) }}
 
-                {{ render_checkbox_with_errors(register_user_form.agreement, label_visible=False) }}
-                <label for="user_aggreement" class="control-label">
-                    <label for="user_aggreement">
+                <div class="col-sm-12">
+                    {{ render_checkbox_with_errors(register_user_form.agreement, label_visible=False) }}
+                    <label for="agreement" style="float: right; width: 93%;">
                         <a href="/kullanici_sozlesmesi" target="_blank" onclick="_gaq.push(['_trackEvent', 'User agreement link', 'click', 'Register_user Page'])">Kullanıcı sözleşmesini</a> okudum, onaylıyorum.
                     </label>
-                </label>
+                </div>
+
+                <div class="col-sm-12">
+                    {{ render_checkbox_with_errors(register_user_form.ebulten, label_visible=False) }}
+                    <label for="ebulten" style="float: right; width: 93%;">
+                        E-bülten almak istiyorum
+                    </label>
+                </div>
 
                 {{ register_user_form.submit(class_='btn btn-success pull-right', value="Tamamla")}}
             </div>
