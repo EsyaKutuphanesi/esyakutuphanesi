@@ -16,6 +16,16 @@
                 window.location = "/adres_duzenle/{{address.id}}?status="+status;
             }
         }
+
+        $( document ).ready(function() {
+            $("input#search").on("click", function(){
+                var val = document.getElementById('address_str').value;
+                if(val) {
+                    $(".okibutton").css("display", "block");
+                }
+            });
+        });
+
     </script>
 
     <div class="col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 margin-top70">
@@ -47,7 +57,7 @@
                     {{ render_field_with_errors(form.addressid) }}
                     <input id ='search' type="button" class="btn pull-right" value="Ara" />
                 </div>
-                <div style="margin-top:20px;">{{ form.submit(class_='btn btn-success pull-right')}}</div>
+                <div class="okibutton" style="display: none; margin-top:20px;">{{ form.submit(class_='btn btn-success pull-right')}}</div>
             </form>
         </div>
     </div>
