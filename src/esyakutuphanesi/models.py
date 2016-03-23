@@ -60,7 +60,7 @@ class User(db.Model, UserMixin):
     confirmed_at = db.Column(db.DateTime())
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
     registered_at = db.Column(db.DateTime, default=datetime.now)
-    ebulten = db.Column(db.String(255))
+    ebulten = db.Column(db.Boolean())
 
     @property
     def is_logged_in(self):
@@ -357,7 +357,7 @@ class ExtendedRegisterForm(RegisterForm):
          Required(u'Bize biraz kendinden bahseder misin?')]
     )
     agreement = BooleanField('', [Required(u'Kullanıcı sözleşmesini onaylamalısın.')])
-    ebulten = BooleanField('')
+    # ebulten = BooleanField('')
 
 security = Security(app, users, register_form=ExtendedRegisterForm)
 
