@@ -547,6 +547,32 @@ h3.stuff_number_text {
     position: relative;
     z-index: 1;
 }
+#nisan {
+    background: black;
+    position: relative;
+    z-index: 9999999999;
+    width: 100%;
+    text-align: center;
+}
+#nisan > #sakatext {
+    width: 100%;
+    float: left;
+    font-size: 14px;
+    margin-top: 30px;
+    color: #fff;
+}
+#nisan > span {
+    font-size: 100px;
+    margin: 30px auto;
+    width: 100%;
+    float: left;
+    color: white;
+}
+#nisan > #sakabuttons {
+    width: 100%;
+    float: left;
+    margin: 20px auto;
+}
 
 /*RESPONSIVE*/
 

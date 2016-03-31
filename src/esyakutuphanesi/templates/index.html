@@ -6,17 +6,36 @@
 {% block content %}
 
     <script src="http://connect.facebook.net/en_US/all.js"></script>
+    <script>
+    $(document).ready(function(){
+        $("#nisan").css("height", $(window).height());
+        $("#gogo").on("click", function() {
+           $("#nisan").slideToggle();
+        });
+    });
+    </script>
 
-    <div id="popupContact">
+    <!--<div id="popupContact">
          <a id="popupContactClose">x</a>
          <p id="contactArea">
-             <!--<h4>Fongogo'da desteğinizi bekliyoruz!</h4>-->
              <a href="http://www.fongogo.com/p/esya-kutuphanesi-ortak-yaratima-katil" target="_blank">
                  <img class="img-responsive" src="/static/images/fongogo.jpg" style="margin:0 auto; width:100%;"/>
              </a>
          </p>
      </div>
-     <div id="backgroundPopup"></div>
+     <div id="backgroundPopup"></div>-->
+    <div id="nisan">
+        <span>KAPATTIK</span>
+        <div id="sakatext">Şaka tabii! Şimdilik... Destekle ki şaka olarak kalsın 😁</div>
+        <div id="sakabuttons">
+            <button class="btn btn-primary" style="background-color: #48bfbf; border:1px solid #48bfbf;" onclick="window.open('http://www.fongogo.com/p/esya-kutuphanesi-ortak-yaratima-katil', '_blank')">
+                DESTEK OL
+            </button>
+            <button class="btn btn-primary" id="gogo" style="background-color: #df9ea8; border:1px solid #df9ea8;">
+                SİTEYE DEVAM ET
+            </button>
+        </div>
+    </div>
 
     <div style="position:relative; overflow: hidden; width: 100%;">
 
