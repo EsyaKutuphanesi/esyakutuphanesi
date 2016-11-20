@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail
-
 from settings import *
 
 app = Flask(__name__)
@@ -16,7 +14,6 @@ except:
     pass
 
 db = SQLAlchemy(app)
-mail = Mail(app)
 
 from messages import security_messages, security_config
 
@@ -27,5 +24,3 @@ for key, value in security_config.iteritems():
     app.config['SECURITY_' + key] = value
 
 from views import *
-from admin import *
-from oauth_handler import *
